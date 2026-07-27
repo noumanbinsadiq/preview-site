@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+<title>Yumbo General Construction — Welding · Concrete · Asphalt · Jacksonville FL</title>
+<meta name="description" content="Welding, concrete, asphalt and sinkhole repair across Northeast Florida. Built in Yumbo, Colombia. Building in Jacksonville since 2012.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   YUMBO GENERAL CONSTRUCTION — Industrial Brutalist
+   Single file. No build step.
+   ============================================================ */
+
+:root{
+  --void:#0A0A0A;
+  --ash:#121212;
+  --concrete:#1A1A1A;
+  --steel:#2A2A2A;
+  --smoke:#8A8A8A;
+  --bone:#E8E4DE;
+  --spark:#FF4D00;
+  --molten:#FFA200;
+
+  --gut:clamp(16px,4vw,64px);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+
+body{
+  background:var(--void);
+  color:var(--bone);
+  font-family:'Space Grotesk',system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.5;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+body.is-loading{overflow:hidden;height:100vh}
+
+img{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+::selection{background:var(--spark);color:#000}
+
+/* ---------- Film grain + vignette ---------- */
+.grain{
+  position:fixed;inset:-150%;z-index:9998;pointer-events:none;
+  opacity:.038;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 700ms steps(2) infinite;
+  will-change:transform;
+}
+@keyframes grain{
+  0%{transform:translate(0,0)}25%{transform:translate(-2%,1%)}
+  50%{transform:translate(1%,-2%)}75%{transform:translate(-1%,-1%)}
+  100%{transform:translate(2%,1%)}
+}
+
+/* ---------- Typography ---------- */
+.display{
+  font-family:'Anton',Impact,sans-serif;
+  font-weight:400;
+  text-transform:uppercase;
+  line-height:.86;
+  letter-spacing:-.015em;
+}
+.mono{
+  font-family:'JetBrains Mono',monospace;
+  font-size:clamp(9px,1.05vw,11px);
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--smoke);
+}
+
+/* ---------- Preloader ---------- */
+#loader{
+  position:fixed;inset:0;z-index:10000;background:var(--void);
+  display:flex;align-items:flex-end;justify-content:space-between;
+  padding:var(--gut);
+}
+#loader .lo-mark{max-width:min(42vw,320px);opacity:0}
+#loader .lo-num{
+  font-family:'Anton',sans-serif;
+  font-size:clamp(64px,16vw,190px);line-height:.8;
+  color:var(--bone);
+}
+#loader .lo-num i{font-style:normal;color:var(--spark);font-size:.34em;vertical-align:super}
+.lo-bar{
+  position:absolute;left:0;bottom:0;height:2px;width:0%;
+  background:var(--spark);
+}
+.curtain{position:fixed;inset:0;z-index:9999;background:var(--void);transform-origin:top;pointer-events:none}
+
+/* ---------- Cursor ---------- */
+.cur,.cur-r{position:fixed;top:0;left:0;z-index:9997;pointer-events:none;border-radius:50%;mix-blend-mode:difference}
+.cur{width:7px;height:7px;background:var(--bone);margin:-3.5px 0 0 -3.5px}
+.cur-r{width:42px;height:42px;border:1px solid rgba(232,228,222,.5);margin:-21px 0 0 -21px;transition:width .3s var(--ease),height .3s var(--ease),margin .3s var(--ease),border-color .3s}
+.cur-r.grow{width:76px;height:76px;margin:-38px 0 0 -38px;border-color:var(--spark)}
+@media(hover:none),(pointer:coarse){.cur,.cur-r{display:none!important}}
+
+/* ---------- Header ---------- */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;
+  padding:18px var(--gut);
+  mix-blend-mode:difference;
+}
+header .brand{display:flex;align-items:center;gap:12px;min-width:0}
+header .brand img{width:clamp(84px,11vw,132px)}
+.nav{display:flex;align-items:center;gap:clamp(14px,2.2vw,34px)}
+.nav a{
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;position:relative;padding-bottom:3px;white-space:nowrap;
+}
+.nav a::after{
+  content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;
+  background:var(--bone);transform:scaleX(0);transform-origin:right;
+  transition:transform .45s var(--ease);
+}
+.nav a:hover::after{transform:scaleX(1);transform-origin:left}
+@media(max-width:900px){.nav .nav-link{display:none}}
+
+.lang{display:flex;align-items:center;gap:2px;border:1px solid rgba(232,228,222,.34);border-radius:100px;padding:3px}
+.lang button{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;
+  padding:5px 11px;border-radius:100px;transition:background .3s,color .3s;
+}
+.lang button[aria-pressed="true"]{background:var(--bone);color:var(--void)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.25) brightness(.42);transform:scale(1.14);will-change:transform}
+.hero-bg::after{
+  content:'';position:absolute;inset:0;
+  background:
+    linear-gradient(180deg,rgba(10,10,10,.72) 0%,rgba(10,10,10,.25) 38%,rgba(10,10,10,.94) 100%),
+    repeating-linear-gradient(180deg,rgba(0,0,0,.22) 0 1px,transparent 1px 3px);
+}
+.hero-in{position:relative;z-index:2;padding:0 var(--gut) clamp(28px,5vw,56px)}
+.hero-kick{display:flex;align-items:center;gap:12px;margin-bottom:clamp(16px,3vw,30px)}
+.hero-kick .dot{width:7px;height:7px;background:var(--spark);border-radius:50%;flex:none;animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+.hero h1{font-size:clamp(52px,12.4vw,220px)}
+.line{overflow:hidden;display:block}
+.line span{display:block;transform:translateY(105%)}
+.hero h1 em{font-style:normal;color:var(--spark)}
+.hero-foot{
+  display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;
+  gap:24px;margin-top:clamp(22px,4vw,44px);
+  border-top:1px solid var(--steel);padding-top:20px;
+}
+.hero-foot p{max-width:44ch;color:var(--smoke);font-size:clamp(14px,1.5vw,17px)}
+.hero-foot p b{color:var(--bone);font-weight:500}
+
+.cta{
+  display:inline-flex;align-items:center;gap:14px;
+  background:var(--spark);color:#000;
+  font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+  padding:17px 28px;border-radius:100px;
+  position:relative;overflow:hidden;transition:color .4s var(--ease);
+}
+.cta span{position:relative;z-index:2}
+.cta::before{
+  content:'';position:absolute;inset:0;background:var(--bone);
+  transform:translateY(101%);transition:transform .5s var(--ease);z-index:1;
+}
+.cta:hover::before{transform:translateY(0)}
+.cta.ghost{background:transparent;color:var(--bone);border:1px solid var(--steel)}
+.cta.ghost:hover{color:#000}
+.cta.ghost::before{background:var(--spark)}
+
+.scroll-hint{position:absolute;right:var(--gut);bottom:clamp(28px,5vw,56px);z-index:3;writing-mode:vertical-rl;display:flex;align-items:center;gap:10px}
+.scroll-hint .rail{width:1px;height:56px;background:var(--steel);position:relative;overflow:hidden}
+.scroll-hint .rail::after{content:'';position:absolute;top:0;left:0;width:100%;height:40%;background:var(--spark);animation:rail 1.9s infinite var(--ease)}
+@keyframes rail{0%{transform:translateY(-100%)}100%{transform:translateY(250%)}}
+@media(max-width:760px){.scroll-hint{display:none}}
+
+/* ---------- Ticker ---------- */
+.ticker{border-block:1px solid var(--steel);overflow:hidden;padding:16px 0;background:var(--ash)}
+.ticker-track{display:flex;width:max-content;animation:slide 34s linear infinite}
+.ticker:hover .ticker-track{animation-play-state:paused}
+@keyframes slide{to{transform:translateX(-50%)}}
+.ticker-track em{
+  font-family:'Anton',sans-serif;font-style:normal;text-transform:uppercase;
+  font-size:clamp(20px,3.4vw,44px);padding:0 26px;display:flex;align-items:center;gap:26px;white-space:nowrap;
+}
+.ticker-track em::after{content:'';width:9px;height:9px;background:var(--spark);border-radius:50%;flex:none}
+.ticker-track em:nth-child(even){color:transparent;-webkit-text-stroke:1px var(--smoke)}
+
+/* ---------- Section shell ---------- */
+section{position:relative}
+.wrap{padding:clamp(72px,11vw,180px) var(--gut)}
+.sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:clamp(30px,5vw,64px);border-bottom:1px solid var(--steel);padding-bottom:16px}
+.sec-head h2{font-size:clamp(30px,5.6vw,86px);flex:1}
+.reveal{opacity:0;transform:translateY(40px)}
+
+/* ---------- Intro ---------- */
+.intro-grid{display:grid;grid-template-columns:1fr;gap:clamp(28px,5vw,72px)}
+@media(min-width:900px){.intro-grid{grid-template-columns:1.15fr .85fr}}
+.intro-grid .big{font-size:clamp(24px,3.4vw,48px);line-height:1.16;font-weight:400}
+.intro-grid .big b{font-weight:400;color:var(--spark)}
+.intro-side p{color:var(--smoke);margin-bottom:18px;font-size:15.5px}
+.facts{list-style:none;margin-top:26px;border-top:1px solid var(--steel)}
+.facts li{display:flex;justify-content:space-between;gap:18px;padding:15px 0;border-bottom:1px solid var(--steel);font-size:14px}
+.facts li b{font-weight:500}
+.facts li span{color:var(--smoke);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;text-align:right}
+
+/* ---------- Services ---------- */
+.svc{border-top:1px solid var(--steel)}
+.svc-row{
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:clamp(14px,3vw,42px);
+  padding:clamp(26px,4.4vw,56px) 0;border-bottom:1px solid var(--steel);
+  position:relative;cursor:pointer;z-index:0;isolation:isolate;
+}
+.svc-row::before{
+  content:'';position:absolute;left:calc(var(--gut) * -1);right:calc(var(--gut) * -1);top:0;bottom:0;
+  background:var(--concrete);transform:scaleY(0);transform-origin:bottom;
+  transition:transform .55s var(--ease);z-index:-1;
+}
+.svc-row:hover::before{transform:scaleY(1);transform-origin:top}
+.svc-row .idx{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--smoke);letter-spacing:.1em}
+.svc-row h3{font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(28px,6.4vw,92px);line-height:.9;transition:transform .55s var(--ease),color .4s}
+.svc-row:hover h3{transform:translateX(clamp(8px,1.6vw,26px));color:var(--spark)}
+.svc-row .blurb{color:var(--smoke);font-size:14px;max-width:34ch;display:none}
+@media(min-width:1100px){.svc-row{grid-template-columns:auto 1fr 30ch auto}.svc-row .blurb{display:block}}
+.svc-row .arrow{
+  width:40px;height:40px;border:1px solid var(--steel);border-radius:50%;
+  display:grid;place-items:center;flex:none;
+  transition:background .4s,border-color .4s,transform .5s var(--ease);
+}
+.svc-row:hover .arrow{background:var(--spark);border-color:var(--spark);transform:rotate(45deg)}
+.svc-row .arrow svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.6}
+.svc-row:hover .arrow svg{stroke:#000}
+
+#svc-float{
+  position:fixed;top:0;left:0;width:clamp(200px,20vw,300px);aspect-ratio:4/5;
+  z-index:80;pointer-events:none;opacity:0;overflow:hidden;
+  margin:-16% 0 0 -50%;
+}
+#svc-float img{width:100%;height:100%;object-fit:cover;filter:grayscale(.55) contrast(1.15)}
+@media(max-width:1099px){#svc-float{display:none}}
+
+/* ---------- Before / After ---------- */
+.ba{position:relative;user-select:none;touch-action:pan-y}
+.ba-frame{position:relative;overflow:hidden;aspect-ratio:16/10;background:var(--concrete)}
+.ba-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ba-after{clip-path:inset(0 0 0 50%)}
+.ba-handle{
+  position:absolute;top:0;bottom:0;left:50%;width:2px;background:var(--spark);
+  z-index:4;cursor:ew-resize;
+}
+.ba-handle::after{
+  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:56px;height:56px;border-radius:50%;background:var(--spark);
+  box-shadow:0 0 0 8px rgba(255,77,0,.16);
+}
+.ba-handle .ico{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;
+  font-family:'JetBrains Mono',monospace;font-size:15px;color:#000;letter-spacing:-1px;
+}
+.ba-tag{
+  position:absolute;bottom:16px;z-index:3;
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  background:rgba(10,10,10,.78);padding:8px 13px;backdrop-filter:blur(6px);
+}
+.ba-tag.l{left:16px}
+.ba-tag.r{right:16px;color:var(--spark)}
+
+/* ---------- Projects (horizontal) ---------- */
+#proj{background:var(--ash);overflow:hidden}
+.proj-pin{height:100svh;display:flex;align-items:center}
+.proj-track{display:flex;gap:clamp(14px,2.4vw,36px);padding-inline:var(--gut);will-change:transform}
+.card{width:clamp(230px,30vw,420px);flex:none}
+.card figure{overflow:hidden;aspect-ratio:4/3;background:var(--concrete);margin-bottom:14px}
+.card img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.1);transition:transform .8s var(--ease),filter .6s}
+.card:hover img{transform:scale(1.07);filter:grayscale(0) contrast(1)}
+.card h4{font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(15px,1.7vw,23px);line-height:1.05}
+.card .meta{display:flex;justify-content:space-between;gap:12px;margin-top:7px}
+.proj-lead{width:clamp(240px,26vw,380px);flex:none;padding-right:clamp(10px,2vw,30px)}
+.proj-lead h2{font-size:clamp(34px,5vw,74px);margin-bottom:18px}
+.proj-lead p{color:var(--smoke);font-size:15px}
+
+/* ---------- Areas ---------- */
+.areas{list-style:none;border-top:1px solid var(--steel)}
+.areas li{position:relative;border-bottom:1px solid var(--steel)}
+.areas a{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:clamp(16px,2.6vw,32px) 0}
+.areas h3{font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(22px,4.6vw,64px);line-height:1;transition:transform .5s var(--ease),color .4s}
+.areas li:hover h3{transform:translateX(clamp(8px,1.4vw,22px));color:var(--spark)}
+.areas .zip{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--smoke);letter-spacing:.14em;text-align:right}
+
+/* ---------- Founder ---------- */
+#founder{background:var(--ash)}
+.fd{display:grid;grid-template-columns:1fr;gap:clamp(28px,5vw,72px);align-items:center}
+@media(min-width:900px){.fd{grid-template-columns:.85fr 1.15fr}}
+.fd-photo{position:relative;overflow:hidden;aspect-ratio:3/4;background:var(--concrete)}
+.fd-photo img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(1) contrast(1.12)}
+.fd-photo .badge{
+  position:absolute;left:0;bottom:0;background:var(--spark);color:#000;
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;padding:11px 16px;
+}
+.fd h2{font-size:clamp(34px,6vw,88px);margin-bottom:8px}
+.fd .role{margin-bottom:26px}
+.fd p{color:var(--smoke);margin-bottom:17px;font-size:15.5px;max-width:58ch}
+.fd blockquote{
+  border-left:2px solid var(--spark);padding-left:22px;margin:30px 0;
+  font-size:clamp(17px,2.1vw,26px);line-height:1.3;color:var(--bone);
+}
+
+/* ---------- Contact ---------- */
+.ct h2{font-size:clamp(38px,9.6vw,168px);margin-bottom:clamp(24px,4vw,48px)}
+.ct-grid{display:grid;grid-template-columns:1fr;gap:clamp(22px,3vw,44px);border-top:1px solid var(--steel);padding-top:clamp(24px,4vw,44px)}
+@media(min-width:820px){.ct-grid{grid-template-columns:repeat(3,1fr)}}
+.ct-grid .blk .mono{display:block;margin-bottom:9px}
+.ct-grid .blk a,.ct-grid .blk p{font-size:clamp(17px,2.1vw,26px);font-weight:500;line-height:1.25;word-break:break-word}
+.ct-grid .blk a{position:relative;display:inline-block}
+.ct-grid .blk a::after{content:'';position:absolute;left:0;bottom:-3px;width:100%;height:1px;background:var(--spark);transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease)}
+.ct-grid .blk a:hover::after{transform:scaleX(1);transform-origin:left}
+.ct-btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(30px,5vw,56px)}
+
+/* ---------- Footer ---------- */
+footer{border-top:1px solid var(--steel);background:var(--ash)}
+.f-mark{overflow:hidden;padding:clamp(22px,4vw,44px) 0;border-bottom:1px solid var(--steel)}
+.f-mark .t{display:flex;width:max-content;animation:slide 26s linear infinite}
+.f-mark .t em{font-family:'Anton',sans-serif;font-style:normal;text-transform:uppercase;font-size:clamp(34px,9vw,130px);padding:0 22px;color:transparent;-webkit-text-stroke:1px var(--steel);white-space:nowrap}
+.f-btm{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:center;padding:24px var(--gut)}
+.f-btm img{width:112px;opacity:.85}
+.f-links{display:flex;gap:22px;flex-wrap:wrap}
+
+/* ---------- Preview pill ---------- */
+#pill{
+  position:fixed;left:var(--gut);bottom:16px;z-index:950;
+  display:flex;align-items:center;gap:11px;
+  background:rgba(26,26,26,.92);border:1px solid var(--steel);backdrop-filter:blur(10px);
+  padding:9px 13px;border-radius:100px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--smoke);
+}
+#pill b{color:var(--molten);font-weight:400}
+#pill button{color:var(--smoke);font-size:14px;line-height:1;padding:0 2px}
+@media(max-width:600px){#pill{font-size:8.5px;left:10px;right:10px;justify-content:center}}
+
+/* ---------- Reduced motion ---------- */
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .line span{transform:none!important}
+  .reveal{opacity:1!important;transform:none!important}
+}
+</style>
+</head>
+<body class="is-loading">
+
+<div class="grain" aria-hidden="true"></div>
+<div class="cur" aria-hidden="true"></div>
+<div class="cur-r" aria-hidden="true"></div>
+
+<!-- ===== PRELOADER ===== -->
+<div id="loader">
+  <img class="lo-mark" src="https://ygcjaxllc.com/wp-content/uploads/2025/11/png002-2.png" alt="Yumbo General Construction">
+  <div class="lo-num"><span id="lo-count">0</span><i>%</i></div>
+  <div class="lo-bar" id="lo-bar"></div>
+</div>
+<div class="curtain" id="curtain" aria-hidden="true"></div>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <a class="brand" href="#top" aria-label="Yumbo General Construction">
+    <img src="https://ygcjaxllc.com/wp-content/uploads/2025/11/png002-2.png" alt="Yumbo General Construction">
+  </a>
+  <nav class="nav">
+    <a class="nav-link" href="#work"     data-en="Work"     data-es="Obras">Work</a>
+    <a class="nav-link" href="#services" data-en="Services" data-es="Servicios">Services</a>
+    <a class="nav-link" href="#areas"    data-en="Areas"    data-es="Zonas">Areas</a>
+    <a class="nav-link" href="#founder"  data-en="Founder"  data-es="Fundadora">Founder</a>
+    <a class="nav-link" href="#contact"  data-en="Contact"  data-es="Contacto">Contact</a>
+    <div class="lang" role="group" aria-label="Language">
+      <button id="btn-en" aria-pressed="true">EN</button>
+      <button id="btn-es" aria-pressed="false">ES</button>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-bg"><img id="heroImg" src="https://ygcjaxllc.com/wp-content/uploads/2026/01/Soldadura.jpg" alt="Welding work by Yumbo General Construction"></div>
+  <div class="hero-in">
+    <div class="hero-kick">
+      <span class="dot"></span>
+      <span class="mono" data-en="Jacksonville, Florida · Since 2012" data-es="Jacksonville, Florida · Desde 2012">Jacksonville, Florida · Since 2012</span>
+    </div>
+
+    <h1 class="display" id="heroH1">
+      <span class="line"><span data-en="We Build" data-es="Construimos">We Build</span></span>
+      <span class="line"><span data-en="What Holds" data-es="Lo Que">What Holds</span></span>
+      <span class="line"><span><em data-en="Everything Up" data-es="Sostiene Todo">Everything Up</em></span></span>
+    </h1>
+
+    <div class="hero-foot">
+      <p data-en="Welding, concrete, asphalt and sinkhole repair across Northeast Florida. Started in Yumbo, Colombia. Built in Jacksonville." data-es="Soldadura, concreto, asfalto y reparación de sumideros en el noreste de Florida. Nació en Yumbo, Colombia. Se construyó en Jacksonville.">Welding, concrete, asphalt and sinkhole repair across Northeast Florida. Started in Yumbo, Colombia. Built in Jacksonville.</p>
+      <a class="cta" href="tel:+19048466151" data-hover><span data-en="Get an estimate" data-es="Pide tu presupuesto">Get an estimate</span><span>→</span></a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span class="mono" data-en="Scroll" data-es="Desliza">Scroll</span>
+    <span class="rail"></span>
+  </div>
+</section>
+
+<!-- ===== TICKER ===== -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="tick"></div>
+</div>
+
+<!-- ===== INTRO ===== -->
+<section class="wrap">
+  <div class="intro-grid">
+    <div>
+      <p class="mono reveal" style="margin-bottom:20px" data-en="[ 01 — Who we are ]" data-es="[ 01 — Quiénes somos ]">[ 01 — Who we are ]</p>
+      <p class="big reveal" data-en="A licensed Florida crew that shows up on time, communicates clearly, stays on budget, and treats every job like the building has to outlive us. Because it does." data-es="Un equipo licenciado en Florida que llega a tiempo, comunica claro, respeta el presupuesto y trata cada obra como si el edificio tuviera que durar más que nosotros. Porque así es.">A licensed Florida crew that shows up on time, communicates clearly, stays on budget, and treats every job like the building has to outlive us. Because it does.</p>
+    </div>
+    <div class="intro-side reveal">
+      <p data-en="Yumbo General Construction began in Yumbo, Colombia and now serves Jacksonville and the surrounding coast with the same work ethic it was founded on. General contracting and welding are the core — but the reason clients come back is simpler than that. We do what we said we would do." data-es="Yumbo General Construction nació en Yumbo, Colombia y hoy sirve a Jacksonville y la costa con la misma ética de trabajo con la que empezó. La contratación general y la soldadura son la base — pero la razón por la que los clientes vuelven es más simple. Hacemos lo que dijimos que haríamos.">Yumbo General Construction began in Yumbo, Colombia and now serves Jacksonville and the surrounding coast with the same work ethic it was founded on. General contracting and welding are the core — but the reason clients come back is simpler than that. We do what we said we would do.</p>
+      <ul class="facts">
+        <li><b data-en="Building since" data-es="Construyendo desde">Building since</b><span>2012</span></li>
+        <li><b data-en="Licensed &amp; insured" data-es="Licencia y seguro">Licensed &amp; insured</b><span data-en="Florida &amp; Georgia" data-es="Florida y Georgia">Florida &amp; Georgia</span></li>
+        <li><b data-en="Origin" data-es="Origen">Origin</b><span data-en="Yumbo, Colombia" data-es="Yumbo, Colombia">Yumbo, Colombia</span></li>
+        <li><b data-en="We speak" data-es="Hablamos">We speak</b><span data-en="English &amp; Spanish" data-es="Inglés y Español">English &amp; Spanish</span></li>
+        <li><b data-en="Ownership" data-es="Propiedad">Ownership</b><span data-en="Family-owned, local" data-es="Familiar y local">Family-owned, local</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVICES ===== -->
+<section class="wrap" id="services">
+  <div class="sec-head">
+    <span class="mono" data-en="[ 02 ]" data-es="[ 02 ]">[ 02 ]</span>
+    <h2 class="display reveal" data-en="What we do" data-es="Qué hacemos">What we do</h2>
+  </div>
+
+  <div class="svc">
+    <div class="svc-row" data-img="https://ygcjaxllc.com/wp-content/uploads/2026/01/Soldadura.jpg" data-hover>
+      <span class="idx">01</span>
+      <h3 data-en="Welding" data-es="Soldadura">Welding</h3>
+      <p class="blurb" data-en="Structural repair, custom fabrication, railings, staircases and metalwork restored for safety and load." data-es="Reparación estructural, fabricación a medida, barandas, escaleras y metalistería restaurada para seguridad y carga.">Structural repair, custom fabrication, railings, staircases and metalwork restored for safety and load.</p>
+      <span class="arrow"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></span>
+    </div>
+    <div class="svc-row" data-img="https://ygcjaxllc.com/wp-content/uploads/2026/01/AdobeStock_234019249.jpeg" data-hover>
+      <span class="idx">02</span>
+      <h3 data-en="Concrete" data-es="Concreto">Concrete</h3>
+      <p class="blurb" data-en="Driveways, foundations, sidewalks and decorative patios — poured, finished and cured properly." data-es="Entradas, cimientos, aceras y patios decorativos — vertidos, acabados y curados correctamente.">Driveways, foundations, sidewalks and decorative patios — poured, finished and cured properly.</p>
+      <span class="arrow"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></span>
+    </div>
+    <div class="svc-row" data-img="https://ygcjaxllc.com/wp-content/uploads/2026/01/Street_paving_in_Laredo_TX_2015_IMG_5515-1.jpg" data-hover>
+      <span class="idx">03</span>
+      <h3 data-en="Asphalt" data-es="Asfalto">Asphalt</h3>
+      <p class="blurb" data-en="New paving and maintenance for lots and drives — safer surfaces, cleaner property, longer life." data-es="Pavimentación nueva y mantenimiento de estacionamientos y accesos — superficies más seguras y de mayor vida útil.">New paving and maintenance for lots and drives — safer surfaces, cleaner property, longer life.</p>
+      <span class="arrow"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></span>
+    </div>
+    <div class="svc-row" data-img="https://ygcjaxllc.com/wp-content/uploads/2025/11/image-35.jpg" data-hover>
+      <span class="idx">04</span>
+      <h3 data-en="Sinkholes" data-es="Sumideros">Sinkholes</h3>
+      <p class="blurb" data-en="Assessment and repair of ground failure — stabilised, filled and restored before it becomes structural." data-es="Evaluación y reparación de fallas del terreno — estabilizado, rellenado y restaurado antes de volverse estructural.">Assessment and repair of ground failure — stabilised, filled and restored before it becomes structural.</p>
+      <span class="arrow"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></span>
+    </div>
+  </div>
+</section>
+<div id="svc-float" aria-hidden="true"><img src="" alt=""></div>
+
+<!-- ===== BEFORE / AFTER ===== -->
+<section class="wrap">
+  <div class="sec-head">
+    <span class="mono" data-en="[ 03 ]" data-es="[ 03 ]">[ 03 ]</span>
+    <h2 class="display reveal" data-en="Before / After" data-es="Antes / Después">Before / After</h2>
+  </div>
+  <p class="reveal" style="color:var(--smoke);max-width:56ch;margin-bottom:clamp(22px,3.5vw,44px)" data-en="Drag the handle. Worn, unsafe and outdated becomes solid, safe and finished." data-es="Arrastra el control. Lo desgastado, inseguro y anticuado se vuelve sólido, seguro y terminado.">Drag the handle. Worn, unsafe and outdated becomes solid, safe and finished.</p>
+
+  <div class="ba reveal" id="ba">
+    <div class="ba-frame">
+      <img src="https://ygcjaxllc.com/wp-content/uploads/2025/12/Mailin-Before.jpeg" alt="Before repair">
+      <img class="ba-after" id="baAfter" src="https://ygcjaxllc.com/wp-content/uploads/2025/12/Mailin-after.jpeg" alt="After repair">
+      <span class="ba-tag l" data-en="Before" data-es="Antes">Before</span>
+      <span class="ba-tag r" data-en="After" data-es="Después">After</span>
+      <div class="ba-handle" id="baHandle" role="slider" aria-label="Before and after comparison" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0"><span class="ico">‹ ›</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROJECTS ===== -->
+<section id="proj">
+  <div class="proj-pin" id="projPin">
+    <div class="proj-track" id="projTrack">
+      <div class="proj-lead">
+        <span class="mono" style="display:block;margin-bottom:14px" data-en="[ 04 — Selected work ]" data-es="[ 04 — Obras seleccionadas ]">[ 04 — Selected work ]</span>
+        <h2 class="display" data-en="Trusted by leading properties" data-es="La confianza de grandes propiedades">Trusted by leading properties</h2>
+        <p data-en="Residential and commercial welding, metalwork and surface work delivered across Florida." data-es="Soldadura, metalistería y trabajo de superficies residencial y comercial en toda Florida.">Residential and commercial welding, metalwork and surface work delivered across Florida.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== AREAS ===== -->
+<section class="wrap" id="areas">
+  <div class="sec-head">
+    <span class="mono" data-en="[ 05 ]" data-es="[ 05 ]">[ 05 ]</span>
+    <h2 class="display reveal" data-en="Where we work" data-es="Dónde trabajamos">Where we work</h2>
+  </div>
+  <ul class="areas" id="areaList"></ul>
+</section>
+
+<!-- ===== FOUNDER ===== -->
+<section class="wrap" id="founder">
+  <div class="fd">
+    <div class="fd-photo reveal">
+      <img src="https://ygcjaxllc.com/wp-content/uploads/2026/01/image-4.png" alt="Mailin Quintana, CEO">
+      <span class="badge" data-en="CEO &amp; Founder" data-es="CEO y Fundadora">CEO &amp; Founder</span>
+    </div>
+    <div>
+      <span class="mono" style="display:block;margin-bottom:16px" data-en="[ 06 — The person behind it ]" data-es="[ 06 — La persona detrás ]">[ 06 — The person behind it ]</span>
+      <h2 class="display reveal">Mailin Quintana</h2>
+      <p class="mono role" data-en="Construction · Real estate · Business development" data-es="Construcción · Bienes raíces · Desarrollo de negocios">Construction · Real estate · Business development</p>
+      <p data-en="Mailin is the driving force behind multiple ventures in construction, real estate and business development. She combines strategic thinking with hands-on experience to deliver results tailored to each client's vision." data-es="Mailin es la fuerza detrás de varios proyectos en construcción, bienes raíces y desarrollo de negocios. Combina pensamiento estratégico con experiencia práctica para entregar resultados hechos a la medida de cada cliente.">Mailin is the driving force behind multiple ventures in construction, real estate and business development. She combines strategic thinking with hands-on experience to deliver results tailored to each client's vision.</p>
+      <blockquote data-en="&ldquo;Every decision is inspired by building long-term value — not only for clients, but for the people who depend on her.&rdquo;" data-es="&ldquo;Cada decisión está inspirada en construir valor a largo plazo — no solo para los clientes, sino para quienes dependen de ella.&rdquo;">&ldquo;Every decision is inspired by building long-term value — not only for clients, but for the people who depend on her.&rdquo;</blockquote>
+      <p data-en="Her work is guided by commitment, responsibility and family. She is known for the ability to listen, adapt and execute with precision — so that every project reflects excellence, transparency and attention to detail." data-es="Su trabajo se guía por el compromiso, la responsabilidad y la familia. Es conocida por su capacidad de escuchar, adaptarse y ejecutar con precisión — para que cada proyecto refleje excelencia, transparencia y atención al detalle.">Her work is guided by commitment, responsibility and family. She is known for the ability to listen, adapt and execute with precision — so that every project reflects excellence, transparency and attention to detail.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section class="wrap ct" id="contact">
+  <span class="mono" style="display:block;margin-bottom:18px" data-en="[ 07 — Start your project ]" data-es="[ 07 — Empieza tu proyecto ]">[ 07 — Start your project ]</span>
+  <h2 class="display reveal" data-en="Let's build something strong" data-es="Construyamos algo fuerte">Let's build something strong</h2>
+
+  <div class="ct-grid">
+    <div class="blk">
+      <span class="mono" data-en="Call us" data-es="Llámanos">Call us</span>
+      <a href="tel:+19048466151" data-hover>(904) 846-6151</a>
+    </div>
+    <div class="blk">
+      <span class="mono" data-en="Email" data-es="Correo">Email</span>
+      <a href="mailto:ygcjax@gmail.com" data-hover>ygcjax@gmail.com</a>
+    </div>
+    <div class="blk">
+      <span class="mono" data-en="Based in" data-es="Ubicación">Based in</span>
+      <a href="https://maps.app.goo.gl/eN87Q4Q2MWoq3aTd7" target="_blank" rel="noopener" data-hover>Jacksonville, FL</a>
+    </div>
+  </div>
+
+  <div class="ct-btns">
+    <a class="cta" href="tel:+19048466151" data-hover><span data-en="Free estimate" data-es="Presupuesto gratis">Free estimate</span><span>→</span></a>
+    <a class="cta ghost" href="https://www.instagram.com/ygcjax" target="_blank" rel="noopener" data-hover><span data-en="See our work on Instagram" data-es="Mira nuestro trabajo en Instagram">See our work on Instagram</span><span>→</span></a>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="f-mark" aria-hidden="true"><div class="t" id="fmark"></div></div>
+  <div class="f-btm">
+    <img src="https://ygcjaxllc.com/wp-content/uploads/2025/11/png002-2.png" alt="Yumbo General Construction">
+    <div class="f-links mono">
+      <a href="https://maps.app.goo.gl/eN87Q4Q2MWoq3aTd7" target="_blank" rel="noopener" data-hover>Google</a>
+      <a href="https://www.instagram.com/ygcjax" target="_blank" rel="noopener" data-hover>Instagram</a>
+      <a href="tel:+19048466151" data-hover>(904) 846-6151</a>
+    </div>
+    <span class="mono">© 2026 Yumbo General Construction LLC</span>
+  </div>
+</footer>
+
+<!-- ===== PREVIEW PILL ===== -->
+<div id="pill">
+  <b data-en="Preview" data-es="Vista previa">Preview</b>
+  <span data-en="Concept design — not the live site" data-es="Diseño conceptual — no es el sitio real">Concept design — not the live site</span>
+  <button id="pillX" aria-label="Dismiss">&times;</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.13/lenis.min.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasGSAP = typeof window.gsap !== 'undefined';
+  if (hasGSAP && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
+
+  /* ---------------- DATA ---------------- */
+  var PROJECTS = [
+    { n: 'Cape Coral',            i: 'https://ygcjaxllc.com/wp-content/uploads/2026/04/image-4.png' },
+    { n: 'Mirador',               i: 'https://ygcjaxllc.com/wp-content/uploads/2026/04/image-5.png' },
+    { n: 'Stovall',               i: 'https://ygcjaxllc.com/wp-content/uploads/2026/04/image-6.png' },
+    { n: 'Lakeline at Bartram',   i: 'https://ygcjaxllc.com/wp-content/uploads/2026/04/image-7.png' },
+    { n: 'Summer Keys',           i: 'https://ygcjaxllc.com/wp-content/uploads/2026/04/image-8.png' },
+    { n: 'Fountain at Deerwood',  i: 'https://ygcjaxllc.com/wp-content/uploads/2026/04/image-9.png' },
+    { n: 'Palms at Marsh Landing',i: 'https://ygcjaxllc.com/wp-content/uploads/2026/04/image-10.png' },
+    { n: 'Creekside Apartments',  i: 'https://ygcjaxllc.com/wp-content/uploads/2026/04/image-11.png' },
+    { n: 'The Park at Alston',    i: 'https://ygcjaxllc.com/wp-content/uploads/2026/04/image-12.png' }
+  ];
+
+  var AREAS = [
+    { n: 'Jacksonville',      u: 'https://ygcjaxllc.com/jacksonville-fl/',      t: 'FL · HQ' },
+    { n: 'St. Augustine',     u: 'https://ygcjaxllc.com/st-augustine-fl/',      t: 'FL' },
+    { n: 'Ponte Vedra Beach', u: 'https://ygcjaxllc.com/ponte-vedra-beach-fl/', t: 'FL' },
+    { n: 'Gainesville',       u: 'https://ygcjaxllc.com/gainesville-fl/',       t: 'FL' },
+    { n: 'Tallahassee',       u: 'https://ygcjaxllc.com/tallahassee-fl/',       t: 'FL' }
+  ];
+
+  var TICKER = {
+    en: ['Welding', 'Concrete', 'Asphalt', 'Sinkholes', 'Licensed', 'Insured', 'On time'],
+    es: ['Soldadura', 'Concreto', 'Asfalto', 'Sumideros', 'Licencia', 'Asegurado', 'Puntual']
+  };
+
+  /* ---------------- BUILD LISTS ---------------- */
+  var track = document.getElementById('projTrack');
+  PROJECTS.forEach(function (p) {
+    var c = document.createElement('article');
+    c.className = 'card';
+    c.innerHTML =
+      '<figure><img loading="lazy" src="' + p.i + '" alt="' + p.n + '"></figure>' +
+      '<h4>' + p.n + '</h4>' +
+      '<div class="meta"><span class="mono">Florida</span><span class="mono">Welding / Metal</span></div>';
+    track.appendChild(c);
+  });
+
+  var alist = document.getElementById('areaList');
+  AREAS.forEach(function (a) {
+    var li = document.createElement('li');
+    li.innerHTML =
+      '<a href="' + a.u + '" target="_blank" rel="noopener" data-hover>' +
+      '<h3>' + a.n + '</h3><span class="zip">' + a.t + '</span></a>';
+    alist.appendChild(li);
+  });
+
+  function buildTicker(lang) {
+    var words = TICKER[lang] || TICKER.en;
+    var html = '';
+    for (var r = 0; r < 2; r++) {
+      for (var w = 0; w < words.length; w++) html += '<em>' + words[w] + '</em>';
+    }
+    document.getElementById('tick').innerHTML = html;
+  }
+
+  var FM = 'YUMBO GENERAL CONSTRUCTION';
+  var fm = '';
+  for (var k = 0; k < 4; k++) fm += '<em>' + FM + '</em>';
+  document.getElementById('fmark').innerHTML = fm;
+
+  /* ---------------- LANGUAGE ---------------- */
+  var btnEN = document.getElementById('btn-en');
+  var btnES = document.getElementById('btn-es');
+
+  function setLang(lang) {
+    var nodes = document.querySelectorAll('[data-' + lang + ']');
+    for (var i = 0; i < nodes.length; i++) {
+      var val = nodes[i].getAttribute('data-' + lang);
+      if (val !== null) nodes[i].innerHTML = val;
+    }
+    document.documentElement.lang = lang;
+    btnEN.setAttribute('aria-pressed', String(lang === 'en'));
+    btnES.setAttribute('aria-pressed', String(lang === 'es'));
+    buildTicker(lang);
+    try { localStorage.setItem('ygc_lang', lang); } catch (e) {}
+  }
+
+  btnEN.addEventListener('click', function () { setLang('en'); });
+  btnES.addEventListener('click', function () { setLang('es'); });
+
+  var saved = null;
+  try { saved = localStorage.getItem('ygc_lang'); } catch (e) {}
+  var initial = saved || ((navigator.language || 'en').toLowerCase().indexOf('es') === 0 ? 'es' : 'en');
+  setLang(initial);
+
+  /* ---------------- CURSOR ---------------- */
+  var dot = document.querySelector('.cur');
+  var ring = document.querySelector('.cur-r');
+  var fine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+  if (fine && dot && ring) {
+    var mx = window.innerWidth / 2, my = window.innerHeight / 2;
+    var rx = mx, ry = my;
+
+    window.addEventListener('mousemove', function (e) {
+      mx = e.clientX; my = e.clientY;
+      dot.style.transform = 'translate(' + mx + 'px,' + my + 'px)';
+    }, { passive: true });
+
+    (function loop() {
+      rx += (mx - rx) * 0.16;
+      ry += (my - ry) * 0.16;
+      ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px)';
+      requestAnimationFrame(loop);
+    })();
+
+    document.addEventListener('mouseover', function (e) {
+      if (e.target.closest('[data-hover]')) ring.classList.add('grow');
+    });
+    document.addEventListener('mouseout', function (e) {
+      if (e.target.closest('[data-hover]')) ring.classList.remove('grow');
+    });
+  }
+
+  /* ---------------- SERVICE FLOATING IMAGE ---------------- */
+  var floatEl = document.getElementById('svc-float');
+  var floatImg = floatEl ? floatEl.querySelector('img') : null;
+
+  if (fine && floatEl && floatImg && hasGSAP) {
+    var setX = gsap.quickTo(floatEl, 'x', { duration: 0.75, ease: 'power3' });
+    var setY = gsap.quickTo(floatEl, 'y', { duration: 0.75, ease: 'power3' });
+
+    document.querySelectorAll('.svc-row').forEach(function (row) {
+      row.addEventListener('mouseenter', function () {
+        floatImg.src = row.getAttribute('data-img');
+        gsap.to(floatEl, { opacity: 1, duration: 0.4, ease: 'power2.out' });
+      });
+      row.addEventListener('mouseleave', function () {
+        gsap.to(floatEl, { opacity: 0, duration: 0.35 });
+      });
+    });
+
+    window.addEventListener('mousemove', function (e) {
+      setX(e.clientX); setY(e.clientY);
+    }, { passive: true });
+  }
+
+  /* ---------------- BEFORE / AFTER ---------------- */
+  (function () {
+    var ba = document.getElementById('ba');
+    var after = document.getElementById('baAfter');
+    var handle = document.getElementById('baHandle');
+    if (!ba || !after || !handle) return;
+
+    var dragging = false;
+
+    function apply(pct) {
+      pct = Math.max(0, Math.min(100, pct));
+      after.style.clipPath = 'inset(0 0 0 ' + pct + '%)';
+      handle.style.left = pct + '%';
+      handle.setAttribute('aria-valuenow', Math.round(pct));
+    }
+
+    function fromEvent(e) {
+      var r = ba.getBoundingClientRect();
+      var cx = (e.touches && e.touches[0]) ? e.touches[0].clientX : e.clientX;
+      apply(((cx - r.left) / r.width) * 100);
+    }
+
+    handle.addEventListener('mousedown', function () { dragging = true; });
+    handle.addEventListener('touchstart', function () { dragging = true; }, { passive: true });
+    window.addEventListener('mouseup', function () { dragging = false; });
+    window.addEventListener('touchend', function () { dragging = false; });
+    window.addEventListener('mousemove', function (e) { if (dragging) fromEvent(e); });
+    window.addEventListener('touchmove', function (e) { if (dragging) fromEvent(e); }, { passive: true });
+    ba.addEventListener('click', function (e) { fromEvent(e); });
+
+    handle.addEventListener('keydown', function (e) {
+      var cur = parseFloat(handle.style.left) || 50;
+      if (e.key === 'ArrowLeft') { apply(cur - 4); e.preventDefault(); }
+      if (e.key === 'ArrowRight') { apply(cur + 4); e.preventDefault(); }
+    });
+
+    apply(50);
+  })();
+
+  /* ---------------- PILL ---------------- */
+  var pill = document.getElementById('pill');
+  var pillX = document.getElementById('pillX');
+  if (pillX && pill) {
+    pillX.addEventListener('click', function () { pill.style.display = 'none'; });
+  }
+
+  /* ---------------- SMOOTH SCROLL ---------------- */
+  var lenis = null;
+  if (!reduce && typeof window.Lenis !== 'undefined') {
+    lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+    if (hasGSAP && window.ScrollTrigger) {
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
+      gsap.ticker.lagSmoothing(0);
+    } else {
+      requestAnimationFrame(function raf(t) { lenis.raf(t); requestAnimationFrame(raf); });
+    }
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var id = a.getAttribute('href');
+      if (id.length < 2) return;
+      var el = document.querySelector(id);
+      if (!el) return;
+      e.preventDefault();
+      if (lenis) lenis.scrollTo(el, { offset: -10 });
+      else el.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  /* ---------------- PRELOADER + REVEALS ---------------- */
+  function startSite() {
+    document.body.classList.remove('is-loading');
+    if (lenis) lenis.start();
+
+    if (!hasGSAP || reduce) {
+      document.querySelectorAll('.line span').forEach(function (s) { s.style.transform = 'none'; });
+      document.querySelectorAll('.reveal').forEach(function (s) { s.style.opacity = 1; s.style.transform = 'none'; });
+      return;
+    }
+
+    var tl = gsap.timeline();
+    tl.to('#curtain', { scaleY: 0, duration: 1.1, ease: 'expo.inOut' })
+      .to('.hero h1 .line span', { y: '0%', duration: 1.25, stagger: 0.09, ease: 'expo.out' }, '-=0.7')
+      .from('.hero-kick, .hero-foot', { y: 26, opacity: 0, duration: 0.9, stagger: 0.12, ease: 'power3.out' }, '-=0.85')
+      .from('header', { y: -22, opacity: 0, duration: 0.8, ease: 'power3.out' }, '-=0.9');
+
+    gsap.utils.toArray('.reveal').forEach(function (el) {
+      gsap.to(el, {
+        opacity: 1, y: 0, duration: 1.05, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 88%' }
+      });
+    });
+
+    gsap.to('#heroImg', {
+      yPercent: 14, ease: 'none',
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
+    });
+
+    var pin = document.getElementById('projPin');
+    var trk = document.getElementById('projTrack');
+    if (pin && trk && window.innerWidth > 760) {
+      ScrollTrigger.create({
+        trigger: '#proj',
+        start: 'top top',
+        end: function () { return '+=' + (trk.scrollWidth - window.innerWidth + 200); },
+        pin: pin,
+        scrub: 1,
+        invalidateOnRefresh: true,
+        animation: gsap.to(trk, {
+          x: function () { return -(trk.scrollWidth - window.innerWidth + 60); },
+          ease: 'none'
+        })
+      });
+    }
+
+    ScrollTrigger.refresh();
+  }
+
+  if (lenis) lenis.stop();
+
+  var count = document.getElementById('lo-count');
+  var bar = document.getElementById('lo-bar');
+  var n = 0;
+
+  var tick = setInterval(function () {
+    n += Math.random() * 11;
+    if (n >= 100) { n = 100; clearInterval(tick); }
+    if (count) count.textContent = Math.floor(n);
+    if (bar) bar.style.width = n + '%';
+
+    if (n === 100) {
+      setTimeout(function () {
+        if (hasGSAP && !reduce) {
+          gsap.timeline()
+            .to('#loader .lo-mark, #loader .lo-num', { y: -22, opacity: 0, duration: 0.55, ease: 'power2.in' })
+            .to('#loader', { yPercent: -100, duration: 0.9, ease: 'expo.inOut', onComplete: startSite }, '-=0.15');
+        } else {
+          var l = document.getElementById('loader');
+          var c = document.getElementById('curtain');
+          if (l) l.style.display = 'none';
+          if (c) c.style.display = 'none';
+          startSite();
+        }
+      }, 260);
+    }
+  }, 95);
+
+  if (hasGSAP && !reduce) {
+    gsap.to('#loader .lo-mark', { opacity: 1, duration: 0.8, ease: 'power2.out' });
+  } else {
+    var lm = document.querySelector('#loader .lo-mark');
+    if (lm) lm.style.opacity = 1;
+  }
+
+  window.addEventListener('resize', function () {
+    if (hasGSAP && window.ScrollTrigger) ScrollTrigger.refresh();
+  });
+})();
+</script>
+</body>
+</html>
