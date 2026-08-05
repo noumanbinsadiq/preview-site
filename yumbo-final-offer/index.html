@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+(function(){try{document.documentElement.classList.add('anim');}catch(e){}})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
+<title>Yumbo — Your System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FBF6EA; --cream-2:#F4ECD9; --ink:#1B1710; --ink-soft:#4B4438;
+  --blue:#2F5BFF; --coral:#FF5A38; --green:#12A66B; --violet:#7A4DFF; --yellow:#FFC42E;
+}
+*{box-sizing:border-box; margin:0; padding:0; -webkit-user-select:none; user-select:none;}
+html{scroll-behavior:smooth;}
+body{font-family:'Manrope',sans-serif; background:var(--cream); color:var(--ink); overflow-x:hidden; line-height:1.55;}
+h1,h2,h3,.display{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; letter-spacing:-0.02em;}
+.wrap{max-width:900px; margin:0 auto; padding:0 24px;}
+a{color:inherit;}
+
+.confidential{background:var(--ink); color:var(--cream); text-align:center; font-size:12.5px; font-weight:700; padding:9px 12px;}
+.confidential b{color:var(--yellow);}
+
+.hero{padding:70px 0 50px; text-align:center; background:radial-gradient(circle at 20% 20%, rgba(255,90,56,.14), transparent 45%), radial-gradient(circle at 85% 15%, rgba(122,77,255,.14), transparent 45%), radial-gradient(circle at 60% 90%, rgba(18,166,107,.12), transparent 45%);}
+.badge{display:inline-block; background:var(--yellow); border:2px solid var(--ink); border-radius:99px; padding:7px 16px; font-weight:800; font-size:13px; margin-bottom:20px; transform:rotate(-2deg); box-shadow:3px 3px 0 var(--ink);}
+.hero h1{font-size:clamp(32px,5.5vw,52px); line-height:1.08; margin-bottom:16px;}
+.hero h1 .hl{color:var(--coral);}
+.hero p{font-size:18px; color:var(--ink-soft); max-width:560px; margin:0 auto;}
+
+section{padding:50px 0;}
+.eyebrow{font-weight:800; font-size:12.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--coral); margin-bottom:10px;}
+.sec-title{font-size:clamp(24px,3.6vw,34px); margin-bottom:12px;}
+.sec-sub{color:var(--ink-soft); font-size:16px; max-width:560px; margin-bottom:36px;}
+
+/* phone mocks row */
+.phones{display:flex; gap:24px; overflow-x:auto; padding-bottom:10px; scroll-snap-type:x mandatory;}
+.pcard{flex:0 0 260px; scroll-snap-align:center;}
+.phone{width:100%; background:var(--ink); border-radius:30px; padding:10px; box-shadow:6px 6px 0 rgba(27,23,16,.2);}
+.screen{background:var(--cream); border-radius:22px; overflow:hidden; min-height:420px; display:flex; flex-direction:column;}
+.sbar{height:18px; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800;}
+.stop{padding:12px 14px 8px; border-bottom:2px solid var(--ink);}
+.stop .greet{font-size:11px; color:var(--ink-soft); font-weight:700;}
+.stop .amt{font-size:20px; font-weight:800;}
+.money-strip{display:flex; gap:6px; padding:8px 12px;}
+.mchip{flex:1; border:2px solid var(--ink); border-radius:9px; padding:6px 5px; text-align:center;}
+.mchip .l{font-size:8px; font-weight:800; color:var(--ink-soft); text-transform:uppercase;}
+.mchip .v{font-size:12px; font-weight:800;}
+.jobs-list{padding:6px 12px; flex:1;}
+.jrow{display:flex; align-items:center; gap:6px; border:2px solid var(--ink); border-radius:9px; padding:7px 8px; margin-bottom:6px; font-size:10.5px; font-weight:700;}
+.dot{width:8px; height:8px; border-radius:50%; flex-shrink:0; border:1.5px solid var(--ink);}
+.d-white{background:#fff;} .d-yellow{background:var(--yellow);} .d-green{background:var(--green);} .d-coral{background:var(--coral);}
+.jrow .meta{margin-left:auto; font-size:8.5px; color:var(--ink-soft); font-weight:800;}
+.bank-row{margin:0 12px 10px; border:2px dashed var(--green); border-radius:9px; padding:8px; font-size:10px; font-weight:800; color:var(--green); text-align:center;}
+.pcard .label{text-align:center; font-weight:800; font-size:13px; margin-top:12px;}
+.pcard .sub{text-align:center; font-size:12px; color:var(--ink-soft); margin-top:2px;}
+
+/* what you get list */
+.getlist{border:3px solid var(--ink); border-radius:22px; padding:8px; background:var(--cream-2);}
+.getrow{display:flex; align-items:flex-start; gap:14px; padding:16px; border-bottom:2px solid rgba(27,23,16,.12);}
+.getrow:last-child{border-bottom:none;}
+.geticon{width:38px; height:38px; border-radius:12px; background:var(--ink); color:var(--cream); display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; border:2px solid var(--ink);}
+.getrow:nth-child(1) .geticon{background:var(--green);}
+.getrow:nth-child(2) .geticon{background:var(--coral);}
+.getrow:nth-child(3) .geticon{background:var(--yellow); color:var(--ink);}
+.getrow:nth-child(4) .geticon{background:var(--blue);}
+.getrow:nth-child(5) .geticon{background:var(--violet);}
+.getrow:nth-child(6) .geticon{background:var(--coral);}
+.getrow:nth-child(7) .geticon{background:var(--green);}
+.getrow h4{font-size:16px; margin-bottom:3px;}
+.getrow p{font-size:13.5px; color:var(--ink-soft);}
+
+/* timeline */
+.tl{border:3px solid var(--ink); border-radius:22px; padding:8px; background:var(--cream-2);}
+.tlrow{display:flex; gap:16px; align-items:flex-start; padding:16px; border-bottom:2px solid rgba(27,23,16,.12);}
+.tlrow:last-child{border-bottom:none;}
+.tlnum{width:34px; height:34px; border-radius:50%; border:2.5px solid var(--ink); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; flex-shrink:0;}
+.tlrow:nth-child(1) .tlnum{background:var(--green); color:#fff;}
+.tlrow:nth-child(2) .tlnum{background:var(--yellow);}
+.tlrow:nth-child(3) .tlnum{background:var(--coral); color:#fff;}
+.tlrow h4{font-size:15px; margin-bottom:3px;}
+.tlrow p{font-size:13px; color:var(--ink-soft);}
+.tlrow .tag{display:inline-block; background:var(--ink); color:var(--cream); font-size:10.5px; font-weight:800; padding:3px 9px; border-radius:99px; margin-left:8px;}
+.rush{border:3px dashed var(--violet); border-radius:18px; padding:18px 20px; margin-top:16px; background:rgba(122,77,255,.06);}
+.rush b{color:var(--violet);}
+
+/* the offer box */
+.offer{background:linear-gradient(135deg, var(--ink) 0%, #241d13 60%, #2a1a2e 100%); color:var(--cream); border-radius:26px; padding:44px 32px; text-align:center; border:3px solid var(--ink); box-shadow:6px 6px 0 var(--coral);}
+.offer .eyebrow{color:var(--yellow);}
+.offer h2{color:var(--cream); font-size:clamp(26px,4vw,36px); margin-bottom:6px;}
+.offer .price{font-size:56px; font-weight:800; color:var(--yellow); margin:14px 0 4px;}
+.offer .price span{font-size:16px; font-weight:700; color:rgba(251,246,234,.7);}
+.offer .time{font-weight:700; font-size:14px; opacity:.85; margin-bottom:26px;}
+.offer-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; text-align:left; margin:0 auto 28px; max-width:480px;}
+.ochip{background:rgba(255,255,255,.08); border:1.5px solid rgba(255,255,255,.35); border-radius:12px; padding:10px 14px; font-size:12.5px; font-weight:700;}
+.offer-grid .ochip:nth-child(1){border-color:var(--green);}
+.offer-grid .ochip:nth-child(2){border-color:var(--blue);}
+.offer-grid .ochip:nth-child(3){border-color:var(--yellow);}
+.offer-grid .ochip:nth-child(4){border-color:var(--coral);}
+.deposit-line{background:rgba(255,255,255,.1); border-radius:14px; padding:16px; font-size:14px; font-weight:700; margin-bottom:24px;}
+.deposit-line b{color:var(--yellow); font-size:17px;}
+.btn{display:inline-block; padding:16px 30px; border-radius:14px; border:3px solid var(--yellow); background:var(--yellow); color:var(--ink); font-weight:800; font-size:16px; box-shadow:4px 4px 0 rgba(255,196,46,.4);}
+
+/* partnership */
+.partner{border:3px solid var(--ink); border-radius:22px; padding:28px; background:var(--violet); color:#fff; box-shadow:5px 5px 0 var(--ink);}
+.partner p{color:rgba(255,255,255,.9) !important;}
+.partner h3{font-size:18px; margin-bottom:8px;}
+.partner p{font-size:14px; color:var(--ink-soft);}
+
+footer{padding:30px 0; text-align:center; font-size:12px; color:var(--ink-soft);}
+
+html.anim .reveal{opacity:0; transform:translateY(20px);}
+.reveal{opacity:1; transform:none;}
+</style>
+</head>
+<body oncontextmenu="return false;">
+<div class="confidential">🔒 Prepared exclusively for <b>Mailin Quintana</b> — confidential, not for distribution</div>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="badge">✅ This is the plan, priced, and ready to start</span>
+    <h1 class="display">Yumbo, running <span class="hl">itself</span>.</h1>
+    <p>Exactly what you asked for — one system, connected to your bank. First piece live in 2 weeks. Here's what it looks like.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow reveal" style="color:var(--violet)">What you'll see</div>
+    <h2 class="sec-title reveal">Your cockpit, your team, your clients</h2>
+    <p class="sec-sub reveal">Swipe through — this is the real screen, built around how you already run Yumbo.</p>
+    <div class="phones reveal">
+      <div class="pcard">
+        <div class="phone"><div class="screen">
+          <div class="sbar">9:41</div>
+          <div class="stop"><div class="greet">Good morning, Mailin</div><div class="amt">$18,240</div></div>
+          <div class="money-strip">
+            <div class="mchip"><div class="l">Owe subs</div><div class="v">$4,120</div></div>
+            <div class="mchip"><div class="l">Kept</div><div class="v">$9,880</div></div>
+          </div>
+          <div class="bank-row">🏦 Synced live from your bank</div>
+          <div class="jobs-list">
+            <div class="jrow"><span class="dot d-white"></span> Fountain at Deerwood <span class="meta">Approved</span></div>
+            <div class="jrow"><span class="dot d-yellow"></span> Bay Pointe #214 <span class="meta">Assigned</span></div>
+            <div class="jrow"><span class="dot d-green"></span> Riverside Apts <span class="meta">Invoiced</span></div>
+          </div>
+        </div></div>
+        <div class="label">Your cockpit</div>
+        <div class="sub">Money + jobs, one screen</div>
+      </div>
+      <div class="pcard">
+        <div class="phone"><div class="screen">
+          <div class="sbar">9:41</div>
+          <div class="stop"><div class="greet">Hi Javier — 3 quotes due</div><div class="amt" style="font-size:16px">$620 commission</div></div>
+          <div class="jobs-list">
+            <div class="jrow"><span class="dot d-coral"></span> Bay Pointe #214 <span class="meta">Due today</span></div>
+            <div class="jrow"><span class="dot d-yellow"></span> Ashford Villas <span class="meta">Due Fri</span></div>
+            <div class="jrow"><span class="dot d-green"></span> Riverside — approved <span class="meta">+$180</span></div>
+          </div>
+        </div></div>
+        <div class="label">Your team</div>
+        <div class="sub">Their quotes, their payout</div>
+      </div>
+      <div class="pcard">
+        <div class="phone"><div class="screen">
+          <div class="sbar">9:41</div>
+          <div class="stop"><div class="greet">✉️ From Yumbo Construction</div></div>
+          <div style="padding:12px; flex:1;">
+            <div style="border:2px solid var(--ink); border-radius:12px; padding:12px; margin-bottom:10px; font-size:11px; font-weight:600;">Hi Mrs. Ortiz — checking in on estimate <b>26-114</b>. Ready when you are 🙂 — Mailin</div>
+            <div style="border:2px solid var(--ink); border-radius:99px; padding:7px 12px; font-size:10px; font-weight:800;">🎙️ Voice note from Mailin</div>
+          </div>
+        </div></div>
+        <div class="label">Your clients</div>
+        <div class="sub">Follow-ups that sound like you</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow reveal">What's included</div>
+    <h2 class="sec-title reveal">Everything, in one app</h2>
+    <div class="getlist reveal">
+      <div class="getrow"><div class="geticon">🏦</div><div><h4>Connected to your bank</h4><p>Balances and transactions sync in automatically — like QuickBooks, but built for Yumbo.</p></div></div>
+      <div class="getrow"><div class="geticon">💰</div><div><h4>Money, always current</h4><p>Who owes you, who you owe, what you kept — no spreadsheets.</p></div></div>
+      <div class="getrow"><div class="geticon">🎨</div><div><h4>Jobs, your exact system</h4><p>White → yellow → green, exactly how you already think about them.</p></div></div>
+      <div class="getrow"><div class="geticon">📈</div><div><h4>Estimates + commissions</h4><p>Your team submits, close rate tracks itself, commissions apply automatically.</p></div></div>
+      <div class="getrow"><div class="geticon">🔧</div><div><h4>Subs + materials</h4><p>Payouts, receipts, per-job profit — tracked without you chasing anyone.</p></div></div>
+      <div class="getrow"><div class="geticon">📩</div><div><h4>Client follow-ups, in your voice</h4><p>Reminders and review requests that still feel like Yumbo — never robotic.</p></div></div>
+      <div class="getrow"><div class="geticon">🌎</div><div><h4>Bilingual, mobile, yours</h4><p>English/Spanish, works on any phone, no monthly software rent — ever.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow reveal">How fast, exactly</div>
+    <h2 class="sec-title reveal">You're using it in 2 weeks — not waiting on it</h2>
+    <p class="sec-sub reveal">No guessing what "soon" means. Here's the real schedule, tied to what unlocks and when you pay.</p>
+    <div class="tl reveal">
+      <div class="tlrow">
+        <div class="tlnum">1</div>
+        <div><h4>Day 1 — deposit, I start immediately <span class="tag">$2,400</span></h4><p>Your data structure goes in, bank connection setup begins.</p></div>
+      </div>
+      <div class="tlrow">
+        <div class="tlnum">2</div>
+        <div><h4>Week 2 — first login, live <span class="tag">+$1,800</span></h4><p>Jobs board (your color system) + accounting dashboard + bank sync, working, on your phone.</p></div>
+      </div>
+      <div class="tlrow">
+        <div class="tlnum">3</div>
+        <div><h4>Week 5-6 — full system, complete <span class="tag">+$1,800</span></h4><p>Estimates, commissions, subs, team layer, client follow-ups in your voice. Yumbo, running itself.</p></div>
+      </div>
+    </div>
+    <div class="rush reveal">⚡ <b>Want it faster still?</b> I can clear my other work and put yours first — full system in 4 weeks instead of 5-6, for a one-time <b>+$1,200</b> rush fee. Your call, no pressure either way.</div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="offer reveal">
+      <div class="eyebrow">The offer</div>
+      <h2>Built, connected, and yours</h2>
+      <div class="price">$6,000</div>
+      <div class="time">First login in 2 weeks · full system in 5-6 · everything above included</div>
+      <div class="offer-grid">
+        <div class="ochip">✓ Bank connection included</div>
+        <div class="ochip">✓ Full team + client layer</div>
+        <div class="ochip">✓ You own it — no monthly rent</div>
+        <div class="ochip">✓ Using it by week 2</div>
+      </div>
+      <div class="deposit-line">To start: <b>$2,400</b> deposit today — I begin immediately.</div>
+      <a href="https://wa.me/19299394060?text=Let%27s%20start%20on%20Yumbo!" class="btn">Let's start 🚀</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="partner reveal">
+      <h3>🤝 On reselling this later</h3>
+      <p>Yes — once yours is live and working perfectly, you earn <b>15% on every build</b> you bring my way. I handle the build and the support on the back end, so it stays hands-off for you. We'll put it on paper once yours is running.</p>
+    </div>
+  </div>
+</section>
+
+<footer>Yumbo System — prepared exclusively for Mailin Quintana · confidential</footer>
+
+<script>
+(function(){
+  function fallback(){ document.documentElement.classList.remove('anim'); }
+  var t=setTimeout(fallback,4000);
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){fallback(); clearTimeout(t);}
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.style.transition='opacity .6s ease, transform .6s ease'; e.target.style.opacity=1; e.target.style.transform='none'; } });
+    },{threshold:.15});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+  } else { fallback(); }
+  document.addEventListener('keydown', function(e){
+    if((e.ctrlKey||e.metaKey) && ['c','u','s','p'].includes(e.key.toLowerCase())){ e.preventDefault(); }
+  });
+})();
+</script>
+</body>
+</html>
