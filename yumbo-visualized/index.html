@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+(function(){try{document.documentElement.classList.add('anim');}catch(e){}})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
+<title>Yumbo — See It. Pick Your Level.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FBF6EA; --cream-2:#F4ECD9; --ink:#1B1710; --ink-soft:#4B4438;
+  --blue:#2F5BFF; --coral:#FF5A38; --green:#12A66B; --violet:#7A4DFF; --yellow:#FFC42E; --pink:#FF4D93;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Manrope',sans-serif; background:var(--cream); color:var(--ink); overflow-x:hidden; line-height:1.5;}
+h1,h2,h3,.display{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; letter-spacing:-0.02em;}
+.hand{font-family:'Caveat',cursive; font-weight:700;}
+.wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
+img,svg{display:block;}
+a{color:inherit; text-decoration:none;}
+
+/* progress + header */
+.prog{position:fixed; top:0; left:0; height:4px; background:var(--coral); z-index:999; width:0%;}
+header{position:sticky; top:0; z-index:100; background:rgba(251,246,234,.9); backdrop-filter:blur(10px); border-bottom:3px solid var(--ink); transition:padding .2s;}
+header .inner{display:flex; align-items:center; justify-content:space-between; padding:16px 24px;}
+.logo{font-size:20px; font-weight:800;}
+.logo span{color:var(--coral);}
+.hnav{display:flex; gap:22px; font-weight:700; font-size:14px;}
+.hnav a:hover{color:var(--coral);}
+.cta-pill{background:var(--ink); color:var(--cream); padding:10px 18px; border-radius:99px; font-weight:700; font-size:14px; border:2px solid var(--ink);}
+
+/* hero */
+.hero{padding:90px 0 70px; text-align:center; position:relative;}
+.badge{display:inline-block; background:var(--yellow); border:2px solid var(--ink); border-radius:99px; padding:7px 16px; font-weight:800; font-size:13px; margin-bottom:22px; transform:rotate(-2deg); box-shadow:3px 3px 0 var(--ink);}
+.hero h1{font-size:clamp(36px,6vw,64px); line-height:1.05; margin-bottom:18px;}
+.hero h1 .line{display:block;}
+.hero h1 .hl{color:var(--coral);}
+.hero p{font-size:19px; color:var(--ink-soft); max-width:640px; margin:0 auto 30px;}
+.hero-cta{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+.btn{display:inline-block; padding:15px 26px; border-radius:14px; border:3px solid var(--ink); font-weight:800; font-size:15px; box-shadow:4px 4px 0 var(--ink); transition:transform .15s, box-shadow .15s;}
+.btn:hover{transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--ink);}
+.btn-primary{background:var(--coral); color:var(--cream);}
+.btn-ghost{background:var(--cream);}
+
+/* section shell */
+section{padding:70px 0;}
+.eyebrow{font-weight:800; font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--coral); margin-bottom:10px;}
+.sec-title{font-size:clamp(28px,4vw,42px); margin-bottom:14px;}
+.sec-sub{color:var(--ink-soft); font-size:17px; max-width:640px; margin-bottom:44px;}
+.sticker{font-family:'Caveat',cursive; font-weight:700; font-size:20px; display:inline-block; background:var(--yellow); border:2px solid var(--ink); border-radius:10px; padding:4px 12px; transform:rotate(-3deg);}
+
+/* ===== VISUALIZE: role tabs ===== */
+.roles{padding:60px 0; background:var(--cream-2); border-top:3px solid var(--ink); border-bottom:3px solid var(--ink);}
+.role-tabs{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:40px;}
+.role-tab{padding:12px 20px; border:3px solid var(--ink); border-radius:12px; font-weight:800; font-size:14px; background:var(--cream); cursor:pointer; box-shadow:3px 3px 0 var(--ink);}
+.role-tab.active{background:var(--ink); color:var(--cream);}
+.role-panel{display:none;}
+.role-panel.active{display:grid; grid-template-columns:340px 1fr; gap:40px; align-items:flex-start;}
+@media(max-width:880px){.role-panel.active{grid-template-columns:1fr;}}
+
+/* phone mock */
+.phone{width:300px; background:var(--ink); border-radius:36px; padding:12px; box-shadow:8px 8px 0 rgba(27,23,16,.25); margin:0 auto;}
+.screen{background:var(--cream); border-radius:26px; overflow:hidden; min-height:560px; display:flex; flex-direction:column;}
+.sbar{height:22px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800;}
+.stop{padding:14px 16px 10px; border-bottom:2px solid var(--ink);}
+.stop .greet{font-size:13px; color:var(--ink-soft); font-weight:700;}
+.stop .amt{font-size:26px; font-weight:800;}
+.money-strip{display:flex; gap:8px; padding:10px 14px;}
+.mchip{flex:1; border:2px solid var(--ink); border-radius:10px; padding:8px 6px; text-align:center;}
+.mchip .l{font-size:9px; font-weight:800; color:var(--ink-soft); text-transform:uppercase;}
+.mchip .v{font-size:14px; font-weight:800;}
+.jobs-list{padding:8px 14px; flex:1; overflow:hidden;}
+.jrow{display:flex; align-items:center; gap:8px; border:2px solid var(--ink); border-radius:10px; padding:8px 10px; margin-bottom:7px; font-size:11.5px; font-weight:700;}
+.dot{width:9px; height:9px; border-radius:50%; flex-shrink:0; border:1.5px solid var(--ink);}
+.d-white{background:#fff;} .d-yellow{background:var(--yellow);} .d-green{background:var(--green);} .d-coral{background:var(--coral);}
+.jrow .meta{margin-left:auto; font-size:9.5px; color:var(--ink-soft); font-weight:800;}
+.tabbar{display:flex; border-top:2px solid var(--ink); padding:8px 0 12px;}
+.tabbar div{flex:1; text-align:center; font-size:9px; font-weight:800; color:var(--ink-soft);}
+.tabbar div.on{color:var(--coral);}
+
+.role-copy h3{font-size:24px; margin-bottom:10px;}
+.role-copy p{color:var(--ink-soft); margin-bottom:18px; font-size:15px;}
+.role-feats{list-style:none;}
+.role-feats li{display:flex; gap:10px; align-items:flex-start; padding:9px 0; border-bottom:1px solid rgba(27,23,16,.12); font-size:14.5px; font-weight:600;}
+.role-feats li .ico{width:20px; height:20px; border-radius:50%; background:var(--green); color:#fff; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:900;}
+
+/* variant switcher inside role panel */
+.tier-switch{display:flex; gap:6px; margin:16px 0 4px; flex-wrap:wrap;}
+.tswitch-btn{padding:6px 12px; border:2px solid var(--ink); border-radius:99px; font-size:11.5px; font-weight:800; cursor:pointer; background:var(--cream);}
+.tswitch-btn.on{background:var(--coral); color:var(--cream);}
+
+/* ===== TIERS (5 levels) ===== */
+.tiers-wrap{display:grid; grid-template-columns:repeat(5,1fr); gap:16px;}
+@media(max-width:1050px){.tiers-wrap{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.tiers-wrap{grid-template-columns:1fr;}}
+.tier{border:3px solid var(--ink); border-radius:20px; padding:22px 18px; background:var(--cream); box-shadow:5px 5px 0 var(--ink); display:flex; flex-direction:column; position:relative;}
+.tier.pop{background:var(--yellow); transform:translateY(-10px) scale(1.03); box-shadow:7px 7px 0 var(--ink); z-index:2;}
+.tier.top{background:var(--ink); color:var(--cream); box-shadow:7px 7px 0 var(--coral);}
+.tier .flag{position:absolute; top:-14px; left:14px; background:var(--coral); color:#fff; font-size:10.5px; font-weight:800; padding:4px 10px; border-radius:99px; border:2px solid var(--ink);}
+.tier h4{font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px;}
+.tier .price{font-size:30px; font-weight:800; margin-bottom:2px;}
+.tier .time{font-size:11.5px; font-weight:700; opacity:.7; margin-bottom:14px;}
+.tier ul{list-style:none; flex:1; margin-bottom:16px;}
+.tier li{font-size:12.5px; font-weight:600; padding:5px 0; display:flex; gap:6px; align-items:flex-start;}
+.tier li .c{color:var(--green); font-weight:900;}
+.tier.top li .c{color:var(--yellow);}
+.tier li.off{opacity:.4;}
+.tier li.off .c{color:#999;}
+.tier .dep{font-size:11px; font-weight:800; border-top:2px dashed rgba(27,23,16,.3); padding-top:10px; margin-top:auto;}
+.tier.top .dep{border-top-color:rgba(255,255,255,.3);}
+
+/* moat chips */
+.moat{background:var(--violet); color:#fff; border-radius:28px; padding:60px 40px;}
+.moat .sec-title, .moat .eyebrow{color:#fff;}
+.moat .sec-sub{color:rgba(255,255,255,.85);}
+.chip-grid{display:flex; flex-wrap:wrap; gap:10px;}
+.chip{background:rgba(255,255,255,.12); border:2px solid rgba(255,255,255,.5); border-radius:99px; padding:9px 16px; font-size:13.5px; font-weight:700;}
+
+/* comparison strip */
+.matrix{overflow-x:auto; border:3px solid var(--ink); border-radius:20px;}
+table{border-collapse:collapse; width:100%; min-width:760px;}
+th,td{padding:12px 14px; text-align:left; font-size:13px; border-bottom:1px solid rgba(27,23,16,.15);}
+th{background:var(--ink); color:var(--cream); font-size:11.5px; text-transform:uppercase; letter-spacing:.05em;}
+td.c{color:var(--green); font-weight:900; text-align:center;}
+td.x{color:#c9c2b2; font-weight:900; text-align:center;}
+tr:nth-child(even){background:rgba(0,0,0,.03);}
+
+/* footer/cta */
+.close-cta{background:var(--ink); color:var(--cream); border-radius:28px; padding:70px 40px; text-align:center;}
+.close-cta h2{color:var(--cream); font-size:clamp(28px,5vw,44px);}
+.close-cta p{color:rgba(251,246,234,.8); margin:14px 0 26px;}
+footer{padding:40px 0; text-align:center; font-size:13px; color:var(--ink-soft);}
+
+/* reveal anim */
+html.anim .reveal{opacity:0; transform:translateY(24px);}
+.reveal{opacity:1; transform:none;}
+</style>
+</head>
+<body>
+<div class="prog" id="prog"></div>
+
+<header id="hdr">
+  <div class="inner">
+    <div class="logo">Yumbo<span>.</span> System</div>
+    <div class="hnav">
+      <a href="#visualize">See it</a>
+      <a href="#tiers">Levels</a>
+      <a href="#matrix">Compare</a>
+    </div>
+    <a href="#tiers" class="cta-pill">Pick a level</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="badge">👀 Not a mockup pitch — this is the exact screen you'll use</span>
+    <h1 class="display"><span class="line">See every screen.</span><span class="line hl">Pick your level.</span></h1>
+    <p>Below is exactly what you, your team, your subs and your clients will see — for every level I can build you. Scroll through it, then choose.</p>
+    <div class="hero-cta">
+      <a href="#visualize" class="btn btn-primary">Show me the screens ↓</a>
+      <a href="#tiers" class="btn btn-ghost">Jump to pricing</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== VISUALIZE ===================== -->
+<section class="roles" id="visualize">
+  <div class="wrap">
+    <div class="eyebrow reveal">What you'll actually see</div>
+    <h2 class="sec-title reveal">Four people. Four screens. One system.</h2>
+    <p class="sec-sub reveal">Tap a role, then tap a level — the phone updates to show you exactly what unlocks at each level. This is real, built from how you actually run Yumbo.</p>
+
+    <div class="role-tabs reveal">
+      <div class="role-tab active" data-role="owner">👑 You (Owner)</div>
+      <div class="role-tab" data-role="team">🧑‍💼 Your Team</div>
+      <div class="role-tab" data-role="sub">🔧 Subcontractors</div>
+      <div class="role-tab" data-role="client">📩 Your Clients</div>
+    </div>
+
+    <!-- OWNER PANEL -->
+    <div class="role-panel active" data-panel="owner">
+      <div class="phone">
+        <div class="screen">
+          <div class="sbar">9:41</div>
+          <div class="stop"><div class="greet">Good morning, Mailin 👋</div><div class="amt" id="owner-amt">$18,240</div><div style="font-size:10.5px;font-weight:700;color:var(--ink-soft)">owed to you right now</div></div>
+          <div class="money-strip">
+            <div class="mchip"><div class="l">Owe subs</div><div class="v" id="owner-owe">$4,120</div></div>
+            <div class="mchip"><div class="l">Kept</div><div class="v" id="owner-kept">$9,880</div></div>
+            <div class="mchip"><div class="l">Close %</div><div class="v" id="owner-close">62%</div></div>
+          </div>
+          <div class="jobs-list" id="owner-jobs">
+            <div class="jrow"><span class="dot d-white"></span> Fountain at Deerwood <span class="meta">Approved</span></div>
+            <div class="jrow"><span class="dot d-yellow"></span> Bay Pointe #214 <span class="meta">Assigned</span></div>
+            <div class="jrow"><span class="dot d-green"></span> Riverside Apts <span class="meta">Invoiced</span></div>
+            <div class="jrow"><span class="dot d-coral"></span> Cedar Trace <span class="meta">Overdue 32d</span></div>
+          </div>
+          <div class="tabbar"><div class="on">Home</div><div>Money</div><div>Jobs</div><div>Bids</div><div>More</div></div>
+        </div>
+      </div>
+      <div class="role-copy">
+        <h3>Your Cockpit — everything, on your phone</h3>
+        <p>The screen you open 20 times a day. Money you're owed, money you owe, every job color-coded exactly how you already think about them (white → yellow → green), and what needs you right now.</p>
+        <div class="tier-switch" id="owner-switch">
+          <div class="tswitch-btn on" data-t="essential">Essential</div>
+          <div class="tswitch-btn" data-t="complete">Complete</div>
+          <div class="tswitch-btn" data-t="industrial">Industrial+</div>
+        </div>
+        <ul class="role-feats" id="owner-feats">
+          <li><span class="ico">✓</span> Accounting dashboard — AR / AP / what you kept</li>
+          <li><span class="ico">✓</span> Jobs board, your exact color logic</li>
+          <li><span class="ico">✓</span> Job detail — estimate #, sub, PO, dates</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- TEAM PANEL -->
+    <div class="role-panel" data-panel="team">
+      <div class="phone">
+        <div class="screen">
+          <div class="sbar">9:41</div>
+          <div class="stop"><div class="greet">Hi Javier — 3 quotes due today</div><div class="amt" style="font-size:20px">$620 <span style="font-size:12px;font-weight:700;color:var(--ink-soft)">pending commission</span></div></div>
+          <div class="jobs-list">
+            <div class="jrow"><span class="dot d-coral"></span> Bay Pointe #214 <span class="meta">Due today</span></div>
+            <div class="jrow"><span class="dot d-yellow"></span> Ashford Villas <span class="meta">Due Fri</span></div>
+            <div class="jrow"><span class="dot d-white"></span> Palm Grove HOA <span class="meta">Due Mon</span></div>
+            <div class="jrow"><span class="dot d-green"></span> Riverside — approved <span class="meta">+$180</span></div>
+          </div>
+          <div class="tabbar"><div class="on">To-do</div><div>Submit</div><div>My jobs</div><div>Chat</div></div>
+        </div>
+      </div>
+      <div class="role-copy">
+        <h3>Your team's app — no more chasing quotes</h3>
+        <p>Estimators see exactly what's owed, when it's due (it turns red when late), and what they'll earn. No more "did you send that quote yet?" texts.</p>
+        <div class="tier-switch" id="team-switch">
+          <div class="tswitch-btn on" data-t="essential">Essential</div>
+          <div class="tswitch-btn" data-t="complete">Complete</div>
+          <div class="tswitch-btn" data-t="industrial">Industrial+</div>
+        </div>
+        <ul class="role-feats" id="team-feats">
+          <li><span class="ico">✓</span> Quotes to-do, with due-date urgency</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SUB PANEL -->
+    <div class="role-panel" data-panel="sub">
+      <div class="phone">
+        <div class="screen">
+          <div class="sbar">9:41</div>
+          <div class="stop"><div class="greet">Carlos — 2 active jobs</div><div class="amt" style="font-size:20px">$1,240 <span style="font-size:12px;font-weight:700;color:var(--ink-soft)">owed to you</span></div></div>
+          <div class="jobs-list">
+            <div class="jrow"><span class="dot d-yellow"></span> Bay Pointe #214 <span class="meta">In progress</span></div>
+            <div class="jrow"><span class="dot d-green"></span> Riverside Apts <span class="meta">Paid</span></div>
+          </div>
+          <div style="padding:0 14px 10px;">
+            <div style="border:2px dashed var(--ink); border-radius:10px; padding:10px; font-size:11px; font-weight:700; text-align:center;">📷 Upload receipt / photo</div>
+          </div>
+          <div class="tabbar"><div class="on">My jobs</div><div>Upload</div><div>Payouts</div></div>
+        </div>
+      </div>
+      <div class="role-copy">
+        <h3>Sub view — dead simple, on purpose</h3>
+        <p>Your subs see only what's theirs: the job, the payout, what's still owed. They confirm start/finish and snap a receipt — no confusion, no calling you to ask "did you get my photo?"</p>
+        <div class="tier-switch" id="sub-switch">
+          <div class="tswitch-btn on" data-t="essential">Essential</div>
+          <div class="tswitch-btn" data-t="complete">Complete</div>
+          <div class="tswitch-btn" data-t="industrial">Industrial+</div>
+        </div>
+        <ul class="role-feats" id="sub-feats">
+          <li><span class="ico">✓</span> Their jobs, scope, agreed payout</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- CLIENT PANEL -->
+    <div class="role-panel" data-panel="client">
+      <div class="phone">
+        <div class="screen">
+          <div class="sbar">9:41</div>
+          <div class="stop"><div class="greet">✉️ From Yumbo General Construction</div></div>
+          <div style="padding:14px; flex:1;">
+            <div style="border:2px solid var(--ink); border-radius:14px; padding:14px; margin-bottom:12px;">
+              <div style="font-size:11px; font-weight:800; color:var(--ink-soft); margin-bottom:6px;">Hi Mrs. Ortiz —</div>
+              <div style="font-size:12px; font-weight:600; line-height:1.5;">Just checking in on estimate <b>26-114</b>. Ready when you are 🙂 — Mailin</div>
+            </div>
+            <div style="border:2px solid var(--ink); border-radius:99px; padding:8px 14px; font-size:11px; font-weight:800; display:flex; align-items:center; gap:8px; margin-bottom:10px;">🎙️ Voice note from Mailin — 0:14</div>
+            <div style="font-size:10.5px; font-weight:800; color:var(--ink-soft);">Status: Estimate sent → <span style="color:var(--coral)">awaiting reply</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="role-copy">
+        <h3>Your clients — it still feels like you</h3>
+        <p>Clients get follow-ups that sound like <em>you</em>, not a robot. A status link. A reference number that routes their reply to the right person automatically. The system does the chasing — never the talking.</p>
+        <div class="tier-switch" id="client-switch">
+          <div class="tswitch-btn on" data-t="essential">Essential</div>
+          <div class="tswitch-btn" data-t="complete">Complete</div>
+          <div class="tswitch-btn" data-t="industrial">Industrial+</div>
+        </div>
+        <ul class="role-feats" id="client-feats">
+          <li><span class="ico">✓</span> Basic email payment reminders</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===================== MOAT ===================== -->
+<section>
+  <div class="wrap">
+    <div class="moat reveal">
+      <div class="eyebrow">Why nobody else can quote this</div>
+      <h2 class="sec-title">Built around Yumbo. Not the other way around.</h2>
+      <p class="sec-sub">A Colombia quote gives you a generic template. This is modeled on how you already run jobs — your colors, your 26-xxx numbers, your voice.</p>
+      <div class="chip-grid">
+        <div class="chip">🎨 Your exact color job system</div>
+        <div class="chip">💰 One-tap accounting</div>
+        <div class="chip">📊 Per-job profit, automatically</div>
+        <div class="chip">🔧 Sub payout tracking</div>
+        <div class="chip">🏆 Estimator commissions</div>
+        <div class="chip">📈 Close-rate by estimator</div>
+        <div class="chip">🔔 Team auto-reminders</div>
+        <div class="chip">📩 Client message routing</div>
+        <div class="chip">🎙️ Follow-ups in your voice</div>
+        <div class="chip">🌎 Bilingual EN/ES</div>
+        <div class="chip">📱 Mobile-first</div>
+        <div class="chip">⏰ 30-day payment cycles</div>
+        <div class="chip">⭐ Auto Google review requests</div>
+        <div class="chip">🔑 100% yours — no rent, ever</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TIERS (5) ===================== -->
+<section id="tiers">
+  <div class="wrap">
+    <div class="eyebrow reveal">Pick your level</div>
+    <h2 class="sec-title reveal">Five ways to get Yumbo running itself</h2>
+    <p class="sec-sub reveal">Not phases — each one is a complete, working system on its own. Go bigger only if you want more running for you automatically.</p>
+
+    <div class="tiers-wrap reveal">
+      <div class="tier">
+        <h4>🌱 Starter</h4>
+        <div class="price">$1,500</div>
+        <div class="time">~5 days</div>
+        <ul>
+          <li><span class="c">✓</span> Jobs board, your color logic</li>
+          <li><span class="c">✓</span> Client + property list</li>
+          <li><span class="c">✓</span> Mobile, bilingual</li>
+          <li class="off"><span class="c">✗</span> Accounting / AR-AP</li>
+          <li class="off"><span class="c">✗</span> Team layer</li>
+          <li class="off"><span class="c">✗</span> Reminders / automation</li>
+        </ul>
+        <div class="dep">40% to start: $600</div>
+      </div>
+
+      <div class="tier">
+        <h4>⚡ Essential</h4>
+        <div class="price">$2,500</div>
+        <div class="time">~1 week</div>
+        <ul>
+          <li><span class="c">✓</span> Everything in Starter, plus:</li>
+          <li><span class="c">✓</span> Accounting dashboard (AR/AP)</li>
+          <li><span class="c">✓</span> Basic email reminders</li>
+          <li><span class="c">✓</span> Job detail pages</li>
+          <li class="off"><span class="c">✗</span> Team / commissions</li>
+          <li class="off"><span class="c">✗</span> Client routing / voice follow-ups</li>
+        </ul>
+        <div class="dep">40% to start: $1,000</div>
+      </div>
+
+      <div class="tier pop">
+        <div class="flag">⭐ Most chosen</div>
+        <h4>🏆 Complete</h4>
+        <div class="price">$7,000</div>
+        <div class="time">30 days</div>
+        <ul>
+          <li><span class="c">✓</span> Everything in Essential, plus:</li>
+          <li><span class="c">✓</span> Estimates + close rate + commissions</li>
+          <li><span class="c">✓</span> Subs, materials, per-job P&L</li>
+          <li><span class="c">✓</span> Full team layer + auto reminders</li>
+          <li><span class="c">✓</span> Client routing + follow-ups in your voice</li>
+          <li><span class="c">✓</span> Reports, settings, review requests</li>
+        </ul>
+        <div class="dep">40% to start: $2,800</div>
+      </div>
+
+      <div class="tier top">
+        <h4>🏭 Industrial</h4>
+        <div class="price">$9,900</div>
+        <div class="time">30 days · +3mo care free</div>
+        <ul>
+          <li><span class="c">✓</span> Everything in Complete, plus:</li>
+          <li><span class="c">✓</span> AI reads inbound messages, drafts entries</li>
+          <li><span class="c">✓</span> Voice-note follow-up automation</li>
+          <li><span class="c">✓</span> SMS layer</li>
+          <li><span class="c">✓</span> Priority build slot</li>
+          <li><span class="c">✓</span> 3 months care included ($450 value)</li>
+        </ul>
+        <div class="dep">40% to start: $3,960</div>
+      </div>
+
+      <div class="tier">
+        <h4>👑 Empire</h4>
+        <div class="price">$14,500</div>
+        <div class="time">45 days · white-glove</div>
+        <ul>
+          <li><span class="c">✓</span> Everything in Industrial, plus:</li>
+          <li><span class="c">✓</span> Rentals module wired in from day 1</li>
+          <li><span class="c">✓</span> Dedicated build (I work on nothing else)</li>
+          <li><span class="c">✓</span> Weekly video walkthroughs as it's built</li>
+          <li><span class="c">✓</span> 6 months care + priority support included</li>
+          <li><span class="c">✓</span> First look at your student-audience system</li>
+        </ul>
+        <div class="dep">40% to start: $5,800</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MATRIX ===================== -->
+<section id="matrix">
+  <div class="wrap">
+    <div class="eyebrow reveal">Side by side</div>
+    <h2 class="sec-title reveal">Every feature, every level</h2>
+    <p class="sec-sub reveal">So there's zero guessing about what you get.</p>
+    <div class="matrix reveal">
+      <table>
+        <tr><th>Feature</th><th>Starter</th><th>Essential</th><th>Complete</th><th>Industrial</th><th>Empire</th></tr>
+        <tr><td>Jobs board, your color logic</td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td></tr>
+        <tr><td>Accounting dashboard (AR/AP)</td><td class="x">—</td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td></tr>
+        <tr><td>Estimates + close rate</td><td class="x">—</td><td class="x">—</td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td></tr>
+        <tr><td>Estimator commissions</td><td class="x">—</td><td class="x">—</td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td></tr>
+        <tr><td>Subs + materials + per-job P&L</td><td class="x">—</td><td class="x">—</td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td></tr>
+        <tr><td>Client routing + voice follow-ups</td><td class="x">—</td><td class="x">—</td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td></tr>
+        <tr><td>Reports + review requests</td><td class="x">—</td><td class="x">—</td><td class="c">✓</td><td class="c">✓</td><td class="c">✓</td></tr>
+        <tr><td>AI drafts entries from messages</td><td class="x">—</td><td class="x">—</td><td class="x">—</td><td class="c">✓</td><td class="c">✓</td></tr>
+        <tr><td>SMS layer</td><td class="x">—</td><td class="x">—</td><td class="x">—</td><td class="c">✓</td><td class="c">✓</td></tr>
+        <tr><td>3+ months care included</td><td class="x">—</td><td class="x">—</td><td class="x">—</td><td class="c">✓</td><td class="c">✓ (6mo)</td></tr>
+        <tr><td>Rentals module included</td><td class="x">—</td><td class="x">—</td><td class="x">—</td><td class="x">—</td><td class="c">✓</td></tr>
+        <tr><td>Dedicated / white-glove build</td><td class="x">—</td><td class="x">—</td><td class="x">—</td><td class="x">—</td><td class="c">✓</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CLOSE ===================== -->
+<section>
+  <div class="wrap">
+    <div class="close-cta reveal">
+      <h2>You've seen it. Now pick your level.</h2>
+      <p>40% deposit locks your slot and I start immediately. Balance released as parts go live — exactly how you asked.</p>
+      <a href="https://wa.me/19299394060" class="btn btn-primary">Message me your level 💬</a>
+    </div>
+  </div>
+</section>
+
+<footer>Yumbo System — built for Mailin Quintana · noumansadiq.com · confidential preview</footer>
+
+<script>
+(function(){
+  function fallback(){
+    document.documentElement.classList.remove('anim');
+  }
+  var t = setTimeout(fallback, 4500);
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){ fallback(); clearTimeout(t); }
+
+  // scroll progress
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement;
+    var pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    document.getElementById('prog').style.width = pct + '%';
+  });
+
+  // reveal on scroll (simple IO, no GSAP dependency needed)
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.style.transition='opacity .6s ease, transform .6s ease'; e.target.style.opacity=1; e.target.style.transform='none'; }
+      });
+    }, {threshold:.15});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  } else { fallback(); }
+
+  // role tabs
+  var tabs = document.querySelectorAll('.role-tab');
+  var panels = document.querySelectorAll('.role-panel');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      tabs.forEach(function(x){x.classList.remove('active');});
+      panels.forEach(function(x){x.classList.remove('active');});
+      tab.classList.add('active');
+      document.querySelector('.role-panel[data-panel="'+tab.dataset.role+'"]').classList.add('active');
+    });
+  });
+
+  // tier switch content per role
+  var featData = {
+    owner: {
+      essential: ['Accounting dashboard — AR / AP / what you kept','Jobs board, your exact color logic','Job detail — estimate #, sub, PO, dates'],
+      complete: ['Everything in Essential, plus:','Estimates + close rate + commissions','Sub payouts + per-job profit','Full reminders engine + reports'],
+      industrial: ['Everything in Complete, plus:','AI drafts entries from messages you approve','Voice-note follow-up automation','SMS layer + priority support']
+    },
+    team: {
+      essential: ['Quotes to-do, with due-date urgency'],
+      complete: ['Everything in Essential, plus:','Submit estimate → auto commission applied','My approved jobs + payout shown','Internal chat / nudge layer'],
+      industrial: ['Everything in Complete, plus:','Faster nudges via SMS','Priority support channel']
+    },
+    sub: {
+      essential: ['Their jobs, scope, agreed payout'],
+      complete: ['Everything in Essential, plus:','Confirm start/finish','Upload receipt / photo → auto-tagged to job'],
+      industrial: ['Everything in Complete, plus:','SMS instead of email for job updates']
+    },
+    client: {
+      essential: ['Basic email payment reminders'],
+      complete: ['Everything in Essential, plus:','Follow-ups in your voice','Reference-number routing to the right person','Status link + auto review request'],
+      industrial: ['Everything in Complete, plus:','Voice-note follow-ups, not just email','SMS updates on job status']
+    }
+  };
+  ['owner','team','sub','client'].forEach(function(role){
+    var sw = document.getElementById(role+'-switch');
+    var list = document.getElementById(role+'-feats');
+    sw.querySelectorAll('.tswitch-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        sw.querySelectorAll('.tswitch-btn').forEach(function(b){b.classList.remove('on');});
+        btn.classList.add('on');
+        var items = featData[role][btn.dataset.t];
+        list.innerHTML = items.map(function(i){return '<li><span class="ico">✓</span> '+i+'</li>';}).join('');
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
