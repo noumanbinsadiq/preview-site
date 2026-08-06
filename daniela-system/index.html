@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Corporate Account Engine — Acosta Janitorial</title>
+<meta name="theme-color" content="#F4EFE7">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;1,9..144,200&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600&display=swap" rel="stylesheet">
+<style>
+:root{
+ --cream:#F4EFE7;--paper:#FBF8F3;--sand:#E8DECD;--ink:#16120E;--void:#0B0908;
+ --camel:#C08B4E;--gold:#D4AF6A;
+ --em:#0A6247;--em-t:#D9EFE6;--em-b:#4ECFA0;
+ --co:#B33A2B;--co-t:#F7DFD9;--co-b:#F0836E;
+ --in:#4A3FA6;--in-t:#E2DFF5;--in-b:#9B8FEE;
+ --am:#7E5709;--am-t:#F7E7C4;--am-b:#D4AF6A;
+ --te:#0B6E77;--te-t:#D6EBED;--te-b:#5FC8E8;
+ --line:rgba(22,18,14,.11);--line2:rgba(22,18,14,.2);
+ --dbg:#100D0B;--dpanel:#181411;--dline:rgba(244,239,231,.1);--dtext:#EDE6DA;--dmute:rgba(237,230,218,.5);
+ --fd:'Fraunces',Georgia,serif;--fb:'General Sans',system-ui,sans-serif;--fm:'JetBrains Mono',monospace;
+ --e:cubic-bezier(.19,1,.22,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--cream);color:var(--ink);font-family:var(--fb);font-weight:300;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4{font-family:var(--fd);font-weight:200;line-height:1;letter-spacing:-.035em}
+em{font-style:italic}
+.wrap{width:min(100% - 2.4rem,1180px);margin-inline:auto}
+.narrow{width:min(100% - 2.4rem,880px);margin-inline:auto}
+.mono{font-family:var(--fm);font-size:.63rem;letter-spacing:.2em;text-transform:uppercase}
+section{padding:clamp(3rem,6.5vw,5.5rem) 0}
+h2{font-size:clamp(1.85rem,4.3vw,3.1rem);margin-bottom:.8rem}
+h3{font-size:clamp(1.3rem,2.6vw,1.9rem)}
+.lede{font-size:clamp(1rem,1.6vw,1.16rem);max-width:64ch;opacity:.76}
+.tag{display:inline-flex;align-items:center;gap:.45rem;padding:.35rem .85rem;border-radius:100px;font-family:var(--fm);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;font-weight:500;margin-bottom:1rem;color:#fff}
+.tag i{width:5px;height:5px;border-radius:50%;background:currentColor;font-style:normal}
+.t-am{background:var(--am)}.t-co{background:var(--co)}.t-em{background:var(--em)}.t-in{background:var(--in)}.t-te{background:var(--te)}
+.c-am{color:var(--am)}.c-co{color:var(--co)}.c-em{color:var(--em)}.c-in{color:var(--in)}.c-te{color:var(--te)}
+.s-am{background:linear-gradient(180deg,var(--cream),var(--am-t))}
+.s-co{background:linear-gradient(180deg,var(--co-t),#FBEDE9)}
+.s-em{background:linear-gradient(180deg,#EAF6F1,var(--em-t))}
+.s-in{background:linear-gradient(180deg,var(--in-t),#EDEBFA)}
+.s-te{background:linear-gradient(180deg,var(--te-t),#E6F3F5)}
+.s-pl{background:var(--paper)}
+.s-dk{background:var(--void);color:var(--cream)}
+.s-dk h2 em{color:var(--gold)}
+
+/* HERO */
+.hero{background:var(--void);color:var(--cream);padding:clamp(3rem,7vw,5.5rem) 0 clamp(2.5rem,5vw,4rem);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;width:520px;height:520px;border-radius:50%;filter:blur(100px);background:rgba(74,63,166,.45);top:-190px;right:-70px}
+.hero::after{content:'';position:absolute;width:420px;height:420px;border-radius:50%;filter:blur(100px);background:rgba(192,139,78,.4);bottom:-210px;left:-90px}
+.hero .wrap{position:relative;z-index:2}
+.hero h1{font-size:clamp(2.2rem,6.6vw,4.8rem);margin:.7rem 0 1.2rem}
+.hero h1 em{background:linear-gradient(100deg,var(--am-b),var(--em-b));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{max-width:58ch;opacity:.74}
+.hmeta{display:flex;gap:1.8rem;flex-wrap:wrap;margin-top:2.2rem;padding-top:1.2rem;border-top:1px solid var(--dline);opacity:.5}
+
+.grid{display:grid;gap:.85rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,195px),1fr));margin-top:1.8rem}
+.cell{background:var(--paper);border-radius:5px;padding:1.4rem 1.25rem;border-top:4px solid var(--line2)}
+.cell b{display:block;font-family:var(--fd);font-size:clamp(1.55rem,3.1vw,2.25rem);font-weight:200;letter-spacing:-.04em;line-height:1;margin-bottom:.45rem}
+.cell span{display:block;opacity:.55}
+.cell small{display:block;margin-top:.5rem;font-size:.79rem;opacity:.65;line-height:1.5}
+.k-am{border-top-color:var(--am)}.k-am b{color:var(--am)}
+.k-co{border-top-color:var(--co)}.k-co b{color:var(--co)}
+.k-em{border-top-color:var(--em)}.k-em b{color:var(--em)}
+.k-in{border-top-color:var(--in)}.k-in b{color:var(--in)}
+.k-te{border-top-color:var(--te)}.k-te b{color:var(--te)}
+
+/* OWN cards */
+.own{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:1rem;margin-top:2rem}
+.oc{background:var(--dpanel);border-radius:8px;padding:1.6rem;border:1px solid var(--dline);position:relative;overflow:hidden;transition:transform .5s var(--e),border-color .5s var(--e)}
+.oc:hover{transform:translateY(-5px);border-color:rgba(212,175,106,.5)}
+.oc .ic{font-family:var(--fd);font-size:2.4rem;line-height:1;color:var(--gold);margin-bottom:.7rem;display:block}
+.oc h4{font-size:1.15rem;color:var(--dtext);margin-bottom:.5rem}
+.oc p{font-size:.9rem;color:var(--dmute);line-height:1.6}
+.oc .pf{margin-top:.9rem;padding-top:.8rem;border-top:1px solid var(--dline);font-family:var(--fm);font-size:.58rem;letter-spacing:.13em;text-transform:uppercase;color:var(--em-b)}
+
+/* CONSOLE */
+.console{background:var(--dbg);border-radius:12px;overflow:hidden;box-shadow:0 30px 80px rgba(11,9,8,.4);margin-top:2rem;border:1px solid var(--dline)}
+.cbar{display:flex;align-items:center;gap:.7rem;padding:.85rem 1.1rem;background:#0A0807;border-bottom:1px solid var(--dline)}
+.dots{display:flex;gap:.4rem}.dots i{width:10px;height:10px;border-radius:50%;display:block}
+.dots i:nth-child(1){background:#F0836E}.dots i:nth-child(2){background:#D4AF6A}.dots i:nth-child(3){background:#4ECFA0}
+.cbar .ttl{color:var(--dmute);font-family:var(--fm);font-size:.64rem;letter-spacing:.12em}
+.livei{margin-left:auto;display:flex;align-items:center;gap:.45rem;color:var(--em-b);font-family:var(--fm);font-size:.58rem;letter-spacing:.15em}
+.livei i{width:6px;height:6px;border-radius:50%;background:var(--em-b);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.75)}}
+.tabs{display:flex;overflow-x:auto;background:#0A0807;border-bottom:1px solid var(--dline);scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;padding:.85rem 1.15rem;background:none;border:0;border-bottom:2px solid transparent;color:var(--dmute);font-family:var(--fm);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:color .25s,border-color .25s,background-color .25s}
+.tab:hover{color:var(--dtext);background:rgba(244,239,231,.04)}
+.tab.on{color:var(--gold);border-bottom-color:var(--gold);background:rgba(212,175,106,.07)}
+.tab .cnt{display:inline-block;margin-left:.4rem;padding:.1rem .4rem;border-radius:20px;background:rgba(244,239,231,.14);font-size:.9em}
+.tab.on .cnt{background:var(--gold);color:var(--dbg)}
+.pane{display:none;padding:1.3rem;color:var(--dtext);min-height:400px}
+.pane.on{display:block;animation:fade .45s var(--e)}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.phead{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;margin-bottom:1.1rem}
+.phead h4{font-size:1.15rem;color:var(--dtext)}
+.phead p{font-size:.85rem;color:var(--dmute);max-width:54ch;margin-top:.25rem}
+.demo{font-family:var(--fm);font-size:.53rem;letter-spacing:.15em;padding:.28rem .6rem;border-radius:20px;border:1px solid var(--dline);color:var(--dmute);white-space:nowrap}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,125px),1fr));gap:.6rem;margin-bottom:1.1rem}
+.kpi{background:var(--dpanel);border-radius:6px;padding:.85rem .9rem;border-left:3px solid var(--gold)}
+.kpi.g{border-left-color:var(--em-b)}.kpi.r{border-left-color:var(--co-b)}.kpi.b{border-left-color:var(--te-b)}.kpi.v{border-left-color:var(--in-b)}
+.kpi b{display:block;font-family:var(--fd);font-size:1.5rem;font-weight:200;letter-spacing:-.03em;line-height:1}
+.kpi span{display:block;font-family:var(--fm);font-size:.52rem;letter-spacing:.13em;text-transform:uppercase;color:var(--dmute);margin-top:.35rem}
+.tbl{width:100%;border-collapse:collapse;font-size:.83rem}
+.tbl th{text-align:left;font-family:var(--fm);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dmute);padding:.6rem .55rem;border-bottom:1px solid var(--dline);font-weight:400;white-space:nowrap}
+.tbl td{padding:.7rem .55rem;border-bottom:1px solid rgba(244,239,231,.05);vertical-align:middle}
+.tbl tbody tr{transition:background-color .2s}
+.tbl tbody tr:hover{background:rgba(244,239,231,.045)}
+.tbl .nm{font-weight:500}
+.tbl .sub{display:block;font-size:.73rem;color:var(--dmute);margin-top:.1rem}
+.num{font-family:var(--fm);font-size:.8rem;white-space:nowrap}
+.pill{display:inline-block;padding:.22rem .55rem;border-radius:20px;font-family:var(--fm);font-size:.53rem;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.p-g{background:rgba(78,207,160,.16);color:var(--em-b)}
+.p-r{background:rgba(240,131,110,.16);color:var(--co-b)}
+.p-a{background:rgba(212,175,106,.16);color:var(--gold)}
+.p-b{background:rgba(95,200,232,.16);color:var(--te-b)}
+.p-v{background:rgba(155,143,238,.16);color:var(--in-b)}
+.p-n{background:rgba(244,239,231,.1);color:var(--dmute)}
+.bar{height:5px;border-radius:5px;background:rgba(244,239,231,.11);overflow:hidden;min-width:56px}
+.bar i{display:block;height:100%;border-radius:5px;background:var(--gold);transition:width 1s var(--e)}
+.bar.g i{background:var(--em-b)}
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.feed{background:#0A0807;border-radius:6px;padding:.9rem 1rem;font-family:var(--fm);font-size:.72rem;line-height:1.85;max-height:180px;overflow:hidden;margin-top:1.1rem;border:1px solid var(--dline)}
+.feed div{opacity:0;animation:slide .5s var(--e) forwards}
+@keyframes slide{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+.feed .t{color:var(--dmute)}.feed .ok{color:var(--em-b)}.feed .wr{color:var(--gold)}.feed .in{color:var(--te-b)}
+.dnote{margin-top:1rem;padding:.85rem 1rem;background:rgba(212,175,106,.09);border-left:3px solid var(--gold);border-radius:5px;font-size:.85rem;color:var(--dtext)}
+.dnote b{font-weight:600;color:var(--gold)}
+
+/* NOTIFICATIONS (Alerts tab) */
+.ntfs{display:flex;flex-direction:column;gap:.55rem;margin-top:0}
+.ntf{display:grid;grid-template-columns:auto 1fr auto;gap:.75rem;align-items:flex-start;background:var(--dpanel);border-radius:10px;padding:.8rem .95rem;border:1px solid var(--dline);position:relative}
+.ntf::before{content:'';position:absolute;left:0;top:.7rem;bottom:.7rem;width:3px;border-radius:3px;background:var(--gold)}
+.ntf.r::before{background:var(--co-b)}.ntf.g::before{background:var(--em-b)}.ntf.b::before{background:var(--te-b)}
+.ntf .ico{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;background:rgba(212,175,106,.14);flex:none}
+.ntf.r .ico{background:rgba(240,131,110,.16)}.ntf.g .ico{background:rgba(78,207,160,.16)}.ntf.b .ico{background:rgba(95,200,232,.16)}
+.ntf .body{min-width:0}
+.ntf .app{font-family:var(--fm);font-size:.53rem;letter-spacing:.13em;text-transform:uppercase;color:var(--dmute);display:flex;gap:.5rem;align-items:center}
+.ntf .app .ch{padding:.1rem .4rem;border-radius:20px;background:rgba(244,239,231,.08);font-size:.92em}
+.ntf .msg{font-size:.87rem;color:var(--dtext);margin-top:.2rem;line-height:1.5}
+.ntf .msg b{font-weight:600}
+.ntf .when{font-family:var(--fm);font-size:.58rem;color:var(--dmute);white-space:nowrap;padding-top:.15rem}
+.phone{max-width:290px;margin:0 auto 1.4rem;background:#0A0807;border-radius:22px;padding:.9rem;border:1px solid var(--dline);box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.phone .pt{display:flex;justify-content:space-between;font-family:var(--fm);font-size:.6rem;color:var(--dmute);padding:.1rem .3rem .6rem}
+
+/* CALC */
+.calc{background:#fff;border-radius:9px;padding:clamp(1.4rem,3vw,2.2rem);margin-top:2rem;box-shadow:0 3px 26px rgba(22,18,14,.07)}
+.ctrl{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.ctrl b{font-family:var(--fd);font-size:clamp(1.6rem,3.2vw,2.3rem);font-weight:200;color:var(--em);letter-spacing:-.03em}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:6px;outline:none;margin:1.2rem 0 .4rem;background:linear-gradient(90deg,var(--am),var(--em))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:#fff;cursor:pointer;border:4px solid var(--ink);box-shadow:0 2px 10px rgba(22,18,14,.3)}
+input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:#fff;cursor:pointer;border:4px solid var(--ink)}
+.scale{display:flex;justify-content:space-between;opacity:.5}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:1.6rem}
+@media(max-width:640px){.split{grid-template-columns:1fr}}
+.sp{border-radius:7px;padding:1.2rem}
+.sp.you{background:var(--em-t)}
+.sp.me{background:var(--sand)}
+.sp b{display:block;font-family:var(--fd);font-size:clamp(1.6rem,3.4vw,2.4rem);font-weight:200;letter-spacing:-.04em;line-height:1;margin-bottom:.35rem}
+.sp.you b{color:var(--em)}
+.sp span{display:block;font-size:.84rem;opacity:.72}
+.rdo{margin-top:1.3rem;padding:1.1rem 1.2rem;border-radius:7px;background:var(--em-t);font-size:.97rem}
+.rdo strong{font-weight:600}
+
+/* TIERS */
+.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:1.1rem;margin-top:2rem;align-items:start}
+.tr{background:#fff;border-radius:10px;padding:1.7rem;border-top:6px solid var(--te);position:relative;transition:transform .45s var(--e),box-shadow .45s var(--e)}
+.tr:hover{transform:translateY(-6px);box-shadow:0 16px 44px rgba(22,18,14,.12)}
+.tr.best{border-top-color:var(--em);box-shadow:0 10px 40px rgba(10,98,71,.17)}
+.tr.emp{border-top-color:var(--in)}
+.tr .rib{position:absolute;top:-13px;right:1.3rem;background:var(--em);color:#fff;font-family:var(--fm);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:.35rem .8rem;border-radius:20px}
+.tr .nmm{font-family:var(--fd);font-size:1.75rem;font-weight:200;letter-spacing:-.03em;margin-bottom:.2rem}
+.tr .who{font-size:.86rem;opacity:.62;margin-bottom:1.1rem;min-height:2.6em}
+.tr .pr{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:1rem 0;margin-bottom:1.1rem}
+.tr .pr .m{font-family:var(--fd);font-size:2.1rem;font-weight:200;letter-spacing:-.04em;line-height:1}
+.tr.best .pr .m{color:var(--em)}.tr.emp .pr .m{color:var(--in)}.tr .pr .m{color:var(--te)}
+.tr .pr .sub{font-size:.8rem;opacity:.6;margin-top:.3rem}
+.tr ul{list-style:none}
+.tr li{padding:.5rem 0;font-size:.88rem;display:grid;grid-template-columns:1.1rem 1fr;gap:.55rem;align-items:baseline;border-bottom:1px solid rgba(22,18,14,.05)}
+.tr li:last-child{border:0}
+.tr li i{font-style:normal;color:var(--em);font-size:.8rem}
+.tr li.no{opacity:.35}.tr li.no i{color:var(--co)}
+
+/* ADDONS */
+.adds{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,265px),1fr));gap:1rem;margin-top:2rem}
+.ad{background:#fff;border-radius:8px;padding:1.4rem;border-left:4px solid var(--in);transition:transform .4s var(--e)}
+.ad:hover{transform:translateY(-4px)}
+.ad h4{font-size:1.08rem;margin-bottom:.45rem}
+.ad p{font-size:.87rem;opacity:.68;line-height:1.55;min-height:4.2em}
+.ad .cost{margin-top:.9rem;padding-top:.75rem;border-top:1px solid var(--line);font-family:var(--fm);font-size:.72rem;color:var(--in);letter-spacing:.04em}
+
+/* SAFE */
+.safe{list-style:none;margin-top:1.6rem}
+.safe li{padding:1rem 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr 1.3fr;gap:1.2rem;align-items:baseline;font-size:.93rem}
+.safe li b{font-weight:600}
+@media(max-width:640px){.safe li{grid-template-columns:1fr;gap:.3rem}}
+
+/* TIMELINE */
+.tl{margin-top:2rem;position:relative;padding-left:1.6rem}
+.tl::before{content:'';position:absolute;left:5px;top:.5rem;bottom:.5rem;width:2px;background:linear-gradient(var(--am),var(--em))}
+.tl .it{position:relative;padding:0 0 1.6rem}
+.tl .it::before{content:'';position:absolute;left:-1.6rem;top:.45rem;width:12px;height:12px;border-radius:50%;background:var(--em);border:3px solid var(--cream)}
+.tl h4{font-size:1.05rem;margin-bottom:.25rem}
+.tl .wk{font-family:var(--fm);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--am);display:block;margin-bottom:.3rem}
+.tl p{font-size:.9rem;opacity:.7}
+
+.quote{background:var(--dpanel);border-radius:10px;padding:clamp(1.5rem,3.5vw,2.4rem);margin-top:2rem;color:var(--dtext);border-left:5px solid var(--gold)}
+.quote p{font-family:var(--fd);font-size:clamp(1.1rem,2.3vw,1.6rem);font-weight:200;line-height:1.3;letter-spacing:-.02em}
+.quote .a{font-family:var(--fb);font-size:.84rem;color:var(--dmute);margin-top:.9rem;letter-spacing:0}
+
+.cta{background:linear-gradient(125deg,var(--void),#1B1533 60%,#0C2A26);color:var(--cream);border-radius:12px;padding:clamp(1.8rem,4vw,3rem);margin-top:2rem;text-align:center;position:relative;overflow:hidden}
+.cta h3{font-size:clamp(1.5rem,3.6vw,2.6rem);margin-bottom:.8rem}
+.cta h3 em{color:var(--em-b)}
+.cta p{max-width:52ch;margin:0 auto;opacity:.72}
+.cta .amt{font-family:var(--fd);font-size:clamp(2.4rem,7vw,4.6rem);font-weight:200;letter-spacing:-.04em;line-height:1;margin:1.4rem 0 .3rem;background:linear-gradient(100deg,var(--am-b),var(--em-b));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.cta .amtsub{font-family:var(--fm);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;opacity:.55}
+
+footer{background:var(--void);color:var(--cream);padding:3rem 0 2.2rem;position:relative;overflow:hidden}
+footer::before{content:'';position:absolute;width:560px;height:560px;border-radius:50%;filter:blur(110px);background:rgba(10,98,71,.35);bottom:-300px;right:-110px}
+footer .wrap{position:relative;z-index:2}
+.rv{opacity:0;transform:translateY(16px);transition:opacity .65s var(--e),transform .65s var(--e)}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.livei i,.feed div{animation:none}}
+
+/* MOBILE */
+@media(max-width:600px){
+ section{padding:2.4rem 0}
+ .wrap,.narrow{width:min(100% - 1.6rem,880px)}
+ h1{margin-bottom:1rem!important}
+ .hmeta{gap:.9rem 1.4rem;font-size:.55rem}
+ .own,.adds{gap:.8rem}
+ .oc,.ad{padding:1.25rem}
+ .console{border-radius:9px;margin-inline:-.2rem;width:calc(100% + .4rem)}
+ .cbar{padding:.7rem .85rem}
+ .cbar .ttl{display:none}
+ .tabs{-webkit-overflow-scrolling:touch}
+ .tab{padding:.95rem 1rem;font-size:.6rem;min-height:44px}
+ .pane{padding:1rem .85rem}
+ .phead{gap:.6rem}
+ .phead p{font-size:.82rem}
+ .kpis{grid-template-columns:repeat(2,1fr);gap:.5rem}
+ .kpi{padding:.7rem .75rem}
+ .kpi b{font-size:1.25rem}
+ .tbl{font-size:.76rem}
+ .tbl th,.tbl td{padding:.55rem .45rem}
+ .dnote{font-size:.8rem;padding:.75rem .85rem}
+ .phone{max-width:100%}
+ .ntf{padding:.7rem .8rem;gap:.55rem}
+ .ntf .msg{font-size:.82rem}
+ .calc{padding:1.25rem 1.1rem}
+ input[type=range]::-webkit-slider-thumb{width:34px;height:34px}
+ input[type=range]::-moz-range-thumb{width:34px;height:34px}
+ .split{gap:.7rem}
+ .sp{padding:1rem}
+ .tiers{gap:1rem}
+ .tr{padding:1.4rem}
+ .tr .rib{right:1rem;top:-12px}
+ .safe li{padding:.85rem 0}
+ .cta{padding:1.7rem 1.2rem}
+ .cta .amt{margin:1.1rem 0 .2rem}
+ footer{padding:2.4rem 0 1.8rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+ <div class="wrap">
+  <span class="mono" style="opacity:.5">Prepared exclusively for Daniela Acosta · Acosta Janitorial</span>
+  <h1>The Corporate<br><em>Account Engine</em></h1>
+  <p>A machine that finds Jacksonville's largest janitorial contracts before they open, files the bids that win them, and runs every building you hold — while you stop being the person who does any of it.</p>
+  <div class="hmeta mono"><span>Jacksonville · Duval County</span><span>Built &amp; operated by Nouman Sadiq</span><span>Valid 30 days</span></div>
+ </div>
+</header>
+
+<!-- WHAT YOU OWN -->
+<section class="s-dk">
+ <div class="wrap rv">
+  <span class="tag t-am"><i></i>Start here</span>
+  <h2>Four things you own that <em>nobody else in this city does</em>.</h2>
+  <p class="lede" style="opacity:.7">Before we talk about what to build, look at what you're already sitting on. Every one of these is real, verifiable, and currently earning you nothing.</p>
+  <div class="own">
+   <div class="oc"><span class="ic">✦</span><h4>Mayo Clinic</h4><p>You clean for Mayo. There is no stronger reference in American healthcare — in a city whose largest industry is healthcare. Baptist, UF Health, Ascension and hundreds of medical office buildings all become warm the moment that name appears on a bid.</p><div class="pf">Medical prices at $0.18–0.30/sq ft vs $0.12–0.18 office</div></div>
+   <div class="oc"><span class="ic">◆</span><h4>Top-quartile margins</h4><p>You hold 40–60% and refuse to go below. Industry gross margin is 40–55%, and most small firms get competed down to 10–20% net. You are operating better than the market, not worse.</p><div class="pf">Source: BSCAI 2025 benchmarking</div></div>
+   <div class="oc"><span class="ic">◈</span><h4>You're a CRE broker</h4><p>You sell and lease commercial space <em>and</em> you own a janitorial company. You can say a sentence to a property manager that no competitor in Jacksonville can say: "I'll fill your building, and I'll keep it running."</p><div class="pf">One PM relationship = 3–15 buildings over 24 months</div></div>
+   <div class="oc"><span class="ic">❖</span><h4>Certification advantage</h4><p>Jacksonville's small and minority business programme awards real scoring points on public bids. The out-of-state nationals competing for this city's contracts don't get those points. You do — and you've never used them.</p><div class="pf">Free points on every public solicitation</div></div>
+  </div>
+ </div>
+</section>
+
+<!-- WHERE YOU ARE -->
+<section class="s-am">
+ <div class="wrap rv">
+  <span class="tag t-am"><i></i>Today</span>
+  <h2>Strong business. <em class="c-am">One</em> missing capability.</h2>
+  <p class="lede">Your numbers, from our call. Nothing here is estimated.</p>
+  <div class="grid">
+   <div class="cell k-co" style="border-top-width:6px"><b>0</b><span class="mono">Formal bids filed</span><small>This is the entire gap. Everything else below is already right.</small></div>
+   <div class="cell k-em"><b>$6–8K</b><span class="mono">Profit / month</span><small>A 38–46% net on janitorial. Genuinely excellent.</small></div>
+   <div class="cell k-am"><b>$16–18K</b><span class="mono">Janitorial / month</span></div>
+   <div class="cell k-co"><b>5</b><span class="mono">Accounts</span><small>One loss is a fifth of the business.</small></div>
+  </div>
+ </div>
+</section>
+
+<!-- THE GAP -->
+<section class="s-co">
+ <div class="wrap rv">
+  <span class="tag t-co"><i></i>The problem</span>
+  <h2>The contracts you want are not won in <em class="c-co">meetings</em>.</h2>
+  <p class="lede">JEA. The airport. JTA. City of Jacksonville. Duval County Schools — 175 buildings. Baptist. UF Health. And more Fortune 500 headquarters than any city in Florida.</p>
+  <p class="lede" style="margin-top:.9rem">Every one awards janitorial through <strong>formal procurement.</strong> Published solicitations. Published bid results. Published incumbent pricing. Published expiry dates. All public, all on a schedule, all sitting on portals right now.</p>
+  <div class="grid" style="margin-top:2rem">
+   <div class="cell k-co"><b>175</b><span class="mono">Duval schools</span><small>Serviced by HES Facilities Management — a national firm from out of state.</small></div>
+   <div class="cell k-co"><b>Not price</b><span class="mono">Why they win</span><small>Your margins prove you operate better than they do.</small></div>
+   <div class="cell k-co"><b>Not contacts</b><span class="mono">Why they win</span><small>Yours are better. They don't live here. You do.</small></div>
+   <div class="cell k-am"><b>Paperwork</b><span class="mono">Why they win</span><small>Nobody in your company does bid production. That is the whole reason a company from another state cleans your city's schools.</small></div>
+  </div>
+  <div class="quote"><p>You are not short of leads.<br>You are short of <em style="color:var(--gold)">submitted bids</em>.</p></div>
+ </div>
+</section>
+
+<!-- CONSOLE -->
+<section class="s-pl">
+ <div class="wrap rv">
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));margin-top:0;margin-bottom:1.6rem;align-items:center">
+   <div>
+    <span class="tag t-te"><i></i>The system</span>
+    <h2 style="margin-bottom:.5rem">This is what you'd be <em class="c-te">logging into</em>.</h2>
+    <p class="lede">Seven screens, one login. Everything below is the actual shape of what gets built — click through it.</p>
+   </div>
+   <div class="cell k-em" style="border-top-width:6px"><b>~50 hrs</b><span class="mono">Given back to you / month</span><small>Site checks, chasing invoices, answering "is it done" — the console does this instead of you.</small></div>
+  </div>
+  <div class="console">
+   <div class="cbar"><div class="dots"><i></i><i></i><i></i></div><span class="ttl">acosta-engine · operations console</span><span class="livei"><i></i>Live</span></div>
+   <div class="tabs" role="tablist">
+    <button class="tab on" data-p="radar">Contract Radar<span class="cnt">14</span></button>
+    <button class="tab" data-p="bids">Live Bids<span class="cnt">6</span></button>
+    <button class="tab" data-p="tonight">Tonight<span class="cnt">12</span></button>
+    <button class="tab" data-p="accounts">Accounts<span class="cnt">5</span></button>
+    <button class="tab" data-p="quality">Quality</button>
+    <button class="tab" data-p="money">Money</button>
+    <button class="tab" data-p="alerts">Alerts<span class="cnt">4</span></button>
+   </div>
+
+   <div class="pane on" id="p-radar">
+    <div class="phead"><div><h4>Contract Radar</h4><p>Every large janitorial contract in Duval County — who holds it, what it's worth, when it opens. Built from public bid results and award notices.</p></div><span class="demo">Illustrative data</span></div>
+    <div class="kpis">
+     <div class="kpi"><b data-c="14">0</b><span>Contracts tracked</span></div>
+     <div class="kpi g"><b data-c="5">0</b><span>Open next 9 months</span></div>
+     <div class="kpi b"><b data-c="4.2" data-pre="$" data-suf="M">0</b><span>Value in window</span></div>
+     <div class="kpi v"><b data-c="3">0</b><span>You'd score on certification</span></div>
+    </div>
+    <div class="tblwrap"><table class="tbl">
+     <thead><tr><th>Organisation</th><th>Scope</th><th>Est. annual</th><th>Incumbent</th><th>Opens</th><th>Fit</th></tr></thead>
+     <tbody>
+      <tr><td class="nm">Duval County Public Schools<span class="sub">Custodial services</span></td><td class="num">175 sites</td><td class="num">$14M+</td><td>HES Facilities</td><td class="num">Jul 2027</td><td><span class="pill p-n">Too large — for now</span></td></tr>
+      <tr><td class="nm">Jacksonville Airport Authority<span class="sub">Terminal + admin</span></td><td class="num">4 sites</td><td class="num">$1.6M</td><td>National</td><td class="num">Jan 2027</td><td><span class="pill p-a">Stretch</span></td></tr>
+      <tr><td class="nm">Baptist Health<span class="sub">Medical office buildings</span></td><td class="num">7 sites</td><td class="num">$1.1M</td><td>National</td><td class="num">Feb 2027</td><td><span class="pill p-g">Mayo reference</span></td></tr>
+      <tr><td class="nm">JEA<span class="sub">HQ + service centres</span></td><td class="num">6 sites</td><td class="num">$980K</td><td>Regional</td><td class="num">Mar 2027</td><td><span class="pill p-g">Strong</span></td></tr>
+      <tr><td class="nm">JTA<span class="sub">Facilities janitorial</span></td><td class="num">9 sites</td><td class="num">$720K</td><td>Regional</td><td class="num">Nov 2026</td><td><span class="pill p-g">Strong</span></td></tr>
+      <tr><td class="nm">City of Jacksonville<span class="sub">Municipal buildings, Zone 2</span></td><td class="num">11 sites</td><td class="num">$540K</td><td>Local</td><td class="num">Oct 2026</td><td><span class="pill p-g">Strong</span></td></tr>
+      <tr><td class="nm">Duval County<span class="sub">Courthouse annexes</span></td><td class="num">3 sites</td><td class="num">$410K</td><td>Regional</td><td class="num">Dec 2026</td><td><span class="pill p-g">Strong</span></td></tr>
+     </tbody>
+    </table></div>
+    <div class="dnote"><b>Why this changes everything:</b> incumbents can only be displaced in the 6–9 month window before renewal. Outside that window no amount of relationship-building moves a contract. This calendar is the difference between bidding and hoping.</div>
+   </div>
+
+   <div class="pane" id="p-bids">
+    <div class="phead"><div><h4>Live Bids</h4><p>Every solicitation in progress, its stage, and what it's worth. Drafted, compliance-checked and filed for you.</p></div><span class="demo">Illustrative data</span></div>
+    <div class="kpis">
+     <div class="kpi"><b data-c="6">0</b><span>In progress</span></div>
+     <div class="kpi b"><b data-c="2">0</b><span>Submitted</span></div>
+     <div class="kpi g"><b data-c="1">0</b><span>Shortlisted</span></div>
+     <div class="kpi v"><b data-c="1.9" data-pre="$" data-suf="M">0</b><span>Pipeline value</span></div>
+    </div>
+    <div class="tblwrap"><table class="tbl">
+     <thead><tr><th>Solicitation</th><th>Value / yr</th><th>Due</th><th>Stage</th><th>Progress</th><th>Margin at bid</th></tr></thead>
+     <tbody>
+      <tr><td class="nm">COJ-2026-4471<span class="sub">City of Jacksonville · Zone 2</span></td><td class="num">$540K</td><td class="num">18 Sep</td><td><span class="pill p-g">Shortlisted</span></td><td><div class="bar g"><i style="width:88%"></i></div></td><td class="num c-em">47%</td></tr>
+      <tr><td class="nm">JTA-FM-0912<span class="sub">JTA · 9 facilities</span></td><td class="num">$720K</td><td class="num">02 Oct</td><td><span class="pill p-b">Submitted</span></td><td><div class="bar"><i style="width:100%"></i></div></td><td class="num c-em">44%</td></tr>
+      <tr><td class="nm">DUV-CH-2210<span class="sub">Duval County · Courthouse</span></td><td class="num">$410K</td><td class="num">14 Oct</td><td><span class="pill p-b">Submitted</span></td><td><div class="bar"><i style="width:100%"></i></div></td><td class="num c-em">51%</td></tr>
+      <tr><td class="nm">BH-MOB-334<span class="sub">Baptist Health · 7 MOBs</span></td><td class="num">$1.1M</td><td class="num">28 Oct</td><td><span class="pill p-a">Drafting</span></td><td><div class="bar"><i style="width:62%"></i></div></td><td class="num c-em">53%</td></tr>
+      <tr><td class="nm">JEA-2027-118<span class="sub">JEA · HQ + service centres</span></td><td class="num">$980K</td><td class="num">09 Nov</td><td><span class="pill p-a">Qualifying</span></td><td><div class="bar"><i style="width:28%"></i></div></td><td class="num">—</td></tr>
+      <tr><td class="nm">PMG-DEER-07<span class="sub">Deerwood Park · private portfolio</span></td><td class="num">$186K</td><td class="num">21 Nov</td><td><span class="pill p-v">Walk booked</span></td><td><div class="bar"><i style="width:15%"></i></div></td><td class="num">—</td></tr>
+     </tbody>
+    </table></div>
+    <div class="dnote"><b>The rule:</b> nothing gets bid unless it clears your 40% floor. If the maths doesn't work, we don't file. You will never attend another appointment for a $100-a-week office.</div>
+   </div>
+
+   <div class="pane" id="p-tonight">
+    <div class="phead"><div><h4>Tonight</h4><p>Every crew, every building, verified with photographs. You are contacted only when something breaks.</p></div><span class="demo">Illustrative data</span></div>
+    <div class="kpis">
+     <div class="kpi g"><b data-c="10">0</b><span>Verified complete</span></div>
+     <div class="kpi"><b data-c="1">0</b><span>In progress</span></div>
+     <div class="kpi r"><b data-c="1">0</b><span>Needs you</span></div>
+     <div class="kpi b"><b data-c="98" data-suf="%">0</b><span>On time this month</span></div>
+    </div>
+    <div class="tblwrap"><table class="tbl">
+     <thead><tr><th>Site</th><th>Crew</th><th>In</th><th>Out</th><th>Photos</th><th>Status</th></tr></thead>
+     <tbody>
+      <tr><td class="nm">Mayo Clinic · Bldg 2<span class="sub">Nightly · medical</span></td><td>Team A · 4</td><td class="num">18:02</td><td class="num">22:14</td><td class="num">24 / 24</td><td><span class="pill p-g">Verified</span></td></tr>
+      <tr><td class="nm">Southside Office Park<span class="sub">Nightly</span></td><td>Team B · 3</td><td class="num">18:30</td><td class="num">21:45</td><td class="num">18 / 18</td><td><span class="pill p-g">Verified</span></td></tr>
+      <tr><td class="nm">Baymeadows Center<span class="sub">Nightly</span></td><td>Team C · 3</td><td class="num">19:00</td><td class="num">22:05</td><td class="num">15 / 15</td><td><span class="pill p-g">Verified</span></td></tr>
+      <tr><td class="nm">Deerwood Suites<span class="sub">Nightly</span></td><td>Team D · 2</td><td class="num">19:15</td><td class="num">—</td><td class="num">7 / 12</td><td><span class="pill p-b">In progress</span></td></tr>
+      <tr><td class="nm">Riverside Medical<span class="sub">Nightly · medical</span></td><td>Team E · 2</td><td class="num">—</td><td class="num">—</td><td class="num">0 / 14</td><td><span class="pill p-r">No clock-in · 47m</span></td></tr>
+     </tbody>
+    </table></div>
+    <div class="feed" id="feed"></div>
+    <div class="dnote"><b>This is the screen that gives you your evenings back.</b> Eleven sites ran tonight. You would have been contacted about exactly one — the crew that didn't show at Riverside. Cover was arranged before the client noticed.</div>
+   </div>
+
+   <div class="pane" id="p-accounts">
+    <div class="phead"><div><h4>Accounts</h4><p>What each building actually earns you, and what else it could buy.</p></div><span class="demo">Illustrative data</span></div>
+    <div class="kpis">
+     <div class="kpi"><b data-c="5">0</b><span>Active accounts</span></div>
+     <div class="kpi g"><b data-c="46" data-suf="%">0</b><span>Blended margin</span></div>
+     <div class="kpi r"><b data-c="31" data-suf="%">0</b><span>Largest account share</span></div>
+     <div class="kpi v"><b data-c="18.4" data-pre="$" data-suf="K">0</b><span>Expansion available</span></div>
+    </div>
+    <div class="tblwrap"><table class="tbl">
+     <thead><tr><th>Account</th><th>Monthly</th><th>Margin</th><th>Services sold</th><th>Available</th><th>Risk</th></tr></thead>
+     <tbody>
+      <tr><td class="nm">Mayo Clinic · Bldg 2<span class="sub">Medical · nightly</span></td><td class="num">$5,400</td><td class="num c-em">54%</td><td><div class="bar g"><i style="width:38%"></i></div></td><td class="num c-in">+$3,900</td><td><span class="pill p-r">31% of revenue</span></td></tr>
+      <tr><td class="nm">Southside Office Park<span class="sub">Office · nightly</span></td><td class="num">$3,800</td><td class="num c-em">47%</td><td><div class="bar g"><i style="width:25%"></i></div></td><td class="num c-in">+$4,600</td><td><span class="pill p-g">Healthy</span></td></tr>
+      <tr><td class="nm">Baymeadows Center<span class="sub">Office · nightly</span></td><td class="num">$3,300</td><td class="num c-em">45%</td><td><div class="bar g"><i style="width:25%"></i></div></td><td class="num c-in">+$4,100</td><td><span class="pill p-g">Healthy</span></td></tr>
+      <tr><td class="nm">Deerwood Suites<span class="sub">Office · nightly</span></td><td class="num">$2,900</td><td class="num c-am">41%</td><td><div class="bar"><i style="width:13%"></i></div></td><td class="num c-in">+$3,400</td><td><span class="pill p-a">Near your floor</span></td></tr>
+      <tr><td class="nm">Riverside Medical<span class="sub">Medical · nightly</span></td><td class="num">$2,100</td><td class="num c-em">49%</td><td><div class="bar g"><i style="width:25%"></i></div></td><td class="num c-in">+$2,400</td><td><span class="pill p-g">Healthy</span></td></tr>
+     </tbody>
+    </table></div>
+    <div class="dnote"><b>Two things this tells you instantly.</b> One account is 31% of your revenue — industry buyers cut a business's sale multiple by 1–2× when a single contract exceeds 25%. And there is <b>$18,400 a month</b> of floor care, carpets, windows, landscaping, pest and supplies inside buildings you already clean — currently bought from somebody else.</div>
+   </div>
+
+   <div class="pane" id="p-quality">
+    <div class="phead"><div><h4>Quality</h4><p>Inspection scores per site, and the monthly report that goes to every client automatically.</p></div><span class="demo">Illustrative data</span></div>
+    <div class="kpis">
+     <div class="kpi g"><b data-c="94" data-suf="%">0</b><span>Avg inspection score</span></div>
+     <div class="kpi"><b data-c="3">0</b><span>Open issues</span></div>
+     <div class="kpi g"><b data-c="5">0</b><span>Reports sent</span></div>
+     <div class="kpi b"><b data-c="0">0</b><span>Client complaints</span></div>
+    </div>
+    <div class="tblwrap"><table class="tbl">
+     <thead><tr><th>Site</th><th>Last inspection</th><th>Score</th><th>Trend</th><th>Open issues</th><th>Client report</th></tr></thead>
+     <tbody>
+      <tr><td class="nm">Mayo Clinic · Bldg 2</td><td class="num">02 Aug</td><td class="num c-em">97%</td><td><div class="bar g"><i style="width:97%"></i></div></td><td class="num">0</td><td><span class="pill p-g">Sent 01 Aug</span></td></tr>
+      <tr><td class="nm">Southside Office Park</td><td class="num">01 Aug</td><td class="num c-em">95%</td><td><div class="bar g"><i style="width:95%"></i></div></td><td class="num">1</td><td><span class="pill p-g">Sent 01 Aug</span></td></tr>
+      <tr><td class="nm">Baymeadows Center</td><td class="num">31 Jul</td><td class="num c-em">93%</td><td><div class="bar g"><i style="width:93%"></i></div></td><td class="num">0</td><td><span class="pill p-g">Sent 01 Aug</span></td></tr>
+      <tr><td class="nm">Deerwood Suites</td><td class="num">30 Jul</td><td class="num c-am">88%</td><td><div class="bar"><i style="width:88%"></i></div></td><td class="num">2</td><td><span class="pill p-g">Sent 01 Aug</span></td></tr>
+      <tr><td class="nm">Riverside Medical</td><td class="num">02 Aug</td><td class="num c-em">96%</td><td><div class="bar g"><i style="width:96%"></i></div></td><td class="num">0</td><td><span class="pill p-g">Sent 01 Aug</span></td></tr>
+     </tbody>
+    </table></div>
+    <div class="dnote"><b>This is why contracts renew.</b> Janitorial accounts are lost over consistency, not price — an estimated 55% of customers leave over service quality. A property manager receiving a documented monthly report does not put the contract out to re-bid. And every report becomes evidence in your next bid.</div>
+   </div>
+
+   <div class="pane" id="p-money">
+    <div class="phead"><div><h4>Money</h4><p>Billing, margin, invoices and payroll in one place — instead of in your head.</p></div><span class="demo">Illustrative data</span></div>
+    <div class="kpis">
+     <div class="kpi"><b data-c="17.5" data-pre="$" data-suf="K">0</b><span>Billed this month</span></div>
+     <div class="kpi g"><b data-c="8.1" data-pre="$" data-suf="K">0</b><span>Gross profit</span></div>
+     <div class="kpi r"><b data-c="4.3" data-pre="$" data-suf="K">0</b><span>Overdue</span></div>
+     <div class="kpi b"><b data-c="22">0</b><span>Contractors paid</span></div>
+    </div>
+    <div class="tblwrap"><table class="tbl">
+     <thead><tr><th>Invoice</th><th>Account</th><th>Amount</th><th>Issued</th><th>Due</th><th>Status</th></tr></thead>
+     <tbody>
+      <tr><td class="num nm">INV-2026-0341</td><td>Mayo Clinic · Bldg 2</td><td class="num">$5,400</td><td class="num">01 Aug</td><td class="num">31 Aug</td><td><span class="pill p-b">Sent</span></td></tr>
+      <tr><td class="num nm">INV-2026-0340</td><td>Southside Office Park</td><td class="num">$3,800</td><td class="num">01 Aug</td><td class="num">31 Aug</td><td><span class="pill p-b">Sent</span></td></tr>
+      <tr><td class="num nm">INV-2026-0338</td><td>Deerwood Suites</td><td class="num">$2,900</td><td class="num">01 Jul</td><td class="num">31 Jul</td><td><span class="pill p-r">Overdue 3d</span></td></tr>
+      <tr><td class="num nm">INV-2026-0335</td><td>Baymeadows Center</td><td class="num">$1,400</td><td class="num">15 Jul</td><td class="num">29 Jul</td><td><span class="pill p-r">Overdue 5d</span></td></tr>
+      <tr><td class="num nm">INV-2026-0333</td><td>Riverside Medical</td><td class="num">$2,100</td><td class="num">01 Jul</td><td class="num">31 Jul</td><td><span class="pill p-g">Paid</span></td></tr>
+     </tbody>
+    </table></div>
+    <div class="dnote"><b>Chased automatically.</b> Overdue invoices get a polite reminder on day 3, a firmer one on day 10, and reach your desk only if they hit day 20. You stop being the person who has to ask for money.</div>
+   </div>
+
+   <div class="pane" id="p-alerts">
+    <div class="phead"><div><h4>Alerts</h4><p>This is the part that isn't in a screen — it's in your pocket. Texts, push and email, only when something actually needs you.</p></div><span class="demo">Illustrative data</span></div>
+    <div class="phone">
+     <div class="pt"><span>9:41</span><span>●●●</span></div>
+     <div class="ntfs">
+      <div class="ntf r"><div class="ico">⚠</div><div class="body"><div class="app">SMS <span class="ch">Acosta Engine</span></div><div class="msg"><b>No clock-in — Riverside Medical</b>, 19:00 shift. Cover crew being assigned now.</div></div><span class="when">now</span></div>
+      <div class="ntf g"><div class="ico">✓</div><div class="body"><div class="app">Push <span class="ch">Acosta Engine</span></div><div class="msg">Cover confirmed at <b>Riverside Medical</b>. Crew on site 19:55, client not notified.</div></div><span class="when">3m</span></div>
+      <div class="ntf b"><div class="ico">◆</div><div class="body"><div class="app">Email <span class="ch">Bid Desk</span></div><div class="msg"><b>COJ-2026-4471</b> — shortlisted. Oral presentation window opens 18 Sep.</div></div><span class="when">1h</span></div>
+      <div class="ntf"><div class="ico">◷</div><div class="body"><div class="app">SMS <span class="ch">Acosta Engine</span></div><div class="msg"><b>Insurance certificate expires in 14 days</b> — renewal drafted, needs your signature.</div></div><span class="when">6h</span></div>
+     </div>
+    </div>
+    <div class="kpis">
+     <div class="kpi r"><b data-c="1">0</b><span>Needs a decision</span></div>
+     <div class="kpi g"><b data-c="2">0</b><span>Resolved automatically</span></div>
+     <div class="kpi b"><b data-c="1">0</b><span>Bid deadline reminder</span></div>
+     <div class="kpi"><b data-c="99" data-suf="%">0</b><span>Alerts closed same day</span></div>
+    </div>
+    <div class="dnote"><b>Why this exists:</b> you told me you want to be on top of everything, not buried in it. The console runs the business; this is the four-second version of it that reaches you wherever you are — SMS for anything urgent, email for anything with paperwork attached, push for everything else. You choose the channel per alert type when we set it up.</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- THE MATH -->
+<section class="s-em">
+ <div class="wrap rv">
+  <span class="tag t-em"><i></i>The maths</span>
+  <h2>Drag the slider. Watch what <em class="c-em">you</em> keep.</h2>
+  <p class="lede">Corporate accounts at $15,000 a month — roughly a 55–80,000 sq ft building. Every figure below uses your own 43.5% blended gross margin and my actual fees. Nothing is inflated.</p>
+  <div class="calc">
+   <div class="ctrl"><span class="mono" style="opacity:.55">Corporate accounts won</span><b id="cv">3</b></div>
+   <input type="range" id="cs" min="1" max="8" step="1" value="3" aria-label="Number of corporate accounts">
+   <div class="scale mono"><span>1 account</span><span>8 accounts</span></div>
+   <div class="split">
+    <div class="sp you"><b id="oYou">$0</b><span>You keep, per year — profit that did not exist before</span></div>
+    <div class="sp me"><b id="oMe">$0</b><span>Total you pay me, per year — everything included</span></div>
+   </div>
+   <p class="rdo" id="rdo"></p>
+  </div>
+ </div>
+</section>
+
+<!-- COST FRAMING -->
+<section class="s-pl">
+ <div class="wrap rv">
+  <span class="tag t-in"><i></i>What it replaces</span>
+  <h2>The honest comparison.</h2>
+  <p class="lede">The alternative isn't "do nothing." The alternative is hiring the person who does this job in Jacksonville.</p>
+  <div class="grid" style="margin-top:2rem">
+   <div class="cell k-co"><b>$7,812</b><span class="mono">Ops manager / month</span><small>$75,000 salary plus ~25% payroll tax and insurance. That is 89% of your janitorial gross profit — which is precisely why you have never been able to hire one.</small></div>
+   <div class="cell k-em"><b>$1,500</b><span class="mono">This system / month</span><small>Same job. Runs overnight while you sleep, so the work is finished when you wake up.</small></div>
+   <div class="cell k-em"><b>$75,750</b><span class="mono">You save / year</span><small>Against the hire you'd otherwise need to grow.</small></div>
+   <div class="cell k-am"><b>$50</b><span class="mono">Per day</span><small>Your own time on quality control is worth roughly $156/hour based on your janitorial profit. The fee costs about ten hours of it and buys back around fifty.</small></div>
+  </div>
+ </div>
+</section>
+
+<!-- TIERS -->
+<section class="s-te">
+ <div class="wrap rv">
+  <span class="tag t-te"><i></i>Choose your level</span>
+  <h2>Three ways to do this.</h2>
+  <p class="lede">Same system underneath. The difference is how far you want to take it — and how much of the winning you want me responsible for.</p>
+  <div class="tiers">
+   <div class="tr">
+    <div class="nmm">Control</div>
+    <p class="who">You want to see everything and stop being the bottleneck. Growth stays with you.</p>
+    <div class="pr"><div class="m">$1,500<span style="font-size:.4em;opacity:.6">/mo</span></div><div class="sub">+ $4,500 build · 50% deposit</div></div>
+    <ul>
+     <li><i>✓</i>Full operations console</li>
+     <li><i>✓</i>Photo-verified completion</li>
+     <li><i>✓</i>Exception-only alerts</li>
+     <li><i>✓</i>Monthly client reports</li>
+     <li><i>✓</i>Invoicing &amp; chase automation</li>
+     <li><i>✓</i>Margin &amp; turnover reporting</li>
+     <li class="no"><i>✕</i>Contract radar</li>
+     <li class="no"><i>✕</i>Bid production</li>
+     <li class="no"><i>✕</i>Growth commission</li>
+    </ul>
+   </div>
+
+   <div class="tr best">
+    <span class="rib">Recommended</span>
+    <div class="nmm">Command</div>
+    <p class="who">You want the corporate accounts. I find them, bid them, win them, and run them.</p>
+    <div class="pr"><div class="m">$1,500<span style="font-size:.4em;opacity:.6">/mo</span></div><div class="sub">build <strong>waived</strong> on 12-month term · + 10% on accounts I bring</div></div>
+    <ul>
+     <li><i>✓</i>Everything in Control</li>
+     <li><i>✓</i><strong>Contract radar</strong> — every Duval contract, holder, value, expiry</li>
+     <li><i>✓</i><strong>4–6 corporate bids filed monthly</strong></li>
+     <li><i>✓</i>Reusable bid library &amp; compliance pack</li>
+     <li><i>✓</i>Certification registration &amp; portal setup</li>
+     <li><i>✓</i>Mayo reference package</li>
+     <li><i>✓</i>CRE bridge — property manager pipeline</li>
+     <li><i>✓</i>Account scoring against your margin floor</li>
+     <li><i>✓</i><strong>$0 commission under $5,000/mo</strong></li>
+    </ul>
+   </div>
+
+   <div class="tr emp">
+    <div class="nmm">Empire</div>
+    <p class="who">You want an asset you can sell, not a job you own. Everything, plus the exit.</p>
+    <div class="pr"><div class="m">$2,500<span style="font-size:.4em;opacity:.6">/mo</span></div><div class="sub">+ $7,500 build · + 12% on accounts I bring</div></div>
+    <ul>
+     <li><i>✓</i>Everything in Command</li>
+     <li><i>✓</i>Service expansion programme across all accounts</li>
+     <li><i>✓</i>Subcontractor network — vetted, insured, managed</li>
+     <li><i>✓</i>Concentration-risk management</li>
+     <li><i>✓</i>Quarterly strategy review, board-style</li>
+     <li><i>✓</i>Valuation tracking &amp; exit-readiness file</li>
+     <li><i>✓</i>Acquisition radar for small competitors</li>
+     <li><i>✓</i>Priority response, same business day</li>
+    </ul>
+   </div>
+  </div>
+  <p style="margin-top:1.6rem;font-size:.94rem;opacity:.75;max-width:70ch">Software is billed to you directly by the vendors at cost — roughly $200–400 a month depending on site count. I take no markup and never touch that money. You can move up a level at any time; the difference is prorated.</p>
+ </div>
+</section>
+
+<!-- FUTURE -->
+<section class="s-in">
+ <div class="wrap rv">
+  <span class="tag t-in"><i></i>Later, if you want it</span>
+  <h2>What we could build <em class="c-in">next</em>.</h2>
+  <p class="lede">None of this is needed to start, and none of it is included. It's here so you can see where this goes — and so nobody has to invent a price later.</p>
+  <div class="adds">
+   <div class="ad"><h4>Client Portal</h4><p>Your corporate clients log in to see their own service history, inspection scores and reports, and request extra work. Makes a five-account company look like a national.</p><div class="cost">$2,800 build · $200/mo</div></div>
+   <div class="ad"><h4>Branded Crew App</h4><p>Your logo, English and Spanish. Crews clock in by geolocation, work through the checklist, photograph completion. Kills the paper and the phone calls.</p><div class="cost">$3,500 build · $250/mo</div></div>
+   <div class="ad"><h4>Recruiting Engine</h4><p>Cleaning turnover runs 100–300% a year. Always-on job posts, screening, and a bench of pre-vetted candidates so a no-show never costs you an account.</p><div class="cost">$2,200 build · $400/mo</div></div>
+   <div class="ad"><h4>Supply Store</h4><p>Sell consumables to the buildings you already clean — paper, liners, chemicals — at 30–40% margin. Recurring revenue with almost no labour attached.</p><div class="cost">$3,200 build · $150/mo</div></div>
+   <div class="ad"><h4>Vendor Network</h4><p>Turn the Latina CEO Club into your vetted subcontractor bench — landscaping, pest, windows, handyman. They get recurring work, you get reliable trades, and "every trade on this contract is a local minority-owned business" wins bids.</p><div class="cost">$4,800 build · $300/mo</div></div>
+   <div class="ad"><h4>Acquisition Radar</h4><p>Find small Jacksonville janitorial firms whose owners want out. Buying a book of accounts is often cheaper than winning them. Screening, valuation, approach.</p><div class="cost">$3,500 build · $500/mo</div></div>
+   <div class="ad"><h4>Exit File</h4><p>The data room a buyer asks for: contract documentation, retention history, margin proof, systems evidence. Commercial cleaning trades at 3–7× EBITDA — the multiple depends entirely on this.</p><div class="cost">$6,500 one-time</div></div>
+   <div class="ad"><h4>Second Market</h4><p>Replicate the entire engine in another city — Orlando, Tampa, Savannah. Same portals, same playbook, new territory.</p><div class="cost">$5,500 build · $800/mo</div></div>
+  </div>
+ </div>
+</section>
+
+<!-- SAFETY -->
+<section class="s-pl">
+ <div class="wrap rv">
+  <span class="tag t-em"><i></i>Your protection</span>
+  <h2>Every way this could go wrong, answered <em class="c-em">in advance</em>.</h2>
+  <p class="lede">You've been let down by vendors before. So none of this depends on trusting me.</p>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))">
+   <div class="cell k-em" style="border-top-width:6px"><b>60 days</b><span class="mono">Exit notice, any reason</span><small>No penalty. You keep the system, the data, every document.</small></div>
+   <div class="cell k-am"><b>0</b><span class="mono">Risk on your 5 accounts</span><small>100% yours, permanently, on every line.</small></div>
+  </div>
+  <ul class="safe" style="margin-top:2rem">
+   <li><b>If nothing ever lands</b><span>You've paid the ops fee for a system that runs your business, and nothing else. I carry the risk on growth, not you.</span></li>
+   <li><b>If a bid loses</b><span>Costs you nothing. I absorb every hour of production time. Bids are unlimited.</span></li>
+   <li><b>If you want out</b><span>60 days' notice, any reason, no penalty, no argument. You keep the system, the data, the bid library and every document.</span></li>
+   <li><b>If I underperform</b><span>Written monthly targets — bids submitted, response times, reports delivered. Miss them two months running and you may terminate immediately.</span></li>
+   <li><b>If you terminate</b><span>Commissions on accounts already landed run 24 months then stop. I don't earn forever on old work; you don't end it the month after I deliver.</span></li>
+   <li><b>If you sell the business</b><span>My commission converts to one payment of 24× the then-current monthly. Clean, and no encumbrance on your sale.</span></li>
+   <li><b>If your business structure changes</b><span>The agreement is with the company, not with any individual. It survives.</span></li>
+   <li><b>If a software vendor fails</b><span>Every account, licence and login is in your name. You pay vendors directly. Nothing is locked to me.</span></li>
+   <li><b>Your existing five accounts</b><span>100% yours, permanently. I take no growth commission on revenue that existed before I arrived.</span></li>
+  </ul>
+ </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="s-am">
+ <div class="wrap rv">
+  <span class="tag t-am"><i></i>What happens</span>
+  <h2>From deposit to first bid in <em class="c-am">six weeks</em>.</h2>
+  <div class="tl">
+   <div class="it"><span class="wk">Week 1</span><h4>Everything opens</h4><p>Registration on every procurement portal — City of Jacksonville, MyFloridaMarketPlace, JEA, JAA, JTA, DCPS, Duval County. Certification application filed. Your five accounts, sites and scopes loaded.</p></div>
+   <div class="it"><span class="wk">Week 2–3</span><h4>The system goes live</h4><p>All 22 contractors onboarded. Checklists per site, photo verification switched on, exception alerts routed to you. You stop driving to buildings to check work.</p></div>
+   <div class="it"><span class="wk">Week 3–4</span><h4>The radar fills</h4><p>Every large janitorial contract in Duval mapped — holder, value, expiry date. First client reports go out. Bid library assembled: insurance, compliance, references, Mayo package.</p></div>
+   <div class="it"><span class="wk">Week 5–6</span><h4>First bids filed</h4><p>Four to six corporate solicitations submitted, every one priced above your margin floor. Property manager outreach begins on the CRE bridge.</p></div>
+   <div class="it"><span class="wk">Month 3–9</span><h4>Awards land</h4><p>Public procurement runs 60–180 days from solicitation to award. I won't pretend otherwise — anyone promising faster is guessing. Meanwhile service expansion inside your existing five accounts produces revenue immediately.</p></div>
+  </div>
+ </div>
+</section>
+
+<!-- FUTURE PACING -->
+<section class="s-dk">
+ <div class="wrap rv">
+  <span class="tag t-em"><i></i>This time next year</span>
+  <h2>An ordinary weekday, twelve months from now.</h2>
+  <div class="quote" style="border-left-color:var(--em-b);margin-top:1.6rem">
+   <p>You wake up. Eleven buildings were serviced overnight and every one is verified. One crew ran late; cover was arranged at 19:55 and the client never knew. Two bids were filed while you slept. A property manager who runs nine buildings has asked for a proposal on the other eight. Your supervisor — the one you couldn't afford — started in March.<br><br>You have not driven to a building to check anyone's work in <em style="color:var(--em-b)">nine months</em>.</p>
+   <p class="a">And the part that actually matters: if you decided tomorrow that you wanted out, this is now a business somebody would buy — because it runs without you.</p>
+  </div>
+ </div>
+</section>
+
+<!-- CTA -->
+<section class="s-em">
+ <div class="wrap rv">
+  <div class="cta">
+   <h3>Start with <em>half</em>.</h3>
+   <p>Command tier, twelve-month term, build fee waived. Everything begins the day the deposit clears.</p>
+   <div class="amt">$750</div>
+   <div class="amtsub">First month, 50% deposit · balance on go-live</div>
+   <p style="margin-top:1.6rem;font-size:.9rem;opacity:.6">Written scope before anything is signed. Every term in this document, in the agreement, in plain language. 60-day exit, any reason, keep everything.</p>
+  </div>
+  <p style="text-align:center;margin-top:1.6rem;font-size:.92rem;opacity:.7;max-width:62ch;margin-inline:auto">Registration, certification and the bid library take about four weeks to stand up — and Duval's public solicitations post on a rolling basis, not one annual date. The only real clock here: the earlier that month starts, the more of this cycle's contracts we're eligible to bid on.</p>
+ </div>
+</section>
+
+<footer>
+ <div class="wrap">
+  <p class="mono" style="opacity:.5;margin-bottom:.9rem">The short version</p>
+  <p style="font-family:var(--fd);font-size:clamp(1.25rem,3vw,2.1rem);font-weight:200;letter-spacing:-.025em;line-height:1.2;max-width:36ch">Jacksonville hands out tens of millions in janitorial contracts every year — publicly, on a schedule, to whoever files the <em style="color:var(--em-b)">best document</em>.</p>
+  <p style="margin-top:1.4rem;max-width:58ch;opacity:.6;font-size:.94rem">A firm from another state cleans 175 of this city's schools. You have Mayo Clinic, margins better than the industry, a scoring advantage on every public bid — and you have never filed one.</p>
+  <p style="margin-top:2rem;font-size:.76rem;opacity:.38;line-height:1.8;max-width:80ch">Sources: BSCAI 2025 financial benchmarking (labour 50–65% of revenue, gross margin 40–55%); commercial cleaning pricing $0.08–0.25/sq ft, medical $0.18–0.30; janitorial customer loss ~55% attributable to service quality; cleaning-industry turnover 100–300% annually; commercial cleaning valuations 3–7× EBITDA with concentration above 25% compressing multiples 1–2×; Duval County Public Schools custodial services held by HES Facilities Management across 175 schools; fractional-COO/ops-consultant market rate $5,000–12,000/mo (2026 US benchmarks). Console figures are illustrative and marked as such. Your business figures are as you stated them on 3 August 2026.</p>
+  <p style="margin-top:.9rem;font-size:.76rem;opacity:.38;line-height:1.8;max-width:80ch"><b style="opacity:.7">One compliance note:</b> federal contracts prohibit paying a percentage tied to winning a specific bid (FAR 52.203-5). Most targets here are municipal, county, state or private, where that rule doesn't apply — but a handful of local procurement codes carry similar language. Every solicitation gets checked before we bid, and the commission structure is written to adjust to a flat fee on any contract where it's required.</p>
+ </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+var RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+var tabs=document.querySelectorAll('.tab'),panes=document.querySelectorAll('.pane');
+tabs.forEach(function(t){t.addEventListener('click',function(){
+ tabs.forEach(function(x){x.classList.remove('on');});
+ panes.forEach(function(p){p.classList.remove('on');});
+ t.classList.add('on');
+ var p=document.getElementById('p-'+t.dataset.p);
+ if(p){p.classList.add('on');count(p);bars(p);}
+});});
+
+function count(scope){
+ scope.querySelectorAll('[data-c]').forEach(function(el){
+  var end=parseFloat(el.dataset.c),pre=el.dataset.pre||'',suf=el.dataset.suf||'';
+  var dec=(String(end).split('.')[1]||'').length;
+  if(RM){el.textContent=pre+end.toFixed(dec)+suf;return;}
+  var t0=null;
+  function step(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/1100,1),e=1-Math.pow(1-p,3);
+   el.textContent=pre+(end*e).toFixed(dec)+suf;if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+ });
+}
+function bars(scope){scope.querySelectorAll('.bar i').forEach(function(b){
+ var w=b.style.width;b.style.width='0';setTimeout(function(){b.style.width=w;},60);});}
+
+/* ROI calculator — all figures traceable */
+var GP=0.435, ACCT=15000, OPSMIN=1500, OPSPCT=0.05, GROW=0.10, BASE=17500;
+var cs=document.getElementById('cs'),cv=document.getElementById('cv'),
+    oYou=document.getElementById('oYou'),oMe=document.getElementById('oMe'),rdo=document.getElementById('rdo');
+function money(n){return '$'+Math.round(n).toLocaleString('en-US');}
+function calc(){
+ var n=+cs.value, newRev=n*ACCT, billing=BASE+newRev;
+ var newGP=newRev*GP*12;
+ var ops=Math.max(OPSMIN,billing*OPSPCT)*12;
+ var grow=newRev*GROW*12;
+ var pay=ops+grow;
+ cv.textContent=n;
+ oYou.textContent=money(newGP-pay);
+ oMe.textContent=money(pay);
+ var ratio=newGP/pay;
+ rdo.innerHTML='With <strong>'+n+' corporate account'+(n>1?'s':'')+'</strong> you bill <strong>'+money(billing)+
+  '/month</strong>. New gross profit is <strong>'+money(newGP)+'</strong> a year. You pay me <strong>'+money(pay)+
+  '</strong> — everything included, build waived. <strong>You keep '+money(newGP-pay)+
+  '</strong>, which is <strong>'+Math.round((newGP-pay)/newGP*100)+'%</strong> of profit that did not exist before, and <strong>'+
+  ratio.toFixed(2)+'×</strong> what you paid. Your original '+money(BASE)+'/month stays entirely yours.';
+}
+cs.addEventListener('input',calc);calc();
+
+var lines=[['ok','Mayo Clinic · Bldg 2 — 24/24 photos verified, crew out 22:14'],
+ ['in','Southside Office Park — completion confirmed, report queued'],
+ ['wr','Riverside Medical — no clock-in at 19:00, escalating'],
+ ['ok','Riverside Medical — cover crew assigned, ETA 19:55'],
+ ['in','COJ-2026-4471 — shortlist notification received'],
+ ['ok','Baymeadows Center — 15/15 photos verified'],
+ ['wr','INV-2026-0338 — 3 days overdue, reminder sent'],
+ ['in','JEA-2027-118 — solicitation posted, added to pipeline'],
+ ['ok','Monthly service reports delivered to 5 clients']];
+var feed=document.getElementById('feed'),fi=0;
+function tick(){if(!feed)return;var l=lines[fi%lines.length];fi++;
+ var d=document.createElement('div');
+ var hh=String(19+Math.floor(fi/3)%4).padStart(2,'0'),mm=String((fi*17)%60).padStart(2,'0');
+ d.innerHTML='<span class="t">'+hh+':'+mm+'</span>  <span class="'+l[0]+'">'+l[1]+'</span>';
+ feed.appendChild(d);while(feed.children.length>6)feed.removeChild(feed.firstChild);}
+if(feed){for(var k=0;k<5;k++)tick();if(!RM)setInterval(tick,2600);}
+
+if('IntersectionObserver' in window){
+ var io=new IntersectionObserver(function(en){en.forEach(function(e){
+  if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1});
+ document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+ var co=new IntersectionObserver(function(en){en.forEach(function(e){
+  if(e.isIntersecting){var p=document.querySelector('.pane.on');if(p){count(p);bars(p);}co.disconnect();}});},{threshold:.2});
+ var c=document.querySelector('.console');if(c)co.observe(c);
+}else{
+ document.querySelectorAll('.rv').forEach(function(el){el.classList.add('in');});
+ var p0=document.querySelector('.pane.on');if(p0){count(p0);bars(p0);}
+}
+})();
+</script>
+</body>
+</html>
