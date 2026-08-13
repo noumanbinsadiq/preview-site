@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Yumbo — Build Update</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FBF6EA; --cream-2:#F4ECD9; --ink:#1B1710; --ink-soft:#4B4438;
+  --blue:#2F5BFF; --coral:#FF5A38; --green:#12A66B; --violet:#7A4DFF; --yellow:#FFC42E;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:'Manrope',sans-serif; background:var(--cream); color:var(--ink); line-height:1.55;}
+h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; letter-spacing:-0.02em;}
+.wrap{max-width:760px; margin:0 auto; padding:0 22px 60px;}
+a{color:inherit;}
+
+.top{background:var(--ink); color:var(--cream); text-align:center; font-size:12px; font-weight:700; padding:9px 12px;}
+.top b{color:var(--yellow);}
+
+.hero{padding:44px 0 30px; text-align:center;}
+.badge{display:inline-block; background:var(--yellow); border:2px solid var(--ink); border-radius:99px; padding:6px 15px; font-weight:800; font-size:12.5px; margin-bottom:16px; transform:rotate(-2deg); box-shadow:3px 3px 0 var(--ink);}
+.hero h1{font-size:clamp(26px,5vw,38px); line-height:1.1; margin-bottom:10px;}
+.hero h1 .hl{color:var(--coral);}
+.hero p{font-size:15.5px; color:var(--ink-soft); max-width:520px; margin:0 auto;}
+
+section{padding:26px 0;}
+.eyebrow{font-weight:800; font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--coral); margin-bottom:8px;}
+.sec-title{font-size:clamp(19px,3vw,24px); margin-bottom:14px;}
+
+.login{border:3px solid var(--ink); border-radius:20px; padding:20px; background:var(--green); color:#fff; box-shadow:5px 5px 0 var(--ink);}
+.login .eyebrow{color:var(--yellow);}
+.login .row{display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1.5px solid rgba(255,255,255,.3); font-size:13.5px; font-weight:700;}
+.login .row:last-child{border-bottom:none;}
+.login .row span:first-child{opacity:.8; font-weight:600;}
+.login code{background:rgba(0,0,0,.2); padding:3px 9px; border-radius:6px; font-family:monospace; font-size:13px;}
+.login .url{text-align:center; margin-top:14px; font-size:12.5px; opacity:.85;}
+
+.list{border:3px solid var(--ink); border-radius:20px; padding:6px; background:var(--cream-2);}
+.lrow{display:flex; align-items:flex-start; gap:12px; padding:13px 14px; border-bottom:2px solid rgba(27,23,16,.1);}
+.lrow:last-child{border-bottom:none;}
+.lrow .ico{width:26px; height:26px; border-radius:8px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:800; border:2px solid var(--ink);}
+.lrow.done .ico{background:var(--green); color:#fff;}
+.lrow.next .ico{background:var(--yellow); color:var(--ink);}
+.lrow h4{font-size:14.5px; margin-bottom:2px;}
+.lrow p{font-size:12.5px; color:var(--ink-soft);}
+
+.costbox{border:3px solid var(--ink); border-radius:20px; overflow:hidden;}
+.costbox table{width:100%; border-collapse:collapse; font-size:13px;}
+.costbox th{background:var(--ink); color:var(--cream); text-align:left; padding:10px 14px; font-size:11px; text-transform:uppercase;}
+.costbox td{padding:10px 14px; border-bottom:1.5px solid rgba(27,23,16,.1);}
+.costbox tr:last-child td{border-bottom:none;}
+.costbox tr.total td{font-weight:800; background:var(--cream-2); font-size:14px;}
+
+.note{background:rgba(255,90,56,.08); border:2px dashed var(--coral); border-radius:16px; padding:14px 16px; font-size:12.5px; color:var(--ink-soft); margin-top:16px;}
+.note b{color:var(--coral);}
+
+.offer{background:linear-gradient(135deg, var(--ink) 0%, #241d13 60%, #2a1a2e 100%); color:var(--cream); border-radius:24px; padding:32px 26px; text-align:center; border:3px solid var(--ink); box-shadow:5px 5px 0 var(--coral);}
+.offer .eyebrow{color:var(--yellow);}
+.offer h2{color:var(--cream); font-size:clamp(20px,4vw,26px); margin-bottom:6px;}
+.offer .price{font-size:44px; font-weight:800; color:var(--yellow); margin:10px 0 4px;}
+.offer .price span{font-size:14px; font-weight:700; color:rgba(251,246,234,.7);}
+.offer p{font-size:13px; opacity:.85; max-width:440px; margin:0 auto;}
+
+footer{text-align:center; padding:26px 0 10px; font-size:12px; color:var(--ink-soft);}
+</style>
+</head>
+<body>
+
+<div id="gate" style="min-height:100vh; display:flex; align-items:center; justify-content:center; background:var(--ink); padding:20px;">
+  <form id="gateForm" style="background:var(--cream); border:3px solid var(--ink); border-radius:20px; padding:28px; width:100%; max-width:320px; text-align:center;">
+    <h2 style="margin-bottom:14px;">Enter password</h2>
+    <p style="font-size:12.5px; color:var(--ink-soft); margin-bottom:16px;">Nouman sent you this separately.</p>
+    <input id="gateInput" type="password" placeholder="Password" style="width:100%; padding:10px 12px; border:2px solid var(--ink); border-radius:10px; font-size:14px; margin-bottom:12px;">
+    <button type="submit" style="width:100%; padding:11px; border:2px solid var(--ink); border-radius:10px; background:var(--coral); color:#fff; font-weight:800; cursor:pointer;">View</button>
+    <div id="gateErr" style="color:var(--coral); font-size:12px; margin-top:10px; display:none;">Wrong password — try again.</div>
+  </form>
+</div>
+
+<div id="content" style="display:none;">
+<div class="top">🔒 <b>For Mailin only</b> — build progress + login access</div>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="badge">YUMBO SYSTEM · LIVE PREVIEW</div>
+    <h1>It's live. Here's <span class="hl">exactly</span> what's built — and what's left.</h1>
+    <p>Your real jobs, real invoices, real numbers — running on your own system for the first time. No spreadsheets touched, nothing invented.</p>
+  </div>
+
+  <section>
+    <div class="eyebrow">Your access</div>
+    <div class="login">
+      <div class="row"><span>Link</span><code>yumbo.noumansadiq.com</code></div>
+      <div class="row"><span>Email</span><code>mailinygc@gmail.com</code></div>
+      <div class="row"><span>Password</span><code>Yumbo-WaZ4aK07!</code></div>
+      <div class="url">Log in anytime — this is your real data, not a mockup.</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">What's actually done</div>
+    <h2 class="sec-title">4 full phases, live</h2>
+    <div class="list">
+      <div class="lrow done"><div class="ico">✓</div><div><h4>Jobs board + job detail</h4><p>All 385 real jobs migrated, colour-coded status, click into any job for full history.</p></div></div>
+      <div class="lrow done"><div class="ico">✓</div><div><h4>Money — AR &amp; AP</h4><p>Who owes you, who you owe, aging buckets, overdue flags. Reconciled against your real invoice history.</p></div></div>
+      <div class="lrow done"><div class="ico">✓</div><div><h4>Estimates + close rate</h4><p>Build a quote, auto job-numbering, approve → auto-creates the job.</p></div></div>
+      <div class="lrow done"><div class="ico">✓</div><div><h4>Subs, materials, invoicing</h4><p>Assign a sub, log receipts, invoice a job, pay a sub — all from one screen per job.</p></div></div>
+      <div class="lrow done"><div class="ico">✓</div><div><h4>Company financials</h4><p>Payroll, overhead, expenses, a real profit dashboard, and an owner-pay safety check — replaces the broken formulas in your spreadsheet.</p></div></div>
+      <div class="lrow done"><div class="ico">✓</div><div><h4>Reports</h4><p>Monthly trend, per-estimator performance, close rate — one place to see how the business is actually doing.</p></div></div>
+      <div class="lrow next"><div class="ico">→</div><div><h4>Team + client automation (next)</h4><p>Telegram layer for your team, automatic client follow-ups, review requests. Needs a couple of accounts set up before I can build it.</p></div></div>
+      <div class="lrow next"><div class="ico">→</div><div><h4>Bank connection + final design polish (next)</h4><p>Live balance syncing, and a full visual pass — current look is functional, not final.</p></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">What I'm asking</div>
+    <h2 class="sec-title">Honest breakdown, not a sales pitch</h2>
+    <div class="costbox">
+      <table>
+        <tr><th>Phase</th><th>Real hours</th></tr>
+        <tr><td>Data reconciliation (fixed 2 broken formulas in your own sheet)</td><td>4</td></tr>
+        <tr><td>Core build — jobs, money, estimates</td><td>9</td></tr>
+        <tr><td>Subs, materials, invoicing, AP</td><td>6</td></tr>
+        <tr><td>Company financials + reports</td><td>6</td></tr>
+        <tr><td>Live deployment, debugging, support</td><td>4</td></tr>
+        <tr class="total"><td>Total so far</td><td>~29 hrs</td></tr>
+      </table>
+    </div>
+    <div class="note"><b>Straight talk:</b> this is what actually went into it — not padded, not a number picked to pressure you. Four full phases, live, on your real data. The advance below reflects that time honestly.</div>
+  </section>
+
+  <div class="offer">
+    <div class="eyebrow">Suggested advance</div>
+    <h2>To keep building</h2>
+    <div class="price">$750<span> / advance</span></div>
+    <p>Covers what's already built and the next phase. Real price / final terms — same honest conversation we agreed to have once you saw it working. You're looking at it now.</p>
+  </div>
+
+  <footer>Yumbo System — built by Nouman · noumansadiq.com</footer>
+</div>
+</div>
+
+<script>
+  // Simple gate to deter casual link-sharing — not real security, just keeps this off search
+  // engines and out of a casual click-through. Anyone determined with dev tools can bypass it.
+  var GATE_PW = "FmDGptJwMS";
+  document.getElementById('gateForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var val = document.getElementById('gateInput').value;
+    if (val === GATE_PW) {
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('content').style.display = 'block';
+    } else {
+      document.getElementById('gateErr').style.display = 'block';
+    }
+  });
+</script>
+</body>
+</html>
