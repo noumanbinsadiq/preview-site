@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yumbo — Dashboard Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FBF6EA; --cream-2:#F4ECD9; --ink:#1B1710; --ink-soft:#4B4438;
+  --blue:#2F5BFF; --coral:#FF5A38; --green:#12A66B; --violet:#7A4DFF; --yellow:#FFC42E;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:'Manrope',sans-serif; background:var(--cream-2); color:var(--ink); line-height:1.5; padding:30px 16px 70px;}
+h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; letter-spacing:-0.02em;}
+.wrap{max-width:980px; margin:0 auto;}
+.note-banner{background:rgba(255,90,56,.08); border:2px dashed var(--coral); border-radius:16px; padding:14px 18px; font-size:12.5px; color:var(--ink-soft); margin-bottom:22px;}
+.note-banner b{color:var(--coral);}
+.roletoggle{display:flex; gap:8px; margin-bottom:16px;}
+.roletoggle button{font-family:'Manrope',sans-serif; font-weight:800; font-size:13px; padding:10px 18px; border:2.5px solid var(--ink); border-radius:99px; background:var(--cream); cursor:pointer;}
+.roletoggle button.active{background:var(--ink); color:var(--cream);}
+.shell{background:var(--cream); border:3px solid var(--ink); border-radius:24px; padding:22px; box-shadow:6px 6px 0 var(--ink);}
+.top-bar{display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;}
+.logo{font-size:16px; font-weight:800;}
+.who{font-size:12px; font-weight:700; color:var(--ink-soft); background:var(--cream-2); border:2px solid var(--ink); border-radius:99px; padding:5px 12px;}
+.navbar{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:20px;}
+.navbar button{font-family:'Manrope',sans-serif; font-size:11.5px; font-weight:800; padding:7px 13px; border:2px solid var(--ink); border-radius:99px; background:var(--cream-2); cursor:pointer; color:var(--ink);}
+.navbar button.on{background:var(--coral); color:#fff; border-color:var(--coral);}
+.navbar button.locked{opacity:.35; cursor:not-allowed;}
+.back{display:inline-block; font-size:12px; font-weight:800; margin-bottom:12px; cursor:pointer; color:var(--coral);}
+.greet{font-size:12.5px; font-weight:700; color:var(--coral); text-transform:uppercase; letter-spacing:.05em; margin-bottom:4px;}
+h1.dt{font-size:22px; margin-bottom:16px;}
+.money{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:18px;}
+.money.four{grid-template-columns:repeat(4,1fr);}
+.card{border:2.5px solid var(--ink); border-radius:16px; padding:14px 16px; background:var(--cream-2); position:relative;}
+.card .l{font-size:11px; font-weight:700; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.04em; margin-bottom:6px;}
+.card .v{font-size:19px; font-weight:800;}
+.card.click{cursor:pointer;}
+.card.blurred .v{filter:blur(6px); user-select:none;}
+.card .hint{font-size:10px; font-weight:700; color:var(--ink-soft); margin-top:4px;}
+.card.profit .v{color:var(--green);}
+.sec-title{font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin:20px 0 10px;}
+.notif{border:2.5px solid var(--yellow); background:#fffaf0; border-radius:14px; padding:12px 14px; margin-bottom:8px;}
+.notif.orange{border-color:var(--coral); background:rgba(255,90,56,.06);}
+.notif.green{border-color:var(--green); background:rgba(18,166,107,.06);}
+.notif .l{font-size:11px; font-weight:800; color:var(--ink-soft); text-transform:uppercase; margin-bottom:3px;}
+.notif .v{font-size:13.5px; font-weight:700;}
+.pill-btn{display:inline-block; font-size:11px; font-weight:800; padding:7px 13px; border:2px solid var(--ink); border-radius:99px; background:var(--cream); margin-top:6px; margin-right:6px; cursor:pointer;}
+.pill-btn.solid{background:var(--coral); color:#fff; border-color:var(--coral);}
+.pill-btn.green{background:var(--green); color:#fff; border-color:var(--green);}
+.pill-btn.blue{background:var(--blue); color:#fff; border-color:var(--blue);}
+table{width:100%; border-collapse:collapse; border:2.5px solid var(--ink); border-radius:14px; overflow:hidden; font-size:12.5px; margin-bottom:10px;}
+th{background:var(--ink); color:var(--cream); text-align:left; padding:9px 12px; font-size:10.5px; text-transform:uppercase; letter-spacing:.04em;}
+td{padding:9px 12px; border-top:1.5px solid rgba(27,23,16,.12); font-weight:600;}
+tr.link{cursor:pointer;}
+tr.link:hover td{background:rgba(255,90,56,.05);}
+.status{display:inline-block; font-size:10px; font-weight:800; padding:3px 9px; border-radius:99px; background:var(--cream-2); border:1.5px solid var(--ink);}
+.status.matched{background:var(--green); color:#fff; border-color:var(--green);}
+.status.waiting{background:var(--yellow); border-color:var(--yellow);}
+.status.approved{background:var(--green); color:#fff; border-color:var(--green);}
+.status.declined{background:var(--ink-soft); color:#fff; border-color:var(--ink-soft);}
+.status.progress{background:var(--blue); color:#fff; border-color:var(--blue);}
+.kv{border:2.5px solid var(--ink); border-radius:16px; padding:14px 18px; background:var(--cream-2); margin-bottom:16px;}
+.kv .row{display:flex; justify-content:space-between; padding:7px 0; border-bottom:1.5px solid rgba(27,23,16,.1); font-size:13px;}
+.kv .row:last-child{border-bottom:none;}
+.kv .row span:first-child{color:var(--ink-soft); font-weight:700;}
+.kv .row span:last-child{font-weight:800;}
+.field{margin-bottom:12px;}
+.field label{display:block; font-size:11.5px; font-weight:800; color:var(--ink-soft); margin-bottom:4px;}
+.field input,.field select{width:100%; padding:9px 11px; border:2px solid var(--ink); border-radius:10px; font-size:13px; font-family:'Manrope',sans-serif; background:var(--cream);}
+.formcard{border:2.5px solid var(--ink); border-radius:16px; padding:16px; background:var(--cream-2); max-width:420px;}
+.subrow{display:flex; gap:8px; align-items:center; margin-bottom:8px; font-size:12.5px;}
+.subrow .nm{flex:1; font-weight:700;}
+.subrow input{width:70px; padding:6px 8px; border:2px solid var(--ink); border-radius:8px; font-size:12px;}
+.updatelog{border:2px solid var(--ink); border-radius:14px; overflow:hidden;}
+.updatelog .u{padding:10px 14px; border-top:1.5px solid rgba(27,23,16,.12); font-size:12.5px;}
+.updatelog .u:first-child{border-top:none;}
+.updatelog .u .d{font-weight:800; color:var(--ink-soft); font-size:10.5px; text-transform:uppercase; margin-bottom:2px;}
+.empty{font-size:12.5px; color:var(--ink-soft); font-weight:700; padding:10px 0;}
+.legend{display:flex; gap:16px; flex-wrap:wrap; margin-top:20px; font-size:11.5px; color:var(--ink-soft); font-weight:700;}
+.legend span{display:inline-flex; align-items:center; gap:6px;}
+.dot{width:10px; height:10px; border-radius:50%; border:1.5px solid var(--ink);}
+footer{text-align:center; padding:26px 0 10px; font-size:12px; color:var(--ink-soft);}
+.searchbar{display:flex; gap:8px; margin-bottom:16px;}
+.searchbar select{padding:9px 10px; border:2px solid var(--ink); border-radius:10px; font-size:12.5px; font-family:'Manrope',sans-serif; background:var(--cream-2); font-weight:700;}
+.searchbar input{flex:1; padding:9px 12px; border:2px solid var(--ink); border-radius:10px; font-size:13px; font-family:'Manrope',sans-serif;}
+.searchbar .pill-btn{margin-top:0;}
+.attach{display:flex; align-items:center; gap:10px; border:2px solid var(--ink); border-radius:12px; padding:9px 12px; margin-bottom:6px; font-size:12px; font-weight:700;}
+.attach .tag{font-size:9.5px; font-weight:800; text-transform:uppercase; background:var(--violet); color:#fff; padding:2px 8px; border-radius:99px;}
+.attach .ico{width:26px; height:26px; border-radius:8px; border:2px solid var(--ink); display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; background:var(--cream-2);}
+.lockednote{font-size:11.5px; color:var(--ink-soft); font-weight:700; font-style:italic;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="note-banner"><b>Everything on this page is a click-through preview with sample data — nothing here is your real jobs, clients, or numbers yet.</b> Click around freely: open a bid, assign a sub, try the search bar, switch to the Estimator view to see what your team would see. Use the buttons above to switch between your view (Owner) and a team member's view (Estimator) — notice money figures disappear in that view. Nothing you click here changes anything real or gets saved. Tell Nouman anything you'd want added, changed, or removed.</div>
+  <div class="roletoggle">
+    <button class="active" data-role="owner" onclick="setRole('owner')">Owner view — Mailin</button>
+    <button data-role="estimator" onclick="setRole('estimator')">Estimator / team-member view</button>
+  </div>
+  <div class="shell">
+    <div class="top-bar">
+      <div class="logo">Yumbo General Construction</div>
+      <div class="who" id="whoTag">Logged in as Mailin · Owner</div>
+    </div>
+    <div class="searchbar">
+      <select id="searchScope">
+        <option value="all">Search everything</option>
+        <option value="clients">Clients</option>
+        <option value="jobs">Jobs</option>
+        <option value="bids">Bids</option>
+        <option value="estimates">Estimates</option>
+        <option value="subs">Subs</option>
+      </select>
+      <input id="searchInput" placeholder="Search by name, job #, description…" onkeydown="if(event.key==='Enter') runSearch();">
+      <div class="pill-btn solid" onclick="runSearch()">Search</div>
+    </div>
+    <div class="navbar" id="navbar"></div>
+    <div id="pageBody"></div>
+    <div class="legend">
+      <span><span class="dot" style="background:var(--coral)"></span> Coral = urgent / needs action</span>
+      <span><span class="dot" style="background:var(--yellow)"></span> Yellow = follow-up / waiting</span>
+      <span><span class="dot" style="background:var(--green)"></span> Green = money / approved / matched</span>
+    </div>
+  </div>
+  <footer>Yumbo dashboard preview — sample data, for review only.</footer>
+</div>
+<script>
+var today = 'Aug 15';
+var state = {
+  role: 'owner',
+  page: 'dashboard',
+  currentBidId: null,
+  currentJobId: null,
+  currentEstimateId: null,
+  currentSubId: null,
+  currentClientId: null,
+  clients: [
+    {id:1, name:'Sunset Ridge', contact:'Property manager — (904) 555-0132', email:'manager@sunsetridge.example'},
+    {id:2, name:'Parkview HOA', contact:'HOA board — (904) 555-0198', email:'board@parkviewhoa.example'},
+    {id:3, name:'Oakview Plaza', contact:'Facilities — (904) 555-0177', email:'facilities@oakviewplaza.example'}
+  ],
+  inbox: [
+    {id:1, command:'/payment', from:'Carlos R.', date:'Aug 14', note:'Screenshot from client — Zelle payment', aiGuess:{amount:2400, client:'Sunset Ridge'}, confirmed:false},
+    {id:2, command:'/update', from:'Ana M.', date:'Aug 15', note:'Job site photo — roofing progress', aiGuess:{amount:null, client:'Sunset Ridge'}, confirmed:false},
+    {id:3, command:'/bid', from:'Mailin', date:'Aug 12', note:'New bid request forwarded from a call', aiGuess:{amount:5400, client:'Maple Court'}, confirmed:true}
+  ],
+  subs: [
+    {id:1, name:'Delgado Roofing', defaultCommission:12},
+    {id:2, name:'RJ Concrete', defaultCommission:15},
+    {id:3, name:'Vega Electric', defaultCommission:10}
+  ],
+  estimators: [
+    {name:'Carlos R.'},
+    {name:'Ana M.'}
+  ],
+  jobs: [
+    {id:1, jobNumber:'26-0041', client:'Sunset Ridge', offerAmount:6800, status:'in_progress', subId:1, subPayout:2400, materialsCost:900,
+      updates:[{date:'Aug 10', text:'Materials delivered on site.'},{date:'Aug 12', text:'Roofing 50% complete.'}],
+      attachments:[{date:'Aug 14', tag:'/payment', filename:'zelle-payment-2400.jpg', from:'Carlos R.'},{date:'Aug 12', tag:'/update', filename:'roof-progress-50pct.jpg', from:'Ana M.'}]},
+    {id:2, jobNumber:'26-0038', client:'Parkview HOA', offerAmount:14500, status:'approved', subId:2, subPayout:2175, materialsCost:1200,
+      updates:[], attachments:[]},
+    {id:3, jobNumber:'26-0046', client:'Oakview Plaza', offerAmount:4200, status:'approved', subId:null, subPayout:0, materialsCost:0,
+      updates:[{date:'Aug 14', text:'Approved — needs a sub assigned before work can start.'}], attachments:[]}
+  ],
+  bids: [
+    {id:1, client:'Sunset Ridge Apartments', description:'Roof repair — 3 units, storm damage', askAmount:8200, daysOld:5, status:'needs_estimate', counterAmount:null, assignedEstimator:null},
+    {id:2, client:'Maple Court', description:'Fence replacement, 120ft', askAmount:5400, daysOld:1, status:'needs_estimate', counterAmount:null, assignedEstimator:null}
+  ],
+  estimates: [
+    {id:1, jobNumber:'26-0038', client:'Parkview HOA', estimator:'Carlos R.', total:14500, outcome:'pending', subs:[{subId:1,commissionPct:12},{subId:2,commissionPct:15}],
+      updates:[{date:'Aug 11', text:'Sent to client for review.'}]}
+  ],
+  reminders: [
+    {id:1, estimateId:1, text:'Estimate 26-0038 — Parkview HOA awaiting reply'}
+  ]
+};
+
+function money(n){ return '$' + Number(n).toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:0}); }
+function statusLabel(s){ return s.replace(/_/g,' '); }
+function statusClass(s){ if(s==='in_progress') return 'progress'; if(s==='approved') return 'approved'; if(s==='declined'||s==='lost') return 'declined'; if(s==='pending') return 'waiting'; return ''; }
+
+function setRole(role){
+  state.role = role;
+  state.page = 'dashboard';
+  document.querySelectorAll('.roletoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.role === role); });
+  document.getElementById('whoTag').textContent = role === 'owner' ? 'Logged in as Mailin · Owner' : 'Logged in as Carlos · Estimator';
+  render();
+}
+
+function goto(page, arg){
+  state.page = page;
+  if(page === 'bidDetail') state.currentBidId = arg;
+  if(page === 'jobDetail') state.currentJobId = arg;
+  if(page === 'estimateDetail') state.currentEstimateId = arg;
+  if(page === 'subDetail') state.currentSubId = arg;
+  if(page === 'clientDetail') state.currentClientId = arg;
+  render();
+}
+
+var navPages = ['dashboard','jobs','bids','estimates','clients','subs','inbox','money'];
+var navLabels = {dashboard:'Dashboard', jobs:'Jobs', bids:'Bids', estimates:'Estimates', clients:'Clients', subs:'Subs', inbox:'Team inbox', money:'Money'};
+var ownerOnly = ['subs','money'];
+var pageToNav = {dashboard:'dashboard', jobs:'jobs', jobDetail:'jobs', bids:'bids', bidDetail:'bids', estimates:'estimates', estimateNew:'estimates', estimateDetail:'estimates', clients:'clients', clientDetail:'clients', subs:'subs', subDetail:'subs', inbox:'inbox', money:'money'};
+
+function buildNav(){
+  var nav = document.getElementById('navbar');
+  nav.innerHTML = '';
+  navPages.forEach(function(p){
+    var locked = state.role === 'estimator' && ownerOnly.indexOf(p) !== -1;
+    var btn = document.createElement('button');
+    btn.textContent = navLabels[p];
+    if(locked){ btn.classList.add('locked'); }
+    else {
+      btn.onclick = function(){ goto(p); };
+      if(pageToNav[state.page] === p) btn.classList.add('on');
+    }
+    nav.appendChild(btn);
+  });
+}
+
+function jobProfit(j){ return j.offerAmount - j.subPayout - j.materialsCost; }
+function estimatorLoad(name){
+  var pending = state.estimates.filter(function(e){ return e.estimator === name && e.outcome === 'pending'; }).length;
+  var assignedBids = state.bids.filter(function(b){ return b.assignedEstimator === name && (b.status==='needs_estimate'||b.status==='countered'); }).length;
+  return pending + assignedBids;
+}
+function subLoad(subId){ return state.jobs.filter(function(j){ return j.subId === subId; }).length; }
+
+function renderDashboard(){
+  var owner = state.role === 'owner';
+  var html = '<div class="greet">Good morning</div><h1 class="dt">' + (owner ? 'Everything, in one place' : 'Your work today') + '</h1>';
+  if(owner){
+    html += '<div class="money"><div class="card"><div class="l">Revenue today</div><div class="v">$1,240</div></div><div class="card"><div class="l">Revenue this week</div><div class="v">$6,830</div></div><div class="card"><div class="l">Revenue all-time</div><div class="v">$412,905</div></div></div>';
+    html += '<div class="pill-btn" onclick="toggleBreakdown()" id="breakdownBtn">Show full breakdown (revenue, expenses, profit) ▾</div>';
+    html += '<div id="breakdownPanel" style="display:none; margin-top:10px;">' + breakdownTable() + '</div>';
+    html += '<div class="money" style="grid-template-columns:1fr; margin-top:16px;"><div class="card click blurred" id="bankCard" onclick="revealBank()"><div class="l">Bank balance — tap to reveal</div><div class="v">$28,410.55</div><div class="hint">Needs Mailin to connect her bank (Plaid) — placeholder</div></div></div>';
+  }
+  html += '<div class="sec-title">Needs you</div>';
+  if(owner){
+    html += '<div class="notif orange"><div class="l">Overdue invoices</div><div class="v">3 invoices overdue 30+ days — <a onclick="goto(\'money\')" style="cursor:pointer; text-decoration:underline;">review money</a></div></div>';
+  }
+  state.bids.filter(function(b){ return b.status === 'needs_estimate'; }).forEach(function(b){
+    html += '<div class="notif' + (b.daysOld>=4?' orange':'') + '"><div class="l">Bid ' + b.daysOld + ' days old — ' + money(b.askAmount) + ' asked</div><div class="v">' + b.client + ' — ' + b.description + '</div><div class="pill-btn" onclick="goto(\'bidDetail\',' + b.id + ')">Open bid →</div></div>';
+  });
+  state.reminders.forEach(function(r){
+    html += '<div class="notif orange"><div class="l">Follow-up due</div><div class="v">' + r.text + '</div><div class="pill-btn" onclick="markFollowedUp(' + r.id + ')">Mark followed up</div></div>';
+  });
+  html += '<div class="sec-title">Active jobs</div><table><tr><th>Job #</th><th>Client</th><th>Status</th></tr>';
+  state.jobs.forEach(function(j){
+    html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>';
+  });
+  html += '</table>';
+  document.getElementById('pageBody').innerHTML = html;
+}
+
+function breakdownTable(){
+  var rows = [
+    {period:'Today', revenue:1240, expenses:410},
+    {period:'This week', revenue:6830, expenses:2260},
+    {period:'This month', revenue:24500, expenses:9100},
+    {period:'All-time', revenue:412905, expenses:187400}
+  ];
+  var html = '<table><tr><th>Period</th><th>Revenue</th><th>Expenses (subs + materials)</th><th>Profit</th></tr>';
+  rows.forEach(function(r){
+    html += '<tr><td>' + r.period + '</td><td>' + money(r.revenue) + '</td><td>' + money(r.expenses) + '</td><td style="color:var(--green); font-weight:800;">' + money(r.revenue - r.expenses) + '</td></tr>';
+  });
+  html += '</table><div class="lockednote">Revenue = total invoiced. Profit = revenue minus what went to subs and materials. These four cards up top are revenue only — this table is where the actual profit lives.</div>';
+  return html;
+}
+function toggleBreakdown(){
+  var panel = document.getElementById('breakdownPanel');
+  var open = panel.style.display !== 'none';
+  panel.style.display = open ? 'none' : 'block';
+  document.getElementById('breakdownBtn').textContent = open ? 'Show full breakdown (revenue, expenses, profit) ▾' : 'Hide full breakdown ▴';
+}
+function revealBank(){ document.getElementById('bankCard').classList.remove('blurred'); }
+function markFollowedUp(id){ state.reminders = state.reminders.filter(function(r){ return r.id !== id; }); render(); }
+
+// ---------- JOBS ----------
+function renderJobs(){
+  var owner = state.role === 'owner';
+  var html = '<h1 class="dt">Jobs</h1><table><tr><th>Job #</th><th>Client</th>' + (owner?'<th>Offer</th>':'') + '<th>Sub</th><th>Status</th></tr>';
+  state.jobs.forEach(function(j){
+    var sub = state.subs.find(function(s){ return s.id === j.subId; });
+    html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td>' + (owner?'<td>' + money(j.offerAmount) + '</td>':'') + '<td>' + (sub?sub.name:'—') + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>';
+  });
+  html += '</table>';
+  document.getElementById('pageBody').innerHTML = html;
+}
+
+function renderJobDetail(){
+  var j = state.jobs.find(function(x){ return x.id === state.currentJobId; });
+  if(!j){ goto('jobs'); return; }
+  var owner = state.role === 'owner';
+  var sub = state.subs.find(function(s){ return s.id === j.subId; });
+  var profit = jobProfit(j);
+  var html = '<div class="back" onclick="goto(\'jobs\')">&larr; Back to jobs</div>';
+  html += '<h1 class="dt">' + j.jobNumber + ' — ' + j.client + ' <span class="status ' + statusClass(j.status) + '" style="font-size:11px; vertical-align:middle;">' + statusLabel(j.status) + '</span></h1>';
+
+  if(owner){
+    html += '<div class="money four">';
+    html += '<div class="card"><div class="l">Offer / invoiced</div><div class="v">' + money(j.offerAmount) + '</div></div>';
+    html += '<div class="card"><div class="l">Paid to ' + (sub?sub.name:'sub') + '</div><div class="v">' + money(j.subPayout) + '</div></div>';
+    html += '<div class="card"><div class="l">Materials used</div><div class="v">' + money(j.materialsCost) + '</div></div>';
+    html += '<div class="card profit"><div class="l">Mailin made</div><div class="v">' + money(profit) + '</div></div>';
+    html += '</div>';
+  } else {
+    html += '<div class="lockednote" style="margin-bottom:14px;">Pricing and payout figures for this job are only visible to Mailin.</div>';
+  }
+
+  html += '<div class="sec-title">Subcontractor</div>';
+  if(sub){
+    html += '<div class="kv"><div class="row"><span>Assigned to</span><span>' + sub.name + '</span></div>' + (owner ? '<div class="row"><span>Agreed payout</span><span>' + money(j.subPayout) + '</span></div>' : '') + '</div>';
+    html += '<div class="pill-btn blue" onclick="askSubUpdate(' + j.id + ')">Ask ' + sub.name + ' for an update</div>';
+  } else {
+    html += '<div class="notif orange"><div class="l">No sub assigned yet</div><div class="v">Work can\'t start until someone\'s assigned to this job.</div></div>';
+    html += '<div class="formcard">';
+    state.subs.forEach(function(s){
+      html += '<div class="subrow"><span class="nm">' + s.name + '<span style="font-weight:600; color:var(--ink-soft);"> — ' + subLoad(s.id) + ' active jobs' + (owner ? ' · default ' + s.defaultCommission + '%' : '') + '</span></span><div class="pill-btn" style="margin-top:0;" onclick="assignSub(' + j.id + ',' + s.id + ')">Assign' + (owner ? ' — ' + money(Math.round(j.offerAmount * s.defaultCommission / 100)) : '') + '</div></div>';
+    });
+    html += '</div>';
+  }
+
+  html += '<div class="sec-title">Job updates</div>';
+  if(j.updates.length){
+    html += '<div class="updatelog">';
+    j.updates.slice().reverse().forEach(function(u){ html += '<div class="u"><div class="d">' + u.date + '</div>' + u.text + '</div>'; });
+    html += '</div>';
+  } else {
+    html += '<div class="empty">No updates logged yet.</div>';
+  }
+
+  html += '<div class="sec-title">Attachments</div>';
+  if(j.attachments && j.attachments.length){
+    j.attachments.forEach(function(a){
+      html += '<div class="attach"><div class="ico">📎</div><div style="flex:1;"><div>' + a.filename + '</div><div style="font-weight:600; color:var(--ink-soft); font-size:10.5px;">from ' + a.from + ' · ' + a.date + '</div></div><span class="tag">' + a.command + '</span></div>';
+    });
+  } else {
+    html += '<div class="empty">No images linked to this job yet — anything sent via the Team Inbox tagged for this job will show up here.</div>';
+  }
+  document.getElementById('pageBody').innerHTML = html;
+}
+
+function assignSub(jobId, subId){
+  var j = state.jobs.find(function(x){ return x.id === jobId; });
+  var s = state.subs.find(function(x){ return x.id === subId; });
+  j.subId = subId;
+  j.subPayout = Math.round(j.offerAmount * s.defaultCommission / 100);
+  j.status = 'in_progress';
+  j.updates.push({date: today, text: s.name + ' assigned to this job.'});
+  renderJobDetail();
+}
+function askSubUpdate(jobId){
+  var j = state.jobs.find(function(x){ return x.id === jobId; });
+  var sub = state.subs.find(function(s){ return s.id === j.subId; });
+  j.updates.push({date: today, text: 'Update requested from ' + (sub?sub.name:'sub') + ' — waiting on reply.'});
+  renderJobDetail();
+}
+
+// ---------- BIDS ----------
+function renderBids(){
+  var html = '<h1 class="dt">Bids needed</h1><table><tr><th>Client</th><th>Description</th><th>Asking</th><th>Age</th><th>Estimator</th><th>Status</th></tr>';
+  state.bids.forEach(function(b){
+    html += '<tr class="link" onclick="goto(\'bidDetail\',' + b.id + ')"><td>' + b.client + '</td><td>' + b.description + '</td><td>' + money(b.askAmount) + '</td><td><span class="status">' + b.daysOld + 'd</span></td><td>' + (b.assignedEstimator || '<span style="color:var(--coral); font-weight:800;">Unassigned</span>') + '</td><td><span class="status ' + statusClass(b.status) + '">' + statusLabel(b.status) + '</span></td></tr>';
+  });
+  html += '</table>';
+  document.getElementById('pageBody').innerHTML = html;
+}
+
+function renderBidDetail(){
+  var b = state.bids.find(function(x){ return x.id === state.currentBidId; });
+  if(!b){ goto('bids'); return; }
+  var html = '<div class="back" onclick="goto(\'bids\')">&larr; Back to bids</div>';
+  html += '<h1 class="dt">' + b.client + '</h1>';
+  html += '<div class="kv"><div class="row"><span>What they need</span><span>' + b.description + '</span></div><div class="row"><span>Their asking amount</span><span>' + money(b.askAmount) + '</span></div><div class="row"><span>Age</span><span>' + b.daysOld + ' days</span></div><div class="row"><span>Assigned estimator</span><span>' + (b.assignedEstimator || 'Unassigned') + '</span></div><div class="row"><span>Status</span><span>' + statusLabel(b.status) + '</span></div>' + (b.counterAmount ? '<div class="row"><span>Our counteroffer</span><span>' + money(b.counterAmount) + '</span></div>' : '') + '</div>';
+
+  if(b.status === 'needs_estimate' || b.status === 'countered'){
+    html += '<div class="sec-title">Assign to estimator</div>';
+    html += '<div class="formcard">';
+    state.estimators.forEach(function(est){
+      var load = estimatorLoad(est.name);
+      var isAssigned = b.assignedEstimator === est.name;
+      html += '<div class="subrow"><span class="nm">' + est.name + '<span style="font-weight:600; color:var(--ink-soft);"> — ' + load + ' pending right now</span></span>';
+      html += isAssigned ? '<span class="status approved">Assigned</span>' : '<div class="pill-btn" style="margin-top:0;" onclick="assignEstimator(' + b.id + ',\'' + est.name + '\')">Assign</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+    html += '<div class="sec-title">Counteroffer</div>';
+    html += '<div class="formcard"><div class="field"><label>Counteroffer amount</label><input type="number" id="counterInput" placeholder="e.g. 7500" value="' + (b.counterAmount||'') + '"></div><div class="pill-btn" onclick="sendCounter(' + b.id + ')">Send counteroffer</div></div>';
+    html += '<div class="sec-title">Decide</div>';
+    html += '<div><div class="pill-btn green" onclick="approveBid(' + b.id + ')">Approve at ' + money(b.counterAmount || b.askAmount) + ' — build estimate →</div>';
+    html += '<div class="pill-btn" onclick="declineBid(' + b.id + ')">Decline this bid</div></div>';
+  } else if(b.status === 'approved'){
+    html += '<div class="notif green"><div class="l">Approved</div><div class="v">This became an estimate — <a onclick="goto(\'estimates\')" style="cursor:pointer; text-decoration:underline;">view it</a></div></div>';
+  } else if(b.status === 'declined'){
+    html += '<div class="notif"><div class="l">Declined</div><div class="v">This bid was turned down.</div></div>';
+  }
+  document.getElementById('pageBody').innerHTML = html;
+}
+
+function assignEstimator(bidId, name){
+  var b = state.bids.find(function(x){ return x.id === bidId; });
+  b.assignedEstimator = name;
+  renderBidDetail();
+}
+function sendCounter(id){
+  var b = state.bids.find(function(x){ return x.id === id; });
+  var val = parseFloat(document.getElementById('counterInput').value);
+  if(!val || val <= 0){ alert('Enter a counteroffer amount first.'); return; }
+  b.counterAmount = val;
+  b.status = 'countered';
+  renderBidDetail();
+}
+function declineBid(id){ state.bids.find(function(x){ return x.id === id; }).status = 'declined'; renderBidDetail(); }
+function approveBid(id){ state.bids.find(function(x){ return x.id === id; }).status = 'approved'; goto('estimateNew', id); }
+
+// ---------- ESTIMATES ----------
+function renderEstimateNew(){
+  var fromBid = state.bids.find(function(x){ return x.id === state.currentBidId; });
+  var html = '<div class="back" onclick="goto(\'estimates\')">&larr; Back to estimates</div>';
+  html += '<h1 class="dt">New estimate</h1>';
+  html += '<div class="note-banner">You\'re creating a new estimate — nothing is saved until you click Create below.</div>';
+  if(fromBid){ html += '<div class="notif green"><div class="l">Building from bid</div><div class="v">' + fromBid.client + ' — approved at ' + money(fromBid.counterAmount || fromBid.askAmount) + '</div></div>'; }
+  html += '<div class="formcard">';
+  html += '<div class="field"><label>Client</label><input id="estClient" value="' + (fromBid ? fromBid.client : '') + '"></div>';
+  html += '<div class="field"><label>Total</label><input type="number" id="estTotal" value="' + (fromBid ? (fromBid.counterAmount || fromBid.askAmount) : '') + '"></div>';
+  html += '<div class="field"><label>Estimator</label><select id="estEstimator">';
+  state.estimators.forEach(function(est){
+    var sel = fromBid && fromBid.assignedEstimator === est.name ? ' selected' : '';
+    html += '<option' + sel + '>' + est.name + '</option>';
+  });
+  html += '</select>' + (fromBid && fromBid.assignedEstimator ? '<div style="font-size:11px; color:var(--ink-soft); font-weight:700; margin-top:4px;">Pre-filled from the estimator this bid was assigned to.</div>' : '') + '</div>';
+  html += '<div class="sec-title" style="margin-top:4px;">Subs on this job — commission %</div>';
+  state.subs.forEach(function(s){
+    html += '<div class="subrow"><span class="nm">' + s.name + '</span><input type="checkbox" id="subOn' + s.id + '"> <input type="number" id="subPct' + s.id + '" value="' + s.defaultCommission + '" style="width:55px;">%</div>';
+  });
+  html += '<div class="pill-btn solid" onclick="createEstimate(' + (fromBid?fromBid.id:'null') + ')">Create estimate</div>';
+  html += '</div>';
+  document.getElementById('pageBody').innerHTML = html;
+}
+
+function createEstimate(fromBidId){
+  var client = document.getElementById('estClient').value.trim();
+  var total = parseFloat(document.getElementById('estTotal').value);
+  if(!client || !total || total <= 0){ alert('Enter a client and a total above $0 first.'); return; }
+  var estimator = document.getElementById('estEstimator').value;
+  var subs = [];
+  state.subs.forEach(function(s){
+    var on = document.getElementById('subOn' + s.id).checked;
+    if(on){ subs.push({subId:s.id, commissionPct: parseFloat(document.getElementById('subPct' + s.id).value) || 0}); }
+  });
+  var nextId = state.estimates.length + 1;
+  var jobNum = '26-' + String(40 + nextId).padStart(4,'0');
+  state.estimates.push({id: nextId, jobNumber: jobNum, client: client, estimator: estimator, total: total, outcome: 'pending', subs: subs, updates:[{date: today, text:'Estimate created.'}]});
+  goto('estimates');
+}
+
+function renderEstimates(){
+  var html = '<h1 class="dt">Estimates</h1><div style="margin-bottom:14px;"><div class="pill-btn solid" onclick="goto(\'estimateNew\', null)">+ New estimate</div></div>';
+  html += '<table><tr><th>Job #</th><th>Client</th><th>Estimator</th><th>Total</th><th>Status</th></tr>';
+  state.estimates.forEach(function(e){
+    html += '<tr class="link" onclick="goto(\'estimateDetail\',' + e.id + ')"><td>' + e.jobNumber + '</td><td>' + e.client + '</td><td>' + e.estimator + '</td><td>' + money(e.total) + '</td><td><span class="status ' + statusClass(e.outcome) + '">' + e.outcome + '</span></td></tr>';
+  });
+  html += '</table>';
+  document.getElementById('pageBody').innerHTML = html;
+}
+
+function renderEstimateDetail(){
+  var e = state.estimates.find(function(x){ return x.id === state.currentEstimateId; });
+  if(!e){ goto('estimates'); return; }
+  var subsTxt = e.subs.map(function(s){
+    var sub = state.subs.find(function(x){ return x.id === s.subId; });
+    var payout = Math.round(e.total * s.commissionPct / 100);
+    return sub.name + ' — ' + s.commissionPct + '% (' + money(payout) + ')';
+  }).join(', ') || 'None assigned yet';
+  var html = '<div class="back" onclick="goto(\'estimates\')">&larr; Back to estimates</div>';
+  html += '<h1 class="dt">' + e.jobNumber + ' — ' + e.client + ' <span class="status ' + statusClass(e.outcome) + '" style="font-size:11px; vertical-align:middle;">' + e.outcome + '</span></h1>';
+  html += '<div class="kv"><div class="row"><span>Estimator</span><span>' + e.estimator + '</span></div><div class="row"><span>Total</span><span>' + money(e.total) + '</span></div><div class="row"><span>Subs</span><span style="font-size:12px;">' + subsTxt + '</span></div></div>';
+  if(e.outcome === 'pending'){
+    html += '<div><div class="pill-btn green" onclick="setEstimateOutcome(' + e.id + ',\'approved\')">Approve</div><div class="pill-btn" onclick="setEstimateOutcome(' + e.id + ',\'lost\')">Mark lost</div><div class="pill-btn blue" onclick="askEstimatorUpdate(' + e.id + ')">Ask ' + e.estimator + ' for an update</div></div>';
+  }
+  html += '<div class="sec-title">Updates</div>';
+  if(e.updates.length){
+    html += '<div class="updatelog">';
+    e.updates.slice().reverse().forEach(function(u){ html += '<div class="u"><div class="d">' + u.date + '</div>' + u.text + '</div>'; });
+    html += '</div>';
+  } else { html += '<div class="empty">No updates logged yet.</div>'; }
+  document.getElementById('pageBody').innerHTML = html;
+}
+
+function setEstimateOutcome(id, outcome){
+  var e = state.estimates.find(function(x){ return x.id === id; });
+  e.outcome = outcome;
+  e.updates.push({date: today, text: 'Marked ' + outcome + '.'});
+  renderEstimateDetail();
+}
+function askEstimatorUpdate(id){
+  var e = state.estimates.find(function(x){ return x.id === id; });
+  e.updates.push({date: today, text: 'Update requested from ' + e.estimator + ' — waiting on reply.'});
+  renderEstimateDetail();
+}
+
+// ---------- SUBS ----------
+function renderSubs(){
+  var html = '<h1 class="dt">Subcontractors</h1>';
+  html += '<div class="note-banner">Set each sub\'s default commission %. Click a name to see their current jobs and money.</div>';
+  html += '<table><tr><th>Sub</th><th>Default commission %</th><th>Active jobs</th></tr>';
+  state.subs.forEach(function(s){
+    var jobCount = state.jobs.filter(function(j){ return j.subId === s.id; }).length;
+    html += '<tr><td class="link" style="cursor:pointer; text-decoration:underline;" onclick="goto(\'subDetail\',' + s.id + ')">' + s.name + '</td><td><input type="number" value="' + s.defaultCommission + '" style="width:60px; padding:5px 7px; border:2px solid var(--ink); border-radius:8px;" onchange="updateDefaultCommission(' + s.id + ', this.value)">%</td><td>' + jobCount + '</td></tr>';
+  });
+  html += '</table>';
+  document.getElementById('pageBody').innerHTML = html;
+}
+function updateDefaultCommission(id, val){ state.subs.find(function(x){ return x.id === id; }).defaultCommission = parseFloat(val) || 0; }
+
+function renderSubDetail(){
+  var s = state.subs.find(function(x){ return x.id === state.currentSubId; });
+  if(!s){ goto('subs'); return; }
+  var jobs = state.jobs.filter(function(j){ return j.subId === s.id; });
+  var totalOwed = jobs.reduce(function(sum,j){ return sum + j.subPayout; }, 0);
+  var html = '<div class="back" onclick="goto(\'subs\')">&larr; Back to subs</div>';
+  html += '<h1 class="dt">' + s.name + '</h1>';
+  html += '<div class="money"><div class="card"><div class="l">Default commission</div><div class="v">' + s.defaultCommission + '%</div></div><div class="card"><div class="l">Active jobs</div><div class="v">' + jobs.length + '</div></div><div class="card"><div class="l">Currently owed</div><div class="v">' + money(totalOwed) + '</div></div></div>';
+  html += '<div class="sec-title">Jobs assigned to ' + s.name + '</div>';
+  if(jobs.length){
+    html += '<table><tr><th>Job #</th><th>Client</th><th>Job total</th><th>Their payout</th><th>Status</th></tr>';
+    jobs.forEach(function(j){
+      html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td><td>' + money(j.offerAmount) + '</td><td>' + money(j.subPayout) + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>';
+    });
+    html += '</table>';
+  } else {
+    html += '<div class="empty">No jobs assigned to this sub right now.</div>';
+  }
+  document.getElementById('pageBody').innerHTML = html;
+}
+
+// ---------- MONEY ----------
+function renderMoney(){
+  var owed = state.jobs.reduce(function(sum,j){ return sum + j.offerAmount; }, 0);
+  var owedToSubs = state.jobs.reduce(function(sum,j){ return sum + j.subPayout; }, 0);
+  var spent = state.jobs.reduce(function(sum,j){ return sum + j.materialsCost; }, 0) + owedToSubs;
+  var reserves = 28410.55;
+  var html = '<h1 class="dt">Money overview</h1>';
+  html += '<div class="money four"><div class="card"><div class="l">Owed to you</div><div class="v">' + money(owed) + '</div></div><div class="card"><div class="l">You have (bank)</div><div class="v">' + money(reserves) + '</div></div><div class="card"><div class="l">Spent (subs + materials)</div><div class="v">' + money(spent) + '</div></div><div class="card profit"><div class="l">Reserves after payouts</div><div class="v">' + money(reserves - owedToSubs) + '</div></div></div>';
+  html += '<div class="sec-title">Bank vs invoices</div>';
+  html += '<table><tr><th>Invoice</th><th>Amount</th><th>Bank status</th></tr>';
+  html += '<tr><td>INV-1042 — Sunset Ridge</td><td>$2,400</td><td><span class="status matched">Matched — funds arrived</span></td></tr>';
+  html += '<tr><td>INV-1043 — Parkview HOA</td><td>$3,900</td><td><span class="status waiting">Waiting on bank</span></td></tr>';
+  html += '<tr><td>Payout — Delgado Roofing</td><td>$2,400</td><td><span class="status matched">Sent — confirmed by bank</span></td></tr>';
+  html += '</table><div class="note-banner">Needs Mailin to connect her bank (Plaid) before this becomes real instead of dummy.</div>';
+  document.getElementById('pageBody').innerHTML = html;
+}
+
+// ---------- CLIENTS ----------
+function renderClients(){
+  var html = '<h1 class="dt">Clients</h1><table><tr><th>Client</th><th>Contact</th><th>Jobs</th></tr>';
+  state.clients.forEach(function(c){
+    var jobCount = state.jobs.filter(function(j){ return j.client === c.name; }).length;
+    html += '<tr class="link" onclick="goto(\'clientDetail\',' + c.id + ')"><td>' + c.name + '</td><td>' + c.contact + '</td><td>' + jobCount + '</td></tr>';
+  });
+  html += '</table>';
+  document.getElementById('pageBody').innerHTML = html;
+}
+
+function renderClientDetail(){
+  var c = state.clients.find(function(x){ return x.id === state.currentClientId; });
+  if(!c){ goto('clients'); return; }
+  var owner = state.role === 'owner';
+  var jobs = state.jobs.filter(function(j){ return j.client === c.name; });
+  var estimates = state.estimates.filter(function(e){ return e.client === c.name; });
+  var bids = state.bids.filter(function(b){ return b.client === c.name; });
+  var html = '<div class="back" onclick="goto(\'clients\')">&larr; Back to clients</div>';
+  html += '<h1 class="dt">' + c.name + '</h1>';
+  html += '<div class="kv"><div class="row"><span>Contact</span><span>' + c.contact + '</span></div><div class="row"><span>Email</span><span>' + c.email + '</span></div></div>';
+
+  html += '<div class="sec-title">Jobs</div>';
+  if(jobs.length){
+    html += '<table><tr><th>Job #</th>' + (owner?'<th>Offer</th>':'') + '<th>Status</th></tr>';
+    jobs.forEach(function(j){ html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td>' + (owner?'<td>' + money(j.offerAmount) + '</td>':'') + '<td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>'; });
+    html += '</table>';
+  } else { html += '<div class="empty">No jobs yet.</div>'; }
+
+  html += '<div class="sec-title">Estimates</div>';
+  if(estimates.length){
+    html += '<table><tr><th>Job #</th><th>Total</th><th>Status</th></tr>';
+    estimates.forEach(function(e){ html += '<tr class="link" onclick="goto(\'estimateDetail\',' + e.id + ')"><td>' + e.jobNumber + '</td><td>' + money(e.total) + '</td><td><span class="status ' + statusClass(e.outcome) + '">' + e.outcome + '</span></td></tr>'; });
+    html += '</table>';
+  } else { html += '<div class="empty">No estimates yet.</div>'; }
+
+  html += '<div class="sec-title">Bids</div>';
+  if(bids.length){
+    html += '<table><tr><th>Description</th><th>Asking</th><th>Status</th></tr>';
+    bids.forEach(function(b){ html += '<tr class="link" onclick="goto(\'bidDetail\',' + b.id + ')"><td>' + b.description + '</td><td>' + money(b.askAmount) + '</td><td><span class="status ' + statusClass(b.status) + '">' + statusLabel(b.status) + '</span></td></tr>'; });
+    html += '</table>';
+  } else { html += '<div class="empty">No bids yet.</div>'; }
+
+  html += '<div class="sec-title">All attachments for this client</div>';
+  var allAttach = [];
+  jobs.forEach(function(j){ (j.attachments||[]).forEach(function(a){ allAttach.push(Object.assign({jobNumber:j.jobNumber}, a)); }); });
+  if(allAttach.length){
+    allAttach.forEach(function(a){
+      html += '<div class="attach"><div class="ico">📎</div><div style="flex:1;"><div>' + a.filename + ' <span style="font-weight:600; color:var(--ink-soft);">(' + a.jobNumber + ')</span></div><div style="font-weight:600; color:var(--ink-soft); font-size:10.5px;">from ' + a.from + ' · ' + a.date + '</div></div><span class="tag">' + a.command + '</span></div>';
+    });
+  } else { html += '<div class="empty">Nothing here yet — this is where every image linked to any of this client\'s jobs will collect, no matter which job it came in on.</div>'; }
+
+  document.getElementById('pageBody').innerHTML = html;
+}
+
+// ---------- TEAM INBOX ----------
+function renderInbox(){
+  var html = '<h1 class="dt">Team inbox</h1>';
+  html += '<div class="note-banner">This is what the Telegram bot feeds into. Team sends a photo tagged with a command (<b>/payment /bid /update /job</b>) — it lands here sorted by that command. The AI\'s guess at the details is a suggestion only; nothing becomes a real record until someone confirms it.</div>';
+  state.inbox.slice().reverse().forEach(function(item){
+    html += '<div class="notif' + (item.confirmed ? ' green' : ' orange') + '"><div class="l">' + item.command + ' · from ' + item.from + ' · ' + item.date + '</div><div class="v">' + item.note + '</div>';
+    html += '<div style="font-size:12px; margin-top:6px; font-weight:700;">AI guess: ' + (item.aiGuess.client || '—') + (item.aiGuess.amount ? ' · ' + money(item.aiGuess.amount) : '') + '</div>';
+    if(!item.confirmed){ html += '<div class="pill-btn green" onclick="confirmInboxItem(' + item.id + ')">Confirm — looks right</div>'; }
+    else { html += '<span class="status approved">Confirmed</span>'; }
+    html += '</div>';
+  });
+  document.getElementById('pageBody').innerHTML = html;
+}
+
+function confirmInboxItem(id){
+  var item = state.inbox.find(function(x){ return x.id === id; });
+  item.confirmed = true;
+  render();
+}
+
+// ---------- SEARCH ----------
+function runSearch(){
+  var scope = document.getElementById('searchScope').value;
+  var q = document.getElementById('searchInput').value.trim().toLowerCase();
+  if(!q){ alert('Type something to search for first.'); return; }
+  var results = [];
+  if(scope === 'all' || scope === 'clients'){
+    state.clients.filter(function(c){ return c.name.toLowerCase().indexOf(q) !== -1; }).forEach(function(c){ results.push({type:'Client', label:c.name, go:function(){ goto('clientDetail', c.id); }}); });
+  }
+  if(scope === 'all' || scope === 'jobs'){
+    state.jobs.filter(function(j){ return j.client.toLowerCase().indexOf(q) !== -1 || j.jobNumber.toLowerCase().indexOf(q) !== -1; }).forEach(function(j){ results.push({type:'Job', label:j.jobNumber + ' — ' + j.client, go:function(){ goto('jobDetail', j.id); }}); });
+  }
+  if(scope === 'all' || scope === 'bids'){
+    state.bids.filter(function(b){ return b.client.toLowerCase().indexOf(q) !== -1 || b.description.toLowerCase().indexOf(q) !== -1; }).forEach(function(b){ results.push({type:'Bid', label:b.client + ' — ' + b.description, go:function(){ goto('bidDetail', b.id); }}); });
+  }
+  if(scope === 'all' || scope === 'estimates'){
+    state.estimates.filter(function(e){ return e.client.toLowerCase().indexOf(q) !== -1 || e.jobNumber.toLowerCase().indexOf(q) !== -1; }).forEach(function(e){ results.push({type:'Estimate', label:e.jobNumber + ' — ' + e.client, go:function(){ goto('estimateDetail', e.id); }}); });
+  }
+  if((scope === 'all' || scope === 'subs') && state.role === 'owner'){
+    state.subs.filter(function(s){ return s.name.toLowerCase().indexOf(q) !== -1; }).forEach(function(s){ results.push({type:'Sub', label:s.name, go:function(){ goto('subDetail', s.id); }}); });
+  }
+  window.__searchResults = results;
+  var html = '<h1 class="dt">Search results for "' + q + '"</h1>';
+  if(!results.length){ html += '<div class="empty">Nothing found in this scope. Try "search everything" instead.</div>'; }
+  else {
+    results.forEach(function(r, i){ html += '<div class="notif" style="cursor:pointer;" onclick="__searchResults[' + i + '].go()"><div class="l">' + r.type + '</div><div class="v">' + r.label + '</div></div>'; });
+  }
+  document.getElementById('pageBody').innerHTML = html;
+  buildNav();
+}
+
+function render(){
+  buildNav();
+  if(state.page === 'dashboard') renderDashboard();
+  else if(state.page === 'jobs') renderJobs();
+  else if(state.page === 'jobDetail') renderJobDetail();
+  else if(state.page === 'bids') renderBids();
+  else if(state.page === 'bidDetail') renderBidDetail();
+  else if(state.page === 'estimates') renderEstimates();
+  else if(state.page === 'estimateNew') renderEstimateNew();
+  else if(state.page === 'estimateDetail') renderEstimateDetail();
+  else if(state.page === 'subs') renderSubs();
+  else if(state.page === 'subDetail') renderSubDetail();
+  else if(state.page === 'clients') renderClients();
+  else if(state.page === 'clientDetail') renderClientDetail();
+  else if(state.page === 'inbox') renderInbox();
+  else if(state.page === 'money') renderMoney();
+}
+
+render();
+</script>
+</body>
+</html>
