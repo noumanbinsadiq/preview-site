@@ -14,25 +14,25 @@
   --blue:#2F5BFF; --coral:#FF5A38; --green:#12A66B; --violet:#7A4DFF; --yellow:#FFC42E;
 }
 *{box-sizing:border-box; margin:0; padding:0;}
-body{font-family:'Manrope',sans-serif; background:var(--cream-2); color:var(--ink); line-height:1.5; padding:30px 16px 70px;}
+body{font-family:'Manrope',sans-serif; background:var(--cream-2); color:var(--ink); line-height:1.55; padding:30px 16px 70px;}
 h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; letter-spacing:-0.02em;}
 .wrap{max-width:980px; margin:0 auto;}
 .note-banner{background:rgba(255,90,56,.08); border:2px dashed var(--coral); border-radius:16px; padding:14px 18px; font-size:12.5px; color:var(--ink-soft); margin-bottom:22px;}
 .note-banner b{color:var(--coral);}
-.roletoggle{display:flex; gap:8px; margin-bottom:16px;}
+.roletoggle{display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;}
 .roletoggle button{font-family:'Manrope',sans-serif; font-weight:800; font-size:13px; padding:10px 18px; border:2.5px solid var(--ink); border-radius:99px; background:var(--cream); cursor:pointer;}
 .roletoggle button.active{background:var(--ink); color:var(--cream);}
-.shell{background:var(--cream); border:3px solid var(--ink); border-radius:24px; padding:22px; box-shadow:6px 6px 0 var(--ink);}
-.top-bar{display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;}
+.shell{background:var(--cream); border:3px solid var(--ink); border-radius:24px; padding:24px; box-shadow:6px 6px 0 var(--ink);}
+.top-bar{display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px;}
 .logo{font-size:16px; font-weight:800;}
 .who{font-size:12px; font-weight:700; color:var(--ink-soft); background:var(--cream-2); border:2px solid var(--ink); border-radius:99px; padding:5px 12px;}
-.navbar{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:20px;}
-.navbar button{font-family:'Manrope',sans-serif; font-size:11.5px; font-weight:800; padding:7px 13px; border:2px solid var(--ink); border-radius:99px; background:var(--cream-2); cursor:pointer; color:var(--ink);}
+.navbar{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:24px; padding-bottom:18px; border-bottom:2px solid rgba(27,23,16,.1);}
+.navbar button{font-family:'Manrope',sans-serif; font-size:11.5px; font-weight:800; padding:8px 14px; border:2px solid var(--ink); border-radius:99px; background:var(--cream-2); cursor:pointer; color:var(--ink);}
 .navbar button.on{background:var(--coral); color:#fff; border-color:var(--coral);}
 .navbar button.locked{opacity:.35; cursor:not-allowed;}
-.back{display:inline-block; font-size:12px; font-weight:800; margin-bottom:12px; cursor:pointer; color:var(--coral);}
+.back{display:inline-block; font-size:12px; font-weight:800; margin-bottom:14px; cursor:pointer; color:var(--coral);}
 .greet{font-size:12.5px; font-weight:700; color:var(--coral); text-transform:uppercase; letter-spacing:.05em; margin-bottom:4px;}
-h1.dt{font-size:22px; margin-bottom:16px;}
+h1.dt{font-size:23px; margin-bottom:18px;}
 .money{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:18px;}
 .money.four{grid-template-columns:repeat(4,1fr);}
 .card{border:2.5px solid var(--ink); border-radius:16px; padding:14px 16px; background:var(--cream-2); position:relative;}
@@ -42,45 +42,51 @@ h1.dt{font-size:22px; margin-bottom:16px;}
 .card.blurred .v{filter:blur(6px); user-select:none;}
 .card .hint{font-size:10px; font-weight:700; color:var(--ink-soft); margin-top:4px;}
 .card.profit .v{color:var(--green);}
-.sec-title{font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin:20px 0 10px;}
+.sec-title{font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin:28px 0 12px; padding-top:18px; border-top:2px solid rgba(27,23,16,.08);}
+.sec-title:first-of-type{padding-top:0; border-top:none; margin-top:20px;}
+.attn-block{border:2.5px solid var(--coral); border-radius:20px; padding:18px; background:rgba(255,90,56,.05); margin-bottom:26px;}
+.attn-title{font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--coral); margin-bottom:12px;}
+.attn-empty{font-size:12.5px; font-weight:700; color:var(--green);}
 .notif{border:2.5px solid var(--yellow); background:#fffaf0; border-radius:14px; padding:12px 14px; margin-bottom:8px;}
 .notif.orange{border-color:var(--coral); background:rgba(255,90,56,.06);}
 .notif.green{border-color:var(--green); background:rgba(18,166,107,.06);}
+.notif.blue{border-color:var(--blue); background:rgba(47,91,255,.06);}
 .notif .l{font-size:11px; font-weight:800; color:var(--ink-soft); text-transform:uppercase; margin-bottom:3px;}
 .notif .v{font-size:13.5px; font-weight:700;}
 .pill-btn{display:inline-block; font-size:11px; font-weight:800; padding:7px 13px; border:2px solid var(--ink); border-radius:99px; background:var(--cream); margin-top:6px; margin-right:6px; cursor:pointer;}
 .pill-btn.solid{background:var(--coral); color:#fff; border-color:var(--coral);}
 .pill-btn.green{background:var(--green); color:#fff; border-color:var(--green);}
 .pill-btn.blue{background:var(--blue); color:#fff; border-color:var(--blue);}
+.pill-btn.ghost{background:transparent;}
+.segtabs{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px;}
+.segtabs button{font-family:'Manrope',sans-serif; font-size:11.5px; font-weight:800; padding:8px 14px; border:2px solid var(--ink); border-radius:10px; background:var(--cream-2); cursor:pointer;}
+.segtabs button.on{background:var(--ink); color:var(--cream);}
 table{width:100%; border-collapse:collapse; border:2.5px solid var(--ink); border-radius:14px; overflow:hidden; font-size:12.5px; margin-bottom:10px;}
 th{background:var(--ink); color:var(--cream); text-align:left; padding:9px 12px; font-size:10.5px; text-transform:uppercase; letter-spacing:.04em;}
 td{padding:9px 12px; border-top:1.5px solid rgba(27,23,16,.12); font-weight:600;}
 tr.link{cursor:pointer;}
 tr.link:hover td{background:rgba(255,90,56,.05);}
-.status{display:inline-block; font-size:10px; font-weight:800; padding:3px 9px; border-radius:99px; background:var(--cream-2); border:1.5px solid var(--ink);}
-.status.matched{background:var(--green); color:#fff; border-color:var(--green);}
+.status{display:inline-block; font-size:10px; font-weight:800; padding:3px 9px; border-radius:99px; background:var(--cream-2); border:1.5px solid var(--ink); white-space:nowrap;}
+.status.needsattn{background:var(--coral); color:#fff; border-color:var(--coral);}
 .status.waiting{background:var(--yellow); border-color:var(--yellow);}
-.status.approved{background:var(--green); color:#fff; border-color:var(--green);}
-.status.declined{background:var(--ink-soft); color:#fff; border-color:var(--ink-soft);}
+.status.approved,.status.won,.status.paid,.status.matched{background:var(--green); color:#fff; border-color:var(--green);}
+.status.declined,.status.lost{background:var(--ink-soft); color:#fff; border-color:var(--ink-soft);}
 .status.progress{background:var(--blue); color:#fff; border-color:var(--blue);}
 .kv{border:2.5px solid var(--ink); border-radius:16px; padding:14px 18px; background:var(--cream-2); margin-bottom:16px;}
-.kv .row{display:flex; justify-content:space-between; padding:7px 0; border-bottom:1.5px solid rgba(27,23,16,.1); font-size:13px;}
+.kv .row{display:flex; justify-content:space-between; padding:7px 0; border-bottom:1.5px solid rgba(27,23,16,.1); font-size:13px; gap:12px;}
 .kv .row:last-child{border-bottom:none;}
-.kv .row span:first-child{color:var(--ink-soft); font-weight:700;}
-.kv .row span:last-child{font-weight:800;}
+.kv .row span:first-child{color:var(--ink-soft); font-weight:700; flex-shrink:0;}
+.kv .row span:last-child{font-weight:800; text-align:right;}
 .field{margin-bottom:12px;}
 .field label{display:block; font-size:11.5px; font-weight:800; color:var(--ink-soft); margin-bottom:4px;}
-.field input,.field select{width:100%; padding:9px 11px; border:2px solid var(--ink); border-radius:10px; font-size:13px; font-family:'Manrope',sans-serif; background:var(--cream);}
-.formcard{border:2.5px solid var(--ink); border-radius:16px; padding:16px; background:var(--cream-2); max-width:420px;}
+.field input,.field select,.field textarea{width:100%; padding:9px 11px; border:2px solid var(--ink); border-radius:10px; font-size:13px; font-family:'Manrope',sans-serif; background:var(--cream);}
+.field textarea{resize:vertical; min-height:60px;}
+.formcard{border:2.5px solid var(--ink); border-radius:16px; padding:16px; background:var(--cream-2); max-width:440px;}
 .subrow{display:flex; gap:8px; align-items:center; margin-bottom:8px; font-size:12.5px;}
 .subrow .nm{flex:1; font-weight:700;}
 .subrow input{width:70px; padding:6px 8px; border:2px solid var(--ink); border-radius:8px; font-size:12px;}
-.updatelog{border:2px solid var(--ink); border-radius:14px; overflow:hidden;}
-.updatelog .u{padding:10px 14px; border-top:1.5px solid rgba(27,23,16,.12); font-size:12.5px;}
-.updatelog .u:first-child{border-top:none;}
-.updatelog .u .d{font-weight:800; color:var(--ink-soft); font-size:10.5px; text-transform:uppercase; margin-bottom:2px;}
 .empty{font-size:12.5px; color:var(--ink-soft); font-weight:700; padding:10px 0;}
-.legend{display:flex; gap:16px; flex-wrap:wrap; margin-top:20px; font-size:11.5px; color:var(--ink-soft); font-weight:700;}
+.legend{display:flex; gap:16px; flex-wrap:wrap; margin-top:24px; font-size:11.5px; color:var(--ink-soft); font-weight:700;}
 .legend span{display:inline-flex; align-items:center; gap:6px;}
 .dot{width:10px; height:10px; border-radius:50%; border:1.5px solid var(--ink);}
 footer{text-align:center; padding:26px 0 10px; font-size:12px; color:var(--ink-soft);}
@@ -92,11 +98,19 @@ footer{text-align:center; padding:26px 0 10px; font-size:12px; color:var(--ink-s
 .attach .tag{font-size:9.5px; font-weight:800; text-transform:uppercase; background:var(--violet); color:#fff; padding:2px 8px; border-radius:99px;}
 .attach .ico{width:26px; height:26px; border-radius:8px; border:2px solid var(--ink); display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; background:var(--cream-2);}
 .lockednote{font-size:11.5px; color:var(--ink-soft); font-weight:700; font-style:italic;}
+.notesbox{border:2px solid var(--ink); border-radius:14px; overflow:hidden; margin-bottom:10px;}
+.note{padding:11px 14px; border-top:1.5px solid rgba(27,23,16,.12); font-size:12.5px;}
+.note:first-child{border-top:none;}
+.note .meta{font-weight:800; color:var(--ink-soft); font-size:10.5px; text-transform:uppercase; margin-bottom:3px; display:flex; justify-content:space-between; gap:8px;}
+.note .to{background:var(--violet); color:#fff; padding:2px 8px; border-radius:99px; font-size:9.5px;}
+.noteform{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;}
+.noteform textarea{flex:1; min-width:200px; padding:9px 11px; border:2px solid var(--ink); border-radius:10px; font-size:12.5px; font-family:'Manrope',sans-serif; min-height:44px;}
+.noteform select{padding:9px; border:2px solid var(--ink); border-radius:10px; font-size:12px; font-family:'Manrope',sans-serif; background:var(--cream);}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="note-banner"><b>Everything on this page is a click-through preview with sample data — nothing here is your real jobs, clients, or numbers yet.</b> Click around freely: open a bid, assign a sub, try the search bar, switch to the Estimator view to see what your team would see. Use the buttons above to switch between your view (Owner) and a team member's view (Estimator) — notice money figures disappear in that view. Nothing you click here changes anything real or gets saved. Tell Nouman anything you'd want added, changed, or removed.</div>
+  <div class="note-banner"><b>Everything on this page is a click-through preview with sample data — nothing here is your real jobs, clients, or numbers yet.</b> This is a rebuilt, simpler layout based on your feedback on the first version. Click around freely — open a quote, approve it, try the search bar, switch to the Estimator view. Nothing you click here changes anything real or gets saved. Tell Nouman anything you'd want added, changed, or removed — the old version is saved too, nothing was thrown away.</div>
   <div class="roletoggle">
     <button class="active" data-role="owner" onclick="setRole('owner')">Owner view — Mailin</button>
     <button data-role="estimator" onclick="setRole('estimator')">Estimator / team-member view</button>
@@ -110,9 +124,8 @@ footer{text-align:center; padding:26px 0 10px; font-size:12px; color:var(--ink-s
       <select id="searchScope">
         <option value="all">Search everything</option>
         <option value="clients">Clients</option>
+        <option value="quotes">Quotes</option>
         <option value="jobs">Jobs</option>
-        <option value="bids">Bids</option>
-        <option value="estimates">Estimates</option>
         <option value="subs">Subs</option>
       </select>
       <input id="searchInput" placeholder="Search by name, job #, description…" onkeydown="if(event.key==='Enter') runSearch();">
@@ -121,32 +134,34 @@ footer{text-align:center; padding:26px 0 10px; font-size:12px; color:var(--ink-s
     <div class="navbar" id="navbar"></div>
     <div id="pageBody"></div>
     <div class="legend">
-      <span><span class="dot" style="background:var(--coral)"></span> Coral = urgent / needs action</span>
-      <span><span class="dot" style="background:var(--yellow)"></span> Yellow = follow-up / waiting</span>
-      <span><span class="dot" style="background:var(--green)"></span> Green = money / approved / matched</span>
+      <span><span class="dot" style="background:var(--coral)"></span> Coral = needs your attention now</span>
+      <span><span class="dot" style="background:var(--yellow)"></span> Yellow = waiting / in progress</span>
+      <span><span class="dot" style="background:var(--green)"></span> Green = done / approved / paid</span>
     </div>
   </div>
-  <footer>Yumbo dashboard preview — sample data, for review only.</footer>
+  <footer>Yumbo dashboard preview v5 — simplified layout, sample data, for review only.</footer>
 </div>
 <script>
-var today = 'Aug 15';
+var today = 'Aug 17';
 var state = {
   role: 'owner',
   page: 'dashboard',
-  currentBidId: null,
+  quoteFilter: 'active',
+  currentQuoteId: null,
   currentJobId: null,
-  currentEstimateId: null,
   currentSubId: null,
   currentClientId: null,
+  currentInvoiceId: null,
   clients: [
     {id:1, name:'Sunset Ridge', contact:'Property manager — (904) 555-0132', email:'manager@sunsetridge.example'},
     {id:2, name:'Parkview HOA', contact:'HOA board — (904) 555-0198', email:'board@parkviewhoa.example'},
-    {id:3, name:'Oakview Plaza', contact:'Facilities — (904) 555-0177', email:'facilities@oakviewplaza.example'}
+    {id:3, name:'Oakview Plaza', contact:'Facilities — (904) 555-0177', email:'facilities@oakviewplaza.example'},
+    {id:4, name:'Maple Court', contact:'Owner — (904) 555-0144', email:'owner@maplecourt.example'}
   ],
   inbox: [
     {id:1, command:'/payment', from:'Carlos R.', date:'Aug 14', note:'Screenshot from client — Zelle payment', aiGuess:{amount:2400, client:'Sunset Ridge'}, confirmed:false},
     {id:2, command:'/update', from:'Ana M.', date:'Aug 15', note:'Job site photo — roofing progress', aiGuess:{amount:null, client:'Sunset Ridge'}, confirmed:false},
-    {id:3, command:'/bid', from:'Mailin', date:'Aug 12', note:'New bid request forwarded from a call', aiGuess:{amount:5400, client:'Maple Court'}, confirmed:true}
+    {id:3, command:'/bid', from:'Mailin', date:'Aug 12', note:'New quote request forwarded from a call', aiGuess:{amount:null, client:'Maple Court'}, confirmed:true}
   ],
   subs: [
     {id:1, name:'Delgado Roofing', defaultCommission:12},
@@ -157,31 +172,49 @@ var state = {
     {name:'Carlos R.'},
     {name:'Ana M.'}
   ],
+  // ---- ONE pipeline: a request comes in with no price, your team prices it,
+  // you approve it, it goes to the client, then it's won (becomes a job) or lost.
+  // stage: requested -> building -> awaiting_owner -> sent -> won / lost
+  quotes: [
+    {id:1, client:'Sunset Ridge Apartments', details:'Roof repair — 3 units, storm damage. Client called it in, wants it looked at this week.', daysOld:5, stage:'requested', assignedEstimator:null, amount:null,
+      notes:[{author:'Mailin', text:'Client called twice already, this one is time-sensitive.', to:null, date:'Aug 12'}]},
+    {id:2, client:'Maple Court', details:'Fence replacement, 120ft, wood to match existing.', daysOld:1, stage:'requested', assignedEstimator:null, amount:null, notes:[]},
+    {id:3, client:'Oakview Plaza', details:'Parking lot resurfacing, ~4,200 sq ft.', daysOld:2, stage:'building', assignedEstimator:'Ana M.', amount:null, notes:[
+      {author:'Ana M.', text:'Waiting on a materials price from the asphalt supplier before I can finish this.', to:'Mailin', date:'Aug 16'}
+    ]},
+    {id:4, client:'Parkview HOA', details:'Full clubhouse roof + gutter replacement.', daysOld:6, stage:'awaiting_owner', assignedEstimator:'Carlos R.', amount:14500, notes:[
+      {author:'Carlos R.', text:'Priced this at $14,500 — includes RJ Concrete and Delgado Roofing. Ready for your review.', to:'Mailin', date:'Aug 11'}
+    ], subs:[{subId:1,commissionPct:12},{subId:2,commissionPct:15}]},
+    {id:5, client:'Sunset Ridge', details:'Roof repair job — 26-0041.', daysOld:0, stage:'won', assignedEstimator:'Carlos R.', amount:6800, notes:[], subs:[{subId:1,commissionPct:35}], jobId:1}
+  ],
   jobs: [
-    {id:1, jobNumber:'26-0041', client:'Sunset Ridge', offerAmount:6800, status:'in_progress', subId:1, subPayout:2400, materialsCost:900,
-      updates:[{date:'Aug 10', text:'Materials delivered on site.'},{date:'Aug 12', text:'Roofing 50% complete.'}],
-      attachments:[{date:'Aug 14', tag:'/payment', filename:'zelle-payment-2400.jpg', from:'Carlos R.'},{date:'Aug 12', tag:'/update', filename:'roof-progress-50pct.jpg', from:'Ana M.'}]},
-    {id:2, jobNumber:'26-0038', client:'Parkview HOA', offerAmount:14500, status:'approved', subId:2, subPayout:2175, materialsCost:1200,
-      updates:[], attachments:[]},
-    {id:3, jobNumber:'26-0046', client:'Oakview Plaza', offerAmount:4200, status:'approved', subId:null, subPayout:0, materialsCost:0,
-      updates:[{date:'Aug 14', text:'Approved — needs a sub assigned before work can start.'}], attachments:[]}
+    {id:1, jobNumber:'26-0041', client:'Sunset Ridge', quoteId:5, offerAmount:6800, status:'in_progress', subId:1, subPayout:2400, materialsCost:900,
+      notes:[{author:'Ana M.', text:'Materials delivered on site.', to:null, date:'Aug 10'},{author:'Ana M.', text:'Roofing 50% complete.', to:null, date:'Aug 12'}],
+      attachments:[{date:'Aug 14', tag:'/payment', filename:'zelle-payment-2400.jpg', from:'Carlos R.'},{date:'Aug 12', tag:'/update', filename:'roof-progress-50pct.jpg', from:'Ana M.'}]}
   ],
-  bids: [
-    {id:1, client:'Sunset Ridge Apartments', description:'Roof repair — 3 units, storm damage', askAmount:8200, daysOld:5, status:'needs_estimate', counterAmount:null, assignedEstimator:null},
-    {id:2, client:'Maple Court', description:'Fence replacement, 120ft', askAmount:5400, daysOld:1, status:'needs_estimate', counterAmount:null, assignedEstimator:null}
-  ],
-  estimates: [
-    {id:1, jobNumber:'26-0038', client:'Parkview HOA', estimator:'Carlos R.', total:14500, outcome:'pending', subs:[{subId:1,commissionPct:12},{subId:2,commissionPct:15}],
-      updates:[{date:'Aug 11', text:'Sent to client for review.'}]}
+  invoices: [
+    {id:1, invoiceNumber:'INV-1042', jobNumber:'26-0038', client:'Parkview HOA', amount:3900, status:'waiting', notes:[]}
   ],
   reminders: [
-    {id:1, estimateId:1, text:'Estimate 26-0038 — Parkview HOA awaiting reply'}
+    {id:1, quoteId:4, text:'Quote for Parkview HOA has been waiting on your approval for 3 days'}
   ]
 };
 
-function money(n){ return '$' + Number(n).toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:0}); }
+function money(n){ return n===null || n===undefined ? '—' : '$' + Number(n).toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:0}); }
+function stageLabel(s){
+  return {requested:'Needs quoting', building:'Being priced', awaiting_owner:'Awaiting your approval', sent:'Sent to client', won:'Won — became a job', lost:'Lost'}[s] || s;
+}
+function stageClass(s){
+  if(s==='requested') return 'needsattn';
+  if(s==='building') return 'waiting';
+  if(s==='awaiting_owner') return 'needsattn';
+  if(s==='sent') return 'progress';
+  if(s==='won') return 'won';
+  if(s==='lost') return 'lost';
+  return '';
+}
 function statusLabel(s){ return s.replace(/_/g,' '); }
-function statusClass(s){ if(s==='in_progress') return 'progress'; if(s==='approved') return 'approved'; if(s==='declined'||s==='lost') return 'declined'; if(s==='pending') return 'waiting'; return ''; }
+function statusClass(s){ if(s==='in_progress') return 'progress'; if(s==='completed') return 'approved'; if(s==='matched') return 'matched'; if(s==='waiting') return 'waiting'; return ''; }
 
 function setRole(role){
   state.role = role;
@@ -193,18 +226,18 @@ function setRole(role){
 
 function goto(page, arg){
   state.page = page;
-  if(page === 'bidDetail') state.currentBidId = arg;
+  if(page === 'quoteDetail') state.currentQuoteId = arg;
   if(page === 'jobDetail') state.currentJobId = arg;
-  if(page === 'estimateDetail') state.currentEstimateId = arg;
   if(page === 'subDetail') state.currentSubId = arg;
   if(page === 'clientDetail') state.currentClientId = arg;
+  if(page === 'invoiceDetail') state.currentInvoiceId = arg;
   render();
 }
 
-var navPages = ['dashboard','jobs','bids','estimates','clients','subs','inbox','money'];
-var navLabels = {dashboard:'Dashboard', jobs:'Jobs', bids:'Bids', estimates:'Estimates', clients:'Clients', subs:'Subs', inbox:'Team inbox', money:'Money'};
+var navPages = ['dashboard','quotes','jobs','clients','subs','invoices','inbox','money'];
+var navLabels = {dashboard:'Home', quotes:'Quotes', jobs:'Jobs', clients:'Clients', subs:'Subs', invoices:'Invoices', inbox:'Team inbox', money:'Money'};
 var ownerOnly = ['subs','money'];
-var pageToNav = {dashboard:'dashboard', jobs:'jobs', jobDetail:'jobs', bids:'bids', bidDetail:'bids', estimates:'estimates', estimateNew:'estimates', estimateDetail:'estimates', clients:'clients', clientDetail:'clients', subs:'subs', subDetail:'subs', inbox:'inbox', money:'money'};
+var pageToNav = {dashboard:'dashboard', quotes:'quotes', quoteDetail:'quotes', jobs:'jobs', jobDetail:'jobs', clients:'clients', clientDetail:'clients', subs:'subs', subDetail:'subs', invoices:'invoices', invoiceDetail:'invoices', inbox:'inbox', money:'money'};
 
 function buildNav(){
   var nav = document.getElementById('navbar');
@@ -224,36 +257,78 @@ function buildNav(){
 
 function jobProfit(j){ return j.offerAmount - j.subPayout - j.materialsCost; }
 function estimatorLoad(name){
-  var pending = state.estimates.filter(function(e){ return e.estimator === name && e.outcome === 'pending'; }).length;
-  var assignedBids = state.bids.filter(function(b){ return b.assignedEstimator === name && (b.status==='needs_estimate'||b.status==='countered'); }).length;
-  return pending + assignedBids;
+  return state.quotes.filter(function(q){ return q.assignedEstimator === name && ['building','awaiting_owner'].indexOf(q.stage) !== -1; }).length;
 }
 function subLoad(subId){ return state.jobs.filter(function(j){ return j.subId === subId; }).length; }
 
+// ---------- reusable notes / team-messages thread ----------
+function notesThread(list){
+  if(!list || !list.length){ return '<div class="empty">No notes yet.</div>'; }
+  var html = '<div class="notesbox">';
+  list.slice().reverse().forEach(function(n){
+    html += '<div class="note"><div class="meta"><span>' + n.author + ' · ' + n.date + '</span>' + (n.to ? '<span class="to">→ ' + n.to + '</span>' : '') + '</div>' + n.text + '</div>';
+  });
+  html += '</div>';
+  return html;
+}
+function noteForm(kind, id){
+  var toOptions = '<option value="">Just a note — not sent to anyone</option>';
+  var people = ['Mailin'].concat(state.estimators.map(function(e){return e.name;}));
+  people.forEach(function(p){ toOptions += '<option value="' + p + '">Send to ' + p + '</option>'; });
+  return '<div class="noteform"><textarea id="noteText_' + kind + id + '" placeholder="Write a note or a message to someone on the team…"></textarea></div>'
+    + '<div class="noteform"><select id="noteTo_' + kind + id + '">' + toOptions + '</select><div class="pill-btn" onclick="addNote(\'' + kind + '\',' + id + ')">Post</div></div>';
+}
+function addNote(kind, id){
+  var text = document.getElementById('noteText_' + kind + id).value.trim();
+  if(!text){ return; }
+  var to = document.getElementById('noteTo_' + kind + id).value || null;
+  var author = state.role === 'owner' ? 'Mailin' : 'Carlos R.';
+  var target = kind === 'quote' ? state.quotes.find(function(x){return x.id===id;}) : kind === 'job' ? state.jobs.find(function(x){return x.id===id;}) : state.invoices.find(function(x){return x.id===id;});
+  target.notes.push({author:author, text:text, to:to, date:today});
+  if(kind==='quote') renderQuoteDetail(); else if(kind==='job') renderJobDetail(); else renderInvoiceDetail();
+}
+
+// ---------- HOME ----------
 function renderDashboard(){
   var owner = state.role === 'owner';
   var html = '<div class="greet">Good morning</div><h1 class="dt">' + (owner ? 'Everything, in one place' : 'Your work today') + '</h1>';
+
+  // Needs your attention — always first, this is the whole point of the home page.
+  var attnQuotes = state.quotes.filter(function(q){ return q.stage==='requested' || (owner && q.stage==='awaiting_owner'); });
+  var attnInvoices = owner ? state.invoices.filter(function(inv){ return inv.status==='waiting'; }) : [];
+  html += '<div class="attn-block"><div class="attn-title">Needs your attention</div>';
+  if(!attnQuotes.length && !attnInvoices.length){
+    html += '<div class="attn-empty">Nothing urgent right now.</div>';
+  } else {
+    attnQuotes.forEach(function(q){
+      var label = q.stage==='requested' ? 'Needs quoting' : 'Waiting on your approval';
+      html += '<div class="notif orange"><div class="l">' + label + ' · ' + q.daysOld + ' days old</div><div class="v">' + q.client + ' — ' + q.details.slice(0,60) + (q.details.length>60?'…':'') + '</div><div class="pill-btn" onclick="goto(\'quoteDetail\',' + q.id + ')">Open →</div></div>';
+    });
+    if(owner){
+      attnInvoices.forEach(function(inv){
+        html += '<div class="notif orange"><div class="l">Invoice waiting on payment</div><div class="v">' + inv.invoiceNumber + ' — ' + inv.client + ' — ' + money(inv.amount) + '</div><div class="pill-btn" onclick="goto(\'invoiceDetail\',' + inv.id + ')">Open →</div></div>';
+      });
+    }
+  }
+  html += '</div>';
+
   if(owner){
+    html += '<div class="sec-title">Revenue</div>';
     html += '<div class="money"><div class="card"><div class="l">Revenue today</div><div class="v">$1,240</div></div><div class="card"><div class="l">Revenue this week</div><div class="v">$6,830</div></div><div class="card"><div class="l">Revenue all-time</div><div class="v">$412,905</div></div></div>';
     html += '<div class="pill-btn" onclick="toggleBreakdown()" id="breakdownBtn">Show full breakdown (revenue, expenses, profit) ▾</div>';
     html += '<div id="breakdownPanel" style="display:none; margin-top:10px;">' + breakdownTable() + '</div>';
     html += '<div class="money" style="grid-template-columns:1fr; margin-top:16px;"><div class="card click blurred" id="bankCard" onclick="revealBank()"><div class="l">Bank balance — tap to reveal</div><div class="v">$28,410.55</div><div class="hint">Needs Mailin to connect her bank (Plaid) — placeholder</div></div></div>';
   }
-  html += '<div class="sec-title">Needs you</div>';
-  if(owner){
-    html += '<div class="notif orange"><div class="l">Overdue invoices</div><div class="v">3 invoices overdue 30+ days — <a onclick="goto(\'money\')" style="cursor:pointer; text-decoration:underline;">review money</a></div></div>';
-  }
-  state.bids.filter(function(b){ return b.status === 'needs_estimate'; }).forEach(function(b){
-    html += '<div class="notif' + (b.daysOld>=4?' orange':'') + '"><div class="l">Bid ' + b.daysOld + ' days old — ' + money(b.askAmount) + ' asked</div><div class="v">' + b.client + ' — ' + b.description + '</div><div class="pill-btn" onclick="goto(\'bidDetail\',' + b.id + ')">Open bid →</div></div>';
-  });
-  state.reminders.forEach(function(r){
-    html += '<div class="notif orange"><div class="l">Follow-up due</div><div class="v">' + r.text + '</div><div class="pill-btn" onclick="markFollowedUp(' + r.id + ')">Mark followed up</div></div>';
-  });
+
   html += '<div class="sec-title">Active jobs</div><table><tr><th>Job #</th><th>Client</th><th>Status</th></tr>';
-  state.jobs.forEach(function(j){
-    html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>';
-  });
+  var activeJobs = state.jobs.filter(function(j){ return j.status==='in_progress'; });
+  if(activeJobs.length){
+    activeJobs.forEach(function(j){
+      html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>';
+    });
+  }
   html += '</table>';
+  if(!activeJobs.length){ html += '<div class="empty">No active jobs right now.</div>'; }
   document.getElementById('pageBody').innerHTML = html;
 }
 
@@ -268,7 +343,7 @@ function breakdownTable(){
   rows.forEach(function(r){
     html += '<tr><td>' + r.period + '</td><td>' + money(r.revenue) + '</td><td>' + money(r.expenses) + '</td><td style="color:var(--green); font-weight:800;">' + money(r.revenue - r.expenses) + '</td></tr>';
   });
-  html += '</table><div class="lockednote">Revenue = total invoiced. Profit = revenue minus what went to subs and materials. These four cards up top are revenue only — this table is where the actual profit lives.</div>';
+  html += '</table><div class="lockednote">Revenue = total invoiced. Profit = revenue minus what went to subs and materials.</div>';
   return html;
 }
 function toggleBreakdown(){
@@ -278,12 +353,137 @@ function toggleBreakdown(){
   document.getElementById('breakdownBtn').textContent = open ? 'Show full breakdown (revenue, expenses, profit) ▾' : 'Hide full breakdown ▴';
 }
 function revealBank(){ document.getElementById('bankCard').classList.remove('blurred'); }
-function markFollowedUp(id){ state.reminders = state.reminders.filter(function(r){ return r.id !== id; }); render(); }
+
+// ---------- QUOTES (merged: requests + pricing + approval in one pipeline) ----------
+function renderQuotes(){
+  var owner = state.role === 'owner';
+  var html = '<h1 class="dt">Quotes</h1>';
+  html += '<div class="segtabs" id="quoteTabs">';
+  var tabs = [['active','Needs action'],['requested','Needs quoting'],['building','Being priced'],['awaiting_owner','Awaiting your approval'],['sent','Sent to client'],['won','Won'],['lost','Lost'],['all','All']];
+  tabs.forEach(function(t){
+    html += '<button class="' + (state.quoteFilter===t[0]?'on':'') + '" onclick="setQuoteFilter(\'' + t[0] + '\')">' + t[1] + '</button>';
+  });
+  html += '</div>';
+
+  var list = state.quotes.filter(function(q){
+    if(state.quoteFilter==='all') return true;
+    if(state.quoteFilter==='active') return q.stage==='requested' || q.stage==='building' || q.stage==='awaiting_owner';
+    return q.stage === state.quoteFilter;
+  });
+
+  html += '<table><tr><th>Client</th><th>What\'s needed</th><th>Age</th><th>Estimator</th>' + (owner?'<th>Amount</th>':'') + '<th>Stage</th></tr>';
+  list.forEach(function(q){
+    html += '<tr class="link" onclick="goto(\'quoteDetail\',' + q.id + ')"><td>' + q.client + '</td><td>' + q.details.slice(0,44) + (q.details.length>44?'…':'') + '</td><td>' + q.daysOld + 'd</td><td>' + (q.assignedEstimator || '<span style="color:var(--coral); font-weight:800;">Unassigned</span>') + '</td>' + (owner?'<td>' + money(q.amount) + '</td>':'') + '<td><span class="status ' + stageClass(q.stage) + '">' + stageLabel(q.stage) + '</span></td></tr>';
+  });
+  html += '</table>';
+  if(!list.length){ html += '<div class="empty">Nothing in this view.</div>'; }
+  document.getElementById('pageBody').innerHTML = html;
+}
+function setQuoteFilter(f){ state.quoteFilter = f; renderQuotes(); }
+
+function renderQuoteDetail(){
+  var q = state.quotes.find(function(x){ return x.id === state.currentQuoteId; });
+  if(!q){ goto('quotes'); return; }
+  var owner = state.role === 'owner';
+  var html = '<div class="back" onclick="goto(\'quotes\')">&larr; Back to quotes</div>';
+  html += '<h1 class="dt">' + q.client + ' <span class="status ' + stageClass(q.stage) + '" style="font-size:11px; vertical-align:middle;">' + stageLabel(q.stage) + '</span></h1>';
+  html += '<div class="kv"><div class="row"><span>What\'s needed</span><span>' + q.details + '</span></div><div class="row"><span>Age</span><span>' + q.daysOld + ' days</span></div><div class="row"><span>Assigned to</span><span>' + (q.assignedEstimator || 'Unassigned') + '</span></div>' + (q.amount !== null ? '<div class="row"><span>Quote amount</span><span>' + money(q.amount) + '</span></div>' : '') + '</div>';
+
+  // Stage-specific actions
+  if(!q.assignedEstimator){
+    html += '<div class="sec-title">Assign to an estimator</div><div class="formcard">';
+    state.estimators.forEach(function(est){
+      var load = estimatorLoad(est.name);
+      html += '<div class="subrow"><span class="nm">' + est.name + '<span style="font-weight:600; color:var(--ink-soft);"> — ' + load + ' active right now</span></span><div class="pill-btn" style="margin-top:0;" onclick="assignEstimator(' + q.id + ',\'' + est.name + '\')">Assign</div></div>';
+    });
+    html += '</div>';
+  } else if(q.stage === 'requested'){
+    html += '<div class="notif blue"><div class="l">Ready to price</div><div class="v">' + q.assignedEstimator + ' can start building this quote.</div><div class="pill-btn blue" onclick="startBuilding(' + q.id + ')">Start pricing this quote</div></div>';
+  } else if(q.stage === 'building'){
+    html += '<div class="sec-title">Set the price</div><div class="formcard">';
+    html += '<div class="field"><label>Quote amount</label><input type="number" id="qAmount" placeholder="e.g. 8200"></div>';
+    html += '<div class="sec-title" style="margin:12px 0 8px;">Subs on this job — commission %</div>';
+    state.subs.forEach(function(s){
+      html += '<div class="subrow"><span class="nm">' + s.name + '</span><input type="checkbox" id="subOn' + s.id + '"> <input type="number" id="subPct' + s.id + '" value="' + s.defaultCommission + '" style="width:55px;">%</div>';
+    });
+    html += '<div class="pill-btn solid" onclick="submitForApproval(' + q.id + ')">Submit for Mailin\'s approval</div></div>';
+  } else if(q.stage === 'awaiting_owner'){
+    if(owner){
+      html += '<div class="notif orange"><div class="l">Your team submitted this quote</div><div class="v">Priced at ' + money(q.amount) + ' by ' + q.assignedEstimator + ' — review and approve before it goes to the client.</div></div>';
+      html += '<div><div class="pill-btn green" onclick="approveQuote(' + q.id + ')">Approve — send to client</div><div class="pill-btn" onclick="sendBackForChanges(' + q.id + ')">Send back for changes</div></div>';
+    } else {
+      html += '<div class="notif"><div class="l">Waiting on Mailin</div><div class="v">This quote is submitted at ' + money(q.amount) + ' and waiting on her approval before it goes out.</div></div>';
+    }
+  } else if(q.stage === 'sent'){
+    html += '<div class="notif blue"><div class="l">Sent to client</div><div class="v">Waiting to hear back from ' + q.client + '.</div></div>';
+    html += '<div><div class="pill-btn green" onclick="setQuoteOutcome(' + q.id + ',\'won\')">Client approved — create job</div><div class="pill-btn" onclick="setQuoteOutcome(' + q.id + ',\'lost\')">Client declined</div></div>';
+  } else if(q.stage === 'won'){
+    html += '<div class="notif green"><div class="l">Won</div><div class="v">This became a job — <a onclick="goto(\'jobDetail\',' + q.jobId + ')" style="cursor:pointer; text-decoration:underline;">view it</a></div></div>';
+  } else if(q.stage === 'lost'){
+    html += '<div class="notif"><div class="l">Lost</div><div class="v">The client didn\'t move forward with this one.</div></div>';
+  }
+
+  html += '<div class="sec-title">Notes &amp; team messages</div>';
+  html += notesThread(q.notes) + noteForm('quote', q.id);
+  document.getElementById('pageBody').innerHTML = html;
+}
+
+function assignEstimator(id, name){
+  var q = state.quotes.find(function(x){ return x.id === id; });
+  q.assignedEstimator = name;
+  renderQuoteDetail();
+}
+function startBuilding(id){
+  var q = state.quotes.find(function(x){ return x.id === id; });
+  q.stage = 'building';
+  renderQuoteDetail();
+}
+function submitForApproval(id){
+  var q = state.quotes.find(function(x){ return x.id === id; });
+  var amt = parseFloat(document.getElementById('qAmount').value);
+  if(!amt || amt <= 0){ alert('Enter an amount first.'); return; }
+  q.amount = amt;
+  q.subs = [];
+  state.subs.forEach(function(s){
+    var on = document.getElementById('subOn' + s.id).checked;
+    if(on){ q.subs.push({subId:s.id, commissionPct: parseFloat(document.getElementById('subPct' + s.id).value) || 0}); }
+  });
+  q.stage = 'awaiting_owner';
+  q.notes.push({author: state.role==='owner'?'Mailin':(q.assignedEstimator||'Team'), text:'Submitted at ' + money(amt) + ' for approval.', to:'Mailin', date: today});
+  renderQuoteDetail();
+}
+function sendBackForChanges(id){
+  var q = state.quotes.find(function(x){ return x.id === id; });
+  q.stage = 'building';
+  q.notes.push({author:'Mailin', text:'Sent back for changes.', to: q.assignedEstimator, date: today});
+  renderQuoteDetail();
+}
+function approveQuote(id){
+  var q = state.quotes.find(function(x){ return x.id === id; });
+  q.stage = 'sent';
+  q.notes.push({author:'Mailin', text:'Approved — sending to the client now.', to:null, date: today});
+  renderQuoteDetail();
+}
+function setQuoteOutcome(id, outcome){
+  var q = state.quotes.find(function(x){ return x.id === id; });
+  q.stage = outcome;
+  if(outcome === 'won'){
+    var nextId = state.jobs.length + 1;
+    var jobNum = '26-' + String(40 + nextId).padStart(4,'0');
+    var primarySub = q.subs && q.subs.length ? q.subs[0] : null;
+    var subPayout = primarySub ? Math.round(q.amount * primarySub.commissionPct / 100) : 0;
+    state.jobs.push({id: nextId, jobNumber: jobNum, client: q.client, quoteId: q.id, offerAmount: q.amount, status:'in_progress', subId: primarySub?primarySub.subId:null, subPayout: subPayout, materialsCost:0, notes:[{author:'System', text:'Created from an approved quote.', to:null, date:today}], attachments:[]});
+    q.jobId = nextId;
+    goto('jobDetail', nextId);
+    return;
+  }
+  renderQuoteDetail();
+}
 
 // ---------- JOBS ----------
 function renderJobs(){
   var owner = state.role === 'owner';
-  var html = '<h1 class="dt">Jobs</h1><table><tr><th>Job #</th><th>Client</th>' + (owner?'<th>Offer</th>':'') + '<th>Sub</th><th>Status</th></tr>';
+  var html = '<h1 class="dt">Jobs</h1><table><tr><th>Job #</th><th>Client</th>' + (owner?'<th>Amount</th>':'') + '<th>Sub</th><th>Status</th></tr>';
   state.jobs.forEach(function(j){
     var sub = state.subs.find(function(s){ return s.id === j.subId; });
     html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td>' + (owner?'<td>' + money(j.offerAmount) + '</td>':'') + '<td>' + (sub?sub.name:'—') + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>';
@@ -312,10 +512,17 @@ function renderJobDetail(){
     html += '<div class="lockednote" style="margin-bottom:14px;">Pricing and payout figures for this job are only visible to Mailin.</div>';
   }
 
+  if(j.status === 'in_progress'){
+    html += '<div class="pill-btn green" onclick="markJobComplete(' + j.id + ')">Mark job complete</div>';
+  } else if(owner) {
+    var hasInvoice = state.invoices.some(function(inv){ return inv.jobNumber === j.jobNumber; });
+    if(!hasInvoice){ html += '<div class="pill-btn solid" onclick="createInvoiceFromJob(' + j.id + ')">Create invoice for this job</div>'; }
+    else { html += '<div class="notif green"><div class="l">Invoiced</div><div class="v">See it on the <a onclick="goto(\'invoices\')" style="cursor:pointer; text-decoration:underline;">Invoices page</a>.</div></div>'; }
+  }
+
   html += '<div class="sec-title">Subcontractor</div>';
   if(sub){
     html += '<div class="kv"><div class="row"><span>Assigned to</span><span>' + sub.name + '</span></div>' + (owner ? '<div class="row"><span>Agreed payout</span><span>' + money(j.subPayout) + '</span></div>' : '') + '</div>';
-    html += '<div class="pill-btn blue" onclick="askSubUpdate(' + j.id + ')">Ask ' + sub.name + ' for an update</div>';
   } else {
     html += '<div class="notif orange"><div class="l">No sub assigned yet</div><div class="v">Work can\'t start until someone\'s assigned to this job.</div></div>';
     html += '<div class="formcard">';
@@ -323,15 +530,6 @@ function renderJobDetail(){
       html += '<div class="subrow"><span class="nm">' + s.name + '<span style="font-weight:600; color:var(--ink-soft);"> — ' + subLoad(s.id) + ' active jobs' + (owner ? ' · default ' + s.defaultCommission + '%' : '') + '</span></span><div class="pill-btn" style="margin-top:0;" onclick="assignSub(' + j.id + ',' + s.id + ')">Assign' + (owner ? ' — ' + money(Math.round(j.offerAmount * s.defaultCommission / 100)) : '') + '</div></div>';
     });
     html += '</div>';
-  }
-
-  html += '<div class="sec-title">Job updates</div>';
-  if(j.updates.length){
-    html += '<div class="updatelog">';
-    j.updates.slice().reverse().forEach(function(u){ html += '<div class="u"><div class="d">' + u.date + '</div>' + u.text + '</div>'; });
-    html += '</div>';
-  } else {
-    html += '<div class="empty">No updates logged yet.</div>';
   }
 
   html += '<div class="sec-title">Attachments</div>';
@@ -342,6 +540,9 @@ function renderJobDetail(){
   } else {
     html += '<div class="empty">No images linked to this job yet — anything sent via the Team Inbox tagged for this job will show up here.</div>';
   }
+
+  html += '<div class="sec-title">Notes &amp; team messages</div>';
+  html += notesThread(j.notes) + noteForm('job', j.id);
   document.getElementById('pageBody').innerHTML = html;
 }
 
@@ -350,158 +551,48 @@ function assignSub(jobId, subId){
   var s = state.subs.find(function(x){ return x.id === subId; });
   j.subId = subId;
   j.subPayout = Math.round(j.offerAmount * s.defaultCommission / 100);
-  j.status = 'in_progress';
-  j.updates.push({date: today, text: s.name + ' assigned to this job.'});
+  j.notes.push({author: state.role==='owner'?'Mailin':'Carlos R.', text: s.name + ' assigned to this job.', to:null, date: today});
   renderJobDetail();
 }
-function askSubUpdate(jobId){
+function markJobComplete(jobId){
   var j = state.jobs.find(function(x){ return x.id === jobId; });
-  var sub = state.subs.find(function(s){ return s.id === j.subId; });
-  j.updates.push({date: today, text: 'Update requested from ' + (sub?sub.name:'sub') + ' — waiting on reply.'});
+  j.status = 'completed';
+  j.notes.push({author: state.role==='owner'?'Mailin':'Carlos R.', text:'Marked complete.', to:null, date: today});
   renderJobDetail();
 }
+function createInvoiceFromJob(jobId){
+  var j = state.jobs.find(function(x){ return x.id === jobId; });
+  var nextId = state.invoices.length + 1;
+  state.invoices.push({id:nextId, invoiceNumber:'INV-' + (1040+nextId), jobNumber:j.jobNumber, client:j.client, amount:j.offerAmount, status:'waiting', notes:[]});
+  goto('invoiceDetail', nextId);
+}
 
-// ---------- BIDS ----------
-function renderBids(){
-  var html = '<h1 class="dt">Bids needed</h1><table><tr><th>Client</th><th>Description</th><th>Asking</th><th>Age</th><th>Estimator</th><th>Status</th></tr>';
-  state.bids.forEach(function(b){
-    html += '<tr class="link" onclick="goto(\'bidDetail\',' + b.id + ')"><td>' + b.client + '</td><td>' + b.description + '</td><td>' + money(b.askAmount) + '</td><td><span class="status">' + b.daysOld + 'd</span></td><td>' + (b.assignedEstimator || '<span style="color:var(--coral); font-weight:800;">Unassigned</span>') + '</td><td><span class="status ' + statusClass(b.status) + '">' + statusLabel(b.status) + '</span></td></tr>';
+// ---------- INVOICES ----------
+function renderInvoices(){
+  var html = '<h1 class="dt">Invoices</h1><table><tr><th>Invoice #</th><th>Job #</th><th>Client</th><th>Amount</th><th>Status</th></tr>';
+  state.invoices.forEach(function(inv){
+    html += '<tr class="link" onclick="goto(\'invoiceDetail\',' + inv.id + ')"><td>' + inv.invoiceNumber + '</td><td>' + inv.jobNumber + '</td><td>' + inv.client + '</td><td>' + money(inv.amount) + '</td><td><span class="status ' + statusClass(inv.status) + '">' + statusLabel(inv.status) + '</span></td></tr>';
   });
   html += '</table>';
+  if(!state.invoices.length){ html += '<div class="empty">No invoices yet — these get created from a completed job.</div>'; }
   document.getElementById('pageBody').innerHTML = html;
 }
-
-function renderBidDetail(){
-  var b = state.bids.find(function(x){ return x.id === state.currentBidId; });
-  if(!b){ goto('bids'); return; }
-  var html = '<div class="back" onclick="goto(\'bids\')">&larr; Back to bids</div>';
-  html += '<h1 class="dt">' + b.client + '</h1>';
-  html += '<div class="kv"><div class="row"><span>What they need</span><span>' + b.description + '</span></div><div class="row"><span>Their asking amount</span><span>' + money(b.askAmount) + '</span></div><div class="row"><span>Age</span><span>' + b.daysOld + ' days</span></div><div class="row"><span>Assigned estimator</span><span>' + (b.assignedEstimator || 'Unassigned') + '</span></div><div class="row"><span>Status</span><span>' + statusLabel(b.status) + '</span></div>' + (b.counterAmount ? '<div class="row"><span>Our counteroffer</span><span>' + money(b.counterAmount) + '</span></div>' : '') + '</div>';
-
-  if(b.status === 'needs_estimate' || b.status === 'countered'){
-    html += '<div class="sec-title">Assign to estimator</div>';
-    html += '<div class="formcard">';
-    state.estimators.forEach(function(est){
-      var load = estimatorLoad(est.name);
-      var isAssigned = b.assignedEstimator === est.name;
-      html += '<div class="subrow"><span class="nm">' + est.name + '<span style="font-weight:600; color:var(--ink-soft);"> — ' + load + ' pending right now</span></span>';
-      html += isAssigned ? '<span class="status approved">Assigned</span>' : '<div class="pill-btn" style="margin-top:0;" onclick="assignEstimator(' + b.id + ',\'' + est.name + '\')">Assign</div>';
-      html += '</div>';
-    });
-    html += '</div>';
-    html += '<div class="sec-title">Counteroffer</div>';
-    html += '<div class="formcard"><div class="field"><label>Counteroffer amount</label><input type="number" id="counterInput" placeholder="e.g. 7500" value="' + (b.counterAmount||'') + '"></div><div class="pill-btn" onclick="sendCounter(' + b.id + ')">Send counteroffer</div></div>';
-    html += '<div class="sec-title">Decide</div>';
-    html += '<div><div class="pill-btn green" onclick="approveBid(' + b.id + ')">Approve at ' + money(b.counterAmount || b.askAmount) + ' — build estimate →</div>';
-    html += '<div class="pill-btn" onclick="declineBid(' + b.id + ')">Decline this bid</div></div>';
-  } else if(b.status === 'approved'){
-    html += '<div class="notif green"><div class="l">Approved</div><div class="v">This became an estimate — <a onclick="goto(\'estimates\')" style="cursor:pointer; text-decoration:underline;">view it</a></div></div>';
-  } else if(b.status === 'declined'){
-    html += '<div class="notif"><div class="l">Declined</div><div class="v">This bid was turned down.</div></div>';
-  }
+function renderInvoiceDetail(){
+  var inv = state.invoices.find(function(x){ return x.id === state.currentInvoiceId; });
+  if(!inv){ goto('invoices'); return; }
+  var html = '<div class="back" onclick="goto(\'invoices\')">&larr; Back to invoices</div>';
+  html += '<h1 class="dt">' + inv.invoiceNumber + ' <span class="status ' + statusClass(inv.status) + '" style="font-size:11px; vertical-align:middle;">' + statusLabel(inv.status) + '</span></h1>';
+  html += '<div class="kv"><div class="row"><span>Client</span><span>' + inv.client + '</span></div><div class="row"><span>Job</span><span>' + inv.jobNumber + '</span></div><div class="row"><span>Amount</span><span>' + money(inv.amount) + '</span></div></div>';
+  if(inv.status === 'waiting'){ html += '<div class="pill-btn green" onclick="markInvoicePaid(' + inv.id + ')">Mark matched — funds arrived</div>'; }
+  html += '<div class="sec-title">Notes &amp; team messages</div>';
+  html += notesThread(inv.notes) + noteForm('invoice', inv.id);
   document.getElementById('pageBody').innerHTML = html;
 }
-
-function assignEstimator(bidId, name){
-  var b = state.bids.find(function(x){ return x.id === bidId; });
-  b.assignedEstimator = name;
-  renderBidDetail();
-}
-function sendCounter(id){
-  var b = state.bids.find(function(x){ return x.id === id; });
-  var val = parseFloat(document.getElementById('counterInput').value);
-  if(!val || val <= 0){ alert('Enter a counteroffer amount first.'); return; }
-  b.counterAmount = val;
-  b.status = 'countered';
-  renderBidDetail();
-}
-function declineBid(id){ state.bids.find(function(x){ return x.id === id; }).status = 'declined'; renderBidDetail(); }
-function approveBid(id){ state.bids.find(function(x){ return x.id === id; }).status = 'approved'; goto('estimateNew', id); }
-
-// ---------- ESTIMATES ----------
-function renderEstimateNew(){
-  var fromBid = state.bids.find(function(x){ return x.id === state.currentBidId; });
-  var html = '<div class="back" onclick="goto(\'estimates\')">&larr; Back to estimates</div>';
-  html += '<h1 class="dt">New estimate</h1>';
-  html += '<div class="note-banner">You\'re creating a new estimate — nothing is saved until you click Create below.</div>';
-  if(fromBid){ html += '<div class="notif green"><div class="l">Building from bid</div><div class="v">' + fromBid.client + ' — approved at ' + money(fromBid.counterAmount || fromBid.askAmount) + '</div></div>'; }
-  html += '<div class="formcard">';
-  html += '<div class="field"><label>Client</label><input id="estClient" value="' + (fromBid ? fromBid.client : '') + '"></div>';
-  html += '<div class="field"><label>Total</label><input type="number" id="estTotal" value="' + (fromBid ? (fromBid.counterAmount || fromBid.askAmount) : '') + '"></div>';
-  html += '<div class="field"><label>Estimator</label><select id="estEstimator">';
-  state.estimators.forEach(function(est){
-    var sel = fromBid && fromBid.assignedEstimator === est.name ? ' selected' : '';
-    html += '<option' + sel + '>' + est.name + '</option>';
-  });
-  html += '</select>' + (fromBid && fromBid.assignedEstimator ? '<div style="font-size:11px; color:var(--ink-soft); font-weight:700; margin-top:4px;">Pre-filled from the estimator this bid was assigned to.</div>' : '') + '</div>';
-  html += '<div class="sec-title" style="margin-top:4px;">Subs on this job — commission %</div>';
-  state.subs.forEach(function(s){
-    html += '<div class="subrow"><span class="nm">' + s.name + '</span><input type="checkbox" id="subOn' + s.id + '"> <input type="number" id="subPct' + s.id + '" value="' + s.defaultCommission + '" style="width:55px;">%</div>';
-  });
-  html += '<div class="pill-btn solid" onclick="createEstimate(' + (fromBid?fromBid.id:'null') + ')">Create estimate</div>';
-  html += '</div>';
-  document.getElementById('pageBody').innerHTML = html;
-}
-
-function createEstimate(fromBidId){
-  var client = document.getElementById('estClient').value.trim();
-  var total = parseFloat(document.getElementById('estTotal').value);
-  if(!client || !total || total <= 0){ alert('Enter a client and a total above $0 first.'); return; }
-  var estimator = document.getElementById('estEstimator').value;
-  var subs = [];
-  state.subs.forEach(function(s){
-    var on = document.getElementById('subOn' + s.id).checked;
-    if(on){ subs.push({subId:s.id, commissionPct: parseFloat(document.getElementById('subPct' + s.id).value) || 0}); }
-  });
-  var nextId = state.estimates.length + 1;
-  var jobNum = '26-' + String(40 + nextId).padStart(4,'0');
-  state.estimates.push({id: nextId, jobNumber: jobNum, client: client, estimator: estimator, total: total, outcome: 'pending', subs: subs, updates:[{date: today, text:'Estimate created.'}]});
-  goto('estimates');
-}
-
-function renderEstimates(){
-  var html = '<h1 class="dt">Estimates</h1><div style="margin-bottom:14px;"><div class="pill-btn solid" onclick="goto(\'estimateNew\', null)">+ New estimate</div></div>';
-  html += '<table><tr><th>Job #</th><th>Client</th><th>Estimator</th><th>Total</th><th>Status</th></tr>';
-  state.estimates.forEach(function(e){
-    html += '<tr class="link" onclick="goto(\'estimateDetail\',' + e.id + ')"><td>' + e.jobNumber + '</td><td>' + e.client + '</td><td>' + e.estimator + '</td><td>' + money(e.total) + '</td><td><span class="status ' + statusClass(e.outcome) + '">' + e.outcome + '</span></td></tr>';
-  });
-  html += '</table>';
-  document.getElementById('pageBody').innerHTML = html;
-}
-
-function renderEstimateDetail(){
-  var e = state.estimates.find(function(x){ return x.id === state.currentEstimateId; });
-  if(!e){ goto('estimates'); return; }
-  var subsTxt = e.subs.map(function(s){
-    var sub = state.subs.find(function(x){ return x.id === s.subId; });
-    var payout = Math.round(e.total * s.commissionPct / 100);
-    return sub.name + ' — ' + s.commissionPct + '% (' + money(payout) + ')';
-  }).join(', ') || 'None assigned yet';
-  var html = '<div class="back" onclick="goto(\'estimates\')">&larr; Back to estimates</div>';
-  html += '<h1 class="dt">' + e.jobNumber + ' — ' + e.client + ' <span class="status ' + statusClass(e.outcome) + '" style="font-size:11px; vertical-align:middle;">' + e.outcome + '</span></h1>';
-  html += '<div class="kv"><div class="row"><span>Estimator</span><span>' + e.estimator + '</span></div><div class="row"><span>Total</span><span>' + money(e.total) + '</span></div><div class="row"><span>Subs</span><span style="font-size:12px;">' + subsTxt + '</span></div></div>';
-  if(e.outcome === 'pending'){
-    html += '<div><div class="pill-btn green" onclick="setEstimateOutcome(' + e.id + ',\'approved\')">Approve</div><div class="pill-btn" onclick="setEstimateOutcome(' + e.id + ',\'lost\')">Mark lost</div><div class="pill-btn blue" onclick="askEstimatorUpdate(' + e.id + ')">Ask ' + e.estimator + ' for an update</div></div>';
-  }
-  html += '<div class="sec-title">Updates</div>';
-  if(e.updates.length){
-    html += '<div class="updatelog">';
-    e.updates.slice().reverse().forEach(function(u){ html += '<div class="u"><div class="d">' + u.date + '</div>' + u.text + '</div>'; });
-    html += '</div>';
-  } else { html += '<div class="empty">No updates logged yet.</div>'; }
-  document.getElementById('pageBody').innerHTML = html;
-}
-
-function setEstimateOutcome(id, outcome){
-  var e = state.estimates.find(function(x){ return x.id === id; });
-  e.outcome = outcome;
-  e.updates.push({date: today, text: 'Marked ' + outcome + '.'});
-  renderEstimateDetail();
-}
-function askEstimatorUpdate(id){
-  var e = state.estimates.find(function(x){ return x.id === id; });
-  e.updates.push({date: today, text: 'Update requested from ' + e.estimator + ' — waiting on reply.'});
-  renderEstimateDetail();
+function markInvoicePaid(id){
+  var inv = state.invoices.find(function(x){ return x.id === id; });
+  inv.status = 'matched';
+  inv.notes.push({author:'Mailin', text:'Confirmed — funds arrived.', to:null, date: today});
+  renderInvoiceDetail();
 }
 
 // ---------- SUBS ----------
@@ -549,8 +640,7 @@ function renderMoney(){
   html += '<div class="money four"><div class="card"><div class="l">Owed to you</div><div class="v">' + money(owed) + '</div></div><div class="card"><div class="l">You have (bank)</div><div class="v">' + money(reserves) + '</div></div><div class="card"><div class="l">Spent (subs + materials)</div><div class="v">' + money(spent) + '</div></div><div class="card profit"><div class="l">Reserves after payouts</div><div class="v">' + money(reserves - owedToSubs) + '</div></div></div>';
   html += '<div class="sec-title">Bank vs invoices</div>';
   html += '<table><tr><th>Invoice</th><th>Amount</th><th>Bank status</th></tr>';
-  html += '<tr><td>INV-1042 — Sunset Ridge</td><td>$2,400</td><td><span class="status matched">Matched — funds arrived</span></td></tr>';
-  html += '<tr><td>INV-1043 — Parkview HOA</td><td>$3,900</td><td><span class="status waiting">Waiting on bank</span></td></tr>';
+  html += '<tr><td>INV-1042 — Parkview HOA</td><td>$3,900</td><td><span class="status waiting">Waiting on bank</span></td></tr>';
   html += '<tr><td>Payout — Delgado Roofing</td><td>$2,400</td><td><span class="status matched">Sent — confirmed by bank</span></td></tr>';
   html += '</table><div class="note-banner">This matching table becomes real once you connect your bank account — for now it\'s sample data.</div>';
   document.getElementById('pageBody').innerHTML = html;
@@ -572,32 +662,24 @@ function renderClientDetail(){
   if(!c){ goto('clients'); return; }
   var owner = state.role === 'owner';
   var jobs = state.jobs.filter(function(j){ return j.client === c.name; });
-  var estimates = state.estimates.filter(function(e){ return e.client === c.name; });
-  var bids = state.bids.filter(function(b){ return b.client === c.name; });
+  var quotes = state.quotes.filter(function(q){ return q.client === c.name; });
   var html = '<div class="back" onclick="goto(\'clients\')">&larr; Back to clients</div>';
   html += '<h1 class="dt">' + c.name + '</h1>';
   html += '<div class="kv"><div class="row"><span>Contact</span><span>' + c.contact + '</span></div><div class="row"><span>Email</span><span>' + c.email + '</span></div></div>';
 
   html += '<div class="sec-title">Jobs</div>';
   if(jobs.length){
-    html += '<table><tr><th>Job #</th>' + (owner?'<th>Offer</th>':'') + '<th>Status</th></tr>';
+    html += '<table><tr><th>Job #</th>' + (owner?'<th>Amount</th>':'') + '<th>Status</th></tr>';
     jobs.forEach(function(j){ html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td>' + (owner?'<td>' + money(j.offerAmount) + '</td>':'') + '<td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>'; });
     html += '</table>';
   } else { html += '<div class="empty">No jobs yet.</div>'; }
 
-  html += '<div class="sec-title">Estimates</div>';
-  if(estimates.length){
-    html += '<table><tr><th>Job #</th><th>Total</th><th>Status</th></tr>';
-    estimates.forEach(function(e){ html += '<tr class="link" onclick="goto(\'estimateDetail\',' + e.id + ')"><td>' + e.jobNumber + '</td><td>' + money(e.total) + '</td><td><span class="status ' + statusClass(e.outcome) + '">' + e.outcome + '</span></td></tr>'; });
+  html += '<div class="sec-title">Quotes</div>';
+  if(quotes.length){
+    html += '<table><tr><th>What\'s needed</th>' + (owner?'<th>Amount</th>':'') + '<th>Stage</th></tr>';
+    quotes.forEach(function(q){ html += '<tr class="link" onclick="goto(\'quoteDetail\',' + q.id + ')"><td>' + q.details.slice(0,40) + '</td>' + (owner?'<td>' + money(q.amount) + '</td>':'') + '<td><span class="status ' + stageClass(q.stage) + '">' + stageLabel(q.stage) + '</span></td></tr>'; });
     html += '</table>';
-  } else { html += '<div class="empty">No estimates yet.</div>'; }
-
-  html += '<div class="sec-title">Bids</div>';
-  if(bids.length){
-    html += '<table><tr><th>Description</th><th>Asking</th><th>Status</th></tr>';
-    bids.forEach(function(b){ html += '<tr class="link" onclick="goto(\'bidDetail\',' + b.id + ')"><td>' + b.description + '</td><td>' + money(b.askAmount) + '</td><td><span class="status ' + statusClass(b.status) + '">' + statusLabel(b.status) + '</span></td></tr>'; });
-    html += '</table>';
-  } else { html += '<div class="empty">No bids yet.</div>'; }
+  } else { html += '<div class="empty">No quotes yet.</div>'; }
 
   html += '<div class="sec-title">All attachments for this client</div>';
   var allAttach = [];
@@ -606,7 +688,7 @@ function renderClientDetail(){
     allAttach.forEach(function(a){
       html += '<div class="attach"><div class="ico">📎</div><div style="flex:1;"><div>' + a.filename + ' <span style="font-weight:600; color:var(--ink-soft);">(' + a.jobNumber + ')</span></div><div style="font-weight:600; color:var(--ink-soft); font-size:10.5px;">from ' + a.from + ' · ' + a.date + '</div></div><span class="tag">' + a.command + '</span></div>';
     });
-  } else { html += '<div class="empty">Nothing here yet — this is where every image linked to any of this client\'s jobs will collect, no matter which job it came in on.</div>'; }
+  } else { html += '<div class="empty">Nothing here yet — this is where every image linked to any of this client\'s jobs will collect.</div>'; }
 
   document.getElementById('pageBody').innerHTML = html;
 }
@@ -614,17 +696,15 @@ function renderClientDetail(){
 // ---------- TEAM INBOX ----------
 function renderInbox(){
   var html = '<h1 class="dt">Team inbox</h1>';
-  html += '<div class="note-banner">This is what the Telegram bot feeds into. Team sends a photo tagged with a command (<b>/payment /bid /update /job</b>) — it lands here sorted by that command. The AI\'s guess at the details is a suggestion only; nothing becomes a real record until someone confirms it.</div>';
+  html += '<div class="note-banner">This is what the Telegram bot feeds into. Team sends a photo tagged with a command (<b>/payment /bid /update /job</b>) — it lands here sorted by that command. Once confirmed, it attaches directly to the job it belongs to — you\'ll see it there too, not just here.</div>';
   state.inbox.slice().reverse().forEach(function(item){
     html += '<div class="notif' + (item.confirmed ? ' green' : ' orange') + '"><div class="l">' + item.command + ' · from ' + item.from + ' · ' + item.date + '</div><div class="v">' + item.note + '</div>';
-    html += '<div style="font-size:12px; margin-top:6px; font-weight:700;">AI guess: ' + (item.aiGuess.client || '—') + (item.aiGuess.amount ? ' · ' + money(item.aiGuess.amount) : '') + '</div>';
     if(!item.confirmed){ html += '<div class="pill-btn green" onclick="confirmInboxItem(' + item.id + ')">Confirm — looks right</div>'; }
     else { html += '<span class="status approved">Confirmed</span>'; }
     html += '</div>';
   });
   document.getElementById('pageBody').innerHTML = html;
 }
-
 function confirmInboxItem(id){
   var item = state.inbox.find(function(x){ return x.id === id; });
   item.confirmed = true;
@@ -640,14 +720,11 @@ function runSearch(){
   if(scope === 'all' || scope === 'clients'){
     state.clients.filter(function(c){ return c.name.toLowerCase().indexOf(q) !== -1; }).forEach(function(c){ results.push({type:'Client', label:c.name, go:function(){ goto('clientDetail', c.id); }}); });
   }
+  if(scope === 'all' || scope === 'quotes'){
+    state.quotes.filter(function(x){ return x.client.toLowerCase().indexOf(q) !== -1 || x.details.toLowerCase().indexOf(q) !== -1; }).forEach(function(x){ results.push({type:'Quote', label:x.client + ' — ' + x.details.slice(0,40), go:function(){ goto('quoteDetail', x.id); }}); });
+  }
   if(scope === 'all' || scope === 'jobs'){
     state.jobs.filter(function(j){ return j.client.toLowerCase().indexOf(q) !== -1 || j.jobNumber.toLowerCase().indexOf(q) !== -1; }).forEach(function(j){ results.push({type:'Job', label:j.jobNumber + ' — ' + j.client, go:function(){ goto('jobDetail', j.id); }}); });
-  }
-  if(scope === 'all' || scope === 'bids'){
-    state.bids.filter(function(b){ return b.client.toLowerCase().indexOf(q) !== -1 || b.description.toLowerCase().indexOf(q) !== -1; }).forEach(function(b){ results.push({type:'Bid', label:b.client + ' — ' + b.description, go:function(){ goto('bidDetail', b.id); }}); });
-  }
-  if(scope === 'all' || scope === 'estimates'){
-    state.estimates.filter(function(e){ return e.client.toLowerCase().indexOf(q) !== -1 || e.jobNumber.toLowerCase().indexOf(q) !== -1; }).forEach(function(e){ results.push({type:'Estimate', label:e.jobNumber + ' — ' + e.client, go:function(){ goto('estimateDetail', e.id); }}); });
   }
   if((scope === 'all' || scope === 'subs') && state.role === 'owner'){
     state.subs.filter(function(s){ return s.name.toLowerCase().indexOf(q) !== -1; }).forEach(function(s){ results.push({type:'Sub', label:s.name, go:function(){ goto('subDetail', s.id); }}); });
@@ -665,17 +742,16 @@ function runSearch(){
 function render(){
   buildNav();
   if(state.page === 'dashboard') renderDashboard();
+  else if(state.page === 'quotes') renderQuotes();
+  else if(state.page === 'quoteDetail') renderQuoteDetail();
   else if(state.page === 'jobs') renderJobs();
   else if(state.page === 'jobDetail') renderJobDetail();
-  else if(state.page === 'bids') renderBids();
-  else if(state.page === 'bidDetail') renderBidDetail();
-  else if(state.page === 'estimates') renderEstimates();
-  else if(state.page === 'estimateNew') renderEstimateNew();
-  else if(state.page === 'estimateDetail') renderEstimateDetail();
-  else if(state.page === 'subs') renderSubs();
-  else if(state.page === 'subDetail') renderSubDetail();
   else if(state.page === 'clients') renderClients();
   else if(state.page === 'clientDetail') renderClientDetail();
+  else if(state.page === 'subs') renderSubs();
+  else if(state.page === 'subDetail') renderSubDetail();
+  else if(state.page === 'invoices') renderInvoices();
+  else if(state.page === 'invoiceDetail') renderInvoiceDetail();
   else if(state.page === 'inbox') renderInbox();
   else if(state.page === 'money') renderMoney();
 }
