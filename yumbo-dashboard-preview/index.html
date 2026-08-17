@@ -167,16 +167,20 @@ var state = {
     {id:2, command:'/update', from:'Ana M.', date:'Aug 15', note:'Job site photo — roofing progress', aiGuess:{amount:null, client:'Sunset Ridge'}, confirmed:false},
     {id:3, command:'/bid', from:'Mailin', date:'Aug 12', note:'New quote request forwarded from a call', aiGuess:{amount:null, client:'Maple Court'}, confirmed:true}
   ],
+  // paymentNickname is a display-only handle (Zelle handle, "acct ending 4021")
+  // — never a real bank/routing number, per standing project rule.
   subs: [
-    {id:1, name:'Delgado Roofing', defaultCommission:12},
-    {id:2, name:'RJ Concrete', defaultCommission:15},
-    {id:3, name:'Vega Electric', defaultCommission:10}
+    {id:1, name:'Delgado Roofing', trade:'Roofing', phone:'(904) 555-0161', defaultCommission:12, paymentNickname:'Zelle: delgado.roofing@example.com', telegram:''},
+    {id:2, name:'RJ Concrete', trade:'Concrete', phone:'(904) 555-0173', defaultCommission:15, paymentNickname:'Zelle: rjconcrete@example.com', telegram:''},
+    {id:3, name:'Vega Electric', trade:'Electrical', phone:'(904) 555-0184', defaultCommission:10, paymentNickname:'Acct ending 4021', telegram:''}
   ],
   // canCreateQuotes: whether Mailin has granted this person permission to log
   // new quote requests. Off by default — she turns it on per person from Team.
+  // Phone/email/Telegram exist so the planned Telegram intake and password
+  // reset flow both know how to reach this specific person.
   estimators: [
-    {name:'Carlos R.', canCreateQuotes:true},
-    {name:'Ana M.', canCreateQuotes:false}
+    {name:'Carlos R.', phone:'(904) 555-0121', email:'carlos@yumbogc.example', telegram:'@carlosr_ygc', canCreateQuotes:true},
+    {name:'Ana M.', phone:'(904) 555-0134', email:'ana@yumbogc.example', telegram:'@anam_ygc', canCreateQuotes:false}
   ],
   // ---- ONE pipeline: a request comes in with no price, your team prices it,
   // you approve it, it goes to the client, then it's won (becomes a job) or lost.
@@ -269,6 +273,7 @@ function goto(page, arg){
   if(page === 'invoiceDetail') state.currentInvoiceId = arg;
   if(page === 'requestDetail') state.currentRequestId = arg;
   if(page === 'requestNew') state.newRequestJobId = arg === undefined ? null : arg;
+  if(page === 'teamMemberDetail') state.viewingTeamMemberName = arg;
   render();
 }
 
@@ -285,7 +290,7 @@ function nextJobNumber(){
 var navPages = ['dashboard','quotes','jobs','clients','subs','team','invoices','requests','trash','inbox','money'];
 var navLabels = {dashboard:'Home', quotes:'Quotes', jobs:'Jobs', clients:'Clients', subs:'Subs', team:'Team', invoices:'Invoices', requests:'Requests', trash:'Trash', inbox:'Team inbox', money:'Money'};
 var ownerOnly = ['subs','team','money','trash'];
-var pageToNav = {dashboard:'dashboard', quotes:'quotes', quoteDetail:'quotes', quoteNew:'quotes', jobs:'jobs', jobDetail:'jobs', clients:'clients', clientDetail:'clients', subs:'subs', subDetail:'subs', team:'team', invoices:'invoices', invoiceDetail:'invoices', requests:'requests', requestDetail:'requests', requestNew:'requests', trash:'trash', inbox:'inbox', money:'money'};
+var pageToNav = {dashboard:'dashboard', quotes:'quotes', quoteDetail:'quotes', quoteNew:'quotes', jobs:'jobs', jobDetail:'jobs', clients:'clients', clientDetail:'clients', subs:'subs', subDetail:'subs', team:'team', teamMemberDetail:'team', invoices:'invoices', invoiceDetail:'invoices', requests:'requests', requestDetail:'requests', requestNew:'requests', trash:'trash', inbox:'inbox', money:'money'};
 var requestTypeLabels = {material:'Material request', change_order:'Change order', incident:'Incident report', other:'Other'};
 
 function buildNav(){
@@ -578,10 +583,10 @@ function renderJobs(){
   var owner = state.role === 'owner';
   var html = '<h1 class="dt">Jobs</h1>';
   if(!owner){ html += '<div class="lockednote">You\'re only seeing jobs assigned to you.</div>'; }
-  html += '<table><tr><th>Job #</th><th>Client</th>' + (owner?'<th>Amount</th>':'') + '<th>Sub</th><th>Status</th></tr>';
+  html += '<table><tr><th>Job #</th><th>Client</th>' + (owner?'<th>Amount</th><th>Estimator</th>':'') + '<th>Sub</th><th>Status</th></tr>';
   state.jobs.filter(function(j){ return !j.trashed && (owner || j.estimator === state.currentTeamMember); }).forEach(function(j){
     var sub = state.subs.find(function(s){ return s.id === j.subId; });
-    html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td>' + (owner?'<td>' + money(j.offerAmount) + '</td>':'') + '<td>' + (sub?sub.name:'—') + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>';
+    html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td>' + (owner?'<td>' + money(j.offerAmount) + '</td><td>' + (j.estimator||'—') + '</td>':'') + '<td>' + (sub?sub.name:'—') + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>';
   });
   html += '</table>';
   if(owner){ html += '<div class="lockednote">Jobs you\'ve moved to the trash aren\'t shown here — see the Trash page.</div>'; }
@@ -620,9 +625,21 @@ function renderJobDetail(){
     else { html += '<div class="notif green"><div class="l">Invoiced</div><div class="v">See it on the <a onclick="goto(\'invoices\')" style="cursor:pointer; text-decoration:underline;">Invoices page</a>.</div></div>'; }
   }
 
+  html += '<div class="sec-title">Estimated by</div>';
+  html += '<div class="kv"><div class="row"><span>Team member</span><span>' + (j.estimator || '—') + '</span></div></div>';
+
   html += '<div class="sec-title">Subcontractor</div>';
   if(sub){
-    html += '<div class="kv"><div class="row"><span>Assigned to</span><span>' + sub.name + '</span></div>' + (owner ? '<div class="row"><span>Agreed payout</span><span>' + money(j.subPayout) + '</span></div>' : '') + '</div>';
+    html += '<div class="kv"><div class="row"><span>Assigned to</span><span>' + sub.name + (sub.trade ? ' (' + sub.trade + ')' : '') + '</span></div>' + (owner ? '<div class="row"><span>Agreed payout</span><span>' + money(j.subPayout) + '</span></div>' : '') + (owner && sub.phone ? '<div class="row"><span>Phone</span><span>' + sub.phone + '</span></div>' : '') + '</div>';
+    if(owner){
+      html += '<div class="pill-btn" onclick="toggleReassign(' + j.id + ')" id="reassignToggle_' + j.id + '">Not working out? Reassign to someone else</div>';
+      html += '<div class="formcard" id="reassignForm_' + j.id + '" style="display:none;">';
+      html += '<div class="field"><label>Why is this being reassigned?</label><textarea id="reassignReason_' + j.id + '" placeholder="e.g. missed deadlines, quality issues"></textarea></div>';
+      state.subs.filter(function(s){ return s.id !== j.subId; }).forEach(function(s){
+        html += '<div class="subrow"><span class="nm">' + s.name + '<span style="font-weight:600; color:var(--ink-soft);"> — ' + subLoad(s.id) + ' active jobs · default ' + s.defaultCommission + '%</span></span><div class="pill-btn" style="margin-top:0;" onclick="reassignSub(' + j.id + ',' + s.id + ')">Reassign — ' + money(Math.round(j.offerAmount * s.defaultCommission / 100)) + '</div></div>';
+      });
+      html += '</div>';
+    }
   } else {
     html += '<div class="notif orange"><div class="l">No sub assigned yet</div><div class="v">Work can\'t start until someone\'s assigned to this job.</div></div>';
     html += '<div class="formcard">';
@@ -735,6 +752,21 @@ function assignSub(jobId, subId){
   j.subId = subId;
   j.subPayout = Math.round(j.offerAmount * s.defaultCommission / 100);
   j.notes.push({author: currentPersonName(), text: s.name + ' assigned to this job.', to:null, date: today});
+  renderJobDetail();
+}
+function toggleReassign(jobId){
+  var form = document.getElementById('reassignForm_' + jobId);
+  form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}
+function reassignSub(jobId, newSubId){
+  var j = state.jobs.find(function(x){ return x.id === jobId; });
+  var oldSub = state.subs.find(function(x){ return x.id === j.subId; });
+  var newSub = state.subs.find(function(x){ return x.id === newSubId; });
+  var reason = document.getElementById('reassignReason_' + jobId).value.trim();
+  if(!reason){ alert('Write a reason first — this stays on the record.'); return; }
+  j.subId = newSubId;
+  j.subPayout = Math.round(j.offerAmount * newSub.defaultCommission / 100);
+  j.notes.push({author: currentPersonName(), text:'Reassigned from ' + (oldSub?oldSub.name:'previous sub') + ' to ' + newSub.name + ' — ' + reason, to:null, date: today});
   renderJobDetail();
 }
 function markJobComplete(jobId){
@@ -885,19 +917,48 @@ function markInvoicePaid(id){
   renderInvoiceDetail();
 }
 
-// ---------- SUBS ----------
+// ---------- SUBS (external subcontractors — paid per job, not on staff) ----------
 function renderSubs(){
   var html = '<h1 class="dt">Subcontractors</h1>';
-  html += '<div class="note-banner">Set each sub\'s default commission %. Click a name to see their current jobs and money.</div>';
-  html += '<table><tr><th>Sub</th><th>Default commission %</th><th>Active jobs</th></tr>';
+  html += '<div class="note-banner">Your outside subs — click a name for their jobs, payout history, and contact details. Set each one\'s default commission % right here.</div>';
+  html += '<table><tr><th>Sub</th><th>Trade</th><th>Default commission %</th><th>Active jobs</th></tr>';
   state.subs.forEach(function(s){
-    var jobCount = state.jobs.filter(function(j){ return j.subId === s.id; }).length;
-    html += '<tr><td class="link" style="cursor:pointer; text-decoration:underline;" onclick="goto(\'subDetail\',' + s.id + ')">' + s.name + '</td><td><input type="number" value="' + s.defaultCommission + '" style="width:60px; padding:5px 7px; border:2px solid var(--ink); border-radius:8px;" onchange="updateDefaultCommission(' + s.id + ', this.value)">%</td><td>' + jobCount + '</td></tr>';
+    var jobCount = state.jobs.filter(function(j){ return j.subId === s.id && !j.trashed; }).length;
+    html += '<tr><td class="link" style="cursor:pointer; text-decoration:underline;" onclick="goto(\'subDetail\',' + s.id + ')">' + s.name + '</td><td>' + (s.trade||'—') + '</td><td><input type="number" value="' + s.defaultCommission + '" style="width:60px; padding:5px 7px; border:2px solid var(--ink); border-radius:8px;" onchange="updateDefaultCommission(' + s.id + ', this.value)">%</td><td>' + jobCount + '</td></tr>';
   });
   html += '</table>';
+  html += '<div class="sec-title">Add a subcontractor</div>';
+  html += '<div class="formcard">';
+  html += '<div class="field"><label>Name / company</label><input id="newSubName" placeholder="e.g. Ortiz Plumbing"></div>';
+  html += '<div class="field"><label>Trade</label><input id="newSubTrade" placeholder="e.g. Plumbing"></div>';
+  html += '<div class="field"><label>Phone</label><input id="newSubPhone" placeholder="(904) 555-0100"></div>';
+  html += '<div class="field"><label>Default commission %</label><input type="number" id="newSubCommission" placeholder="e.g. 12"></div>';
+  html += '<div class="field"><label>Payment handle (Zelle, or "acct ending 1234" — never a full account/routing number)</label><input id="newSubPayment" placeholder="Zelle: name@example.com"></div>';
+  html += '<div class="pill-btn solid" onclick="addSub()">Add subcontractor</div>';
+  html += '</div>';
   document.getElementById('pageBody').innerHTML = html;
 }
 function updateDefaultCommission(id, val){ state.subs.find(function(x){ return x.id === id; }).defaultCommission = parseFloat(val) || 0; }
+function addSub(){
+  var name = document.getElementById('newSubName').value.trim();
+  if(!name){ alert('Enter a name first.'); return; }
+  var trade = document.getElementById('newSubTrade').value.trim();
+  var phone = document.getElementById('newSubPhone').value.trim();
+  var commission = parseFloat(document.getElementById('newSubCommission').value) || 0;
+  var payment = document.getElementById('newSubPayment').value.trim();
+  var nextId = state.subs.length ? Math.max.apply(null, state.subs.map(function(s){return s.id;})) + 1 : 1;
+  state.subs.push({id:nextId, name:name, trade:trade, phone:phone, defaultCommission:commission, paymentNickname:payment, telegram:''});
+  goto('subDetail', nextId);
+}
+function removeSub(id){
+  var s = state.subs.find(function(x){ return x.id === id; });
+  var activeJobs = state.jobs.filter(function(j){ return j.subId === id && !j.trashed && j.status==='in_progress'; });
+  if(activeJobs.length){ alert(s.name + ' still has ' + activeJobs.length + ' active job(s) — reassign those to someone else first.'); return; }
+  var ok = confirm('Remove ' + s.name + '? Their past jobs and payout history stay in the system exactly as they are — this only removes them from future assignments.');
+  if(!ok){ return; }
+  state.subs = state.subs.filter(function(x){ return x.id !== id; });
+  goto('subs');
+}
 
 function renderSubDetail(){
   var s = state.subs.find(function(x){ return x.id === state.currentSubId; });
@@ -906,35 +967,42 @@ function renderSubDetail(){
   var totalOwed = jobs.reduce(function(sum,j){ return sum + j.subPayout; }, 0);
   var html = '<div class="back" onclick="goto(\'subs\')">&larr; Back to subs</div>';
   html += '<h1 class="dt">' + s.name + '</h1>';
+  html += '<div class="kv"><div class="row"><span>Trade</span><span>' + (s.trade||'—') + '</span></div><div class="row"><span>Phone</span><span>' + (s.phone||'—') + '</span></div><div class="row"><span>Payment handle</span><span>' + (s.paymentNickname||'—') + '</span></div><div class="row"><span>Telegram</span><span>' + (s.telegram||'—') + '</span></div></div>';
   html += '<div class="money"><div class="card"><div class="l">Default commission</div><div class="v">' + s.defaultCommission + '%</div></div><div class="card"><div class="l">Active jobs</div><div class="v">' + jobs.length + '</div></div><div class="card"><div class="l">Currently owed</div><div class="v">' + money(totalOwed) + '</div></div></div>';
   html += '<div class="sec-title">Jobs assigned to ' + s.name + '</div>';
   if(jobs.length){
-    html += '<table><tr><th>Job #</th><th>Client</th><th>Job total</th><th>Their payout</th><th>Status</th></tr>';
+    html += '<table><tr><th>Job #</th><th>Client</th><th>Estimated by</th><th>Job total</th><th>Their payout</th><th>Status</th></tr>';
     jobs.forEach(function(j){
-      html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td><td>' + money(j.offerAmount) + '</td><td>' + money(j.subPayout) + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>';
+      html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td><td>' + (j.estimator||'—') + '</td><td>' + money(j.offerAmount) + '</td><td>' + money(j.subPayout) + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>';
     });
     html += '</table>';
   } else {
     html += '<div class="empty">No jobs assigned to this sub right now.</div>';
   }
+  html += '<div class="sec-title">Danger zone</div>';
+  html += '<div class="pill-btn" style="border-color:var(--coral); color:var(--coral);" onclick="removeSub(' + s.id + ')">Remove this subcontractor</div>';
   document.getElementById('pageBody').innerHTML = html;
 }
 
 // ---------- TEAM (internal staff — separate from Subs, who are external subcontractors) ----------
 function renderTeam(){
   var html = '<h1 class="dt">Team</h1>';
-  html += '<div class="note-banner">Your internal staff — estimators and anyone else on your team. This is where you decide who\'s allowed to add new quote requests, and see everyone\'s current workload at a glance. Adding someone here doesn\'t give them access to anything money-related — that stays owner-only everywhere in the system.</div>';
-  html += '<table><tr><th>Name</th><th>Active quotes</th><th>Active jobs</th><th>Can add new quote requests</th><th></th></tr>';
+  html += '<div class="note-banner">Your internal staff — estimators and anyone else on your team. Click a name for their contact info and full detail. Adding someone here doesn\'t give them access to anything money-related — that stays owner-only everywhere in the system.</div>';
+  html += '<table><tr><th>Name</th><th>Active quotes</th><th>Active jobs</th><th>Can add new quote requests</th></tr>';
   state.estimators.forEach(function(e){
     var qLoad = estimatorLoad(e.name);
     var jLoad = state.jobs.filter(function(j){ return j.estimator === e.name && !j.trashed; }).length;
-    html += '<tr><td>' + e.name + '</td><td>' + qLoad + '</td><td>' + jLoad + '</td><td><input type="checkbox" ' + (e.canCreateQuotes?'checked':'') + ' onchange="toggleCanCreateQuotes(\'' + e.name + '\', this.checked)"></td>';
-    html += '<td><div class="pill-btn" style="font-size:10px; padding:5px 10px;" onclick="renameTeamMember(\'' + e.name + '\')">Rename</div><div class="pill-btn" style="font-size:10px; padding:5px 10px;" onclick="resetTeamMemberPassword(\'' + e.name + '\')">Reset password</div><div class="pill-btn" style="font-size:10px; padding:5px 10px; border-color:var(--coral); color:var(--coral);" onclick="removeTeamMember(\'' + e.name + '\')">Remove</div></td></tr>';
+    html += '<tr><td class="link" style="cursor:pointer; text-decoration:underline;" onclick="goto(\'teamMemberDetail\',\'' + e.name + '\')">' + e.name + '</td><td>' + qLoad + '</td><td>' + jLoad + '</td><td><input type="checkbox" ' + (e.canCreateQuotes?'checked':'') + ' onchange="toggleCanCreateQuotes(\'' + e.name + '\', this.checked)"></td></tr>';
   });
   html += '</table>';
-  html += '<div class="lockednote">Mailin can never see or set someone\'s actual password — "Reset password" sends them a reset link, same as how her own password works. Removing someone only takes away their access; their past quotes, jobs, and notes stay in the system exactly as they are.</div>';
   html += '<div class="sec-title">Add a team member</div>';
-  html += '<div class="formcard"><div class="field"><label>Name</label><input id="newTeamMemberName" placeholder="e.g. Luis P."></div><div class="pill-btn solid" onclick="addTeamMember()">Add team member</div></div>';
+  html += '<div class="formcard">';
+  html += '<div class="field"><label>Name</label><input id="newTeamMemberName" placeholder="e.g. Luis P."></div>';
+  html += '<div class="field"><label>Phone</label><input id="newTeamMemberPhone" placeholder="(904) 555-0100"></div>';
+  html += '<div class="field"><label>Email (used to send them a password reset link)</label><input id="newTeamMemberEmail" placeholder="name@example.com"></div>';
+  html += '<div class="field"><label>Telegram username (for photo/update intake)</label><input id="newTeamMemberTelegram" placeholder="@username"></div>';
+  html += '<div class="pill-btn solid" onclick="addTeamMember()">Add team member</div>';
+  html += '</div>';
   document.getElementById('pageBody').innerHTML = html;
 }
 function toggleCanCreateQuotes(name, val){
@@ -945,9 +1013,44 @@ function toggleCanCreateQuotes(name, val){
 function addTeamMember(){
   var name = document.getElementById('newTeamMemberName').value.trim();
   if(!name){ alert('Enter a name first.'); return; }
-  state.estimators.push({name:name, canCreateQuotes:false});
-  renderTeam();
+  var phone = document.getElementById('newTeamMemberPhone').value.trim();
+  var email = document.getElementById('newTeamMemberEmail').value.trim();
+  var telegram = document.getElementById('newTeamMemberTelegram').value.trim();
+  state.estimators.push({name:name, phone:phone, email:email, telegram:telegram, canCreateQuotes:false});
+  goto('teamMemberDetail', name);
 }
+
+function renderTeamMemberDetail(){
+  var e = state.estimators.find(function(x){ return x.name === state.viewingTeamMemberName; });
+  if(!e){ goto('team'); return; }
+  var quotes = state.quotes.filter(function(q){ return q.assignedEstimator === e.name; });
+  var jobs = state.jobs.filter(function(j){ return j.estimator === e.name && !j.trashed; });
+  var html = '<div class="back" onclick="goto(\'team\')">&larr; Back to team</div>';
+  html += '<h1 class="dt">' + e.name + '</h1>';
+  html += '<div class="kv"><div class="row"><span>Phone</span><span>' + (e.phone||'—') + '</span></div><div class="row"><span>Email</span><span>' + (e.email||'—') + '</span></div><div class="row"><span>Telegram</span><span>' + (e.telegram||'—') + '</span></div><div class="row"><span>Can add new quote requests</span><span>' + (e.canCreateQuotes?'Yes':'No') + '</span></div></div>';
+
+  html += '<div class="sec-title">Assigned quotes</div>';
+  if(quotes.length){
+    html += '<table><tr><th>Client</th><th>What\'s needed</th><th>Stage</th></tr>';
+    quotes.forEach(function(q){ html += '<tr class="link" onclick="goto(\'quoteDetail\',' + q.id + ')"><td>' + q.client + '</td><td>' + q.details.slice(0,36) + '</td><td><span class="status ' + stageClass(q.stage) + '">' + stageLabel(q.stage) + '</span></td></tr>'; });
+    html += '</table>';
+  } else { html += '<div class="empty">No quotes assigned right now.</div>'; }
+
+  html += '<div class="sec-title">Assigned jobs</div>';
+  if(jobs.length){
+    html += '<table><tr><th>Job #</th><th>Client</th><th>Status</th></tr>';
+    jobs.forEach(function(j){ html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>'; });
+    html += '</table>';
+  } else { html += '<div class="empty">No jobs assigned right now.</div>'; }
+
+  html += '<div class="sec-title">Manage</div>';
+  html += '<div class="pill-btn" onclick="renameTeamMember(\'' + e.name + '\')">Rename</div>';
+  html += '<div class="pill-btn" onclick="resetTeamMemberPassword(\'' + e.name + '\')">Reset password</div>';
+  html += '<div class="pill-btn" style="border-color:var(--coral); color:var(--coral);" onclick="removeTeamMember(\'' + e.name + '\')">Remove from team</div>';
+  html += '<div class="lockednote" style="margin-top:10px;">Mailin can never see or set someone\'s actual password — "Reset password" sends a reset link instead. Removing someone only takes away their access; their past quotes, jobs, and notes stay in the system exactly as they are.</div>';
+  document.getElementById('pageBody').innerHTML = html;
+}
+
 function renameTeamMember(oldName){
   var newName = prompt('New name for ' + oldName + ':', oldName);
   if(!newName){ return; }
@@ -961,7 +1064,7 @@ function renameTeamMember(oldName){
   state.jobs.forEach(function(j){ if(j.estimator===oldName){ j.estimator=newName; } j.notes.forEach(swap); });
   state.requests.forEach(function(r){ if(r.submittedBy===oldName){ r.submittedBy=newName; } r.notes.forEach(swap); });
   if(state.currentTeamMember === oldName){ state.currentTeamMember = newName; }
-  renderTeam();
+  goto('teamMemberDetail', newName);
 }
 function removeTeamMember(name){
   if(state.estimators.length <= 1){ alert('You need at least one team member.'); return; }
@@ -969,7 +1072,7 @@ function removeTeamMember(name){
   if(!ok){ return; }
   state.estimators = state.estimators.filter(function(x){ return x.name !== name; });
   if(state.currentTeamMember === name){ state.currentTeamMember = state.estimators.length ? state.estimators[0].name : null; }
-  renderTeam();
+  goto('team');
 }
 function resetTeamMemberPassword(name){
   alert('A password reset link would be sent to ' + name + '\'s email. Mailin never sees or sets their password directly — same as how her own password works.');
@@ -988,6 +1091,8 @@ function renderMoney(){
   html += '<tr><td>INV-1042 — Parkview HOA</td><td>$3,900</td><td><span class="status waiting">Waiting on bank</span></td></tr>';
   html += '<tr><td>Payout — Delgado Roofing</td><td>$2,400</td><td><span class="status matched">Sent — confirmed by bank</span></td></tr>';
   html += '</table><div class="note-banner">This matching table becomes real once you connect your bank account — for now it\'s sample data.</div>';
+  html += '<div class="sec-title">Data &amp; backups</div>';
+  html += '<div class="kv"><div class="row"><span>Your live system</span><span>The real record — everything on every screen here.</span></div><div class="row"><span>Your Google Sheet</span><span>A view-only copy for you — safe to look at, sort, filter. Editing it never changes or breaks the real system.</span></div><div class="row"><span>Deep backup</span><span>An automatic, separate backup nobody edits — there in case anything else ever needs recovering.</span></div></div>';
   document.getElementById('pageBody').innerHTML = html;
 }
 
@@ -1100,6 +1205,7 @@ function render(){
   else if(state.page === 'subs') renderSubs();
   else if(state.page === 'subDetail') renderSubDetail();
   else if(state.page === 'team') renderTeam();
+  else if(state.page === 'teamMemberDetail') renderTeamMemberDetail();
   else if(state.page === 'invoices') renderInvoices();
   else if(state.page === 'invoiceDetail') renderInvoiceDetail();
   else if(state.page === 'requests') renderRequests();
