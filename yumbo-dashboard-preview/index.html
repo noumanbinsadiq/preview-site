@@ -245,10 +245,20 @@ function goto(page, arg){
   render();
 }
 
-var navPages = ['dashboard','quotes','jobs','clients','subs','invoices','requests','inbox','money'];
-var navLabels = {dashboard:'Home', quotes:'Quotes', jobs:'Jobs', clients:'Clients', subs:'Subs', invoices:'Invoices', requests:'Requests', inbox:'Team inbox', money:'Money'};
-var ownerOnly = ['subs','money'];
-var pageToNav = {dashboard:'dashboard', quotes:'quotes', quoteDetail:'quotes', jobs:'jobs', jobDetail:'jobs', clients:'clients', clientDetail:'clients', subs:'subs', subDetail:'subs', invoices:'invoices', invoiceDetail:'invoices', requests:'requests', requestDetail:'requests', requestNew:'requests', inbox:'inbox', money:'money'};
+function nextJobNumber(){
+  var prefix = '26';
+  var maxNum = 0;
+  state.jobs.forEach(function(j){
+    var m = /^(\d+)-(\d+)$/.exec(j.jobNumber);
+    if(m){ prefix = m[1]; maxNum = Math.max(maxNum, parseInt(m[2], 10)); }
+  });
+  return prefix + '-' + String(maxNum + 1).padStart(4, '0');
+}
+
+var navPages = ['dashboard','quotes','jobs','clients','subs','invoices','requests','trash','inbox','money'];
+var navLabels = {dashboard:'Home', quotes:'Quotes', jobs:'Jobs', clients:'Clients', subs:'Subs', invoices:'Invoices', requests:'Requests', trash:'Trash', inbox:'Team inbox', money:'Money'};
+var ownerOnly = ['subs','money','trash'];
+var pageToNav = {dashboard:'dashboard', quotes:'quotes', quoteDetail:'quotes', quoteNew:'quotes', jobs:'jobs', jobDetail:'jobs', clients:'clients', clientDetail:'clients', subs:'subs', subDetail:'subs', invoices:'invoices', invoiceDetail:'invoices', requests:'requests', requestDetail:'requests', requestNew:'requests', trash:'trash', inbox:'inbox', money:'money'};
 var requestTypeLabels = {material:'Material request', change_order:'Change order', incident:'Incident report', other:'Other'};
 
 function buildNav(){
@@ -337,7 +347,7 @@ function renderDashboard(){
   }
 
   html += '<div class="sec-title">Active jobs</div><table><tr><th>Job #</th><th>Client</th><th>Status</th></tr>';
-  var activeJobs = state.jobs.filter(function(j){ return j.status==='in_progress'; });
+  var activeJobs = state.jobs.filter(function(j){ return j.status==='in_progress' && !j.trashed; });
   if(activeJobs.length){
     activeJobs.forEach(function(j){
       html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>';
@@ -374,7 +384,8 @@ function revealBank(){ document.getElementById('bankCard').classList.remove('blu
 function renderQuotes(){
   var owner = state.role === 'owner';
   var html = '<h1 class="dt">Quotes</h1>';
-  html += '<div class="segtabs" id="quoteTabs">';
+  html += '<div class="pill-btn solid" onclick="goto(\'quoteNew\')">+ New quote request</div>';
+  html += '<div class="segtabs" id="quoteTabs" style="margin-top:14px;">';
   var tabs = [['active','Needs action'],['requested','Needs quoting'],['building','Being priced'],['awaiting_owner','Awaiting your approval'],['sent','Sent to client'],['won','Won'],['lost','Lost'],['all','All']];
   tabs.forEach(function(t){
     html += '<button class="' + (state.quoteFilter===t[0]?'on':'') + '" onclick="setQuoteFilter(\'' + t[0] + '\')">' + t[1] + '</button>';
@@ -396,6 +407,27 @@ function renderQuotes(){
   document.getElementById('pageBody').innerHTML = html;
 }
 function setQuoteFilter(f){ state.quoteFilter = f; renderQuotes(); }
+
+function renderQuoteNew(){
+  var html = '<div class="back" onclick="goto(\'quotes\')">&larr; Back to quotes</div>';
+  html += '<h1 class="dt">New quote request</h1>';
+  html += '<div class="note-banner">This is how any new piece of work gets into the system — a call comes in, a client emails, someone flags it in person. Log it here, then assign it to someone to start pricing. Nothing has a price yet at this stage.</div>';
+  html += '<div class="formcard">';
+  html += '<div class="field"><label>Client</label><input id="nqClient" list="clientNames" placeholder="Existing or new client name"></div>';
+  html += '<datalist id="clientNames">' + state.clients.map(function(c){return '<option value="' + c.name + '">';}).join('') + '</datalist>';
+  html += '<div class="field"><label>What\'s needed</label><textarea id="nqDetails" placeholder="What they called about, what the email said…"></textarea></div>';
+  html += '<div class="pill-btn solid" onclick="submitQuoteNew()">Log this request</div>';
+  html += '</div>';
+  document.getElementById('pageBody').innerHTML = html;
+}
+function submitQuoteNew(){
+  var client = document.getElementById('nqClient').value.trim();
+  var details = document.getElementById('nqDetails').value.trim();
+  if(!client || !details){ alert('Fill in the client and what\'s needed first.'); return; }
+  var nextId = state.quotes.length + 1;
+  state.quotes.push({id:nextId, client:client, details:details, daysOld:0, stage:'requested', assignedEstimator:null, amount:null, notes:[]});
+  goto('quoteDetail', nextId);
+}
 
 function renderQuoteDetail(){
   var q = state.quotes.find(function(x){ return x.id === state.currentQuoteId; });
@@ -485,7 +517,7 @@ function setQuoteOutcome(id, outcome){
   q.stage = outcome;
   if(outcome === 'won'){
     var nextId = state.jobs.length + 1;
-    var jobNum = '26-' + String(40 + nextId).padStart(4,'0');
+    var jobNum = nextJobNumber();
     var primarySub = q.subs && q.subs.length ? q.subs[0] : null;
     var subPayout = primarySub ? Math.round(q.amount * primarySub.commissionPct / 100) : 0;
     state.jobs.push({id: nextId, jobNumber: jobNum, client: q.client, quoteId: q.id, offerAmount: q.amount, status:'in_progress', subId: primarySub?primarySub.subId:null, subPayout: subPayout, materialsCost:0, notes:[{author:'System', text:'Created from an approved quote.', to:null, date:today}], attachments:[]});
@@ -500,11 +532,12 @@ function setQuoteOutcome(id, outcome){
 function renderJobs(){
   var owner = state.role === 'owner';
   var html = '<h1 class="dt">Jobs</h1><table><tr><th>Job #</th><th>Client</th>' + (owner?'<th>Amount</th>':'') + '<th>Sub</th><th>Status</th></tr>';
-  state.jobs.forEach(function(j){
+  state.jobs.filter(function(j){ return !j.trashed; }).forEach(function(j){
     var sub = state.subs.find(function(s){ return s.id === j.subId; });
     html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td>' + (owner?'<td>' + money(j.offerAmount) + '</td>':'') + '<td>' + (sub?sub.name:'—') + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>';
   });
   html += '</table>';
+  if(owner){ html += '<div class="lockednote">Jobs you\'ve moved to the trash aren\'t shown here — see the Trash page.</div>'; }
   document.getElementById('pageBody').innerHTML = html;
 }
 
@@ -572,6 +605,76 @@ function renderJobDetail(){
 
   html += '<div class="sec-title">Notes &amp; team messages</div>';
   html += notesThread(j.notes) + noteForm('job', j.id);
+
+  if(owner){
+    html += '<div class="sec-title">Danger zone</div>';
+    if(!j.trashed){
+      html += '<div class="notif"><div class="l">Not doing this job anymore?</div><div class="v">Move it to the trash — nothing is deleted, it just gets out of your way everywhere else. You can bring it back later.</div></div>';
+      html += '<div class="formcard">';
+      html += '<div class="field"><label>Why is this job being moved to trash?</label><textarea id="trashReason_' + j.id + '" placeholder="e.g. client cancelled, job never started"></textarea></div>';
+      html += '<div class="field"><label>Type the job number to confirm — ' + j.jobNumber + '</label><input id="trashConfirm_' + j.id + '" placeholder="' + j.jobNumber + '"></div>';
+      html += '<div class="pill-btn" style="border-color:var(--coral); color:var(--coral);" onclick="moveJobToTrash(' + j.id + ')">Move to trash</div>';
+      html += '</div>';
+    } else {
+      html += '<div class="notif orange"><div class="l">In the trash</div><div class="v">Moved by ' + j.trashedBy + ' on ' + j.trashedDate + ' — "' + j.trashReason + '"</div></div>';
+      html += '<div class="formcard">';
+      html += '<div class="field"><label>Type the job number to restore — ' + j.jobNumber + '</label><input id="restoreConfirm_' + j.id + '" placeholder="' + j.jobNumber + '"></div>';
+      html += '<div class="pill-btn green" onclick="restoreJob(' + j.id + ')">Restore this job</div>';
+      html += '</div>';
+      html += '<div class="formcard" style="margin-top:10px; border-color:var(--coral);">';
+      html += '<div class="field"><label>Type the job number to permanently delete — ' + j.jobNumber + '</label><input id="deleteConfirm_' + j.id + '" placeholder="' + j.jobNumber + '"></div>';
+      html += '<label style="display:flex; gap:8px; align-items:center; font-size:12px; font-weight:700; margin-bottom:10px;"><input type="checkbox" id="deleteAck_' + j.id + '"> I understand this cannot be undone</label>';
+      html += '<div class="pill-btn solid" onclick="deleteJobPermanently(' + j.id + ')">Delete permanently</div>';
+      html += '</div>';
+    }
+  }
+
+  document.getElementById('pageBody').innerHTML = html;
+}
+
+function moveJobToTrash(jobId){
+  var j = state.jobs.find(function(x){ return x.id === jobId; });
+  var reason = document.getElementById('trashReason_' + jobId).value.trim();
+  var confirmNum = document.getElementById('trashConfirm_' + jobId).value.trim();
+  if(!reason){ alert('Write a reason first.'); return; }
+  if(confirmNum !== j.jobNumber){ alert('Type the job number exactly to confirm — ' + j.jobNumber); return; }
+  j.trashed = true;
+  j.trashReason = reason;
+  j.trashedBy = state.role === 'owner' ? 'Mailin' : 'Carlos R.';
+  j.trashedDate = today;
+  j.notes.push({author:j.trashedBy, text:'Moved to trash — ' + reason, to:null, date:today});
+  goto('jobs');
+}
+function restoreJob(jobId){
+  var j = state.jobs.find(function(x){ return x.id === jobId; });
+  var confirmNum = document.getElementById('restoreConfirm_' + jobId).value.trim();
+  if(confirmNum !== j.jobNumber){ alert('Type the job number exactly to confirm — ' + j.jobNumber); return; }
+  j.trashed = false;
+  j.notes.push({author: state.role==='owner'?'Mailin':'Carlos R.', text:'Restored from trash.', to:null, date:today});
+  renderJobDetail();
+}
+function deleteJobPermanently(jobId){
+  var j = state.jobs.find(function(x){ return x.id === jobId; });
+  var confirmNum = document.getElementById('deleteConfirm_' + jobId).value.trim();
+  var ack = document.getElementById('deleteAck_' + jobId).checked;
+  if(confirmNum !== j.jobNumber){ alert('Type the job number exactly to confirm — ' + j.jobNumber); return; }
+  if(!ack){ alert('Check the box confirming you understand this can\'t be undone.'); return; }
+  state.jobs = state.jobs.filter(function(x){ return x.id !== jobId; });
+  goto('trash');
+}
+
+function renderTrash(){
+  var html = '<h1 class="dt">Trash</h1>';
+  html += '<div class="note-banner">Jobs moved here are hidden everywhere else — Jobs list, Home, Clients, search — but nothing is ever actually gone. Restoring or permanently deleting both require typing the exact job number on purpose, so neither happens by accident.</div>';
+  var trashed = state.jobs.filter(function(j){ return j.trashed; });
+  if(!trashed.length){ html += '<div class="empty">Nothing in the trash right now.</div>'; }
+  else {
+    html += '<table><tr><th>Job #</th><th>Client</th><th>Reason</th><th>Moved</th></tr>';
+    trashed.forEach(function(j){
+      html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td><td>' + j.trashReason + '</td><td>' + j.trashedBy + ' · ' + j.trashedDate + '</td></tr>';
+    });
+    html += '</table>';
+  }
   document.getElementById('pageBody').innerHTML = html;
 }
 
@@ -740,7 +843,7 @@ function updateDefaultCommission(id, val){ state.subs.find(function(x){ return x
 function renderSubDetail(){
   var s = state.subs.find(function(x){ return x.id === state.currentSubId; });
   if(!s){ goto('subs'); return; }
-  var jobs = state.jobs.filter(function(j){ return j.subId === s.id; });
+  var jobs = state.jobs.filter(function(j){ return j.subId === s.id && !j.trashed; });
   var totalOwed = jobs.reduce(function(sum,j){ return sum + j.subPayout; }, 0);
   var html = '<div class="back" onclick="goto(\'subs\')">&larr; Back to subs</div>';
   html += '<h1 class="dt">' + s.name + '</h1>';
@@ -789,7 +892,7 @@ function renderClientDetail(){
   var c = state.clients.find(function(x){ return x.id === state.currentClientId; });
   if(!c){ goto('clients'); return; }
   var owner = state.role === 'owner';
-  var jobs = state.jobs.filter(function(j){ return j.client === c.name; });
+  var jobs = state.jobs.filter(function(j){ return j.client === c.name && !j.trashed; });
   var quotes = state.quotes.filter(function(q){ return q.client === c.name; });
   var html = '<div class="back" onclick="goto(\'clients\')">&larr; Back to clients</div>';
   html += '<h1 class="dt">' + c.name + '</h1>';
@@ -852,7 +955,7 @@ function runSearch(){
     state.quotes.filter(function(x){ return x.client.toLowerCase().indexOf(q) !== -1 || x.details.toLowerCase().indexOf(q) !== -1; }).forEach(function(x){ results.push({type:'Quote', label:x.client + ' — ' + x.details.slice(0,40), go:function(){ goto('quoteDetail', x.id); }}); });
   }
   if(scope === 'all' || scope === 'jobs'){
-    state.jobs.filter(function(j){ return j.client.toLowerCase().indexOf(q) !== -1 || j.jobNumber.toLowerCase().indexOf(q) !== -1; }).forEach(function(j){ results.push({type:'Job', label:j.jobNumber + ' — ' + j.client, go:function(){ goto('jobDetail', j.id); }}); });
+    state.jobs.filter(function(j){ return !j.trashed && (j.client.toLowerCase().indexOf(q) !== -1 || j.jobNumber.toLowerCase().indexOf(q) !== -1); }).forEach(function(j){ results.push({type:'Job', label:j.jobNumber + ' — ' + j.client, go:function(){ goto('jobDetail', j.id); }}); });
   }
   if(scope === 'all' || scope === 'requests'){
     state.requests.filter(function(r){ return r.title.toLowerCase().indexOf(q) !== -1 || (r.jobNumber||'').toLowerCase().indexOf(q) !== -1; }).forEach(function(r){ results.push({type:'Request', label:requestTypeLabels[r.type] + ' — ' + r.title, go:function(){ goto('requestDetail', r.id); }}); });
@@ -875,6 +978,7 @@ function render(){
   if(state.page === 'dashboard') renderDashboard();
   else if(state.page === 'quotes') renderQuotes();
   else if(state.page === 'quoteDetail') renderQuoteDetail();
+  else if(state.page === 'quoteNew') renderQuoteNew();
   else if(state.page === 'jobs') renderJobs();
   else if(state.page === 'jobDetail') renderJobDetail();
   else if(state.page === 'clients') renderClients();
@@ -886,6 +990,7 @@ function render(){
   else if(state.page === 'requests') renderRequests();
   else if(state.page === 'requestDetail') renderRequestDetail();
   else if(state.page === 'requestNew') renderRequestNew();
+  else if(state.page === 'trash') renderTrash();
   else if(state.page === 'inbox') renderInbox();
   else if(state.page === 'money') renderMoney();
 }
