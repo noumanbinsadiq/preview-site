@@ -114,7 +114,9 @@ footer{text-align:center; padding:26px 0 10px; font-size:12px; color:var(--ink-s
   <div class="roletoggle">
     <button class="active" data-role="owner" onclick="setRole('owner')">Owner view — Mailin</button>
     <button data-role="estimator" onclick="setRole('estimator')">Estimator / team-member view</button>
+    <select id="teamMemberPicker" style="display:none; font-family:'Manrope',sans-serif; font-weight:800; font-size:12.5px; padding:9px 14px; border:2.5px solid var(--ink); border-radius:99px; background:var(--cream);" onchange="switchTeamMember(this.value)"></select>
   </div>
+  <div class="note-banner" style="border-color:var(--blue); background:rgba(47,91,255,.06);"><b>Testing the team view?</b> Switch to "Estimator / team-member view" then use the dropdown that appears to pick which person is logged in — Carlos and Ana each only see their own quotes, jobs, and requests, never each other's.</div>
   <div class="shell">
     <div class="top-bar">
       <div class="logo">Yumbo General Construction</div>
@@ -153,6 +155,7 @@ var state = {
   currentSubId: null,
   currentClientId: null,
   currentInvoiceId: null,
+  currentTeamMember: 'Carlos R.',
   clients: [
     {id:1, name:'Sunset Ridge', contact:'Property manager — (904) 555-0132', email:'manager@sunsetridge.example'},
     {id:2, name:'Parkview HOA', contact:'HOA board — (904) 555-0198', email:'board@parkviewhoa.example'},
@@ -169,9 +172,11 @@ var state = {
     {id:2, name:'RJ Concrete', defaultCommission:15},
     {id:3, name:'Vega Electric', defaultCommission:10}
   ],
+  // canCreateQuotes: whether Mailin has granted this person permission to log
+  // new quote requests. Off by default — she turns it on per person from Team.
   estimators: [
-    {name:'Carlos R.'},
-    {name:'Ana M.'}
+    {name:'Carlos R.', canCreateQuotes:true},
+    {name:'Ana M.', canCreateQuotes:false}
   ],
   // ---- ONE pipeline: a request comes in with no price, your team prices it,
   // you approve it, it goes to the client, then it's won (becomes a job) or lost.
@@ -189,7 +194,7 @@ var state = {
     {id:5, client:'Sunset Ridge', details:'Roof repair job — 26-0041.', daysOld:0, stage:'won', assignedEstimator:'Carlos R.', amount:6800, notes:[], subs:[{subId:1,commissionPct:35}], jobId:1}
   ],
   jobs: [
-    {id:1, jobNumber:'26-0041', client:'Sunset Ridge', quoteId:5, offerAmount:6800, status:'in_progress', subId:1, subPayout:2400, materialsCost:900,
+    {id:1, jobNumber:'26-0041', client:'Sunset Ridge', quoteId:5, estimator:'Carlos R.', offerAmount:6800, status:'in_progress', subId:1, subPayout:2400, materialsCost:900,
       notes:[{author:'Ana M.', text:'Materials delivered on site.', to:null, date:'Aug 10'},{author:'Ana M.', text:'Roofing 50% complete.', to:null, date:'Aug 12'}],
       attachments:[{date:'Aug 14', tag:'/payment', filename:'zelle-payment-2400.jpg', from:'Carlos R.'},{date:'Aug 12', tag:'/update', filename:'roof-progress-50pct.jpg', from:'Ana M.'}]}
   ],
@@ -225,11 +230,33 @@ function stageClass(s){
 function statusLabel(s){ return s.replace(/_/g,' '); }
 function statusClass(s){ if(s==='in_progress') return 'progress'; if(s==='completed') return 'approved'; if(s==='matched') return 'matched'; if(s==='waiting') return 'waiting'; return ''; }
 
+function currentPersonName(){ return state.role === 'owner' ? 'Mailin' : state.currentTeamMember; }
+function canCreateQuotes(){
+  if(state.role === 'owner'){ return true; }
+  var me = state.estimators.find(function(e){ return e.name === state.currentTeamMember; });
+  return !!(me && me.canCreateQuotes);
+}
+
 function setRole(role){
   state.role = role;
   state.page = 'dashboard';
   document.querySelectorAll('.roletoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.role === role); });
-  document.getElementById('whoTag').textContent = role === 'owner' ? 'Logged in as Mailin · Owner' : 'Logged in as Carlos · Estimator';
+  var picker = document.getElementById('teamMemberPicker');
+  if(role === 'estimator'){
+    if(!state.currentTeamMember){ state.currentTeamMember = state.estimators[0].name; }
+    picker.style.display = 'inline-block';
+    picker.innerHTML = state.estimators.map(function(e){ return '<option value="' + e.name + '"' + (e.name===state.currentTeamMember?' selected':'') + '>' + e.name + '</option>'; }).join('');
+    document.getElementById('whoTag').textContent = 'Logged in as ' + state.currentTeamMember + ' · Team member';
+  } else {
+    picker.style.display = 'none';
+    document.getElementById('whoTag').textContent = 'Logged in as Mailin · Owner';
+  }
+  render();
+}
+function switchTeamMember(name){
+  state.currentTeamMember = name;
+  state.page = 'dashboard';
+  document.getElementById('whoTag').textContent = 'Logged in as ' + name + ' · Team member';
   render();
 }
 
@@ -255,10 +282,10 @@ function nextJobNumber(){
   return prefix + '-' + String(maxNum + 1).padStart(4, '0');
 }
 
-var navPages = ['dashboard','quotes','jobs','clients','subs','invoices','requests','trash','inbox','money'];
-var navLabels = {dashboard:'Home', quotes:'Quotes', jobs:'Jobs', clients:'Clients', subs:'Subs', invoices:'Invoices', requests:'Requests', trash:'Trash', inbox:'Team inbox', money:'Money'};
-var ownerOnly = ['subs','money','trash'];
-var pageToNav = {dashboard:'dashboard', quotes:'quotes', quoteDetail:'quotes', quoteNew:'quotes', jobs:'jobs', jobDetail:'jobs', clients:'clients', clientDetail:'clients', subs:'subs', subDetail:'subs', invoices:'invoices', invoiceDetail:'invoices', requests:'requests', requestDetail:'requests', requestNew:'requests', trash:'trash', inbox:'inbox', money:'money'};
+var navPages = ['dashboard','quotes','jobs','clients','subs','team','invoices','requests','trash','inbox','money'];
+var navLabels = {dashboard:'Home', quotes:'Quotes', jobs:'Jobs', clients:'Clients', subs:'Subs', team:'Team', invoices:'Invoices', requests:'Requests', trash:'Trash', inbox:'Team inbox', money:'Money'};
+var ownerOnly = ['subs','team','money','trash'];
+var pageToNav = {dashboard:'dashboard', quotes:'quotes', quoteDetail:'quotes', quoteNew:'quotes', jobs:'jobs', jobDetail:'jobs', clients:'clients', clientDetail:'clients', subs:'subs', subDetail:'subs', team:'team', invoices:'invoices', invoiceDetail:'invoices', requests:'requests', requestDetail:'requests', requestNew:'requests', trash:'trash', inbox:'inbox', money:'money'};
 var requestTypeLabels = {material:'Material request', change_order:'Change order', incident:'Incident report', other:'Other'};
 
 function buildNav(){
@@ -304,7 +331,7 @@ function addNote(kind, id){
   var text = document.getElementById('noteText_' + kind + id).value.trim();
   if(!text){ return; }
   var to = document.getElementById('noteTo_' + kind + id).value || null;
-  var author = state.role === 'owner' ? 'Mailin' : 'Carlos R.';
+  var author = currentPersonName();
   var target = kind === 'quote' ? state.quotes.find(function(x){return x.id===id;}) : kind === 'job' ? state.jobs.find(function(x){return x.id===id;}) : kind === 'request' ? state.requests.find(function(x){return x.id===id;}) : state.invoices.find(function(x){return x.id===id;});
   target.notes.push({author:author, text:text, to:to, date:today});
   if(kind==='quote') renderQuoteDetail(); else if(kind==='job') renderJobDetail(); else if(kind==='request') renderRequestDetail(); else renderInvoiceDetail();
@@ -316,7 +343,10 @@ function renderDashboard(){
   var html = '<div class="greet">Good morning</div><h1 class="dt">' + (owner ? 'Everything, in one place' : 'Your work today') + '</h1>';
 
   // Needs your attention — always first, this is the whole point of the home page.
-  var attnQuotes = state.quotes.filter(function(q){ return q.stage==='requested' || (owner && q.stage==='awaiting_owner'); });
+  var attnQuotes = state.quotes.filter(function(q){
+    if(owner){ return q.stage==='requested' || q.stage==='awaiting_owner'; }
+    return q.assignedEstimator === state.currentTeamMember && (q.stage==='requested' || q.stage==='building');
+  });
   var attnInvoices = owner ? state.invoices.filter(function(inv){ return inv.status==='waiting'; }) : [];
   var attnRequests = owner ? state.requests.filter(function(r){ return r.status==='pending'; }) : [];
   html += '<div class="attn-block"><div class="attn-title">Needs your attention</div>';
@@ -324,7 +354,7 @@ function renderDashboard(){
     html += '<div class="attn-empty">Nothing urgent right now.</div>';
   } else {
     attnQuotes.forEach(function(q){
-      var label = q.stage==='requested' ? 'Needs quoting' : 'Waiting on your approval';
+      var label = owner ? (q.stage==='requested' ? 'Needs quoting' : 'Waiting on your approval') : (q.stage==='requested' ? 'Ready for you to start pricing' : 'You still need to price this');
       html += '<div class="notif orange"><div class="l">' + label + ' · ' + q.daysOld + ' days old</div><div class="v">' + q.client + ' — ' + q.details.slice(0,60) + (q.details.length>60?'…':'') + '</div><div class="pill-btn" onclick="goto(\'quoteDetail\',' + q.id + ')">Open →</div></div>';
     });
     if(owner){
@@ -347,7 +377,7 @@ function renderDashboard(){
   }
 
   html += '<div class="sec-title">Active jobs</div><table><tr><th>Job #</th><th>Client</th><th>Status</th></tr>';
-  var activeJobs = state.jobs.filter(function(j){ return j.status==='in_progress' && !j.trashed; });
+  var activeJobs = state.jobs.filter(function(j){ return j.status==='in_progress' && !j.trashed && (owner || j.estimator===state.currentTeamMember); });
   if(activeJobs.length){
     activeJobs.forEach(function(j){
       html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>';
@@ -383,16 +413,23 @@ function revealBank(){ document.getElementById('bankCard').classList.remove('blu
 // ---------- QUOTES (merged: requests + pricing + approval in one pipeline) ----------
 function renderQuotes(){
   var owner = state.role === 'owner';
+  var canCreate = canCreateQuotes();
   var html = '<h1 class="dt">Quotes</h1>';
-  html += '<div class="pill-btn solid" onclick="goto(\'quoteNew\')">+ New quote request</div>';
+  if(canCreate){
+    html += '<div class="pill-btn solid" onclick="goto(\'quoteNew\')">+ New quote request</div>';
+  } else {
+    html += '<div class="lockednote">Only Mailin — or team members she\'s granted permission to — can add new quote requests. Ask her to turn this on for you from the Team page.</div>';
+  }
   html += '<div class="segtabs" id="quoteTabs" style="margin-top:14px;">';
   var tabs = [['active','Needs action'],['requested','Needs quoting'],['building','Being priced'],['awaiting_owner','Awaiting your approval'],['sent','Sent to client'],['won','Won'],['lost','Lost'],['all','All']];
   tabs.forEach(function(t){
     html += '<button class="' + (state.quoteFilter===t[0]?'on':'') + '" onclick="setQuoteFilter(\'' + t[0] + '\')">' + t[1] + '</button>';
   });
   html += '</div>';
+  if(!owner){ html += '<div class="lockednote" style="margin-bottom:10px;">You\'re only seeing quotes assigned to you — not the rest of the team\'s.</div>'; }
 
   var list = state.quotes.filter(function(q){
+    if(!owner && q.assignedEstimator !== state.currentTeamMember) return false;
     if(state.quoteFilter==='all') return true;
     if(state.quoteFilter==='active') return q.stage==='requested' || q.stage==='building' || q.stage==='awaiting_owner';
     return q.stage === state.quoteFilter;
@@ -409,6 +446,10 @@ function renderQuotes(){
 function setQuoteFilter(f){ state.quoteFilter = f; renderQuotes(); }
 
 function renderQuoteNew(){
+  if(!canCreateQuotes()){
+    document.getElementById('pageBody').innerHTML = '<div class="back" onclick="goto(\'quotes\')">&larr; Back to quotes</div><h1 class="dt">Not permitted</h1><div class="empty">Mailin hasn\'t given you permission to add new quote requests.</div>';
+    return;
+  }
   var html = '<div class="back" onclick="goto(\'quotes\')">&larr; Back to quotes</div>';
   html += '<h1 class="dt">New quote request</h1>';
   html += '<div class="note-banner">This is how any new piece of work gets into the system — a call comes in, a client emails, someone flags it in person. Log it here, then assign it to someone to start pricing. Nothing has a price yet at this stage.</div>';
@@ -433,6 +474,10 @@ function renderQuoteDetail(){
   var q = state.quotes.find(function(x){ return x.id === state.currentQuoteId; });
   if(!q){ goto('quotes'); return; }
   var owner = state.role === 'owner';
+  if(!owner && q.assignedEstimator !== state.currentTeamMember){
+    document.getElementById('pageBody').innerHTML = '<div class="back" onclick="goto(\'quotes\')">&larr; Back to quotes</div><h1 class="dt">Not assigned to you</h1><div class="empty">This quote is assigned to someone else on the team, so you can\'t open it.</div>';
+    return;
+  }
   var html = '<div class="back" onclick="goto(\'quotes\')">&larr; Back to quotes</div>';
   html += '<h1 class="dt">' + q.client + ' <span class="status ' + stageClass(q.stage) + '" style="font-size:11px; vertical-align:middle;">' + stageLabel(q.stage) + '</span></h1>';
   html += '<div class="kv"><div class="row"><span>What\'s needed</span><span>' + q.details + '</span></div><div class="row"><span>Age</span><span>' + q.daysOld + ' days</span></div><div class="row"><span>Assigned to</span><span>' + (q.assignedEstimator || 'Unassigned') + '</span></div>' + (q.amount !== null ? '<div class="row"><span>Quote amount</span><span>' + money(q.amount) + '</span></div>' : '') + '</div>';
@@ -497,7 +542,7 @@ function submitForApproval(id){
     if(on){ q.subs.push({subId:s.id, commissionPct: parseFloat(document.getElementById('subPct' + s.id).value) || 0}); }
   });
   q.stage = 'awaiting_owner';
-  q.notes.push({author: state.role==='owner'?'Mailin':(q.assignedEstimator||'Team'), text:'Submitted at ' + money(amt) + ' for approval.', to:'Mailin', date: today});
+  q.notes.push({author: currentPersonName(), text:'Submitted at ' + money(amt) + ' for approval.', to:'Mailin', date: today});
   renderQuoteDetail();
 }
 function sendBackForChanges(id){
@@ -520,7 +565,7 @@ function setQuoteOutcome(id, outcome){
     var jobNum = nextJobNumber();
     var primarySub = q.subs && q.subs.length ? q.subs[0] : null;
     var subPayout = primarySub ? Math.round(q.amount * primarySub.commissionPct / 100) : 0;
-    state.jobs.push({id: nextId, jobNumber: jobNum, client: q.client, quoteId: q.id, offerAmount: q.amount, status:'in_progress', subId: primarySub?primarySub.subId:null, subPayout: subPayout, materialsCost:0, notes:[{author:'System', text:'Created from an approved quote.', to:null, date:today}], attachments:[]});
+    state.jobs.push({id: nextId, jobNumber: jobNum, client: q.client, quoteId: q.id, estimator: q.assignedEstimator, offerAmount: q.amount, status:'in_progress', subId: primarySub?primarySub.subId:null, subPayout: subPayout, materialsCost:0, notes:[{author:'System', text:'Created from an approved quote.', to:null, date:today}], attachments:[]});
     q.jobId = nextId;
     goto('jobDetail', nextId);
     return;
@@ -531,8 +576,10 @@ function setQuoteOutcome(id, outcome){
 // ---------- JOBS ----------
 function renderJobs(){
   var owner = state.role === 'owner';
-  var html = '<h1 class="dt">Jobs</h1><table><tr><th>Job #</th><th>Client</th>' + (owner?'<th>Amount</th>':'') + '<th>Sub</th><th>Status</th></tr>';
-  state.jobs.filter(function(j){ return !j.trashed; }).forEach(function(j){
+  var html = '<h1 class="dt">Jobs</h1>';
+  if(!owner){ html += '<div class="lockednote">You\'re only seeing jobs assigned to you.</div>'; }
+  html += '<table><tr><th>Job #</th><th>Client</th>' + (owner?'<th>Amount</th>':'') + '<th>Sub</th><th>Status</th></tr>';
+  state.jobs.filter(function(j){ return !j.trashed && (owner || j.estimator === state.currentTeamMember); }).forEach(function(j){
     var sub = state.subs.find(function(s){ return s.id === j.subId; });
     html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td>' + (owner?'<td>' + money(j.offerAmount) + '</td>':'') + '<td>' + (sub?sub.name:'—') + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>';
   });
@@ -545,6 +592,10 @@ function renderJobDetail(){
   var j = state.jobs.find(function(x){ return x.id === state.currentJobId; });
   if(!j){ goto('jobs'); return; }
   var owner = state.role === 'owner';
+  if(!owner && j.estimator !== state.currentTeamMember){
+    document.getElementById('pageBody').innerHTML = '<div class="back" onclick="goto(\'jobs\')">&larr; Back to jobs</div><h1 class="dt">Not assigned to you</h1><div class="empty">This job is assigned to someone else on the team, so you can\'t open it.</div>';
+    return;
+  }
   var sub = state.subs.find(function(s){ return s.id === j.subId; });
   var profit = jobProfit(j);
   var html = '<div class="back" onclick="goto(\'jobs\')">&larr; Back to jobs</div>';
@@ -640,7 +691,7 @@ function moveJobToTrash(jobId){
   if(confirmNum !== j.jobNumber){ alert('Type the job number exactly to confirm — ' + j.jobNumber); return; }
   j.trashed = true;
   j.trashReason = reason;
-  j.trashedBy = state.role === 'owner' ? 'Mailin' : 'Carlos R.';
+  j.trashedBy = currentPersonName();
   j.trashedDate = today;
   j.notes.push({author:j.trashedBy, text:'Moved to trash — ' + reason, to:null, date:today});
   goto('jobs');
@@ -650,7 +701,7 @@ function restoreJob(jobId){
   var confirmNum = document.getElementById('restoreConfirm_' + jobId).value.trim();
   if(confirmNum !== j.jobNumber){ alert('Type the job number exactly to confirm — ' + j.jobNumber); return; }
   j.trashed = false;
-  j.notes.push({author: state.role==='owner'?'Mailin':'Carlos R.', text:'Restored from trash.', to:null, date:today});
+  j.notes.push({author: currentPersonName(), text:'Restored from trash.', to:null, date:today});
   renderJobDetail();
 }
 function deleteJobPermanently(jobId){
@@ -683,13 +734,13 @@ function assignSub(jobId, subId){
   var s = state.subs.find(function(x){ return x.id === subId; });
   j.subId = subId;
   j.subPayout = Math.round(j.offerAmount * s.defaultCommission / 100);
-  j.notes.push({author: state.role==='owner'?'Mailin':'Carlos R.', text: s.name + ' assigned to this job.', to:null, date: today});
+  j.notes.push({author: currentPersonName(), text: s.name + ' assigned to this job.', to:null, date: today});
   renderJobDetail();
 }
 function markJobComplete(jobId){
   var j = state.jobs.find(function(x){ return x.id === jobId; });
   j.status = 'completed';
-  j.notes.push({author: state.role==='owner'?'Mailin':'Carlos R.', text:'Marked complete.', to:null, date: today});
+  j.notes.push({author: currentPersonName(), text:'Marked complete.', to:null, date: today});
   renderJobDetail();
 }
 function createInvoiceFromJob(jobId){
@@ -709,8 +760,12 @@ function renderRequests(){
   var tabs = [['pending','Pending'],['approved','Approved'],['declined','Declined'],['all','All']];
   tabs.forEach(function(t){ html += '<button class="' + (state.requestFilter===t[0]||(!state.requestFilter&&t[0]==='pending')?'on':'') + '" onclick="setRequestFilter(\'' + t[0] + '\')">' + t[1] + '</button>'; });
   html += '</div>';
+  if(!owner){ html += '<div class="lockednote">You\'re only seeing requests you submitted yourself.</div>'; }
   var filter = state.requestFilter || 'pending';
-  var list = state.requests.filter(function(r){ return filter==='all' || r.status===filter; });
+  var list = state.requests.filter(function(r){
+    if(!owner && r.submittedBy !== state.currentTeamMember) return false;
+    return filter==='all' || r.status===filter;
+  });
   html += '<table><tr><th>Type</th><th>Title</th><th>Job</th><th>By</th>' + (owner?'<th>Amount</th>':'') + '<th>Status</th></tr>';
   list.forEach(function(r){
     html += '<tr class="link" onclick="goto(\'requestDetail\',' + r.id + ')"><td>' + requestTypeLabels[r.type] + '</td><td>' + r.title + '</td><td>' + (r.jobNumber || '—') + '</td><td>' + r.submittedBy + '</td>' + (owner?'<td>' + money(r.amount) + '</td>':'') + '<td><span class="status ' + (r.status==='pending'?'needsattn':r.status==='approved'?'approved':'declined') + '">' + r.status + '</span></td></tr>';
@@ -725,6 +780,10 @@ function renderRequestDetail(){
   var r = state.requests.find(function(x){ return x.id === state.currentRequestId; });
   if(!r){ goto('requests'); return; }
   var owner = state.role === 'owner';
+  if(!owner && r.submittedBy !== state.currentTeamMember){
+    document.getElementById('pageBody').innerHTML = '<div class="back" onclick="goto(\'requests\')">&larr; Back to requests</div><h1 class="dt">Not yours</h1><div class="empty">This request was submitted by someone else on the team.</div>';
+    return;
+  }
   var html = '<div class="back" onclick="goto(\'requests\')">&larr; Back to requests</div>';
   html += '<h1 class="dt">' + requestTypeLabels[r.type] + ' <span class="status ' + (r.status==='pending'?'needsattn':r.status==='approved'?'approved':'declined') + '" style="font-size:11px; vertical-align:middle;">' + r.status + '</span></h1>';
   html += '<div class="kv">';
@@ -793,7 +852,7 @@ function submitRequest(lockedJobId){
   }
   var job = jobId ? state.jobs.find(function(j){ return j.id === jobId; }) : null;
   var nextId = state.requests.length + 1;
-  var submittedBy = state.role === 'owner' ? 'Mailin' : 'Carlos R.';
+  var submittedBy = currentPersonName();
   state.requests.push({id:nextId, type:type, jobId: job?job.id:null, jobNumber: job?job.jobNumber:null, submittedBy:submittedBy, title:title, details:details, amount:amount, status:'pending', date:today, notes:[]});
   goto('requestDetail', nextId);
 }
@@ -859,6 +918,61 @@ function renderSubDetail(){
     html += '<div class="empty">No jobs assigned to this sub right now.</div>';
   }
   document.getElementById('pageBody').innerHTML = html;
+}
+
+// ---------- TEAM (internal staff — separate from Subs, who are external subcontractors) ----------
+function renderTeam(){
+  var html = '<h1 class="dt">Team</h1>';
+  html += '<div class="note-banner">Your internal staff — estimators and anyone else on your team. This is where you decide who\'s allowed to add new quote requests, and see everyone\'s current workload at a glance. Adding someone here doesn\'t give them access to anything money-related — that stays owner-only everywhere in the system.</div>';
+  html += '<table><tr><th>Name</th><th>Active quotes</th><th>Active jobs</th><th>Can add new quote requests</th><th></th></tr>';
+  state.estimators.forEach(function(e){
+    var qLoad = estimatorLoad(e.name);
+    var jLoad = state.jobs.filter(function(j){ return j.estimator === e.name && !j.trashed; }).length;
+    html += '<tr><td>' + e.name + '</td><td>' + qLoad + '</td><td>' + jLoad + '</td><td><input type="checkbox" ' + (e.canCreateQuotes?'checked':'') + ' onchange="toggleCanCreateQuotes(\'' + e.name + '\', this.checked)"></td>';
+    html += '<td><div class="pill-btn" style="font-size:10px; padding:5px 10px;" onclick="renameTeamMember(\'' + e.name + '\')">Rename</div><div class="pill-btn" style="font-size:10px; padding:5px 10px;" onclick="resetTeamMemberPassword(\'' + e.name + '\')">Reset password</div><div class="pill-btn" style="font-size:10px; padding:5px 10px; border-color:var(--coral); color:var(--coral);" onclick="removeTeamMember(\'' + e.name + '\')">Remove</div></td></tr>';
+  });
+  html += '</table>';
+  html += '<div class="lockednote">Mailin can never see or set someone\'s actual password — "Reset password" sends them a reset link, same as how her own password works. Removing someone only takes away their access; their past quotes, jobs, and notes stay in the system exactly as they are.</div>';
+  html += '<div class="sec-title">Add a team member</div>';
+  html += '<div class="formcard"><div class="field"><label>Name</label><input id="newTeamMemberName" placeholder="e.g. Luis P."></div><div class="pill-btn solid" onclick="addTeamMember()">Add team member</div></div>';
+  document.getElementById('pageBody').innerHTML = html;
+}
+function toggleCanCreateQuotes(name, val){
+  var e = state.estimators.find(function(x){ return x.name === name; });
+  e.canCreateQuotes = val;
+  renderTeam();
+}
+function addTeamMember(){
+  var name = document.getElementById('newTeamMemberName').value.trim();
+  if(!name){ alert('Enter a name first.'); return; }
+  state.estimators.push({name:name, canCreateQuotes:false});
+  renderTeam();
+}
+function renameTeamMember(oldName){
+  var newName = prompt('New name for ' + oldName + ':', oldName);
+  if(!newName){ return; }
+  newName = newName.trim();
+  if(!newName || newName === oldName){ return; }
+  var e = state.estimators.find(function(x){ return x.name === oldName; });
+  e.name = newName;
+  // Cascade so existing assignments and history stay attached to the same person.
+  function swap(n){ if(n.author===oldName) n.author=newName; if(n.to===oldName) n.to=newName; }
+  state.quotes.forEach(function(q){ if(q.assignedEstimator===oldName){ q.assignedEstimator=newName; } q.notes.forEach(swap); });
+  state.jobs.forEach(function(j){ if(j.estimator===oldName){ j.estimator=newName; } j.notes.forEach(swap); });
+  state.requests.forEach(function(r){ if(r.submittedBy===oldName){ r.submittedBy=newName; } r.notes.forEach(swap); });
+  if(state.currentTeamMember === oldName){ state.currentTeamMember = newName; }
+  renderTeam();
+}
+function removeTeamMember(name){
+  if(state.estimators.length <= 1){ alert('You need at least one team member.'); return; }
+  var ok = confirm('Remove ' + name + '? Their past quotes, jobs, and notes stay exactly as they are — this only removes their ability to log in and be assigned new work.');
+  if(!ok){ return; }
+  state.estimators = state.estimators.filter(function(x){ return x.name !== name; });
+  if(state.currentTeamMember === name){ state.currentTeamMember = state.estimators.length ? state.estimators[0].name : null; }
+  renderTeam();
+}
+function resetTeamMemberPassword(name){
+  alert('A password reset link would be sent to ' + name + '\'s email. Mailin never sees or sets their password directly — same as how her own password works.');
 }
 
 // ---------- MONEY ----------
@@ -985,6 +1099,7 @@ function render(){
   else if(state.page === 'clientDetail') renderClientDetail();
   else if(state.page === 'subs') renderSubs();
   else if(state.page === 'subDetail') renderSubDetail();
+  else if(state.page === 'team') renderTeam();
   else if(state.page === 'invoices') renderInvoices();
   else if(state.page === 'invoiceDetail') renderInvoiceDetail();
   else if(state.page === 'requests') renderRequests();
