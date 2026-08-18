@@ -179,6 +179,7 @@ var state = {
   currentClientId: null,
   currentInvoiceId: null,
   currentVendorId: null,
+  currentAuditJobId: null,
   currentTeamMember: 'Carlos R.',
   notificationSort: 'urgency',
   clients: [
@@ -230,7 +231,7 @@ var state = {
     {id:4, client:'Parkview HOA', details:'Full clubhouse roof + gutter replacement.', daysOld:6, stage:'awaiting_owner', assignedEstimator:'Carlos R.', amount:14500, notes:[
       {author:'Carlos R.', text:'Priced this at $14,500 — includes RJ Concrete and Delgado Roofing. Ready for your review.', to:'Mailin', date:'Aug 11'}
     ], subs:[{subId:1,commissionPct:12},{subId:2,commissionPct:15}]},
-    {id:5, client:'Sunset Ridge', details:'Roof repair job — 26-0041.', daysOld:0, stage:'won', assignedEstimator:'Carlos R.', amount:6800, notes:[], subs:[{subId:1,commissionPct:35}], jobId:1}
+    {id:5, client:'Sunset Ridge', details:'Roof repair job — 26-0041.', daysOld:0, stage:'won', assignedEstimator:'Carlos R.', amount:6800, estimatedMaterialsCost:820, notes:[], subs:[{subId:1,commissionPct:35}], jobId:1}
   ],
   jobs: [
     {id:1, jobNumber:'26-0041', client:'Sunset Ridge', quoteId:5, estimator:'Carlos R.', offerAmount:6800, status:'in_progress', subId:1, subPayout:2400, materialsCost:900,
@@ -354,6 +355,7 @@ function goto(page, arg){
   if(page === 'clientDetail') state.currentClientId = arg;
   if(page === 'invoiceDetail') state.currentInvoiceId = arg;
   if(page === 'vendorDetail') state.currentVendorId = arg;
+  if(page === 'auditDetail') state.currentAuditJobId = arg;
   if(page === 'requestDetail') state.currentRequestId = arg;
   if(page === 'requestNew') state.newRequestJobId = arg === undefined ? null : arg;
   if(page === 'teamMemberDetail') state.viewingTeamMemberName = arg;
@@ -370,10 +372,10 @@ function nextJobNumber(){
   return prefix + '-' + String(maxNum + 1).padStart(4, '0');
 }
 
-var navPages = ['dashboard','quotes','jobs','lost','clients','vendors','expenses','subs','team','invoices','requests','inbox','money'];
-var navLabels = {dashboard:'Home', quotes:'Quotes', jobs:'Jobs', lost:'Lost jobs', clients:'Clients', vendors:'Vendors', expenses:'Expenses', subs:'Subs', team:'Team', invoices:'Invoices', requests:'Requests', inbox:'Team inbox', money:'Money'};
-var ownerOnly = ['vendors','expenses','subs','team','money','lost'];
-var pageToNav = {dashboard:'dashboard', quotes:'quotes', quoteDetail:'quotes', quoteNew:'quotes', jobs:'jobs', jobDetail:'jobs', lost:'lost', clients:'clients', clientDetail:'clients', vendors:'vendors', vendorDetail:'vendors', expenses:'expenses', subs:'subs', subDetail:'subs', team:'team', teamMemberDetail:'team', invoices:'invoices', invoiceDetail:'invoices', requests:'requests', requestDetail:'requests', requestNew:'requests', inbox:'inbox', money:'money'};
+var navPages = ['dashboard','quotes','jobs','lost','clients','vendors','expenses','subs','team','invoices','requests','inbox','money','auditor'];
+var navLabels = {dashboard:'Home', quotes:'Quotes', jobs:'Jobs', lost:'Lost jobs', clients:'Clients', vendors:'Vendors', expenses:'Expenses', subs:'Subs', team:'Team', invoices:'Invoices', requests:'Requests', inbox:'Team inbox', money:'Money', auditor:'Auditor'};
+var ownerOnly = ['vendors','expenses','subs','team','money','lost','auditor'];
+var pageToNav = {dashboard:'dashboard', quotes:'quotes', quoteDetail:'quotes', quoteNew:'quotes', jobs:'jobs', jobDetail:'jobs', lost:'lost', clients:'clients', clientDetail:'clients', vendors:'vendors', vendorDetail:'vendors', expenses:'expenses', subs:'subs', subDetail:'subs', team:'team', teamMemberDetail:'team', invoices:'invoices', invoiceDetail:'invoices', requests:'requests', requestDetail:'requests', requestNew:'requests', inbox:'inbox', money:'money', auditor:'auditor', auditDetail:'auditor'};
 var requestTypeLabels = {material:'Material request', change_order:'Change order', incident:'Incident report', other:'Other'};
 
 function buildNav(){
@@ -393,6 +395,102 @@ function buildNav(){
 }
 
 function jobProfit(j){ return j.offerAmount - j.subPayout - j.materialsCost; }
+
+// ---------- AUDITOR — estimated (from the original quote) vs actual, per job ----------
+// Everything here is computed from real fields already on the job/quote/requests —
+// nothing here is a guess or a made-up number. If a number can't be grounded in
+// real data (e.g. no originating quote), the audit says so instead of faking one.
+function auditForJob(j){
+  var q = j.quoteId ? state.quotes.find(function(x){ return x.id === j.quoteId; }) : null;
+  var hasEstimate = !!(q && q.amount !== null && q.amount !== undefined);
+  var estAmount = hasEstimate ? q.amount : null;
+  var estMaterials = hasEstimate ? (q.estimatedMaterialsCost || 0) : null;
+  var estSubPayout = hasEstimate ? (q.subs || []).reduce(function(sum, s){ return sum + Math.round(q.amount * s.commissionPct / 100); }, 0) : null;
+  var estMargin = hasEstimate ? (estAmount - estMaterials - estSubPayout) : null;
+
+  var actAmount = j.offerAmount;
+  var actMaterials = j.materialsCost;
+  var actSubPayout = j.subPayout;
+  var actMargin = jobProfit(j);
+
+  var approvedReqs = state.requests.filter(function(r){ return r.jobId === j.id && r.status === 'approved' && (r.type === 'material' || r.type === 'change_order'); });
+
+  var explanations = [];
+  if(hasEstimate){
+    var materialsDelta = actMaterials - estMaterials;
+    if(Math.abs(materialsDelta) >= 1){
+      var line = 'Materials cost ' + (materialsDelta > 0 ? 'ran ' + money(materialsDelta) + ' over' : 'came in ' + money(Math.abs(materialsDelta)) + ' under') + ' the ' + money(estMaterials) + ' estimate.';
+      var matchingReqs = approvedReqs.filter(function(r){ return r.type === 'material'; });
+      explanations.push({text: line, extra: matchingReqs});
+    }
+    var subDelta = actSubPayout - estSubPayout;
+    if(Math.abs(subDelta) >= 1){
+      explanations.push({text: 'Sub payout ' + (subDelta > 0 ? 'ran ' + money(subDelta) + ' higher' : 'came in ' + money(Math.abs(subDelta)) + ' lower') + ' than the ' + money(estSubPayout) + ' estimated at quote time — check the job\'s notes for a reassignment or commission change.', extra: []});
+    }
+    var changeOrders = approvedReqs.filter(function(r){ return r.type === 'change_order'; });
+    if(changeOrders.length){
+      explanations.push({text: changeOrders.length + ' approved change order(s) add scope the client asked for mid-job — confirm these are reflected in what was actually invoiced.', extra: changeOrders});
+    }
+    if(!explanations.length){
+      explanations.push({text: 'Actuals are matching the original estimate closely — nothing unusual here.', extra: []});
+    }
+  } else {
+    explanations.push({text: 'This job has no linked quote to compare against (created before estimates tracked materials cost, or added directly) — showing actuals only.', extra: []});
+  }
+
+  return {hasEstimate:hasEstimate, estAmount:estAmount, estMaterials:estMaterials, estSubPayout:estSubPayout, estMargin:estMargin, actAmount:actAmount, actMaterials:actMaterials, actSubPayout:actSubPayout, actMargin:actMargin, variance: hasEstimate ? (actMargin - estMargin) : null, explanations:explanations};
+}
+function renderAuditor(){
+  var html = '<h1 class="dt">Auditor</h1>';
+  html += '<div class="note-banner">Your per-project money check — what each job was estimated to make vs. what it actually made, and why. Click any job for the full breakdown.</div>';
+  var jobs = state.jobs.filter(function(j){ return !j.trashed; });
+  if(!jobs.length){
+    html += '<div class="empty">No jobs to audit yet.</div>';
+  } else {
+    var totalEst = 0, totalAct = 0, anyEst = false;
+    html += '<table><tr><th>Job #</th><th>Client</th><th>Estimated margin</th><th>Actual margin</th><th>Variance</th></tr>';
+    jobs.forEach(function(j){
+      var a = auditForJob(j);
+      if(a.hasEstimate){ anyEst = true; totalEst += a.estMargin; totalAct += a.actMargin; }
+      var varColor = !a.hasEstimate ? 'var(--ink-soft)' : (a.variance > 0 ? 'var(--green)' : (a.variance < 0 ? 'var(--coral)' : 'var(--ink-soft)'));
+      html += '<tr class="link" onclick="goto(\'auditDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td><td>' + (a.hasEstimate ? money(a.estMargin) : '—') + '</td><td>' + money(a.actMargin) + '</td><td style="color:' + varColor + '; font-weight:800;">' + (a.hasEstimate ? (a.variance >= 0 ? '+' : '') + money(a.variance) : 'No estimate on file') + '</td></tr>';
+    });
+    html += '</table>';
+    if(anyEst){
+      var totalVar = totalAct - totalEst;
+      html += '<div class="notif ' + (totalVar >= 0 ? 'green' : 'orange') + '"><div class="l">Across every job with an estimate on file</div><div class="v">Estimated ' + money(totalEst) + ' total margin, actually made ' + money(totalAct) + ' — ' + (totalVar >= 0 ? 'ahead by ' + money(totalVar) : 'behind by ' + money(Math.abs(totalVar))) + '.</div></div>';
+    }
+  }
+  document.getElementById('pageBody').innerHTML = html;
+}
+function renderAuditDetail(){
+  var j = state.jobs.find(function(x){ return x.id === state.currentAuditJobId; });
+  if(!j){ goto('auditor'); return; }
+  var a = auditForJob(j);
+  var html = '<div class="back" onclick="goto(\'auditor\')">&larr; Back to Auditor</div>';
+  html += '<h1 class="dt">' + j.jobNumber + ' — ' + j.client + '</h1>';
+  html += '<div class="sec-title">Estimated (at the time the quote was approved)</div>';
+  if(a.hasEstimate){
+    html += '<div class="money"><div class="card"><div class="l">Quote amount</div><div class="v">' + money(a.estAmount) + '</div></div><div class="card"><div class="l">Est. materials</div><div class="v">' + money(a.estMaterials) + '</div></div><div class="card"><div class="l">Est. sub payout</div><div class="v">' + money(a.estSubPayout) + '</div></div><div class="card profit"><div class="l">Est. margin</div><div class="v">' + money(a.estMargin) + '</div></div></div>';
+  } else {
+    html += '<div class="empty">No linked quote to show an estimate from.</div>';
+  }
+  html += '<div class="sec-title">Actual</div>';
+  html += '<div class="money"><div class="card"><div class="l">Invoiced amount</div><div class="v">' + money(a.actAmount) + '</div></div><div class="card"><div class="l">Actual materials</div><div class="v">' + money(a.actMaterials) + '</div></div><div class="card"><div class="l">Actual sub payout</div><div class="v">' + money(a.actSubPayout) + '</div></div><div class="card profit"><div class="l">Actual margin</div><div class="v">' + money(a.actMargin) + '</div></div></div>';
+  if(a.hasEstimate){
+    html += '<div class="notif ' + (a.variance >= 0 ? 'green' : 'orange') + '"><div class="l">Variance vs. estimate</div><div class="v">' + (a.variance >= 0 ? 'Made ' + money(a.variance) + ' more than expected' : 'Made ' + money(Math.abs(a.variance)) + ' less than expected') + '.</div></div>';
+  }
+  html += '<div class="sec-title">Why</div>';
+  a.explanations.forEach(function(e){
+    html += '<div class="kv"><div class="row" style="display:block;"><span style="display:block; margin-bottom:6px;">' + e.text + '</span>';
+    e.extra.forEach(function(r){
+      html += '<a onclick="goto(\'requestDetail\',' + r.id + ')" style="cursor:pointer; text-decoration:underline; font-size:12px; display:inline-block; margin-right:10px;">' + requestTypeLabels[r.type] + ' — ' + r.title + ' (' + money(r.amount) + ') →</a>';
+    });
+    html += '</div></div>';
+  });
+  html += '<div class="pill-btn blue" onclick="goto(\'jobDetail\',' + j.id + ')">Open full job record →</div>';
+  document.getElementById('pageBody').innerHTML = html;
+}
 function estimatorLoad(name){
   return state.quotes.filter(function(q){ return q.assignedEstimator === name && ['building','awaiting_owner'].indexOf(q.stage) !== -1; }).length;
 }
@@ -622,7 +720,7 @@ function renderQuoteDetail(){
   }
   var html = '<div class="back" onclick="goto(\'quotes\')">&larr; Back to quotes</div>';
   html += '<h1 class="dt">' + q.client + ' <span class="status ' + stageClass(q.stage) + '" style="font-size:11px; vertical-align:middle;">' + stageLabel(q.stage) + '</span></h1>';
-  html += '<div class="kv"><div class="row"><span>What\'s needed</span><span>' + q.details + '</span></div><div class="row"><span>Age</span><span>' + q.daysOld + ' days</span></div><div class="row"><span>Assigned to</span><span>' + (q.assignedEstimator || 'Unassigned') + '</span></div>' + (q.amount !== null ? '<div class="row"><span>Quote amount</span><span>' + money(q.amount) + '</span></div>' : '') + '</div>';
+  html += '<div class="kv"><div class="row"><span>What\'s needed</span><span>' + q.details + '</span></div><div class="row"><span>Age</span><span>' + q.daysOld + ' days</span></div><div class="row"><span>Assigned to</span><span>' + (q.assignedEstimator || 'Unassigned') + '</span></div>' + (q.amount !== null ? '<div class="row"><span>Quote amount</span><span>' + money(q.amount) + '</span></div>' : '') + (owner && q.estimatedMaterialsCost ? '<div class="row"><span>Est. materials cost</span><span>' + money(q.estimatedMaterialsCost) + '</span></div>' : '') + '</div>';
 
   // Stage-specific actions
   if(!q.assignedEstimator){
@@ -637,14 +735,19 @@ function renderQuoteDetail(){
   } else if(q.stage === 'building'){
     html += '<div class="sec-title">Set the price</div><div class="formcard">';
     html += '<div class="field"><label>Quote amount</label><input type="number" id="qAmount" placeholder="e.g. 8200"></div>';
+    html += '<div class="field"><label>Estimated materials cost</label><input type="number" id="qMaterials" placeholder="e.g. 900"></div>';
     html += '<div class="sec-title" style="margin:12px 0 8px;">Subs on this job — commission %</div>';
     state.subs.forEach(function(s){
       html += '<div class="subrow"><span class="nm">' + s.name + '</span><input type="checkbox" id="subOn' + s.id + '"> <input type="number" id="subPct' + s.id + '" value="' + s.defaultCommission + '" style="width:55px;">%</div>';
     });
     html += '<div class="pill-btn solid" onclick="submitForApproval(' + q.id + ')">Submit for Mailin\'s approval</div></div>';
   } else if(q.stage === 'awaiting_owner'){
+    var estSubPayout = (q.subs||[]).reduce(function(sum, s){ return sum + Math.round((q.amount||0) * s.commissionPct / 100); }, 0);
+    var estMaterials = q.estimatedMaterialsCost || 0;
+    var estMargin = (q.amount||0) - estSubPayout - estMaterials;
     if(owner){
       html += '<div class="notif orange"><div class="l">Your team submitted this quote</div><div class="v">Priced at ' + money(q.amount) + ' by ' + q.assignedEstimator + ' — review and approve before it goes to the client.</div></div>';
+      html += '<div class="money"><div class="card"><div class="l">Quote amount</div><div class="v">' + money(q.amount) + '</div></div><div class="card"><div class="l">Est. materials cost</div><div class="v">' + money(estMaterials) + '</div></div><div class="card"><div class="l">Est. sub payout</div><div class="v">' + money(estSubPayout) + '</div></div><div class="card profit"><div class="l">Est. what you\'d make</div><div class="v">' + money(estMargin) + '</div></div></div>';
       html += '<div><div class="pill-btn green" onclick="approveQuote(' + q.id + ')">Approve — send to client</div><div class="pill-btn" onclick="sendBackForChanges(' + q.id + ')">Send back for changes</div></div>';
     } else {
       html += '<div class="notif"><div class="l">Waiting on Mailin</div><div class="v">This quote is submitted at ' + money(q.amount) + ' and waiting on her approval before it goes out.</div></div>';
@@ -678,13 +781,14 @@ function submitForApproval(id){
   var amt = parseFloat(document.getElementById('qAmount').value);
   if(!amt || amt <= 0){ alert('Enter an amount first.'); return; }
   q.amount = amt;
+  q.estimatedMaterialsCost = parseFloat(document.getElementById('qMaterials').value) || 0;
   q.subs = [];
   state.subs.forEach(function(s){
     var on = document.getElementById('subOn' + s.id).checked;
     if(on){ q.subs.push({subId:s.id, commissionPct: parseFloat(document.getElementById('subPct' + s.id).value) || 0}); }
   });
   q.stage = 'awaiting_owner';
-  q.notes.push({author: currentPersonName(), text:'Submitted at ' + money(amt) + ' for approval.', to:'Mailin', date: today});
+  q.notes.push({author: currentPersonName(), text:'Submitted at ' + money(amt) + ' for approval' + (q.estimatedMaterialsCost ? ' — estimated materials cost ' + money(q.estimatedMaterialsCost) : '') + '.', to:'Mailin', date: today});
   renderQuoteDetail();
 }
 function sendBackForChanges(id){
@@ -708,7 +812,7 @@ function setQuoteOutcome(id, outcome){
     var primarySub = q.subs && q.subs.length ? q.subs[0] : null;
     var subPayout = primarySub ? Math.round(q.amount * primarySub.commissionPct / 100) : 0;
     var folderSlug = jobNum + '-' + q.client.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
-    state.jobs.push({id: nextId, jobNumber: jobNum, client: q.client, quoteId: q.id, estimator: q.assignedEstimator, offerAmount: q.amount, status:'in_progress', subId: primarySub?primarySub.subId:null, subPayout: subPayout, materialsCost:0, driveFolderUrl:'https://drive.google.com/drive/folders/yumbo-' + folderSlug, notes:[{author:'System', text:'Created from an approved quote. A Google Drive folder was set up for this job — everyone on the team should save photos, invoices, and receipts there.', to:null, date:today}], attachments:[]});
+    state.jobs.push({id: nextId, jobNumber: jobNum, client: q.client, quoteId: q.id, estimator: q.assignedEstimator, offerAmount: q.amount, status:'in_progress', subId: primarySub?primarySub.subId:null, subPayout: subPayout, materialsCost: q.estimatedMaterialsCost || 0, driveFolderUrl:'https://drive.google.com/drive/folders/yumbo-' + folderSlug, notes:[{author:'System', text:'Created from an approved quote. A Google Drive folder was set up for this job — everyone on the team should save photos, invoices, and receipts there.', to:null, date:today}], attachments:[]});
     q.jobId = nextId;
     goto('jobDetail', nextId);
     return;
@@ -1375,6 +1479,7 @@ function renderMoney(){
   html += '<div class="pill-btn" onclick="toggleBreakdown()" id="breakdownBtn">Show revenue & profit breakdown ▾</div>';
   html += '<div class="pill-btn" onclick="goto(\'expenses\')">View expense log</div>';
   html += '<div class="pill-btn" onclick="goto(\'vendors\')">Manage vendors</div>';
+  html += '<div class="pill-btn solid" onclick="goto(\'auditor\')">Open Auditor — estimate vs. actual per job →</div>';
   html += '</div>';
   html += '<div id="breakdownPanel" style="display:none; margin-top:10px;">' + breakdownTable() + '</div>';
   
@@ -1680,6 +1785,8 @@ function render(){
   else if(state.page === 'requestNew') renderRequestNew();
   else if(state.page === 'inbox') renderInbox();
   else if(state.page === 'money') renderMoney();
+  else if(state.page === 'auditor') renderAuditor();
+  else if(state.page === 'auditDetail') renderAuditDetail();
 }
 
 render();
