@@ -14,6 +14,7 @@
   --blue:#2F5BFF; --coral:#FF5A38; --green:#12A66B; --violet:#7A4DFF; --yellow:#FFC42E;
 }
 *{box-sizing:border-box; margin:0; padding:0;}
+html,body{overflow-x:hidden; max-width:100%;}
 body{font-family:'Manrope',sans-serif; background:var(--cream-2); color:var(--ink); line-height:1.55; padding:30px 16px 70px;}
 h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; letter-spacing:-0.02em;}
 .wrap{max-width:980px; margin:0 auto;}
@@ -71,7 +72,8 @@ h1.dt{font-size:23px; margin-bottom:18px;}
 .segtabs{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px;}
 .segtabs button{font-family:'Manrope',sans-serif; font-size:11.5px; font-weight:800; padding:8px 14px; border:2px solid var(--ink); border-radius:10px; background:var(--cream-2); cursor:pointer;}
 .segtabs button.on{background:var(--ink); color:var(--cream);}
-table{width:100%; border-collapse:collapse; border:2.5px solid var(--ink); border-radius:14px; overflow:hidden; font-size:12.5px; margin-bottom:10px;}
+.tablewrap{width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; border-radius:14px; margin-bottom:10px;}
+table{width:100%; min-width:460px; border-collapse:collapse; border:2.5px solid var(--ink); border-radius:14px; font-size:12.5px; margin-bottom:0;}
 th{background:var(--ink); color:var(--cream); text-align:left; padding:9px 12px; font-size:10.5px; text-transform:uppercase; letter-spacing:.04em;}
 td{padding:9px 12px; border-top:1.5px solid rgba(27,23,16,.12); font-weight:600;}
 tr.link{cursor:pointer;}
@@ -100,10 +102,10 @@ tr.link:hover td{background:rgba(255,90,56,.05);}
 .legend span{display:inline-flex; align-items:center; gap:6px;}
 .dot{width:10px; height:10px; border-radius:50%; border:1.5px solid var(--ink);}
 footer{text-align:center; padding:26px 0 10px; font-size:12px; color:var(--ink-soft);}
-.searchbar{display:flex; gap:8px; margin-bottom:16px;}
-.searchbar select{padding:9px 10px; border:2px solid var(--ink); border-radius:10px; font-size:12.5px; font-family:'Manrope',sans-serif; background:var(--cream-2); font-weight:700;}
-.searchbar input{flex:1; padding:9px 12px; border:2px solid var(--ink); border-radius:10px; font-size:13px; font-family:'Manrope',sans-serif;}
-.searchbar .pill-btn{margin-top:0;}
+.searchbar{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;}
+.searchbar select{padding:9px 10px; border:2px solid var(--ink); border-radius:10px; font-size:12.5px; font-family:'Manrope',sans-serif; background:var(--cream-2); font-weight:700; flex-shrink:0;}
+.searchbar input{flex:1 1 160px; min-width:0; padding:9px 12px; border:2px solid var(--ink); border-radius:10px; font-size:13px; font-family:'Manrope',sans-serif;}
+.searchbar .pill-btn{margin-top:0; flex-shrink:0;}
 .attach{display:flex; align-items:center; gap:10px; border:2px solid var(--ink); border-radius:12px; padding:9px 12px; margin-bottom:6px; font-size:12px; font-weight:700;}
 .attach .tag{font-size:9.5px; font-weight:800; text-transform:uppercase; background:var(--violet); color:#fff; padding:2px 8px; border-radius:99px;}
 .attach .ico{width:26px; height:26px; border-radius:8px; border:2px solid var(--ink); display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; background:var(--cream-2);}
@@ -129,6 +131,23 @@ footer{text-align:center; padding:26px 0 10px; font-size:12px; color:var(--ink-s
 .funnel-step .step-detail{font-size:10px; font-weight:700; opacity:.85; line-height:1.3;}
 .funnel-arrow{width:24px; height:2px; background:var(--ink); margin-top:30px;}
 .funnel-footer{font-size:10.5px; color:var(--ink-soft); margin-top:12px; padding-top:8px; border-top:1px solid rgba(27,23,16,.1);}
+
+/* ---- MOBILE ---- */
+@media (max-width:640px){
+  body{padding:16px 10px 50px;}
+  .shell{padding:16px; border-radius:18px;}
+  .money{grid-template-columns:repeat(2,1fr); gap:8px;}
+  .money.four{grid-template-columns:repeat(2,1fr);}
+  .summary-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .card{padding:11px 12px;}
+  .card .v{font-size:16px;}
+  .searchbar select{flex:1 1 100%;}
+  .formcard{max-width:100%;}
+  h1.dt{font-size:19px;}
+}
+@media (max-width:380px){
+  .money, .money.four, .summary-grid{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
@@ -283,12 +302,12 @@ var state = {
 
 function renderTransactions(transactions) {
   if(!transactions || !transactions.length) return '<div class="empty">No transaction history yet.</div>';
-  var h = '<table><tr><th>Date</th><th>Amount</th><th>Note</th><th>Job</th></tr>';
+  var h = '<div class=\'tablewrap\'><table><tr><th>Date</th><th>Amount</th><th>Note</th><th>Job</th></tr>';
   transactions.slice().reverse().forEach(function(t){
     var amtStr = t.amount > 0 ? '<span style="color:var(--green);">+'+money(t.amount)+'</span>' : '<span style="color:var(--coral);">&minus;'+money(Math.abs(t.amount))+'</span>';
     h += '<tr><td>'+t.date+'</td><td style="font-weight:800;">'+amtStr+'</td><td>'+t.note+'</td><td>'+(t.jobNumber ? t.jobNumber : '<span style="color:var(--ink-soft);">—</span>')+'</td></tr>';
   });
-  h += '</table>';
+  h += '</table></div>';
   return h;
 }
 function getBalanceStatusStr(bal) {
@@ -521,14 +540,14 @@ function renderAuditor(){
     html += '<div class="empty">No jobs to audit yet.</div>';
   } else {
     var totalEst = 0, totalAct = 0, anyEst = false;
-    html += '<table><tr><th>Job #</th><th>Client</th><th>Estimated margin</th><th>Actual margin</th><th>Variance</th></tr>';
+    html += '<div class=\'tablewrap\'><table><tr><th>Job #</th><th>Client</th><th>Estimated margin</th><th>Actual margin</th><th>Variance</th></tr>';
     jobs.forEach(function(j){
       var a = auditForJob(j);
       if(a.hasEstimate){ anyEst = true; totalEst += a.estMargin; totalAct += a.actMargin; }
       var varColor = !a.hasEstimate ? 'var(--ink-soft)' : (a.variance > 0 ? 'var(--green)' : (a.variance < 0 ? 'var(--coral)' : 'var(--ink-soft)'));
       html += '<tr class="link" onclick="goto(\'auditDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td><td>' + (a.hasEstimate ? money(a.estMargin) : '—') + '</td><td>' + money(a.actMargin) + '</td><td style="color:' + varColor + '; font-weight:800;">' + (a.hasEstimate ? (a.variance >= 0 ? '+' : '') + money(a.variance) : 'No estimate on file') + '</td></tr>';
     });
-    html += '</table>';
+    html += '</table></div>';
     if(anyEst){
       var totalVar = totalAct - totalEst;
       html += '<div class="notif ' + (totalVar >= 0 ? 'green' : 'orange') + '"><div class="l">Across every job with an estimate on file</div><div class="v">Estimated ' + money(totalEst) + ' total margin, actually made ' + money(totalAct) + ' — ' + (totalVar >= 0 ? 'ahead by ' + money(totalVar) : 'behind by ' + money(Math.abs(totalVar))) + '.</div></div>';
@@ -698,7 +717,7 @@ function renderDashboard(){
     html += '<div class="money"><div class="card click" onclick="goto(\'jobs\')"><div class="l">Google Drive upload status</div><div class="v">' + state.jobs.length + ' job folders synced</div><div class="hint">Folder name matches job number (e.g. 26-0041 / Sunset Ridge) — click a job to open its folder</div></div><div class="card click" onclick="goto(\'vendors\')"><div class="l">Vendor &amp; sub tax tracking</div><div class="v">' + (state.vendors.filter(function(v){ return v.w9Status; }).length + state.subs.filter(function(s){ return s.w9Status; }).length) + '/' + (state.vendors.length + state.subs.length) + ' W-9 ready</div><div class="hint">EIN, W-9 status, 1099 tracking</div></div><div class="card click" onclick="goto(\'expenses\')"><div class="l">Expense log this week</div><div class="v">' + money(state.expenses.filter(function(e){ return e.date.indexOf('Aug') !== -1; }).reduce(function(sum, e){ return sum + e.amount; }, 0)) + '</div><div class="hint">Fuel, travel, materials, and other team costs</div></div></div>';
   }
 
-  html += '<table><tr><th>Job #</th><th>Client</th><th>Workflow stage</th><th>Progress</th></tr>';
+  html += '<div class=\'tablewrap\'><table><tr><th>Job #</th><th>Client</th><th>Workflow stage</th><th>Progress</th></tr>';
   var activeJobs = state.jobs.filter(function(j){ return j.status==='in_progress' && !j.trashed && (owner || j.estimator===state.currentTeamMember); });
   if(activeJobs.length){
     activeJobs.forEach(function(j){
@@ -709,7 +728,7 @@ function renderDashboard(){
       html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td><td><span class="status progress" style="background:var(--yellow); border-color:var(--yellow);">→ ' + funnelLabel + '</span></td><td><div style="background:var(--cream-2); border:1px solid var(--ink); border-radius:4px; height:16px; overflow:hidden; display:flex; align-items:center;"><div style="background:var(--green); height:100%; width:' + progressPct + '%; transition:width .3s ease;\"></div><span style="font-size:10px; font-weight:800; margin-left:4px; color:var(--ink-soft);">' + stageCount + '/' + totalStages + '</span></div></td></tr>';
     });
   }
-  html += '</table>';
+  html += '</table></div>';
   if(!activeJobs.length){ html += '<div class="empty">No active jobs right now.</div>'; }
   document.getElementById('pageBody').innerHTML = html;
 }
@@ -721,11 +740,11 @@ function breakdownTable(){
     {period:'This month', revenue:24500, expenses:9100},
     {period:'All-time', revenue:412905, expenses:187400}
   ];
-  var html = '<table><tr><th>Period</th><th>Revenue</th><th>Expenses (subs + materials)</th><th>Profit</th></tr>';
+  var html = '<div class=\'tablewrap\'><table><tr><th>Period</th><th>Revenue</th><th>Expenses (subs + materials)</th><th>Profit</th></tr>';
   rows.forEach(function(r){
     html += '<tr><td>' + r.period + '</td><td>' + money(r.revenue) + '</td><td>' + money(r.expenses) + '</td><td style="color:var(--green); font-weight:800;">' + money(r.revenue - r.expenses) + '</td></tr>';
   });
-  html += '</table><div class="lockednote">Revenue = total invoiced. Profit = revenue minus what went to subs and materials.</div>';
+  html += '</table></div><div class="lockednote">Revenue = total invoiced. Profit = revenue minus what went to subs and materials.</div>';
   return html;
 }
 function toggleBreakdown(){
@@ -761,11 +780,11 @@ function renderQuotes(){
     return q.stage === state.quoteFilter;
   });
 
-  html += '<table><tr><th>Client</th><th>What\'s needed</th><th>Age</th><th>Estimator</th>' + (owner?'<th>Amount</th>':'') + '<th>Stage</th></tr>';
+  html += '<div class=\'tablewrap\'><table><tr><th>Client</th><th>What\'s needed</th><th>Age</th><th>Estimator</th>' + (owner?'<th>Amount</th>':'') + '<th>Stage</th></tr>';
   list.forEach(function(q){
     html += '<tr class="link" onclick="goto(\'quoteDetail\',' + q.id + ')"><td>' + q.client + '</td><td>' + q.details.slice(0,44) + (q.details.length>44?'…':'') + '</td><td>' + q.daysOld + 'd</td><td>' + (q.assignedEstimator || '<span style="color:var(--coral); font-weight:800;">Unassigned</span>') + '</td>' + (owner?'<td>' + money(q.amount) + '</td>':'') + '<td><span class="status ' + stageClass(q.stage) + '">' + stageLabel(q.stage) + '</span></td></tr>';
   });
-  html += '</table>';
+  html += '</table></div>';
   if(!list.length){ html += '<div class="empty">Nothing in this view.</div>'; }
   document.getElementById('pageBody').innerHTML = html;
 }
@@ -911,12 +930,12 @@ function renderJobs(){
   var owner = state.role === 'owner';
   var html = '<h1 class="dt">Jobs</h1>';
   if(!owner){ html += '<div class="lockednote">You\'re only seeing jobs assigned to you.</div>'; }
-  html += '<table><tr><th>Job #</th><th>Client</th>' + (owner?'<th>Amount</th><th>Estimator</th>':'') + '<th>Sub</th><th>Status</th></tr>';
+  html += '<div class=\'tablewrap\'><table><tr><th>Job #</th><th>Client</th>' + (owner?'<th>Amount</th><th>Estimator</th>':'') + '<th>Sub</th><th>Status</th></tr>';
   state.jobs.filter(function(j){ return !j.trashed && (owner || j.estimator === state.currentTeamMember); }).forEach(function(j){
     var sub = state.subs.find(function(s){ return s.id === j.subId; });
     html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td>' + (owner?'<td>' + money(j.offerAmount) + '</td><td>' + (j.estimator||'—') + '</td>':'') + '<td>' + (sub?sub.name:'—') + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>';
   });
-  html += '</table>';
+  html += '</table></div>';
   if(owner){ html += '<div class="lockednote">Jobs you\'ve moved to <a onclick="goto(\'lost\')" style="cursor:pointer; text-decoration:underline; color:var(--coral);">Lost jobs</a> aren\'t shown here.</div>'; }
   document.getElementById('pageBody').innerHTML = html;
 }
@@ -988,11 +1007,11 @@ function renderJobDetail(){
   html += '<div class="sec-title">Requests for this job</div>';
   var jobRequests = state.requests.filter(function(r){ return r.jobId === j.id; });
   if(jobRequests.length){
-    html += '<table><tr><th>Type</th><th>Title</th><th>By</th>' + (owner?'<th>Amount</th>':'') + '<th>Status</th></tr>';
+    html += '<div class=\'tablewrap\'><table><tr><th>Type</th><th>Title</th><th>By</th>' + (owner?'<th>Amount</th>':'') + '<th>Status</th></tr>';
     jobRequests.forEach(function(r){
       html += '<tr class="link" onclick="goto(\'requestDetail\',' + r.id + ')"><td>' + requestTypeLabels[r.type] + '</td><td>' + r.title + '</td><td>' + r.submittedBy + '</td>' + (owner?'<td>' + money(r.amount) + '</td>':'') + '<td><span class="status ' + (r.status==='pending'?'needsattn':r.status==='approved'?'approved':'declined') + '">' + r.status + '</span></td></tr>';
     });
-    html += '</table>';
+    html += '</table></div>';
   } else {
     html += '<div class="empty">No material requests, change orders, or incidents reported on this job.</div>';
   }
@@ -1132,11 +1151,11 @@ function renderRequests(){
     if(!owner && r.submittedBy !== state.currentTeamMember) return false;
     return filter==='all' || r.status===filter;
   });
-  html += '<table><tr><th>Type</th><th>Title</th><th>Job</th><th>By</th>' + (owner?'<th>Amount</th>':'') + '<th>Status</th></tr>';
+  html += '<div class=\'tablewrap\'><table><tr><th>Type</th><th>Title</th><th>Job</th><th>By</th>' + (owner?'<th>Amount</th>':'') + '<th>Status</th></tr>';
   list.forEach(function(r){
     html += '<tr class="link" onclick="goto(\'requestDetail\',' + r.id + ')"><td>' + requestTypeLabels[r.type] + '</td><td>' + r.title + '</td><td>' + (r.jobNumber || '—') + '</td><td>' + r.submittedBy + '</td>' + (owner?'<td>' + money(r.amount) + '</td>':'') + '<td><span class="status ' + (r.status==='pending'?'needsattn':r.status==='approved'?'approved':'declined') + '">' + r.status + '</span></td></tr>';
   });
-  html += '</table>';
+  html += '</table></div>';
   if(!list.length){ html += '<div class="empty">Nothing in this view.</div>'; }
   document.getElementById('pageBody').innerHTML = html;
 }
@@ -1229,11 +1248,11 @@ function renderInvoices(){
   var toShow = state.invoices.filter(function(i) { return i.balance !== 0 || window.__showAllInvoices; });
   
   if (toShow.length) {
-    html += '<table><tr><th>Invoice #</th><th>Job #</th><th>Client</th><th>Balance</th></tr>';
+    html += '<div class=\'tablewrap\'><table><tr><th>Invoice #</th><th>Job #</th><th>Client</th><th>Balance</th></tr>';
     toShow.forEach(function(inv){
       html += '<tr class="link" onclick="goto(\'invoiceDetail\',' + inv.id + ')"><td>' + inv.invoiceNumber + '</td><td>' + inv.jobNumber + '</td><td>' + inv.client + '</td><td>' + getBalanceStatusStr(inv.balance) + '</td></tr>';
     });
-    html += '</table>';
+    html += '</table></div>';
   } else {
     html += '<div class="empty">No outstanding invoices.</div>';
   }
@@ -1329,11 +1348,11 @@ function renderSubs(){
   });
   
   if (toShow.length) {
-    html += '<table><tr><th>Sub</th><th>Trade</th><th>Default %</th><th>Balance</th></tr>';
+    html += '<div class=\'tablewrap\'><table><tr><th>Sub</th><th>Trade</th><th>Default %</th><th>Balance</th></tr>';
     toShow.forEach(function(s){
       html += '<tr><td class="link" style="cursor:pointer; text-decoration:underline;" onclick="goto(\'subDetail\',' + s.id + ')">' + s.name + '</td><td>' + (s.trade||'—') + '</td><td><input type="number" value="' + s.defaultCommission + '" style="width:60px; padding:5px 7px; border:2px solid var(--ink); border-radius:8px;" onchange="updateDefaultCommission(' + s.id + ', this.value)">%</td><td>' + getBalanceStatusStr(s.balance) + '</td></tr>';
     });
-    html += '</table>';
+    html += '</table></div>';
   } else {
     html += '<div class="empty">All settled and compliant. Nothing needs your attention here.</div>';
   }
@@ -1407,11 +1426,11 @@ function renderSubDetail(){
   
   if(activeJobs.length){
     html += '<div class="sec-title">Active jobs</div>';
-    html += '<table><tr><th>Job #</th><th>Client</th><th>Status</th></tr>';
+    html += '<div class=\'tablewrap\'><table><tr><th>Job #</th><th>Client</th><th>Status</th></tr>';
     activeJobs.forEach(function(j){
       html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>';
     });
-    html += '</table>';
+    html += '</table></div>';
   }
   
   html += '<div class="sec-title">Danger zone</div>';
@@ -1439,13 +1458,13 @@ function recordSubPayment(id){
 function renderTeam(){
   var html = '<h1 class="dt">Team</h1>';
   html += '<div class="note-banner">Your internal staff — estimators and anyone else on your team. Click a name for their contact info and full detail. Adding someone here doesn\'t give them access to anything money-related — that stays owner-only everywhere in the system.</div>';
-  html += '<table><tr><th>Name</th><th>Active quotes</th><th>Active jobs</th><th>Can add new quote requests</th></tr>';
+  html += '<div class=\'tablewrap\'><table><tr><th>Name</th><th>Active quotes</th><th>Active jobs</th><th>Can add new quote requests</th></tr>';
   state.estimators.forEach(function(e){
     var qLoad = estimatorLoad(e.name);
     var jLoad = state.jobs.filter(function(j){ return j.estimator === e.name && !j.trashed; }).length;
     html += '<tr><td class="link" style="cursor:pointer; text-decoration:underline;" onclick="goto(\'teamMemberDetail\',\'' + e.name + '\')">' + e.name + '</td><td>' + qLoad + '</td><td>' + jLoad + '</td><td><input type="checkbox" ' + (e.canCreateQuotes?'checked':'') + ' onchange="toggleCanCreateQuotes(\'' + e.name + '\', this.checked)"></td></tr>';
   });
-  html += '</table>';
+  html += '</table></div>';
   html += '<div class="sec-title">Add a team member</div>';
   html += '<div class="formcard">';
   html += '<div class="field"><label>Name</label><input id="newTeamMemberName" placeholder="e.g. Luis P."></div>';
@@ -1482,16 +1501,16 @@ function renderTeamMemberDetail(){
 
   html += '<div class="sec-title">Assigned quotes</div>';
   if(quotes.length){
-    html += '<table><tr><th>Client</th><th>What\'s needed</th><th>Stage</th></tr>';
+    html += '<div class=\'tablewrap\'><table><tr><th>Client</th><th>What\'s needed</th><th>Stage</th></tr>';
     quotes.forEach(function(q){ html += '<tr class="link" onclick="goto(\'quoteDetail\',' + q.id + ')"><td>' + q.client + '</td><td>' + q.details.slice(0,36) + '</td><td><span class="status ' + stageClass(q.stage) + '">' + stageLabel(q.stage) + '</span></td></tr>'; });
-    html += '</table>';
+    html += '</table></div>';
   } else { html += '<div class="empty">No quotes assigned right now.</div>'; }
 
   html += '<div class="sec-title">Assigned jobs</div>';
   if(jobs.length){
-    html += '<table><tr><th>Job #</th><th>Client</th><th>Status</th></tr>';
+    html += '<div class=\'tablewrap\'><table><tr><th>Job #</th><th>Client</th><th>Status</th></tr>';
     jobs.forEach(function(j){ html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>'; });
-    html += '</table>';
+    html += '</table></div>';
   } else { html += '<div class="empty">No jobs assigned right now.</div>'; }
 
   html += '<div class="sec-title">Manage</div>';
@@ -1598,11 +1617,11 @@ function renderVendors(){
   });
   
   if (toShow.length) {
-    html += '<table><tr><th>Vendor</th><th>Category</th><th>W-9</th><th>Balance</th></tr>';
+    html += '<div class=\'tablewrap\'><table><tr><th>Vendor</th><th>Category</th><th>W-9</th><th>Balance</th></tr>';
     toShow.forEach(function(v){
       html += '<tr><td class="link" style="cursor:pointer; text-decoration:underline;" onclick="goto(\'vendorDetail\',' + v.id + ')">' + v.name + '</td><td>' + v.category + '</td><td><span class="status ' + (v.w9Status ? 'approved' : 'needsattn') + '">' + (v.w9Status ? 'On file' : 'Needs W-9') + '</span></td><td>' + getBalanceStatusStr(v.balance) + '</td></tr>';
     });
-    html += '</table>';
+    html += '</table></div>';
   } else {
     html += '<div class="empty">All settled and compliant. Nothing needs your attention here.</div>';
   }
@@ -1710,21 +1729,21 @@ function renderExpenses(){
   html += '</div>';
 
   html += '<div class="sec-title">By category</div>';
-  html += '<table><tr><th>Category</th><th>Amount</th><th>Notes</th></tr>';
+  html += '<div class=\'tablewrap\'><table><tr><th>Category</th><th>Amount</th><th>Notes</th></tr>';
   state.expenseCategories.forEach(function(c){
     var amt = totals[c] || 0;
     if(amt){ html += '<tr><td>' + c + '</td><td>' + money(amt) + '</td><td>Tracked for payroll / job cost review</td></tr>'; }
   });
-  html += '</table>';
+  html += '</table></div>';
   html += '<div class="sec-title">Recent spends</div>';
   if (state.expenses.length === 0) {
     html += '<div class="empty">No expenses logged yet.</div>';
   } else {
-    html += '<table><tr><th>Date</th><th>Job</th><th>Category</th><th>Vendor</th><th>Amount</th><th>Status</th></tr>';
+    html += '<div class=\'tablewrap\'><table><tr><th>Date</th><th>Job</th><th>Category</th><th>Vendor</th><th>Amount</th><th>Status</th></tr>';
     state.expenses.slice().reverse().forEach(function(e){
       html += '<tr><td>' + e.date + '</td><td>' + (e.jobNumber||'—') + '</td><td>' + e.category + '</td><td>' + e.vendor + '</td><td>' + money(e.amount) + '</td><td><span class="status ' + (e.approved ? 'approved' : 'waiting') + '">' + (e.approved ? 'Approved' : 'Pending') + '</span></td></tr>';
     });
-    html += '</table>';
+    html += '</table></div>';
   }
   document.getElementById('pageBody').innerHTML = html;
 }
@@ -1742,12 +1761,12 @@ function addExpense(){
 
 // ---------- CLIENTS ----------
 function renderClients(){
-  var html = '<h1 class="dt">Clients</h1><table><tr><th>Client</th><th>Contact</th><th>Jobs</th></tr>';
+  var html = '<h1 class="dt">Clients</h1><div class=\'tablewrap\'><table><tr><th>Client</th><th>Contact</th><th>Jobs</th></tr>';
   state.clients.forEach(function(c){
     var jobCount = state.jobs.filter(function(j){ return j.client === c.name; }).length;
     html += '<tr class="link" onclick="goto(\'clientDetail\',' + c.id + ')"><td>' + c.name + '</td><td>' + c.contact + '</td><td>' + jobCount + '</td></tr>';
   });
-  html += '</table>';
+  html += '</table></div>';
   
   html += '<div class="sec-title" style="margin-top:24px;">Add a client</div>';
   html += '<div class="formcard">';
@@ -1781,16 +1800,16 @@ function renderClientDetail(){
 
   html += '<div class="sec-title">Jobs</div>';
   if(jobs.length){
-    html += '<table><tr><th>Job #</th>' + (owner?'<th>Amount</th>':'') + '<th>Status</th></tr>';
+    html += '<div class=\'tablewrap\'><table><tr><th>Job #</th>' + (owner?'<th>Amount</th>':'') + '<th>Status</th></tr>';
     jobs.forEach(function(j){ html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td>' + (owner?'<td>' + money(j.offerAmount) + '</td>':'') + '<td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>'; });
-    html += '</table>';
+    html += '</table></div>';
   } else { html += '<div class="empty">No jobs yet.</div>'; }
 
   html += '<div class="sec-title">Quotes</div>';
   if(quotes.length){
-    html += '<table><tr><th>What\'s needed</th>' + (owner?'<th>Amount</th>':'') + '<th>Stage</th></tr>';
+    html += '<div class=\'tablewrap\'><table><tr><th>What\'s needed</th>' + (owner?'<th>Amount</th>':'') + '<th>Stage</th></tr>';
     quotes.forEach(function(q){ html += '<tr class="link" onclick="goto(\'quoteDetail\',' + q.id + ')"><td>' + q.details.slice(0,40) + '</td>' + (owner?'<td>' + money(q.amount) + '</td>':'') + '<td><span class="status ' + stageClass(q.stage) + '">' + stageLabel(q.stage) + '</span></td></tr>'; });
-    html += '</table>';
+    html += '</table></div>';
   } else { html += '<div class="empty">No quotes yet.</div>'; }
 
   html += '<div class="sec-title">All attachments for this client</div>';
