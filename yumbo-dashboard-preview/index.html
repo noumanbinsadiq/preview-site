@@ -38,19 +38,29 @@ h1.dt{font-size:23px; margin-bottom:18px;}
 .card{border:2.5px solid var(--ink); border-radius:16px; padding:14px 16px; background:var(--cream-2); position:relative;}
 .card .l{font-size:11px; font-weight:700; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.04em; margin-bottom:6px;}
 .card .v{font-size:19px; font-weight:800;}
-.card.click{cursor:pointer;}
+.card.click{cursor:pointer; transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;}
+.card.click:hover{transform:translateY(-1px); box-shadow:4px 4px 0 rgba(27,23,16,.08);}
 .card.blurred .v{filter:blur(6px); user-select:none;}
+.notif{border:2.5px solid var(--yellow); background:#fffaf0; border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:transform .12s ease, box-shadow .12s ease;}
+.notif:hover{transform:translateY(-1px); box-shadow:3px 3px 0 rgba(27,23,16,.08);}
 .card .hint{font-size:10px; font-weight:700; color:var(--ink-soft); margin-top:4px;}
 .card.profit .v{color:var(--green);}
 .sec-title{font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin:28px 0 12px; padding-top:18px; border-top:2px solid rgba(27,23,16,.08);}
 .sec-title:first-of-type{padding-top:0; border-top:none; margin-top:20px;}
+.summary-grid{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:12px; margin:6px 0 18px;}
+.summary-grid .card{padding:12px 14px;}
+.summary-grid .card .v{font-size:16px;}
 .attn-block{border:2.5px solid var(--coral); border-radius:20px; padding:18px; background:rgba(255,90,56,.05); margin-bottom:26px;}
-.attn-title{font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--coral); margin-bottom:12px;}
+.attn-head{display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:12px;}
+.attn-title{font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--coral);}
+.sortbox{display:flex; align-items:center; gap:8px; font-size:11px; font-weight:800; color:var(--ink-soft);}
+.sortbox select{padding:7px 10px; border:2px solid var(--ink); border-radius:10px; background:var(--cream); font-family:'Manrope',sans-serif; font-weight:800; font-size:11px;}
 .attn-empty{font-size:12.5px; font-weight:700; color:var(--green);}
 .notif{border:2.5px solid var(--yellow); background:#fffaf0; border-radius:14px; padding:12px 14px; margin-bottom:8px;}
 .notif.orange{border-color:var(--coral); background:rgba(255,90,56,.06);}
 .notif.green{border-color:var(--green); background:rgba(18,166,107,.06);}
 .notif.blue{border-color:var(--blue); background:rgba(47,91,255,.06);}
+.notif.yellow{border-color:var(--yellow); background:#fffaf0;}
 .notif .l{font-size:11px; font-weight:800; color:var(--ink-soft); text-transform:uppercase; margin-bottom:3px;}
 .notif .v{font-size:13.5px; font-weight:700;}
 .pill-btn{display:inline-block; font-size:11px; font-weight:800; padding:7px 13px; border:2px solid var(--ink); border-radius:99px; background:var(--cream); margin-top:6px; margin-right:6px; cursor:pointer;}
@@ -106,6 +116,19 @@ footer{text-align:center; padding:26px 0 10px; font-size:12px; color:var(--ink-s
 .noteform{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;}
 .noteform textarea{flex:1; min-width:200px; padding:9px 11px; border:2px solid var(--ink); border-radius:10px; font-size:12.5px; font-family:'Manrope',sans-serif; min-height:44px;}
 .noteform select{padding:9px; border:2px solid var(--ink); border-radius:10px; font-size:12px; font-family:'Manrope',sans-serif; background:var(--cream);}
+/* ---- COMPLETION FUNNEL & WORKFLOW ---- */
+.funnel-container{margin:20px 0; background:var(--cream-2); border:2px solid var(--ink); border-radius:14px; padding:16px; overflow-x:auto;}
+.funnel-row{display:flex; gap:8px; margin-bottom:12px; align-items:center;}
+.funnel-step{flex:1; min-width:140px; background:var(--cream); border:2.5px solid var(--ink); border-radius:10px; padding:12px; text-align:center; transition:all .12s ease;}
+.funnel-step.active{background:var(--coral); color:#fff; border-color:var(--coral);}
+.funnel-step.completed{background:var(--green); color:#fff; border-color:var(--green);}
+.funnel-step.pending{background:var(--yellow); border-color:var(--yellow);}
+.funnel-step.skipped{opacity:.5; border-style:dashed;}
+.funnel-step .step-label{font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.04em; margin-bottom:4px; opacity:.8;}
+.funnel-step .step-title{font-size:12px; font-weight:800; margin-bottom:2px;}
+.funnel-step .step-detail{font-size:10px; font-weight:700; opacity:.85; line-height:1.3;}
+.funnel-arrow{width:24px; height:2px; background:var(--ink); margin-top:30px;}
+.funnel-footer{font-size:10.5px; color:var(--ink-soft); margin-top:12px; padding-top:8px; border-top:1px solid rgba(27,23,16,.1);}
 </style>
 </head>
 <body>
@@ -142,7 +165,7 @@ footer{text-align:center; padding:26px 0 10px; font-size:12px; color:var(--ink-s
       <span><span class="dot" style="background:var(--green)"></span> Green = done / approved / paid</span>
     </div>
   </div>
-  <footer>Yumbo dashboard preview v5 — simplified layout, sample data, for review only.</footer>
+  <footer>Yumbo dashboard preview v6 — simplified balance model, sample data, for review only.</footer>
 </div>
 <script>
 var today = 'Aug 17';
@@ -155,7 +178,9 @@ var state = {
   currentSubId: null,
   currentClientId: null,
   currentInvoiceId: null,
+  currentVendorId: null,
   currentTeamMember: 'Carlos R.',
+  notificationSort: 'urgency',
   clients: [
     {id:1, name:'Sunset Ridge', contact:'Property manager — (904) 555-0132', email:'manager@sunsetridge.example'},
     {id:2, name:'Parkview HOA', contact:'HOA board — (904) 555-0198', email:'board@parkviewhoa.example'},
@@ -167,12 +192,22 @@ var state = {
     {id:2, command:'/update', from:'Ana M.', date:'Aug 15', note:'Job site photo — roofing progress', aiGuess:{amount:null, client:'Sunset Ridge'}, confirmed:false},
     {id:3, command:'/bid', from:'Mailin', date:'Aug 12', note:'New quote request forwarded from a call', aiGuess:{amount:null, client:'Maple Court'}, confirmed:true}
   ],
-  // paymentNickname is a display-only handle (Zelle handle, "acct ending 4021")
-  // — never a real bank/routing number, per standing project rule.
+  // Subs = your actual workforce — people/crews who do the labor on a job,
+  // paid a commission % of the job. Not team members (not on staff), so
+  // for tax/legal purposes she needs a W-9 + 1099 record on file for each,
+  // same as any 1099 contractor. paymentNickname is a display-only handle
+  // (Zelle handle, "acct ending 4021") — never a real bank/routing number,
+  // per standing project rule.
   subs: [
-    {id:1, name:'Delgado Roofing', trade:'Roofing', phone:'(904) 555-0161', defaultCommission:12, paymentNickname:'Zelle: delgado.roofing@example.com', telegram:''},
-    {id:2, name:'RJ Concrete', trade:'Concrete', phone:'(904) 555-0173', defaultCommission:15, paymentNickname:'Zelle: rjconcrete@example.com', telegram:''},
-    {id:3, name:'Vega Electric', trade:'Electrical', phone:'(904) 555-0184', defaultCommission:10, paymentNickname:'Acct ending 4021', telegram:''}
+    {id:1, name:'Delgado Roofing', trade:'Roofing', phone:'(904) 555-0161', defaultCommission:12, paymentNickname:'Zelle: delgado.roofing@example.com', telegram:'',
+      taxId:'XX-4211853', taxClassification:'LLC', w9Status:true, w9Date:'Jan 2026', form1099Required:true, form1099Sent:true, address:'123 Main St, Jacksonville, FL 32099',
+      balance:0, transactions:[{date:'Aug 14', amount:-2400, note:'Assigned job 26-0041'}, {date:'Aug 15', amount:2400, note:'Paid via Zelle'}]},
+    {id:2, name:'RJ Concrete', trade:'Concrete', phone:'(904) 555-0173', defaultCommission:15, paymentNickname:'Zelle: rjconcrete@example.com', telegram:'',
+      taxId:'XX-8172301', taxClassification:'Sole Proprietor', w9Status:false, w9Date:'', form1099Required:true, form1099Sent:false, address:'456 Oak Ave, Jacksonville, FL 32100',
+      balance:-650, transactions:[{date:'Aug 12', amount:-1450, note:'Assigned job'}, {date:'Aug 13', amount:800, note:'Paid advance via Zelle'}]},
+    {id:3, name:'Vega Electric', trade:'Electrical', phone:'(904) 555-0184', defaultCommission:10, paymentNickname:'Vega Electric ACH', telegram:'@vegaelectric',
+      taxId:'XX-3921476', taxClassification:'S-Corp', w9Status:true, w9Date:'Mar 2026', form1099Required:false, form1099Sent:false, address:'789 Pine Rd, Jacksonville, FL 32101',
+      balance:0, transactions:[]}
   ],
   // canCreateQuotes: whether Mailin has granted this person permission to log
   // new quote requests. Off by default — she turns it on per person from Team.
@@ -199,11 +234,37 @@ var state = {
   ],
   jobs: [
     {id:1, jobNumber:'26-0041', client:'Sunset Ridge', quoteId:5, estimator:'Carlos R.', offerAmount:6800, status:'in_progress', subId:1, subPayout:2400, materialsCost:900,
+      driveFolderUrl:'https://drive.google.com/drive/folders/yumbo-26-0041-sunset-ridge',
+      funnelStage:'materials_approved', funnelStages:{estimated:true, approved:true, assigned:true, material_request:true, materials_approved:true, work_in_progress:true, completion_photos:false, completion_approved:false, invoiced:false, paid:false},
+      materialRequests:[{id:1, title:'Extra flashing', amount:85, status:'approved', date:'Aug 15'}],
+      completionPhotos:[], completionApprovedBy:null, completionApprovedDate:null, invoiceId:null, paymentReceivedDate:null,
       notes:[{author:'Ana M.', text:'Materials delivered on site.', to:null, date:'Aug 10'},{author:'Ana M.', text:'Roofing 50% complete.', to:null, date:'Aug 12'}],
       attachments:[{date:'Aug 14', tag:'/payment', filename:'zelle-payment-2400.jpg', from:'Carlos R.'},{date:'Aug 12', tag:'/update', filename:'roof-progress-50pct.jpg', from:'Ana M.'}]}
   ],
   invoices: [
-    {id:1, invoiceNumber:'INV-1042', jobNumber:'26-0038', client:'Parkview HOA', amount:3900, status:'waiting', notes:[]}
+    {id:1, invoiceNumber:'INV-1042', jobNumber:'26-0038', client:'Parkview HOA', balance:3900, transactions:[{date:'Aug 14', amount:3900, note:'Invoiced INV-1042'}], notes:[]},
+    {id:2, invoiceNumber:'INV-1039', jobNumber:'26-0035', client:'Oakview Plaza', balance:1000, transactions:[{date:'Aug 12', amount:2200, note:'Invoiced INV-1039'}, {date:'Aug 14', amount:-1200, note:'Partial payment received'}], notes:[{author:'Mailin', text:'They sent $1,200 so far, said the rest is coming next week.', to:null, date:'Aug 14'}]}
+  ],
+  // Vendors = material/goods suppliers (concrete, lumber, hardware, rentals)
+  // — a completely separate list from Subs (subs are workforce/labor).
+  // Same tax/legal field set as Subs since either can require a 1099.
+  // paymentHandle is a display-only nickname, never a real bank/routing number.
+  vendors: [
+    {id:1, name:'Ready Mix Concrete Co', category:'Concrete & materials', taxId:'XX-5512340', taxClassification:'LLC', w9Status:true, w9Date:'Feb 2026', form1099Required:true, form1099Sent:true, paymentMethod:'ACH', paymentHandle:'Acct ending 7732', phone:'(904) 555-0210', email:'orders@readymixco.example', address:'200 Industrial Pkwy, Jacksonville, FL 32105', balance:0, transactions:[{date:'Aug 10', amount:-1180, note:'Materials delivered'}, {date:'Aug 11', amount:1180, note:'Paid ACH'}], notes:'Standard concrete supplier for slab and driveway jobs'},
+    {id:2, name:'Coastal Building Supply', category:'Lumber & hardware', taxId:'XX-6623411', taxClassification:'Corp', w9Status:true, w9Date:'Jan 2026', form1099Required:false, form1099Sent:false, paymentMethod:'Company card', paymentHandle:'Card ending 4471', phone:'(904) 555-0224', email:'sales@coastalbuild.example', address:'44 Commerce Dr, Jacksonville, FL 32108', balance:-248.75, transactions:[{date:'Aug 15', amount:-248.75, note:'Flashing/sealant for Sunset Ridge'}], notes:'Flashing/sealant for Sunset Ridge — invoiced, not yet paid'},
+    {id:3, name:'Jax Tool & Equipment Rental', category:'Equipment rental', taxId:'XX-7734122', taxClassification:'LLC', w9Status:false, w9Date:'', form1099Required:true, form1099Sent:false, paymentMethod:'ACH', paymentHandle:'Acct ending 9903', phone:'(904) 555-0237', email:'rentals@jaxtool.example', address:'19 Depot St, Jacksonville, FL 32110', balance:0, transactions:[{date:'Aug 12', amount:-140, note:'Compressor rental'}, {date:'Aug 13', amount:140, note:'Paid ACH'}], notes:'Compressor rental — needs W-9 refresh'}
+  ],
+  expenseCategories: ['Fuel', 'Materials', 'Travel', 'Equipment rental', 'Meals', 'Tools', 'Other'],
+  expenses: [
+    {id:1, date:'Aug 15', jobNumber:'26-0041', category:'Fuel', vendor:'Crew truck', amount:96.4, note:'Fuel for crew and materials run', approved:false},
+    {id:2, date:'Aug 16', jobNumber:'26-0041', category:'Materials', vendor:'Roofing Supply', amount:248.75, note:'Extra flashing + sealant', approved:true},
+    {id:3, date:'Aug 14', jobNumber:'26-0038', category:'Travel', vendor:'Mileage', amount:58.2, note:'Travel to site and back', approved:false},
+    {id:4, date:'Aug 12', jobNumber:'26-0038', category:'Tools', vendor:'Portable compressor rental', amount:140.0, note:'Equipment rental for job prep', approved:true}
+  ],
+  emailQueue: [
+    {id:1, kind:'Reminder', client:'Parkview HOA', subject:'Follow-up on roof replacement quote', status:'ready', to:'board@parkviewhoa.example'},
+    {id:2, kind:'Invoice', client:'Parkview HOA', subject:'Invoice INV-1042 — roof replacement', status:'ready', to:'board@parkviewhoa.example'},
+    {id:3, kind:'Thank you', client:'Sunset Ridge', subject:'Job update from Sunset Ridge', status:'draft', to:'manager@sunsetridge.example'}
   ],
   reminders: [
     {id:1, quoteId:4, text:'Quote for Parkview HOA has been waiting on your approval for 3 days'}
@@ -217,6 +278,23 @@ var state = {
     {id:3, type:'incident', jobId:1, jobNumber:'26-0041', submittedBy:'Ana M.', title:'Minor damage to a fence panel', details:'A ladder scraped paint off a fence panel while accessing the roof. Flagging it before the client notices.', amount:null, status:'approved', date:'Aug 13', notes:[{author:'Mailin', text:'Thanks for flagging — I\'ll mention it to the client myself.', to:'Ana M.', date:'Aug 13'}]}
   ]
 };
+
+
+function renderTransactions(transactions) {
+  if(!transactions || !transactions.length) return '<div class="empty">No transaction history yet.</div>';
+  var h = '<table><tr><th>Date</th><th>Amount</th><th>Note</th></tr>';
+  transactions.slice().reverse().forEach(function(t){
+    var amtStr = t.amount > 0 ? '<span style="color:var(--green);">+'+money(t.amount)+'</span>' : '<span style="color:var(--coral);">&minus;'+money(Math.abs(t.amount))+'</span>';
+    h += '<tr><td>'+t.date+'</td><td style="font-weight:800;">'+amtStr+'</td><td>'+t.note+'</td></tr>';
+  });
+  h += '</table>';
+  return h;
+}
+function getBalanceStatusStr(bal) {
+  if (bal === 0) return '<span class="status">Settled</span>';
+  if (bal > 0) return '<span class="status approved">+' + money(bal) + ' (Owes you)</span>';
+  return '<span class="status needsattn">&minus;' + money(Math.abs(bal)) + ' (You owe)</span>';
+}
 
 function money(n){ return n===null || n===undefined ? '—' : '$' + Number(n).toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:0}); }
 function stageLabel(s){
@@ -232,7 +310,7 @@ function stageClass(s){
   return '';
 }
 function statusLabel(s){ return s.replace(/_/g,' '); }
-function statusClass(s){ if(s==='in_progress') return 'progress'; if(s==='completed') return 'approved'; if(s==='matched') return 'matched'; if(s==='waiting') return 'waiting'; return ''; }
+function statusClass(s){ if(s==='in_progress') return 'progress'; if(s==='completed') return 'approved'; if(s==='matched') return 'matched'; if(s==='waiting') return 'waiting'; if(s==='partial') return 'waiting'; return ''; }
 
 function currentPersonName(){ return state.role === 'owner' ? 'Mailin' : state.currentTeamMember; }
 function canCreateQuotes(){
@@ -257,6 +335,10 @@ function setRole(role){
   }
   render();
 }
+function setNotificationSort(value){
+  state.notificationSort = value;
+  renderDashboard();
+}
 function switchTeamMember(name){
   state.currentTeamMember = name;
   state.page = 'dashboard';
@@ -271,6 +353,7 @@ function goto(page, arg){
   if(page === 'subDetail') state.currentSubId = arg;
   if(page === 'clientDetail') state.currentClientId = arg;
   if(page === 'invoiceDetail') state.currentInvoiceId = arg;
+  if(page === 'vendorDetail') state.currentVendorId = arg;
   if(page === 'requestDetail') state.currentRequestId = arg;
   if(page === 'requestNew') state.newRequestJobId = arg === undefined ? null : arg;
   if(page === 'teamMemberDetail') state.viewingTeamMemberName = arg;
@@ -287,10 +370,10 @@ function nextJobNumber(){
   return prefix + '-' + String(maxNum + 1).padStart(4, '0');
 }
 
-var navPages = ['dashboard','quotes','jobs','clients','subs','team','invoices','requests','trash','inbox','money'];
-var navLabels = {dashboard:'Home', quotes:'Quotes', jobs:'Jobs', clients:'Clients', subs:'Subs', team:'Team', invoices:'Invoices', requests:'Requests', trash:'Trash', inbox:'Team inbox', money:'Money'};
-var ownerOnly = ['subs','team','money','trash'];
-var pageToNav = {dashboard:'dashboard', quotes:'quotes', quoteDetail:'quotes', quoteNew:'quotes', jobs:'jobs', jobDetail:'jobs', clients:'clients', clientDetail:'clients', subs:'subs', subDetail:'subs', team:'team', teamMemberDetail:'team', invoices:'invoices', invoiceDetail:'invoices', requests:'requests', requestDetail:'requests', requestNew:'requests', trash:'trash', inbox:'inbox', money:'money'};
+var navPages = ['dashboard','quotes','jobs','lost','clients','vendors','expenses','subs','team','invoices','requests','inbox','money'];
+var navLabels = {dashboard:'Home', quotes:'Quotes', jobs:'Jobs', lost:'Lost jobs', clients:'Clients', vendors:'Vendors', expenses:'Expenses', subs:'Subs', team:'Team', invoices:'Invoices', requests:'Requests', inbox:'Team inbox', money:'Money'};
+var ownerOnly = ['vendors','expenses','subs','team','money','lost'];
+var pageToNav = {dashboard:'dashboard', quotes:'quotes', quoteDetail:'quotes', quoteNew:'quotes', jobs:'jobs', jobDetail:'jobs', lost:'lost', clients:'clients', clientDetail:'clients', vendors:'vendors', vendorDetail:'vendors', expenses:'expenses', subs:'subs', subDetail:'subs', team:'team', teamMemberDetail:'team', invoices:'invoices', invoiceDetail:'invoices', requests:'requests', requestDetail:'requests', requestNew:'requests', inbox:'inbox', money:'money'};
 var requestTypeLabels = {material:'Material request', change_order:'Change order', incident:'Incident report', other:'Other'};
 
 function buildNav(){
@@ -316,14 +399,29 @@ function estimatorLoad(name){
 function subLoad(subId){ return state.jobs.filter(function(j){ return j.subId === subId; }).length; }
 
 // ---------- reusable notes / team-messages thread ----------
-function notesThread(list){
+function notesThread(list, kind, id){
   if(!list || !list.length){ return '<div class="empty">No notes yet.</div>'; }
   var html = '<div class="notesbox">';
-  list.slice().reverse().forEach(function(n){
-    html += '<div class="note"><div class="meta"><span>' + n.author + ' · ' + n.date + '</span>' + (n.to ? '<span class="to">→ ' + n.to + '</span>' : '') + '</div>' + n.text + '</div>';
+  var indexed = list.map(function(n, i){ return {n:n, i:i}; }).reverse();
+  indexed.forEach(function(item){
+    var n = item.n, i = item.i;
+    var needsAck = n.to && n.to === currentPersonName() && !n.acknowledged;
+    html += '<div class="note"><div class="meta"><span>' + n.author + ' · ' + n.date + '</span>' + (n.to ? '<span class="to">→ ' + n.to + '</span>' : '') + '</div>' + n.text;
+    if(needsAck && kind){
+      html += '<div class="pill-btn green" style="margin-top:6px; margin-right:0;" onclick="acknowledgeNote(\'' + kind + '\',' + id + ',' + i + ')">Mark seen &amp; acknowledged</div>';
+    } else if(n.acknowledged){
+      html += '<div style="font-size:10.5px; font-weight:800; color:var(--green); margin-top:5px;">✓ Seen &amp; acknowledged by ' + n.acknowledgedBy + '</div>';
+    }
+    html += '</div>';
   });
   html += '</div>';
   return html;
+}
+function acknowledgeNote(kind, id, noteIndex){
+  var target = kind === 'quote' ? state.quotes.find(function(x){return x.id===id;}) : kind === 'job' ? state.jobs.find(function(x){return x.id===id;}) : kind === 'request' ? state.requests.find(function(x){return x.id===id;}) : state.invoices.find(function(x){return x.id===id;});
+  target.notes[noteIndex].acknowledged = true;
+  target.notes[noteIndex].acknowledgedBy = currentPersonName();
+  if(kind==='quote') renderQuoteDetail(); else if(kind==='job') renderJobDetail(); else if(kind==='request') renderRequestDetail(); else renderInvoiceDetail();
 }
 function noteForm(kind, id){
   var toOptions = '<option value="">Just a note — not sent to anyone</option>';
@@ -347,45 +445,84 @@ function renderDashboard(){
   var owner = state.role === 'owner';
   var html = '<div class="greet">Good morning</div><h1 class="dt">' + (owner ? 'Everything, in one place' : 'Your work today') + '</h1>';
 
-  // Needs your attention — always first, this is the whole point of the home page.
+  if(owner){
+    var openQuotes = state.quotes.filter(function(q){ return q.stage === 'requested' || q.stage === 'awaiting_owner'; }).length;
+    var approvalCount = state.quotes.filter(function(q){ return q.stage === 'awaiting_owner'; }).length;
+    var pendingExp = state.expenses.filter(function(e){ return !e.approved; }).reduce(function(sum, e){ return sum + e.amount; }, 0);
+    var activeJobs = state.jobs.filter(function(j){ return j.status === 'in_progress'; }).length;
+    html += '<div class="summary-grid">';
+    html += '<div class="card click" onclick="state.quoteFilter=\'active\'; goto(\'quotes\')"><div class="l">Open quotes</div><div class="v">' + openQuotes + '</div><div class="hint">Needs pricing or approval</div></div>';
+    html += '<div class="card click" onclick="state.quoteFilter=\'awaiting_owner\'; goto(\'quotes\')"><div class="l">Waiting on you</div><div class="v">' + approvalCount + '</div><div class="hint">Quotes ready for sign-off</div></div>';
+    html += '<div class="card click" onclick="goto(\'jobs\')"><div class="l">Live jobs</div><div class="v">' + activeJobs + '</div><div class="hint">Current work in motion</div></div>';
+    html += '<div class="card click" onclick="goto(\'expenses\')"><div class="l">Expense approval</div><div class="v">' + money(pendingExp) + '</div><div class="hint">Fuel, travel, team costs</div></div>';
+    html += '</div>';
+  }
+
   var attnQuotes = state.quotes.filter(function(q){
     if(owner){ return q.stage==='requested' || q.stage==='awaiting_owner'; }
     return q.assignedEstimator === state.currentTeamMember && (q.stage==='requested' || q.stage==='building');
   });
-  var attnInvoices = owner ? state.invoices.filter(function(inv){ return inv.status==='waiting'; }) : [];
+  var attnInvoices = owner ? state.invoices.filter(function(inv){ return inv.balance > 0; }) : [];
   var attnRequests = owner ? state.requests.filter(function(r){ return r.status==='pending'; }) : [];
-  html += '<div class="attn-block"><div class="attn-title">Needs your attention</div>';
-  if(!attnQuotes.length && !attnInvoices.length && !attnRequests.length){
+  var attnEmail = owner ? state.emailQueue.filter(function(item){ return item.status === 'ready'; }) : [];
+  var expNeedsApproval = owner ? state.expenses.filter(function(e){ return !e.approved; }) : [];
+  var vendorDocsNeeded = owner ? state.vendors.concat(state.subs).filter(function(v){ return !v.w9Status; }) : [];
+
+  var allAttn = [];
+  attnQuotes.forEach(function(q){
+    var label = owner ? (q.stage==='requested' ? 'Needs quoting' : 'Waiting on your approval') : (q.stage==='requested' ? 'Ready for you to start pricing' : 'You still need to price this');
+    allAttn.push({priority: q.stage === 'awaiting_owner' ? 1 : 2, sort: q.daysOld, type:'Quote', title: label + ' · ' + q.daysOld + ' days old', body: q.client + ' — ' + q.details.slice(0,60) + (q.details.length>60?'…':''), actionLabel:'Open →', action:'goto(\'quoteDetail\',' + q.id + ')', color:'orange'});
+  });
+  if(owner){
+    attnRequests.forEach(function(r){
+      allAttn.push({priority: 3, sort: r.date, type:'Request', title: requestTypeLabels[r.type] + ' from ' + r.submittedBy + (r.jobNumber ? ' · ' + r.jobNumber : ''), body: r.title + (r.amount ? ' — ' + money(r.amount) : ''), actionLabel:'Review →', action:'goto(\'requestDetail\',' + r.id + ')', color:'orange'});
+    });
+    attnInvoices.forEach(function(inv){
+      allAttn.push({priority: 1, sort: 0, type:'Invoice', title:'Invoice waiting on payment', body: inv.invoiceNumber + ' — ' + inv.client + ' — ' + money(inv.balance), actionLabel:'Open →', action:'goto(\'invoiceDetail\',' + inv.id + ')', color:'orange'});
+    });
+    attnEmail.forEach(function(item){
+      allAttn.push({priority: 2, sort: 0, type:'Email', title: item.kind + ' email ready to send', body: item.client + ' — ' + item.subject, actionLabel:'Send now', action:'goto(\'invoices\')', color:'blue'});
+    });
+    expNeedsApproval.forEach(function(item){
+      allAttn.push({priority: 3, sort: 0, type:'Expense', title:'Expense needs approval · ' + item.category, body: item.jobNumber + ' — ' + item.note + ' — ' + money(item.amount), actionLabel:'Review →', action:'goto(\'expenses\')', color:'yellow'});
+    });
+    vendorDocsNeeded.forEach(function(v){
+      var isVendor = state.vendors.indexOf(v) !== -1;
+      allAttn.push({priority: 4, sort: 0, type: isVendor ? 'Vendor' : 'Sub', title:(isVendor?'Vendor':'Sub') + ' record needs a W-9', body: v.name + ' — tax docs / W-9 not on file yet', actionLabel:'Fix record →', action:'goto(\'' + (isVendor ? 'vendorDetail' : 'subDetail') + '\',' + v.id + ')', color:'orange'});
+    });
+  }
+
+  var sortFn = function(a, b){
+    if(state.notificationSort === 'client'){ return a.body.localeCompare(b.body) || a.priority - b.priority; }
+    if(state.notificationSort === 'type'){ return a.type.localeCompare(b.type) || a.priority - b.priority; }
+    if(state.notificationSort === 'oldest'){ return a.sort - b.sort || a.priority - b.priority; }
+    return a.priority - b.priority || a.sort - b.sort;
+  };
+
+  html += '<div class="attn-block"><div class="attn-head"><div class="attn-title">Needs your attention</div><div class="sortbox"><label>Sort</label><select onchange="setNotificationSort(this.value)"><option value="urgency" ' + (state.notificationSort==='urgency'?'selected':'') + '>Urgent first</option><option value="oldest" ' + (state.notificationSort==='oldest'?'selected':'') + '>Oldest first</option><option value="client" ' + (state.notificationSort==='client'?'selected':'') + '>Client A–Z</option><option value="type" ' + (state.notificationSort==='type'?'selected':'') + '>Type</option></select></div></div>';
+  if(!allAttn.length){
     html += '<div class="attn-empty">Nothing urgent right now.</div>';
   } else {
-    attnQuotes.forEach(function(q){
-      var label = owner ? (q.stage==='requested' ? 'Needs quoting' : 'Waiting on your approval') : (q.stage==='requested' ? 'Ready for you to start pricing' : 'You still need to price this');
-      html += '<div class="notif orange"><div class="l">' + label + ' · ' + q.daysOld + ' days old</div><div class="v">' + q.client + ' — ' + q.details.slice(0,60) + (q.details.length>60?'…':'') + '</div><div class="pill-btn" onclick="goto(\'quoteDetail\',' + q.id + ')">Open →</div></div>';
+    allAttn.sort(sortFn).forEach(function(item){
+      html += '<div class="notif ' + item.color + '" onclick="' + item.action + '; event.stopPropagation();" role="button" tabindex="0" onkeydown="if(event.key===\'Enter\' || event.key===\' \"){ ' + item.action + '; event.preventDefault(); }"><div class="l">' + item.title + '</div><div class="v">' + item.body + '</div><div class="pill-btn" onclick="' + item.action + '; event.stopPropagation();">' + item.actionLabel + '</div></div>';
     });
-    if(owner){
-      attnRequests.forEach(function(r){
-        html += '<div class="notif orange"><div class="l">' + requestTypeLabels[r.type] + ' from ' + r.submittedBy + (r.jobNumber ? ' · ' + r.jobNumber : '') + '</div><div class="v">' + r.title + (r.amount ? ' — ' + money(r.amount) : '') + '</div><div class="pill-btn" onclick="goto(\'requestDetail\',' + r.id + ')">Review →</div></div>';
-      });
-      attnInvoices.forEach(function(inv){
-        html += '<div class="notif orange"><div class="l">Invoice waiting on payment</div><div class="v">' + inv.invoiceNumber + ' — ' + inv.client + ' — ' + money(inv.amount) + '</div><div class="pill-btn" onclick="goto(\'invoiceDetail\',' + inv.id + ')">Open →</div></div>';
-      });
-    }
   }
   html += '</div>';
 
   if(owner){
-    html += '<div class="sec-title">Revenue</div>';
-    html += '<div class="money"><div class="card"><div class="l">Revenue today</div><div class="v">$1,240</div></div><div class="card"><div class="l">Revenue this week</div><div class="v">$6,830</div></div><div class="card"><div class="l">Revenue all-time</div><div class="v">$412,905</div></div></div>';
-    html += '<div class="pill-btn" onclick="toggleBreakdown()" id="breakdownBtn">Show full breakdown (revenue, expenses, profit) ▾</div>';
-    html += '<div id="breakdownPanel" style="display:none; margin-top:10px;">' + breakdownTable() + '</div>';
-    html += '<div class="money" style="grid-template-columns:1fr; margin-top:16px;"><div class="card click blurred" id="bankCard" onclick="revealBank()"><div class="l">Bank balance — tap to reveal</div><div class="v">$28,410.55</div><div class="hint">Needs Mailin to connect her bank (Plaid) — placeholder</div></div></div>';
+    html += '<div class="sec-title">Operations</div>';
+    html += '<div class="money"><div class="card click" onclick="goto(\'jobs\')"><div class="l">Google Drive upload status</div><div class="v">' + state.jobs.length + ' job folders synced</div><div class="hint">Folder name matches job number (e.g. 26-0041 / Sunset Ridge) — click a job to open its folder</div></div><div class="card click" onclick="goto(\'vendors\')"><div class="l">Vendor &amp; sub tax tracking</div><div class="v">' + (state.vendors.filter(function(v){ return v.w9Status; }).length + state.subs.filter(function(s){ return s.w9Status; }).length) + '/' + (state.vendors.length + state.subs.length) + ' W-9 ready</div><div class="hint">EIN, W-9 status, 1099 tracking</div></div><div class="card click" onclick="goto(\'expenses\')"><div class="l">Expense log this week</div><div class="v">' + money(state.expenses.filter(function(e){ return e.date.indexOf('Aug') !== -1; }).reduce(function(sum, e){ return sum + e.amount; }, 0)) + '</div><div class="hint">Fuel, travel, materials, and other team costs</div></div></div>';
   }
 
-  html += '<div class="sec-title">Active jobs</div><table><tr><th>Job #</th><th>Client</th><th>Status</th></tr>';
+  html += '<table><tr><th>Job #</th><th>Client</th><th>Workflow stage</th><th>Progress</th></tr>';
   var activeJobs = state.jobs.filter(function(j){ return j.status==='in_progress' && !j.trashed && (owner || j.estimator===state.currentTeamMember); });
   if(activeJobs.length){
     activeJobs.forEach(function(j){
-      html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>';
+      var funnelLabel = {estimated:'Estimated', approved:'Approved', assigned:'Assigned', material_request:'Materials Req.', materials_approved:'Materials OK', work_in_progress:'Work in Progress', completion_photos:'Photos', completion_approved:'Completion ✓', invoiced:'Invoiced', paid:'Paid'}[j.funnelStage] || j.funnelStage;
+      var stageCount = Object.keys(j.funnelStages).filter(function(k){ return j.funnelStages[k]; }).length;
+      var totalStages = 10;
+      var progressPct = Math.round(stageCount / totalStages * 100);
+      html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td><td><span class="status progress" style="background:var(--yellow); border-color:var(--yellow);">→ ' + funnelLabel + '</span></td><td><div style="background:var(--cream-2); border:1px solid var(--ink); border-radius:4px; height:16px; overflow:hidden; display:flex; align-items:center;"><div style="background:var(--green); height:100%; width:' + progressPct + '%; transition:width .3s ease;\"></div><span style="font-size:10px; font-weight:800; margin-left:4px; color:var(--ink-soft);">' + stageCount + '/' + totalStages + '</span></div></td></tr>';
     });
   }
   html += '</table>';
@@ -522,7 +659,7 @@ function renderQuoteDetail(){
   }
 
   html += '<div class="sec-title">Notes &amp; team messages</div>';
-  html += notesThread(q.notes) + noteForm('quote', q.id);
+  html += notesThread(q.notes, 'quote', q.id) + noteForm('quote', q.id);
   document.getElementById('pageBody').innerHTML = html;
 }
 
@@ -570,7 +707,8 @@ function setQuoteOutcome(id, outcome){
     var jobNum = nextJobNumber();
     var primarySub = q.subs && q.subs.length ? q.subs[0] : null;
     var subPayout = primarySub ? Math.round(q.amount * primarySub.commissionPct / 100) : 0;
-    state.jobs.push({id: nextId, jobNumber: jobNum, client: q.client, quoteId: q.id, estimator: q.assignedEstimator, offerAmount: q.amount, status:'in_progress', subId: primarySub?primarySub.subId:null, subPayout: subPayout, materialsCost:0, notes:[{author:'System', text:'Created from an approved quote.', to:null, date:today}], attachments:[]});
+    var folderSlug = jobNum + '-' + q.client.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+    state.jobs.push({id: nextId, jobNumber: jobNum, client: q.client, quoteId: q.id, estimator: q.assignedEstimator, offerAmount: q.amount, status:'in_progress', subId: primarySub?primarySub.subId:null, subPayout: subPayout, materialsCost:0, driveFolderUrl:'https://drive.google.com/drive/folders/yumbo-' + folderSlug, notes:[{author:'System', text:'Created from an approved quote. A Google Drive folder was set up for this job — everyone on the team should save photos, invoices, and receipts there.', to:null, date:today}], attachments:[]});
     q.jobId = nextId;
     goto('jobDetail', nextId);
     return;
@@ -589,7 +727,7 @@ function renderJobs(){
     html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td>' + (owner?'<td>' + money(j.offerAmount) + '</td><td>' + (j.estimator||'—') + '</td>':'') + '<td>' + (sub?sub.name:'—') + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>';
   });
   html += '</table>';
-  if(owner){ html += '<div class="lockednote">Jobs you\'ve moved to the trash aren\'t shown here — see the Trash page.</div>'; }
+  if(owner){ html += '<div class="lockednote">Jobs you\'ve moved to <a onclick="goto(\'lost\')" style="cursor:pointer; text-decoration:underline; color:var(--coral);">Lost jobs</a> aren\'t shown here.</div>'; }
   document.getElementById('pageBody').innerHTML = html;
 }
 
@@ -624,6 +762,14 @@ function renderJobDetail(){
     if(!hasInvoice){ html += '<div class="pill-btn solid" onclick="createInvoiceFromJob(' + j.id + ')">Create invoice for this job</div>'; }
     else { html += '<div class="notif green"><div class="l">Invoiced</div><div class="v">See it on the <a onclick="goto(\'invoices\')" style="cursor:pointer; text-decoration:underline;">Invoices page</a>.</div></div>'; }
   }
+
+  html += '<div class="sec-title">Photos, invoices &amp; receipts</div>';
+  if(j.driveFolderUrl){
+    html += '<div class="notif blue"><div class="l">This job\'s Google Drive folder</div><div class="v">Every photo, invoice, and receipt for this job lives here — send them via Telegram tagged for this job, or drop them in directly.</div><a href="' + j.driveFolderUrl + '" target="_blank" rel="noopener" class="pill-btn blue">📁 Open ' + j.jobNumber + ' folder →</a></div>';
+  } else {
+    html += '<div class="empty">No Drive folder linked yet for this job.</div>';
+  }
+  html += '<div class="lockednote" style="margin-top:6px;">' + ((j.attachments && j.attachments.length) ? j.attachments.length + ' item(s) also confirmed through the Team Inbox — see below.' : 'Nothing confirmed through the Team Inbox yet for this job.') + '</div>';
 
   html += '<div class="sec-title">Estimated by</div>';
   html += '<div class="kv"><div class="row"><span>Team member</span><span>' + (j.estimator || '—') + '</span></div></div>';
@@ -672,28 +818,24 @@ function renderJobDetail(){
   }
 
   html += '<div class="sec-title">Notes &amp; team messages</div>';
-  html += notesThread(j.notes) + noteForm('job', j.id);
+  html += notesThread(j.notes, 'job', j.id) + noteForm('job', j.id);
 
   if(owner){
     html += '<div class="sec-title">Danger zone</div>';
     if(!j.trashed){
-      html += '<div class="notif"><div class="l">Not doing this job anymore?</div><div class="v">Move it to the trash — nothing is deleted, it just gets out of your way everywhere else. You can bring it back later.</div></div>';
+      html += '<div class="notif"><div class="l">Not doing this job anymore?</div><div class="v">Move it to Lost jobs so the full history stays on record and the team can reopen or follow up later. Jobs are never permanently deleted.</div></div>';
       html += '<div class="formcard">';
-      html += '<div class="field"><label>Why is this job being moved to trash?</label><textarea id="trashReason_' + j.id + '" placeholder="e.g. client cancelled, job never started"></textarea></div>';
+      html += '<div class="field"><label>Why is this job being moved to Lost jobs?</label><textarea id="trashReason_' + j.id + '" placeholder="e.g. client went elsewhere, follow-up pending, not moving forward"></textarea></div>';
       html += '<div class="field"><label>Type the job number to confirm — ' + j.jobNumber + '</label><input id="trashConfirm_' + j.id + '" placeholder="' + j.jobNumber + '"></div>';
-      html += '<div class="pill-btn" style="border-color:var(--coral); color:var(--coral);" onclick="moveJobToTrash(' + j.id + ')">Move to trash</div>';
+      html += '<div class="pill-btn" style="border-color:var(--coral); color:var(--coral);" onclick="moveJobToTrash(' + j.id + ')">Move to Lost jobs</div>';
       html += '</div>';
     } else {
-      html += '<div class="notif orange"><div class="l">In the trash</div><div class="v">Moved by ' + j.trashedBy + ' on ' + j.trashedDate + ' — "' + j.trashReason + '"</div></div>';
+      html += '<div class="notif orange"><div class="l">In Lost jobs</div><div class="v">Moved by ' + j.trashedBy + ' on ' + j.trashedDate + ' — "' + j.trashReason + '"</div></div>';
       html += '<div class="formcard">';
       html += '<div class="field"><label>Type the job number to restore — ' + j.jobNumber + '</label><input id="restoreConfirm_' + j.id + '" placeholder="' + j.jobNumber + '"></div>';
       html += '<div class="pill-btn green" onclick="restoreJob(' + j.id + ')">Restore this job</div>';
       html += '</div>';
-      html += '<div class="formcard" style="margin-top:10px; border-color:var(--coral);">';
-      html += '<div class="field"><label>Type the job number to permanently delete — ' + j.jobNumber + '</label><input id="deleteConfirm_' + j.id + '" placeholder="' + j.jobNumber + '"></div>';
-      html += '<label style="display:flex; gap:8px; align-items:center; font-size:12px; font-weight:700; margin-bottom:10px;"><input type="checkbox" id="deleteAck_' + j.id + '"> I understand this cannot be undone</label>';
-      html += '<div class="pill-btn solid" onclick="deleteJobPermanently(' + j.id + ')">Delete permanently</div>';
-      html += '</div>';
+      html += '<div class="lockednote" style="margin-top:10px;">Jobs cannot be deleted from the system. This keeps historical records and follow-up conversations available if the job comes back later.</div>';
     }
   }
 
@@ -706,11 +848,13 @@ function moveJobToTrash(jobId){
   var confirmNum = document.getElementById('trashConfirm_' + jobId).value.trim();
   if(!reason){ alert('Write a reason first.'); return; }
   if(confirmNum !== j.jobNumber){ alert('Type the job number exactly to confirm — ' + j.jobNumber); return; }
+  j.previousStatus = j.status;
+  j.status = 'lost';
   j.trashed = true;
   j.trashReason = reason;
   j.trashedBy = currentPersonName();
   j.trashedDate = today;
-  j.notes.push({author:j.trashedBy, text:'Moved to trash — ' + reason, to:null, date:today});
+  j.notes.push({author:j.trashedBy, text:'Moved to Lost jobs — ' + reason, to:null, date:today});
   goto('jobs');
 }
 function restoreJob(jobId){
@@ -718,30 +862,30 @@ function restoreJob(jobId){
   var confirmNum = document.getElementById('restoreConfirm_' + jobId).value.trim();
   if(confirmNum !== j.jobNumber){ alert('Type the job number exactly to confirm — ' + j.jobNumber); return; }
   j.trashed = false;
-  j.notes.push({author: currentPersonName(), text:'Restored from trash.', to:null, date:today});
+  j.status = j.previousStatus || 'in_progress';
+  j.previousStatus = null;
+  j.notes.push({author: currentPersonName(), text:'Restored from Lost jobs.', to:null, date:today});
   renderJobDetail();
 }
 function deleteJobPermanently(jobId){
-  var j = state.jobs.find(function(x){ return x.id === jobId; });
-  var confirmNum = document.getElementById('deleteConfirm_' + jobId).value.trim();
-  var ack = document.getElementById('deleteAck_' + jobId).checked;
-  if(confirmNum !== j.jobNumber){ alert('Type the job number exactly to confirm — ' + j.jobNumber); return; }
-  if(!ack){ alert('Check the box confirming you understand this can\'t be undone.'); return; }
-  state.jobs = state.jobs.filter(function(x){ return x.id !== jobId; });
-  goto('trash');
+  alert('Jobs cannot be permanently deleted. Move them to Lost jobs instead so the full record stays available for follow-up.');
 }
 
-function renderTrash(){
-  var html = '<h1 class="dt">Trash</h1>';
-  html += '<div class="note-banner">Jobs moved here are hidden everywhere else — Jobs list, Home, Clients, search — but nothing is ever actually gone. Restoring or permanently deleting both require typing the exact job number on purpose, so neither happens by accident.</div>';
+function renderLost(){
+  var html = '<h1 class="dt">Lost jobs</h1>';
+  html += '<div class="note-banner">Jobs you quoted where the client didn\'t move forward — kept here, not deleted, so the history and contact info is still there if they come back later. Click any of these to see the full record or reopen it.</div>';
   var trashed = state.jobs.filter(function(j){ return j.trashed; });
-  if(!trashed.length){ html += '<div class="empty">Nothing in the trash right now.</div>'; }
-  else {
-    html += '<table><tr><th>Job #</th><th>Client</th><th>Reason</th><th>Moved</th></tr>';
+  if(!trashed.length){
+    html += '<div class="attn-empty" style="margin-top:6px;">Nothing here — every quoted job is either active or won.</div>';
+  } else {
     trashed.forEach(function(j){
-      html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td><td>' + j.trashReason + '</td><td>' + j.trashedBy + ' · ' + j.trashedDate + '</td></tr>';
+      html += '<div class="notif" style="cursor:pointer;" onclick="goto(\'jobDetail\',' + j.id + ')">';
+      html += '<div class="l">' + j.jobNumber + ' — ' + j.client + '</div>';
+      html += '<div class="v">' + j.trashReason + '</div>';
+      html += '<div style="font-size:10.5px; font-weight:700; color:var(--ink-soft); margin-top:4px;">Marked lost by ' + j.trashedBy + ' · ' + j.trashedDate + '</div>';
+      html += '<div class="pill-btn green" onclick="event.stopPropagation(); goto(\'jobDetail\',' + j.id + ')">Client came back? Open to reopen →</div>';
+      html += '</div>';
     });
-    html += '</table>';
   }
   document.getElementById('pageBody').innerHTML = html;
 }
@@ -778,7 +922,7 @@ function markJobComplete(jobId){
 function createInvoiceFromJob(jobId){
   var j = state.jobs.find(function(x){ return x.id === jobId; });
   var nextId = state.invoices.length + 1;
-  state.invoices.push({id:nextId, invoiceNumber:'INV-' + (1040+nextId), jobNumber:j.jobNumber, client:j.client, amount:j.offerAmount, status:'waiting', notes:[]});
+  state.invoices.push({id:nextId, invoiceNumber:'INV-' + (1040+nextId), jobNumber:j.jobNumber, client:j.client, balance:j.offerAmount, transactions:[{date:today, amount:j.offerAmount, note:'Initial invoice'}], notes:[]});
   goto('invoiceDetail', nextId);
 }
 
@@ -837,7 +981,7 @@ function renderRequestDetail(){
   }
 
   html += '<div class="sec-title">Notes &amp; team messages</div>';
-  html += notesThread(r.notes) + noteForm('request', r.id);
+  html += notesThread(r.notes, 'request', r.id) + noteForm('request', r.id);
   document.getElementById('pageBody').innerHTML = html;
 }
 function decideRequest(id, decision){
@@ -891,49 +1035,131 @@ function submitRequest(lockedJobId){
 
 // ---------- INVOICES ----------
 function renderInvoices(){
-  var html = '<h1 class="dt">Invoices</h1><table><tr><th>Invoice #</th><th>Job #</th><th>Client</th><th>Amount</th><th>Status</th></tr>';
-  state.invoices.forEach(function(inv){
-    html += '<tr class="link" onclick="goto(\'invoiceDetail\',' + inv.id + ')"><td>' + inv.invoiceNumber + '</td><td>' + inv.jobNumber + '</td><td>' + inv.client + '</td><td>' + money(inv.amount) + '</td><td><span class="status ' + statusClass(inv.status) + '">' + statusLabel(inv.status) + '</span></td></tr>';
-  });
-  html += '</table>';
-  if(!state.invoices.length){ html += '<div class="empty">No invoices yet — these get created from a completed job.</div>'; }
+  var html = '<h1 class="dt">Invoices</h1>';
+  var toShow = state.invoices.filter(function(i) { return i.balance !== 0 || window.__showAllInvoices; });
+  
+  if (toShow.length) {
+    html += '<table><tr><th>Invoice #</th><th>Job #</th><th>Client</th><th>Balance</th></tr>';
+    toShow.forEach(function(inv){
+      html += '<tr class="link" onclick="goto(\'invoiceDetail\',' + inv.id + ')"><td>' + inv.invoiceNumber + '</td><td>' + inv.jobNumber + '</td><td>' + inv.client + '</td><td>' + getBalanceStatusStr(inv.balance) + '</td></tr>';
+    });
+    html += '</table>';
+  } else {
+    html += '<div class="empty">No outstanding invoices.</div>';
+  }
+  
+  if (!window.__showAllInvoices && toShow.length < state.invoices.length) {
+    html += '<div class="pill-btn" style="margin-top:12px;" onclick="window.__showAllInvoices=true; renderInvoices();">Show all ' + state.invoices.length + ' invoices</div>';
+  }
+  
+  html += '<div class="sec-title" style="margin-top:24px;">Create Invoice</div>';
+  html += '<div class="formcard">';
+  html += '<div class="field"><label>Invoice #</label><input id="newInvNum" placeholder="e.g. INV-1045"></div>';
+  html += '<div class="field"><label>Client</label><select id="newInvClient"><option value="">-- Select Client --</option>';
+  state.clients.forEach(function(c){ html += '<option value="'+c.name+'">'+c.name+'</option>'; });
+  html += '</select></div>';
+  html += '<div class="field"><label>Job # (optional)</label><select id="newInvJob"><option value="">-- Select Job --</option>';
+  state.jobs.forEach(function(j){ if(!j.trashed) html += '<option value="'+j.jobNumber+'">'+j.jobNumber+'</option>'; });
+  html += '</select></div>';
+  html += '<div class="field"><label>Amount</label><input type="number" id="newInvAmt" placeholder="e.g. 1500"></div>';
+  html += '<div class="field"><label>Note</label><input id="newInvNote" placeholder="e.g. Final payment for roof repair"></div>';
+  html += '<div class="pill-btn solid" onclick="createInvoice()">Create Invoice</div>';
+  html += '</div>';
+
   document.getElementById('pageBody').innerHTML = html;
 }
+
+function createInvoice(){
+  var num = document.getElementById('newInvNum').value.trim();
+  var client = document.getElementById('newInvClient').value;
+  var job = document.getElementById('newInvJob').value;
+  var amt = parseFloat(document.getElementById('newInvAmt').value);
+  var note = document.getElementById('newInvNote').value.trim() || 'Initial invoice';
+  
+  if(!num || !client || !amt || amt <= 0){ alert('Invoice #, Client, and Amount are required.'); return; }
+  
+  state.invoices.push({
+    id: Date.now(),
+    invoiceNumber: num,
+    jobNumber: job,
+    client: client,
+    balance: amt,
+    transactions: [{date: today, amount: amt, note: note}],
+    notes: []
+  });
+  renderInvoices();
+}
+
 function renderInvoiceDetail(){
   var inv = state.invoices.find(function(x){ return x.id === state.currentInvoiceId; });
   if(!inv){ goto('invoices'); return; }
+  
   var html = '<div class="back" onclick="goto(\'invoices\')">&larr; Back to invoices</div>';
-  html += '<h1 class="dt">' + inv.invoiceNumber + ' <span class="status ' + statusClass(inv.status) + '" style="font-size:11px; vertical-align:middle;">' + statusLabel(inv.status) + '</span></h1>';
-  html += '<div class="kv"><div class="row"><span>Client</span><span>' + inv.client + '</span></div><div class="row"><span>Job</span><span>' + inv.jobNumber + '</span></div><div class="row"><span>Amount</span><span>' + money(inv.amount) + '</span></div></div>';
-  if(inv.status === 'waiting'){ html += '<div class="pill-btn green" onclick="markInvoicePaid(' + inv.id + ')">Mark matched — funds arrived</div>'; }
+  html += '<h1 class="dt">' + inv.invoiceNumber + ' ' + getBalanceStatusStr(inv.balance) + '</h1>';
+  
+  html += '<div class="sec-title">Transaction History</div>';
+  html += renderTransactions(inv.transactions);
+  
+  if(inv.balance !== 0){
+    html += '<div class="formcard" style="margin-top:16px;">';
+    html += '<div class="field"><label>Record a payment / transaction</label><div style="display:flex; gap:8px;"><input type="number" id="payAmt_' + inv.id + '" placeholder="Amount" style="flex:1;"><select id="payDir_' + inv.id + '"><option value="-">They pay you</option><option value="+">You add to balance</option></select></div></div>';
+    html += '<div class="field"><label>Note</label><input id="payNote_' + inv.id + '" placeholder="e.g. Paid via check"></div>';
+    html += '<div class="pill-btn green" onclick="recordInvoicePayment(' + inv.id + ')">Record transaction</div>';
+    html += '</div>';
+  }
+  
+  html += '<div class="sec-title">Details</div>';
+  html += '<div class="kv"><div class="row"><span>Client</span><span>' + inv.client + '</span></div><div class="row"><span>Job</span><span>' + inv.jobNumber + '</span></div></div>';
+  
+  html += '<div class="pill-btn" style="border-color:var(--ink-soft); color:var(--ink-soft); cursor:not-allowed; opacity:.6; margin-top:16px;" onclick="alert(\'Sending invoices by email straight from the system is built but turned off for now — Mailin asked to hold off. Say the word and it gets switched on.\')">Send invoice by email (coming soon)</div>';
   html += '<div class="sec-title">Notes &amp; team messages</div>';
-  html += notesThread(inv.notes) + noteForm('invoice', inv.id);
+  html += notesThread(inv.notes, 'invoice', inv.id) + noteForm('invoice', inv.id);
   document.getElementById('pageBody').innerHTML = html;
 }
-function markInvoicePaid(id){
+function recordInvoicePayment(id){
   var inv = state.invoices.find(function(x){ return x.id === id; });
-  inv.status = 'matched';
-  inv.notes.push({author:'Mailin', text:'Confirmed — funds arrived.', to:null, date: today});
+  var amt = parseFloat(document.getElementById('payAmt_' + id).value);
+  if(!amt || amt <= 0){ alert('Enter an amount first.'); return; }
+  var dir = document.getElementById('payDir_' + id).value;
+  var note = document.getElementById('payNote_' + id).value.trim() || 'Manual transaction';
+  var finalAmt = dir === '+' ? amt : -amt;
+  inv.balance += finalAmt;
+  inv.transactions.push({date:today, amount:finalAmt, note:note});
+  inv.notes.push({author:'Mailin', text:'Recorded a transaction of ' + money(finalAmt) + '.', to:null, date: today});
   renderInvoiceDetail();
 }
-
 // ---------- SUBS (external subcontractors — paid per job, not on staff) ----------
 function renderSubs(){
   var html = '<h1 class="dt">Subcontractors</h1>';
-  html += '<div class="note-banner">Your outside subs — click a name for their jobs, payout history, and contact details. Set each one\'s default commission % right here.</div>';
-  html += '<table><tr><th>Sub</th><th>Trade</th><th>Default commission %</th><th>Active jobs</th></tr>';
-  state.subs.forEach(function(s){
-    var jobCount = state.jobs.filter(function(j){ return j.subId === s.id && !j.trashed; }).length;
-    html += '<tr><td class="link" style="cursor:pointer; text-decoration:underline;" onclick="goto(\'subDetail\',' + s.id + ')">' + s.name + '</td><td>' + (s.trade||'—') + '</td><td><input type="number" value="' + s.defaultCommission + '" style="width:60px; padding:5px 7px; border:2px solid var(--ink); border-radius:8px;" onchange="updateDefaultCommission(' + s.id + ', this.value)">%</td><td>' + jobCount + '</td></tr>';
+  html += '<div class="note-banner">Your workforce. By default, this only shows subs with an active balance, active jobs, or missing tax docs.</div>';
+  
+  var toShow = state.subs.filter(function(s) {
+    var jobCount = state.jobs.filter(function(j){ return j.subId === s.id && !j.trashed && j.status==='in_progress'; }).length;
+    return s.balance !== 0 || jobCount > 0 || !s.w9Status || window.__showAllSubs;
   });
-  html += '</table>';
+  
+  if (toShow.length) {
+    html += '<table><tr><th>Sub</th><th>Trade</th><th>Default %</th><th>Balance</th></tr>';
+    toShow.forEach(function(s){
+      html += '<tr><td class="link" style="cursor:pointer; text-decoration:underline;" onclick="goto(\'subDetail\',' + s.id + ')">' + s.name + '</td><td>' + (s.trade||'—') + '</td><td><input type="number" value="' + s.defaultCommission + '" style="width:60px; padding:5px 7px; border:2px solid var(--ink); border-radius:8px;" onchange="updateDefaultCommission(' + s.id + ', this.value)">%</td><td>' + getBalanceStatusStr(s.balance) + '</td></tr>';
+    });
+    html += '</table>';
+  } else {
+    html += '<div class="empty">All settled and compliant. Nothing needs your attention here.</div>';
+  }
+  
+  if (!window.__showAllSubs && toShow.length < state.subs.length) {
+    html += '<div class="pill-btn" style="margin-top:12px;" onclick="window.__showAllSubs=true; renderSubs();">Show all ' + state.subs.length + ' subs</div>';
+  }
+
   html += '<div class="sec-title">Add a subcontractor</div>';
   html += '<div class="formcard">';
   html += '<div class="field"><label>Name / company</label><input id="newSubName" placeholder="e.g. Ortiz Plumbing"></div>';
   html += '<div class="field"><label>Trade</label><input id="newSubTrade" placeholder="e.g. Plumbing"></div>';
   html += '<div class="field"><label>Phone</label><input id="newSubPhone" placeholder="(904) 555-0100"></div>';
   html += '<div class="field"><label>Default commission %</label><input type="number" id="newSubCommission" placeholder="e.g. 12"></div>';
-  html += '<div class="field"><label>Payment handle (Zelle, or "acct ending 1234" — never a full account/routing number)</label><input id="newSubPayment" placeholder="Zelle: name@example.com"></div>';
+  html += '<div class="field"><label>Payment handle</label><input id="newSubPayment" placeholder="Zelle: name@example.com"></div>';
+  html += '<div class="field"><label>Tax ID (for 1099 tracking)</label><input id="newSubTaxId" placeholder="XX-1234567"></div>';
   html += '<div class="pill-btn solid" onclick="addSub()">Add subcontractor</div>';
   html += '</div>';
   document.getElementById('pageBody').innerHTML = html;
@@ -946,8 +1172,9 @@ function addSub(){
   var phone = document.getElementById('newSubPhone').value.trim();
   var commission = parseFloat(document.getElementById('newSubCommission').value) || 0;
   var payment = document.getElementById('newSubPayment').value.trim();
+  var taxId = document.getElementById('newSubTaxId').value.trim();
   var nextId = state.subs.length ? Math.max.apply(null, state.subs.map(function(s){return s.id;})) + 1 : 1;
-  state.subs.push({id:nextId, name:name, trade:trade, phone:phone, defaultCommission:commission, paymentNickname:payment, telegram:''});
+  state.subs.push({id:nextId, name:name, trade:trade, phone:phone, defaultCommission:commission, paymentNickname:payment, telegram:'', taxId:taxId, taxClassification:'', w9Status:false, w9Date:'', form1099Required:!!taxId, form1099Sent:false, address:'', balance:0, transactions:[]});
   goto('subDetail', nextId);
 }
 function removeSub(id){
@@ -964,26 +1191,56 @@ function renderSubDetail(){
   var s = state.subs.find(function(x){ return x.id === state.currentSubId; });
   if(!s){ goto('subs'); return; }
   var jobs = state.jobs.filter(function(j){ return j.subId === s.id && !j.trashed; });
-  var totalOwed = jobs.reduce(function(sum,j){ return sum + j.subPayout; }, 0);
+  var activeJobs = jobs.filter(function(j){ return j.status === 'in_progress'; });
+  
   var html = '<div class="back" onclick="goto(\'subs\')">&larr; Back to subs</div>';
-  html += '<h1 class="dt">' + s.name + '</h1>';
+  html += '<h1 class="dt">' + s.name + ' ' + getBalanceStatusStr(s.balance) + '</h1>';
+  
+  html += '<div class="sec-title">Transaction History</div>';
+  html += renderTransactions(s.transactions);
+  
+  html += '<div class="formcard" style="margin-top:16px;">';
+  html += '<div class="field"><label>Record a payment / transaction</label><div style="display:flex; gap:8px;"><input type="number" id="payAmt_' + s.id + '" placeholder="Amount" style="flex:1;"><select id="payDir_' + s.id + '"><option value="-">You pay them</option><option value="+">They pay you</option></select></div></div>';
+  html += '<div class="field"><label>Note</label><input id="payNote_' + s.id + '" placeholder="e.g. Paid via Zelle"></div>';
+  html += '<div class="pill-btn green" onclick="recordSubPayment(' + s.id + ')">Record transaction</div>';
+  html += '</div>';
+
+  html += '<div class="sec-title">Details</div>';
   html += '<div class="kv"><div class="row"><span>Trade</span><span>' + (s.trade||'—') + '</span></div><div class="row"><span>Phone</span><span>' + (s.phone||'—') + '</span></div><div class="row"><span>Payment handle</span><span>' + (s.paymentNickname||'—') + '</span></div><div class="row"><span>Telegram</span><span>' + (s.telegram||'—') + '</span></div></div>';
-  html += '<div class="money"><div class="card"><div class="l">Default commission</div><div class="v">' + s.defaultCommission + '%</div></div><div class="card"><div class="l">Active jobs</div><div class="v">' + jobs.length + '</div></div><div class="card"><div class="l">Currently owed</div><div class="v">' + money(totalOwed) + '</div></div></div>';
-  html += '<div class="sec-title">Jobs assigned to ' + s.name + '</div>';
-  if(jobs.length){
-    html += '<table><tr><th>Job #</th><th>Client</th><th>Estimated by</th><th>Job total</th><th>Their payout</th><th>Status</th></tr>';
-    jobs.forEach(function(j){
-      html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td><td>' + (j.estimator||'—') + '</td><td>' + money(j.offerAmount) + '</td><td>' + money(j.subPayout) + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>';
+  
+  if (!s.w9Status) {
+    html += '<div class="notif orange" style="margin-top:16px;"><div class="l">Needs Tax Documents</div><div class="v">W-9 is missing for this sub.</div></div>';
+  }
+  
+  if(activeJobs.length){
+    html += '<div class="sec-title">Active jobs</div>';
+    html += '<table><tr><th>Job #</th><th>Client</th><th>Status</th></tr>';
+    activeJobs.forEach(function(j){
+      html += '<tr class="link" onclick="goto(\'jobDetail\',' + j.id + ')"><td>' + j.jobNumber + '</td><td>' + j.client + '</td><td><span class="status ' + statusClass(j.status) + '">' + statusLabel(j.status) + '</span></td></tr>';
     });
     html += '</table>';
-  } else {
-    html += '<div class="empty">No jobs assigned to this sub right now.</div>';
   }
+  
   html += '<div class="sec-title">Danger zone</div>';
   html += '<div class="pill-btn" style="border-color:var(--coral); color:var(--coral);" onclick="removeSub(' + s.id + ')">Remove this subcontractor</div>';
   document.getElementById('pageBody').innerHTML = html;
 }
-
+function recordSubPayment(id){
+  var s = state.subs.find(function(x){ return x.id === id; });
+  var amt = parseFloat(document.getElementById('payAmt_' + id).value);
+  if(!amt || amt <= 0){ alert('Enter an amount first.'); return; }
+  var dir = document.getElementById('payDir_' + id).value;
+  var note = document.getElementById('payNote_' + id).value.trim() || 'Manual transaction';
+  var finalAmt = dir === '+' ? amt : -amt;
+  s.balance += finalAmt;
+  s.transactions.push({date:today, amount:finalAmt, note:note});
+  
+  if (dir === '-') {
+    state.expenses.push({id: Date.now(), date: today, jobNumber: '', category: 'Subcontractors', vendor: s.name, amount: amt, approved: true, note: note});
+  }
+  
+  renderSubDetail();
+}
 // ---------- TEAM (internal staff — separate from Subs, who are external subcontractors) ----------
 function renderTeam(){
   var html = '<h1 class="dt">Team</h1>';
@@ -1080,20 +1337,208 @@ function resetTeamMemberPassword(name){
 
 // ---------- MONEY ----------
 function renderMoney(){
-  var owed = state.jobs.reduce(function(sum,j){ return sum + j.offerAmount; }, 0);
-  var owedToSubs = state.jobs.reduce(function(sum,j){ return sum + j.subPayout; }, 0);
-  var spent = state.jobs.reduce(function(sum,j){ return sum + j.materialsCost; }, 0) + owedToSubs;
-  var reserves = 28410.55;
-  var html = '<h1 class="dt">Money overview</h1>';
-  html += '<div class="money four"><div class="card"><div class="l">Owed to you</div><div class="v">' + money(owed) + '</div></div><div class="card"><div class="l">You have (bank)</div><div class="v">' + money(reserves) + '</div></div><div class="card"><div class="l">Spent (subs + materials)</div><div class="v">' + money(spent) + '</div></div><div class="card profit"><div class="l">Reserves after payouts</div><div class="v">' + money(reserves - owedToSubs) + '</div></div></div>';
-  html += '<div class="sec-title">Bank vs invoices</div>';
-  html += '<table><tr><th>Invoice</th><th>Amount</th><th>Bank status</th></tr>';
-  html += '<tr><td>INV-1042 — Parkview HOA</td><td>$3,900</td><td><span class="status waiting">Waiting on bank</span></td></tr>';
-  html += '<tr><td>Payout — Delgado Roofing</td><td>$2,400</td><td><span class="status matched">Sent — confirmed by bank</span></td></tr>';
-  html += '</table><div class="note-banner">This matching table becomes real once you connect your bank account — for now it\'s sample data.</div>';
-  html += '<div class="sec-title">Data &amp; backups</div>';
-  html += '<div class="kv"><div class="row"><span>Your live system</span><span>The real record — everything on every screen here.</span></div><div class="row"><span>Your Google Sheet</span><span>A view-only copy for you — safe to look at, sort, filter. Editing it never changes or breaks the real system.</span></div><div class="row"><span>Deep backup</span><span>An automatic, separate backup nobody edits — there in case anything else ever needs recovering.</span></div></div>';
+  var html = '<h1 class="dt">Money</h1>';
+  html += '<div class="note-banner">Track balances across all your clients, subcontractors, and vendors in one place. Positive (green) means they owe you. Negative (orange) means you owe them.</div>';
+
+  html += '<div class="money"><div class="card"><div class="l">Revenue today</div><div class="v">$1,240</div></div><div class="card"><div class="l">Revenue this week</div><div class="v">$6,830</div></div><div class="card click blurred" id="bankCard" onclick="revealBank()"><div class="l">Bank balance — tap to reveal</div><div class="v">$28,410.55</div><div class="hint">Needs Mailin to connect her bank (Plaid) — placeholder</div></div></div>';
+
+  var owesYou = [];
+  state.invoices.forEach(function(i){ if(i.balance > 0) owesYou.push({name: i.client, type: 'Invoice ' + i.invoiceNumber, bal: i.balance, action: 'goto(\'invoiceDetail\','+i.id+')'}); });
+  
+  html += '<div class="sec-title">Who owes you</div>';
+  if (owesYou.length) {
+    html += '<div class="summary-grid" style="grid-template-columns:1fr; gap:8px;">';
+    owesYou.sort(function(a,b){return b.bal - a.bal;}).forEach(function(item){
+      html += '<div class="card click" onclick="'+item.action+'" style="display:flex; justify-content:space-between; align-items:center;"><div style="font-weight:800; font-size:14px;">'+item.name+' <span style="font-weight:600; color:var(--ink-soft); font-size:12px; margin-left:8px;">'+item.type+'</span></div><div style="color:var(--green); font-size:16px; font-weight:800;">+'+money(item.bal)+'</div></div>';
+    });
+    html += '</div>';
+  } else {
+    html += '<div class="empty">Nobody owes you anything right now.</div>';
+  }
+
+  var youOwe = [];
+  state.subs.forEach(function(s){ if(s.balance < 0) youOwe.push({name: s.name, type: 'Subcontractor', bal: s.balance, action: 'goto(\'subDetail\','+s.id+')'}); });
+  state.vendors.forEach(function(v){ if(v.balance < 0) youOwe.push({name: v.name, type: 'Vendor', bal: v.balance, action: 'goto(\'vendorDetail\','+v.id+')'}); });
+  
+  html += '<div class="sec-title" style="margin-top:24px;">You owe</div>';
+  if (youOwe.length) {
+    html += '<div class="summary-grid" style="grid-template-columns:1fr; gap:8px;">';
+    youOwe.sort(function(a,b){return a.bal - b.bal;}).forEach(function(item){
+      html += '<div class="card click" onclick="'+item.action+'" style="display:flex; justify-content:space-between; align-items:center;"><div style="font-weight:800; font-size:14px;">'+item.name+' <span style="font-weight:600; color:var(--ink-soft); font-size:12px; margin-left:8px;">'+item.type+'</span></div><div style="color:var(--coral); font-size:16px; font-weight:800;">&minus;'+money(Math.abs(item.bal))+'</div></div>';
+    });
+    html += '</div>';
+  } else {
+    html += '<div class="empty">You don\'t owe anyone right now.</div>';
+  }
+
+  html += '<div style="margin-top:24px; padding-top:16px; border-top:1.5px solid rgba(27,23,16,.1); display:flex; gap:12px; flex-wrap:wrap;">';
+  html += '<div class="pill-btn" onclick="toggleBreakdown()" id="breakdownBtn">Show revenue & profit breakdown ▾</div>';
+  html += '<div class="pill-btn" onclick="goto(\'expenses\')">View expense log</div>';
+  html += '<div class="pill-btn" onclick="goto(\'vendors\')">Manage vendors</div>';
+  html += '</div>';
+  html += '<div id="breakdownPanel" style="display:none; margin-top:10px;">' + breakdownTable() + '</div>';
+  
   document.getElementById('pageBody').innerHTML = html;
+}
+// ---------- VENDORS (material/goods suppliers — separate from Subs) ----------
+function paymentStatusLabel(owed, paid){
+  if(owed <= 0 && paid > 0) return 'paid';
+  if(paid > 0 && owed > 0) return 'partial';
+  if(paid === 0 && owed === 0) return 'no activity yet';
+  return 'unpaid';
+}
+function paymentStatusClass(owed, paid){
+  var s = paymentStatusLabel(owed, paid);
+  if(s === 'paid') return 'approved';
+  if(s === 'partial') return 'waiting';
+  if(s === 'unpaid') return 'needsattn';
+  return '';
+}
+function renderVendors(){
+  var html = '<h1 class="dt">Vendors</h1>';
+  html += '<div class="note-banner">Material and goods suppliers. By default, this only shows vendors with an active balance or missing tax docs.</div>';
+  
+  var toShow = state.vendors.filter(function(v) {
+    return v.balance !== 0 || !v.w9Status || window.__showAllVendors;
+  });
+  
+  if (toShow.length) {
+    html += '<table><tr><th>Vendor</th><th>Category</th><th>W-9</th><th>Balance</th></tr>';
+    toShow.forEach(function(v){
+      html += '<tr><td class="link" style="cursor:pointer; text-decoration:underline;" onclick="goto(\'vendorDetail\',' + v.id + ')">' + v.name + '</td><td>' + v.category + '</td><td><span class="status ' + (v.w9Status ? 'approved' : 'needsattn') + '">' + (v.w9Status ? 'On file' : 'Needs W-9') + '</span></td><td>' + getBalanceStatusStr(v.balance) + '</td></tr>';
+    });
+    html += '</table>';
+  } else {
+    html += '<div class="empty">All settled and compliant. Nothing needs your attention here.</div>';
+  }
+  
+  if (!window.__showAllVendors && toShow.length < state.vendors.length) {
+    html += '<div class="pill-btn" style="margin-top:12px;" onclick="window.__showAllVendors=true; renderVendors();">Show all ' + state.vendors.length + ' vendors</div>';
+  }
+
+  html += '<div class="sec-title">Add a vendor</div>';
+  html += '<div class="formcard">';
+  html += '<div class="field"><label>Name / company</label><input id="newVendorName" placeholder="e.g. Coastal Building Supply"></div>';
+  html += '<div class="field"><label>Category</label><input id="newVendorCategory" placeholder="e.g. Lumber & hardware"></div>';
+  html += '<div class="field"><label>Phone</label><input id="newVendorPhone" placeholder="(904) 555-0100"></div>';
+  html += '<div class="field"><label>Tax ID (for 1099 tracking)</label><input id="newVendorTaxId" placeholder="XX-1234567"></div>';
+  html += '<div class="field"><label>Payment handle</label><input id="newVendorPayment" placeholder="e.g. Card ending 4471"></div>';
+  html += '<div class="pill-btn solid" onclick="addVendor()">Add vendor</div>';
+  html += '</div>';
+  document.getElementById('pageBody').innerHTML = html;
+}
+function addVendor(){
+  var name = document.getElementById('newVendorName').value.trim();
+  if(!name){ alert('Enter a name first.'); return; }
+  var category = document.getElementById('newVendorCategory').value.trim();
+  var phone = document.getElementById('newVendorPhone').value.trim();
+  var taxId = document.getElementById('newVendorTaxId').value.trim();
+  var payment = document.getElementById('newVendorPayment').value.trim();
+  var nextId = state.vendors.length ? Math.max.apply(null, state.vendors.map(function(v){return v.id;})) + 1 : 1;
+  state.vendors.push({id:nextId, name:name, category:category, taxId:taxId, taxClassification:'', w9Status:false, w9Date:'', form1099Required:!!taxId, form1099Sent:false, paymentMethod:'', paymentHandle:payment, phone:phone, email:'', address:'', balance:0, transactions:[], notes:''});
+  goto('vendorDetail', nextId);
+}
+function removeVendor(id){
+  var v = state.vendors.find(function(x){ return x.id === id; });
+  var ok = confirm('Remove ' + v.name + '? Their payment/tax history stays on record — this only removes them from future use.');
+  if(!ok){ return; }
+  state.vendors = state.vendors.filter(function(x){ return x.id !== id; });
+  goto('vendors');
+}
+function renderVendorDetail(){
+  var v = state.vendors.find(function(x){ return x.id === state.currentVendorId; });
+  if(!v){ goto('vendors'); return; }
+  
+  var html = '<div class="back" onclick="goto(\'vendors\')">&larr; Back to vendors</div>';
+  html += '<h1 class="dt">' + v.name + ' ' + getBalanceStatusStr(v.balance) + '</h1>';
+  
+  html += '<div class="sec-title">Transaction History</div>';
+  html += renderTransactions(v.transactions);
+
+  html += '<div class="formcard" style="margin-top:16px;">';
+  html += '<div class="field"><label>Record a payment / transaction</label><div style="display:flex; gap:8px;"><input type="number" id="payAmt_' + v.id + '" placeholder="Amount" style="flex:1;"><select id="payDir_' + v.id + '"><option value="-">You pay them</option><option value="+">They pay you</option></select></div></div>';
+  html += '<div class="field"><label>Note</label><input id="payNote_' + v.id + '" placeholder="e.g. Paid via card"></div>';
+  html += '<div class="pill-btn green" onclick="recordVendorPayment(' + v.id + ')">Record transaction</div>';
+  html += '</div>';
+
+  html += '<div class="sec-title">Details</div>';
+  html += '<div class="kv"><div class="row"><span>Category</span><span>' + (v.category||'—') + '</span></div><div class="row"><span>Phone</span><span>' + (v.phone||'—') + '</span></div><div class="row"><span>Email</span><span>' + (v.email||'—') + '</span></div><div class="row"><span>Payment handle</span><span>' + (v.paymentHandle||'—') + '</span></div></div>';
+  
+  if (!v.w9Status) {
+    html += '<div class="notif orange" style="margin-top:16px;"><div class="l">Needs Tax Documents</div><div class="v">W-9 is missing for this vendor.</div></div>';
+  }
+  
+  if(v.notes){ html += '<div class="sec-title">Notes</div><div class="kv"><div class="row"><span>' + v.notes + '</span><span></span></div></div>'; }
+  html += '<div class="sec-title">Danger zone</div>';
+  html += '<div class="pill-btn" style="border-color:var(--coral); color:var(--coral);" onclick="removeVendor(' + v.id + ')">Remove this vendor</div>';
+  document.getElementById('pageBody').innerHTML = html;
+}
+function recordVendorPayment(id){
+  var v = state.vendors.find(function(x){ return x.id === id; });
+  var amt = parseFloat(document.getElementById('payAmt_' + id).value);
+  if(!amt || amt <= 0){ alert('Enter an amount first.'); return; }
+  var dir = document.getElementById('payDir_' + id).value;
+  var note = document.getElementById('payNote_' + id).value.trim() || 'Manual transaction';
+  var finalAmt = dir === '+' ? amt : -amt;
+  v.balance += finalAmt;
+  v.transactions.push({date:today, amount:finalAmt, note:note});
+  
+  if (dir === '-') {
+    state.expenses.push({id: Date.now(), date: today, jobNumber: '', category: 'Materials', vendor: v.name, amount: amt, approved: true, note: note});
+  }
+  
+  renderVendorDetail();
+}
+
+function renderExpenses(){
+  var totals = {};
+  state.expenseCategories.forEach(function(c){ totals[c] = 0; });
+  state.expenses.forEach(function(e){ totals[e.category] = (totals[e.category] || 0) + e.amount; });
+  var html = '<h1 class="dt">Expenses</h1>';
+  
+  html += '<div class="sec-title">Add an expense</div>';
+  html += '<div class="formcard">';
+  html += '<div class="field"><label>Category</label><select id="newExpCat">';
+  state.expenseCategories.forEach(function(c){ html += '<option value="'+c+'">'+c+'</option>'; });
+  html += '</select></div>';
+  html += '<div class="field"><label>Amount</label><input type="number" id="newExpAmt" placeholder="e.g. 150.00"></div>';
+  html += '<div class="field"><label>Vendor / Payee</label><input id="newExpVendor" placeholder="e.g. Home Depot"></div>';
+  html += '<div class="field"><label>Job # (optional)</label><select id="newExpJob"><option value="">-- No job / General --</option>';
+  state.jobs.forEach(function(j){ if(!j.trashed) html += '<option value="'+j.jobNumber+'">'+j.jobNumber+' - '+j.client+'</option>'; });
+  html += '</select></div>';
+  html += '<div class="field"><label>Note</label><input id="newExpNote" placeholder="e.g. Drill bits"></div>';
+  html += '<div class="pill-btn solid" onclick="addExpense()">Add expense</div>';
+  html += '</div>';
+
+  html += '<div class="sec-title">By category</div>';
+  html += '<table><tr><th>Category</th><th>Amount</th><th>Notes</th></tr>';
+  state.expenseCategories.forEach(function(c){
+    var amt = totals[c] || 0;
+    if(amt){ html += '<tr><td>' + c + '</td><td>' + money(amt) + '</td><td>Tracked for payroll / job cost review</td></tr>'; }
+  });
+  html += '</table>';
+  html += '<div class="sec-title">Recent spends</div>';
+  if (state.expenses.length === 0) {
+    html += '<div class="empty">No expenses logged yet.</div>';
+  } else {
+    html += '<table><tr><th>Date</th><th>Job</th><th>Category</th><th>Vendor</th><th>Amount</th><th>Status</th></tr>';
+    state.expenses.slice().reverse().forEach(function(e){
+      html += '<tr><td>' + e.date + '</td><td>' + (e.jobNumber||'—') + '</td><td>' + e.category + '</td><td>' + e.vendor + '</td><td>' + money(e.amount) + '</td><td><span class="status ' + (e.approved ? 'approved' : 'waiting') + '">' + (e.approved ? 'Approved' : 'Pending') + '</span></td></tr>';
+    });
+    html += '</table>';
+  }
+  document.getElementById('pageBody').innerHTML = html;
+}
+
+function addExpense(){
+  var amt = parseFloat(document.getElementById('newExpAmt').value);
+  if(!amt || amt <= 0){ alert('Enter a valid amount.'); return; }
+  var cat = document.getElementById('newExpCat').value;
+  var vendor = document.getElementById('newExpVendor').value.trim() || 'Unknown';
+  var job = document.getElementById('newExpJob').value;
+  var note = document.getElementById('newExpNote').value.trim();
+  state.expenses.push({id: Date.now(), date: today, jobNumber: job, category: cat, vendor: vendor, amount: amt, approved: true, note: note});
+  renderExpenses();
 }
 
 // ---------- CLIENTS ----------
@@ -1104,7 +1549,25 @@ function renderClients(){
     html += '<tr class="link" onclick="goto(\'clientDetail\',' + c.id + ')"><td>' + c.name + '</td><td>' + c.contact + '</td><td>' + jobCount + '</td></tr>';
   });
   html += '</table>';
+  
+  html += '<div class="sec-title" style="margin-top:24px;">Add a client</div>';
+  html += '<div class="formcard">';
+  html += '<div class="field"><label>Client Name / Entity</label><input id="newClientName" placeholder="e.g. Pine Property Management"></div>';
+  html += '<div class="field"><label>Contact Person & Phone</label><input id="newClientContact" placeholder="e.g. Jane Doe - (904) 555-1234"></div>';
+  html += '<div class="field"><label>Email</label><input id="newClientEmail" placeholder="e.g. jane@pineproperty.example"></div>';
+  html += '<div class="pill-btn solid" onclick="addClient()">Add client</div>';
+  html += '</div>';
+
   document.getElementById('pageBody').innerHTML = html;
+}
+
+function addClient(){
+  var name = document.getElementById('newClientName').value.trim();
+  var contact = document.getElementById('newClientContact').value.trim();
+  var email = document.getElementById('newClientEmail').value.trim();
+  if(!name){ alert('Name is required.'); return; }
+  state.clients.push({id: Date.now(), name: name, contact: contact, email: email, balance: 0, transactions: []});
+  renderClients();
 }
 
 function renderClientDetail(){
@@ -1200,8 +1663,12 @@ function render(){
   else if(state.page === 'quoteNew') renderQuoteNew();
   else if(state.page === 'jobs') renderJobs();
   else if(state.page === 'jobDetail') renderJobDetail();
+  else if(state.page === 'lost') renderLost();
   else if(state.page === 'clients') renderClients();
   else if(state.page === 'clientDetail') renderClientDetail();
+  else if(state.page === 'vendors') renderVendors();
+  else if(state.page === 'vendorDetail') renderVendorDetail();
+  else if(state.page === 'expenses') renderExpenses();
   else if(state.page === 'subs') renderSubs();
   else if(state.page === 'subDetail') renderSubDetail();
   else if(state.page === 'team') renderTeam();
@@ -1211,7 +1678,6 @@ function render(){
   else if(state.page === 'requests') renderRequests();
   else if(state.page === 'requestDetail') renderRequestDetail();
   else if(state.page === 'requestNew') renderRequestNew();
-  else if(state.page === 'trash') renderTrash();
   else if(state.page === 'inbox') renderInbox();
   else if(state.page === 'money') renderMoney();
 }
