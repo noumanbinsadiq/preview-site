@@ -202,7 +202,7 @@ var state = {
   subs: [
     {id:1, name:'Delgado Roofing', trade:'Roofing', phone:'(904) 555-0161', defaultCommission:12, paymentNickname:'Zelle: delgado.roofing@example.com', telegram:'',
       taxId:'XX-4211853', taxClassification:'LLC', w9Status:true, w9Date:'Jan 2026', form1099Required:true, form1099Sent:true, address:'123 Main St, Jacksonville, FL 32099',
-      balance:0, transactions:[{date:'Aug 14', amount:-2400, note:'Assigned job 26-0041'}, {date:'Aug 15', amount:2400, note:'Paid via Zelle'}]},
+      balance:0, transactions:[{date:'Aug 14', amount:-2400, note:'Assigned job 26-0041', jobNumber:'26-0041'}, {date:'Aug 15', amount:2400, note:'Paid via Zelle', jobNumber:'26-0041'}]},
     {id:2, name:'RJ Concrete', trade:'Concrete', phone:'(904) 555-0173', defaultCommission:15, paymentNickname:'Zelle: rjconcrete@example.com', telegram:'',
       taxId:'XX-8172301', taxClassification:'Sole Proprietor', w9Status:false, w9Date:'', form1099Required:true, form1099Sent:false, address:'456 Oak Ave, Jacksonville, FL 32100',
       balance:-650, transactions:[{date:'Aug 12', amount:-1450, note:'Assigned job'}, {date:'Aug 13', amount:800, note:'Paid advance via Zelle'}]},
@@ -252,7 +252,7 @@ var state = {
   // paymentHandle is a display-only nickname, never a real bank/routing number.
   vendors: [
     {id:1, name:'Ready Mix Concrete Co', category:'Concrete & materials', taxId:'XX-5512340', taxClassification:'LLC', w9Status:true, w9Date:'Feb 2026', form1099Required:true, form1099Sent:true, paymentMethod:'ACH', paymentHandle:'Acct ending 7732', phone:'(904) 555-0210', email:'orders@readymixco.example', address:'200 Industrial Pkwy, Jacksonville, FL 32105', balance:0, transactions:[{date:'Aug 10', amount:-1180, note:'Materials delivered'}, {date:'Aug 11', amount:1180, note:'Paid ACH'}], notes:'Standard concrete supplier for slab and driveway jobs'},
-    {id:2, name:'Coastal Building Supply', category:'Lumber & hardware', taxId:'XX-6623411', taxClassification:'Corp', w9Status:true, w9Date:'Jan 2026', form1099Required:false, form1099Sent:false, paymentMethod:'Company card', paymentHandle:'Card ending 4471', phone:'(904) 555-0224', email:'sales@coastalbuild.example', address:'44 Commerce Dr, Jacksonville, FL 32108', balance:-248.75, transactions:[{date:'Aug 15', amount:-248.75, note:'Flashing/sealant for Sunset Ridge'}], notes:'Flashing/sealant for Sunset Ridge — invoiced, not yet paid'},
+    {id:2, name:'Coastal Building Supply', category:'Lumber & hardware', taxId:'XX-6623411', taxClassification:'Corp', w9Status:true, w9Date:'Jan 2026', form1099Required:false, form1099Sent:false, paymentMethod:'Company card', paymentHandle:'Card ending 4471', phone:'(904) 555-0224', email:'sales@coastalbuild.example', address:'44 Commerce Dr, Jacksonville, FL 32108', balance:-248.75, transactions:[{date:'Aug 15', amount:-248.75, note:'Flashing/sealant for Sunset Ridge', jobNumber:'26-0041'}], notes:'Flashing/sealant for Sunset Ridge — invoiced, not yet paid'},
     {id:3, name:'Jax Tool & Equipment Rental', category:'Equipment rental', taxId:'XX-7734122', taxClassification:'LLC', w9Status:false, w9Date:'', form1099Required:true, form1099Sent:false, paymentMethod:'ACH', paymentHandle:'Acct ending 9903', phone:'(904) 555-0237', email:'rentals@jaxtool.example', address:'19 Depot St, Jacksonville, FL 32110', balance:0, transactions:[{date:'Aug 12', amount:-140, note:'Compressor rental'}, {date:'Aug 13', amount:140, note:'Paid ACH'}], notes:'Compressor rental — needs W-9 refresh'}
   ],
   expenseCategories: ['Fuel', 'Materials', 'Travel', 'Equipment rental', 'Meals', 'Tools', 'Other'],
@@ -283,10 +283,10 @@ var state = {
 
 function renderTransactions(transactions) {
   if(!transactions || !transactions.length) return '<div class="empty">No transaction history yet.</div>';
-  var h = '<table><tr><th>Date</th><th>Amount</th><th>Note</th></tr>';
+  var h = '<table><tr><th>Date</th><th>Amount</th><th>Note</th><th>Job</th></tr>';
   transactions.slice().reverse().forEach(function(t){
     var amtStr = t.amount > 0 ? '<span style="color:var(--green);">+'+money(t.amount)+'</span>' : '<span style="color:var(--coral);">&minus;'+money(Math.abs(t.amount))+'</span>';
-    h += '<tr><td>'+t.date+'</td><td style="font-weight:800;">'+amtStr+'</td><td>'+t.note+'</td></tr>';
+    h += '<tr><td>'+t.date+'</td><td style="font-weight:800;">'+amtStr+'</td><td>'+t.note+'</td><td>'+(t.jobNumber ? t.jobNumber : '<span style="color:var(--ink-soft);">—</span>')+'</td></tr>';
   });
   h += '</table>';
   return h;
@@ -440,9 +440,82 @@ function auditForJob(j){
 
   return {hasEstimate:hasEstimate, estAmount:estAmount, estMaterials:estMaterials, estSubPayout:estSubPayout, estMargin:estMargin, actAmount:actAmount, actMaterials:actMaterials, actSubPayout:actSubPayout, actMargin:actMargin, variance: hasEstimate ? (actMargin - estMargin) : null, explanations:explanations};
 }
+// ---------- CASH REALITY — every dollar tracked, summed straight from the same transaction ledgers the Money page and Auditor already use. Nothing here is guessed or backed into. ----------
+function cashRealitySummary(){
+  var owedToYou = 0, youOwe = 0;
+  var everInvoiced = 0, actuallyCollected = 0;
+  var everCharged = 0, actuallyPaidOut = 0;
+
+  state.invoices.forEach(function(inv){
+    if(inv.balance > 0) owedToYou += inv.balance;
+    (inv.transactions || []).forEach(function(t){
+      if(t.amount > 0) everInvoiced += t.amount;
+      else actuallyCollected += Math.abs(t.amount);
+    });
+  });
+
+  state.subs.concat(state.vendors).forEach(function(rel){
+    if(rel.balance < 0) youOwe += Math.abs(rel.balance);
+    (rel.transactions || []).forEach(function(t){
+      if(t.amount < 0) everCharged += Math.abs(t.amount);
+      else actuallyPaidOut += t.amount;
+    });
+  });
+
+  return {
+    owedToYou: owedToYou, youOwe: youOwe, netPosition: owedToYou - youOwe,
+    everInvoiced: everInvoiced, actuallyCollected: actuallyCollected, stillUncollected: everInvoiced - actuallyCollected,
+    everCharged: everCharged, actuallyPaidOut: actuallyPaidOut, stillUnpaid: everCharged - actuallyPaidOut
+  };
+}
+// Same idea as cashRealitySummary() but scoped to one job, using the jobNumber tag on invoice/sub/vendor transactions.
+function cashRealityForJob(j){
+  var inv = state.invoices.find(function(x){ return x.jobNumber === j.jobNumber; });
+  var invoicedAmt = 0, collectedAmt = 0, stillOwedByClient = 0;
+  if(inv){
+    (inv.transactions || []).forEach(function(t){
+      if(t.amount > 0) invoicedAmt += t.amount; else collectedAmt += Math.abs(t.amount);
+    });
+    stillOwedByClient = inv.balance;
+  }
+  var paidToSubs = 0, chargedBySubs = 0, paidToVendors = 0, chargedByVendors = 0;
+  state.subs.forEach(function(s){
+    (s.transactions || []).forEach(function(t){
+      if(t.jobNumber !== j.jobNumber) return;
+      if(t.amount > 0) paidToSubs += t.amount; else chargedBySubs += Math.abs(t.amount);
+    });
+  });
+  state.vendors.forEach(function(v){
+    (v.transactions || []).forEach(function(t){
+      if(t.jobNumber !== j.jobNumber) return;
+      if(t.amount > 0) paidToVendors += t.amount; else chargedByVendors += Math.abs(t.amount);
+    });
+  });
+  return {
+    hasInvoice: !!inv, invoicedAmt: invoicedAmt, collectedAmt: collectedAmt, stillOwedByClient: stillOwedByClient,
+    paidToSubs: paidToSubs, chargedBySubs: chargedBySubs, paidToVendors: paidToVendors, chargedByVendors: chargedByVendors,
+    cashInHandForJob: collectedAmt - paidToSubs - paidToVendors
+  };
+}
 function renderAuditor(){
   var html = '<h1 class="dt">Auditor</h1>';
   html += '<div class="note-banner">Your per-project money check — what each job was estimated to make vs. what it actually made, and why. Click any job for the full breakdown.</div>';
+
+  var cash = cashRealitySummary();
+  html += '<h2 style="margin-top:24px;">Cash reality</h2>';
+  html += '<div class="note-banner">This is built from every payment ever recorded in the system — not a guess. It answers: how much should you have, and how much do you actually have in hand right now.</div>';
+  html += '<div class="money">';
+  html += '<div class="card"><div class="l">Owed to you right now</div><div class="v" style="color:var(--green);">' + money(cash.owedToYou) + '</div><div class="hint">' + (cash.owedToYou ? 'Sitting unpaid on open invoices' : 'Nothing outstanding') + '</div></div>';
+  html += '<div class="card"><div class="l">You owe right now</div><div class="v" style="color:var(--coral);">' + money(cash.youOwe) + '</div><div class="hint">' + (cash.youOwe ? 'Unpaid balance with subs & vendors' : 'Nothing outstanding') + '</div></div>';
+  html += '<div class="card"><div class="l">Net position</div><div class="v" style="color:' + (cash.netPosition >= 0 ? 'var(--green)' : 'var(--coral)') + ';">' + (cash.netPosition >= 0 ? '+' : '') + money(cash.netPosition) + '</div><div class="hint">Owed to you minus what you owe — if every open balance settled today</div></div>';
+  html += '</div>';
+  html += '<div class="money">';
+  html += '<div class="card"><div class="l">Invoiced all-time</div><div class="v">' + money(cash.everInvoiced) + '</div><div class="hint">Actually collected: ' + money(cash.actuallyCollected) + (cash.stillUncollected ? ' — ' + money(cash.stillUncollected) + ' still uncollected' : ' — fully collected') + '</div></div>';
+  html += '<div class="card"><div class="l">Charged by subs & vendors all-time</div><div class="v">' + money(cash.everCharged) + '</div><div class="hint">Actually paid out: ' + money(cash.actuallyPaidOut) + (cash.stillUnpaid ? ' — ' + money(cash.stillUnpaid) + ' still unpaid' : ' — fully paid') + '</div></div>';
+  html += '</div>';
+  html += '<div class="notif orange"><div class="l">One honest caveat</div><div class="v">These numbers reflect every payment that has been recorded in this system. Your actual bank balance can still differ (cash on hand from before the system, uncashed checks, personal draws). Once your bank is connected (Plaid, not yet set up), this page can compare recorded vs. real bank balance automatically — right now it\'s the recorded picture only.</div></div>';
+
+  html += '<h2 style="margin-top:24px;">Per-job estimate vs. actual</h2>';
   var jobs = state.jobs.filter(function(j){ return !j.trashed; });
   if(!jobs.length){
     html += '<div class="empty">No jobs to audit yet.</div>';
@@ -477,6 +550,19 @@ function renderAuditDetail(){
   }
   html += '<div class="sec-title">Actual</div>';
   html += '<div class="money"><div class="card"><div class="l">Invoiced amount</div><div class="v">' + money(a.actAmount) + '</div></div><div class="card"><div class="l">Actual materials</div><div class="v">' + money(a.actMaterials) + '</div></div><div class="card"><div class="l">Actual sub payout</div><div class="v">' + money(a.actSubPayout) + '</div></div><div class="card profit"><div class="l">Actual margin</div><div class="v">' + money(a.actMargin) + '</div></div></div>';
+
+  html += '<div class="sec-title">Cash — what\'s actually moved on this job</div>';
+  var cr = cashRealityForJob(j);
+  if(!cr.hasInvoice){
+    html += '<div class="empty">No invoice on file yet for this job — nothing collected so far.</div>';
+  } else {
+    html += '<div class="money"><div class="card"><div class="l">Client has paid</div><div class="v" style="color:var(--green);">' + money(cr.collectedAmt) + '</div><div class="hint">of ' + money(cr.invoicedAmt) + ' invoiced</div></div><div class="card"><div class="l">Client still owes</div><div class="v" style="color:' + (cr.stillOwedByClient > 0 ? 'var(--coral)' : 'var(--ink-soft)') + ';">' + money(cr.stillOwedByClient) + '</div><div class="hint">' + (cr.stillOwedByClient > 0 ? 'Not yet collected' : 'Fully paid') + '</div></div></div>';
+  }
+  html += '<div class="money"><div class="card"><div class="l">Paid to sub(s) for this job</div><div class="v">' + money(cr.paidToSubs) + '</div>' + (cr.chargedBySubs ? '<div class="hint">' + money(cr.chargedBySubs) + ' charged, not all paid yet</div>' : '') + '</div><div class="card"><div class="l">Paid to vendor(s) for this job</div><div class="v">' + money(cr.paidToVendors) + '</div>' + (cr.chargedByVendors ? '<div class="hint">' + money(cr.chargedByVendors) + ' charged, not all paid yet</div>' : '') + '</div><div class="card profit"><div class="l">Cash actually in hand from this job</div><div class="v" style="color:' + (cr.cashInHandForJob >= 0 ? 'var(--green)' : 'var(--coral)') + ';">' + (cr.cashInHandForJob >= 0 ? '+' : '-') + money(Math.abs(cr.cashInHandForJob)) + '</div><div class="hint">' + (cr.cashInHandForJob >= 0 ? 'Collected from client minus what\'s actually left your account for subs/vendors' : 'You\'ve paid out more than you\'ve collected on this job so far — normal if the client hasn\'t been invoiced or paid yet') + '</div></div></div>';
+  if(!cr.paidToSubs && !cr.chargedBySubs && !cr.paidToVendors && !cr.chargedByVendors){
+    html += '<div class="note-banner">No sub or vendor payments have been tagged to this job yet — record one from the Sub or Vendor detail page and pick this job to see it show up here.</div>';
+  }
+
   if(a.hasEstimate){
     html += '<div class="notif ' + (a.variance >= 0 ? 'green' : 'orange') + '"><div class="l">Variance vs. estimate</div><div class="v">' + (a.variance >= 0 ? 'Made ' + money(a.variance) + ' more than expected' : 'Made ' + money(Math.abs(a.variance)) + ' less than expected') + '.</div></div>';
   }
@@ -1206,7 +1292,7 @@ function renderInvoiceDetail(){
   
   if(inv.balance !== 0){
     html += '<div class="formcard" style="margin-top:16px;">';
-    html += '<div class="field"><label>Record a payment / transaction</label><div style="display:flex; gap:8px;"><input type="number" id="payAmt_' + inv.id + '" placeholder="Amount" style="flex:1;"><select id="payDir_' + inv.id + '"><option value="-">They pay you</option><option value="+">You add to balance</option></select></div></div>';
+    html += '<div class="field"><label>Record a payment / transaction</label><div style="display:flex; gap:8px;"><input type="number" id="payAmt_' + inv.id + '" placeholder="Amount" style="flex:1;"><select id="payDir_' + inv.id + '"><option value="-">They paid you — reduces what they owe</option><option value="+">New charge — invoiced more (increases what they owe)</option></select></div></div>';
     html += '<div class="field"><label>Note</label><input id="payNote_' + inv.id + '" placeholder="e.g. Paid via check"></div>';
     html += '<div class="pill-btn green" onclick="recordInvoicePayment(' + inv.id + ')">Record transaction</div>';
     html += '</div>';
@@ -1304,7 +1390,10 @@ function renderSubDetail(){
   html += renderTransactions(s.transactions);
   
   html += '<div class="formcard" style="margin-top:16px;">';
-  html += '<div class="field"><label>Record a payment / transaction</label><div style="display:flex; gap:8px;"><input type="number" id="payAmt_' + s.id + '" placeholder="Amount" style="flex:1;"><select id="payDir_' + s.id + '"><option value="-">You pay them</option><option value="+">They pay you</option></select></div></div>';
+  html += '<div class="field"><label>Record a payment / transaction</label><div style="display:flex; gap:8px;"><input type="number" id="payAmt_' + s.id + '" placeholder="Amount" style="flex:1;"><select id="payDir_' + s.id + '"><option value="+">You paid them — reduces what you owe</option><option value="-">New cost — they billed/delivered more (increases what you owe)</option></select></div></div>';
+  html += '<div class="field"><label>Which job is this for? (so the Auditor can trace it)</label><select id="payJob_' + s.id + '"><option value="">Not tied to a specific job</option>';
+  jobs.forEach(function(j){ html += '<option value="' + j.jobNumber + '">' + j.jobNumber + ' — ' + j.client + '</option>'; });
+  html += '</select></div>';
   html += '<div class="field"><label>Note</label><input id="payNote_' + s.id + '" placeholder="e.g. Paid via Zelle"></div>';
   html += '<div class="pill-btn green" onclick="recordSubPayment(' + s.id + ')">Record transaction</div>';
   html += '</div>';
@@ -1334,15 +1423,16 @@ function recordSubPayment(id){
   var amt = parseFloat(document.getElementById('payAmt_' + id).value);
   if(!amt || amt <= 0){ alert('Enter an amount first.'); return; }
   var dir = document.getElementById('payDir_' + id).value;
+  var jobNum = document.getElementById('payJob_' + id).value || null;
   var note = document.getElementById('payNote_' + id).value.trim() || 'Manual transaction';
   var finalAmt = dir === '+' ? amt : -amt;
   s.balance += finalAmt;
-  s.transactions.push({date:today, amount:finalAmt, note:note});
-  
+  s.transactions.push({date:today, amount:finalAmt, note:note, jobNumber:jobNum});
+
   if (dir === '-') {
-    state.expenses.push({id: Date.now(), date: today, jobNumber: '', category: 'Subcontractors', vendor: s.name, amount: amt, approved: true, note: note});
+    state.expenses.push({id: Date.now(), date: today, jobNumber: jobNum || '', category: 'Subcontractors', vendor: s.name, amount: amt, approved: true, note: note});
   }
-  
+
   renderSubDetail();
 }
 // ---------- TEAM (internal staff — separate from Subs, who are external subcontractors) ----------
@@ -1561,7 +1651,10 @@ function renderVendorDetail(){
   html += renderTransactions(v.transactions);
 
   html += '<div class="formcard" style="margin-top:16px;">';
-  html += '<div class="field"><label>Record a payment / transaction</label><div style="display:flex; gap:8px;"><input type="number" id="payAmt_' + v.id + '" placeholder="Amount" style="flex:1;"><select id="payDir_' + v.id + '"><option value="-">You pay them</option><option value="+">They pay you</option></select></div></div>';
+  html += '<div class="field"><label>Record a payment / transaction</label><div style="display:flex; gap:8px;"><input type="number" id="payAmt_' + v.id + '" placeholder="Amount" style="flex:1;"><select id="payDir_' + v.id + '"><option value="+">You paid them — reduces what you owe</option><option value="-">New cost — they billed/delivered more (increases what you owe)</option></select></div></div>';
+  html += '<div class="field"><label>Which job is this for? (so the Auditor can trace it)</label><select id="payJob_' + v.id + '"><option value="">Not tied to a specific job</option>';
+  state.jobs.filter(function(j){ return !j.trashed; }).forEach(function(j){ html += '<option value="' + j.jobNumber + '">' + j.jobNumber + ' — ' + j.client + '</option>'; });
+  html += '</select></div>';
   html += '<div class="field"><label>Note</label><input id="payNote_' + v.id + '" placeholder="e.g. Paid via card"></div>';
   html += '<div class="pill-btn green" onclick="recordVendorPayment(' + v.id + ')">Record transaction</div>';
   html += '</div>';
@@ -1583,15 +1676,16 @@ function recordVendorPayment(id){
   var amt = parseFloat(document.getElementById('payAmt_' + id).value);
   if(!amt || amt <= 0){ alert('Enter an amount first.'); return; }
   var dir = document.getElementById('payDir_' + id).value;
+  var jobNum = document.getElementById('payJob_' + id).value || null;
   var note = document.getElementById('payNote_' + id).value.trim() || 'Manual transaction';
   var finalAmt = dir === '+' ? amt : -amt;
   v.balance += finalAmt;
-  v.transactions.push({date:today, amount:finalAmt, note:note});
-  
+  v.transactions.push({date:today, amount:finalAmt, note:note, jobNumber:jobNum});
+
   if (dir === '-') {
-    state.expenses.push({id: Date.now(), date: today, jobNumber: '', category: 'Materials', vendor: v.name, amount: amt, approved: true, note: note});
+    state.expenses.push({id: Date.now(), date: today, jobNumber: jobNum || '', category: 'Materials', vendor: v.name, amount: amt, approved: true, note: note});
   }
-  
+
   renderVendorDetail();
 }
 
