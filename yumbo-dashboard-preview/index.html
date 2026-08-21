@@ -53,6 +53,11 @@ h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; letter-s
 .navmenu button{text-align:left; border-radius:10px !important; border-color:transparent !important; background:transparent !important; color:var(--ink) !important; width:100%; transition:background .14s ease, padding-left .14s ease;}
 .navmenu button:hover{background:var(--cream-2) !important; padding-left:18px;}
 .navmenu button.on{background:var(--coral) !important; color:#fff !important;}
+.navmenu button{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+.navcount{display:inline-flex; align-items:center; justify-content:center; min-width:19px; height:19px; padding:0 6px; background:var(--coral); color:#fff; border-radius:99px; font-size:10.5px; font-weight:800; line-height:1;}
+.navgroup summary .navcount{margin-left:2px;}
+.navgroup[open] > summary .navcount{background:#fff; color:var(--ink);}
+.navmenu button.on .navcount{background:#fff; color:var(--coral);}
 @media(max-width:640px){
   .navmenu{position:static; box-shadow:none; margin-top:6px; min-width:0; animation:menuInMobile .18s ease both;}
   @keyframes menuInMobile{from{opacity:0; transform:translateY(-4px);} to{opacity:1; transform:translateY(0);}}
@@ -432,9 +437,31 @@ var navGroups = [
   {label:'Money',  pages:['invoices','money','expenses','auditor']},
   {label:'People', pages:['subs','vendors','team']}
 ];
+
+// Notification counts per nav item (Boss, 21 Aug: "the full overview of
+// everything that needs to be sorted out, right in the menu"). Each count
+// uses the SAME definition of "needs attention" as the dashboard cards —
+// one source of truth, so the menu badge and the dashboard never disagree.
+// Only genuinely actionable things are counted (pending/waiting/unconfirmed),
+// never raw totals — a badge that's always lit is a badge she learns to ignore.
+function navCounts(){
+  var owner = state.role === 'owner';
+  var c = {};
+  c.quotes = owner
+    ? state.quotes.filter(function(q){ return q.stage==='requested' || q.stage==='awaiting_owner'; }).length
+    : state.quotes.filter(function(q){ return q.assignedEstimator===state.currentTeamMember && (q.stage==='requested' || q.stage==='building'); }).length;
+  c.requests = owner ? state.requests.filter(function(r){ return r.status==='pending'; }).length : 0;
+  c.inbox = state.inbox.filter(function(i){ return !i.confirmed; }).length;
+  c.invoices = owner ? state.invoices.filter(function(inv){ return inv.balance > 0; }).length : 0;
+  c.expenses = owner ? state.expenses.filter(function(e){ return !e.approved; }).length : 0;
+  // Jobs/Lost/Clients/Money/Auditor/Subs/Vendors/Team: reference pages, not
+  // queues — deliberately no badge.
+  return c;
+}
 function buildNav(){
   var nav = document.getElementById('navbar');
   nav.innerHTML = '';
+  var counts = navCounts();
 
   var homeBtn = document.createElement('button');
   homeBtn.textContent = 'Home';
@@ -449,6 +476,7 @@ function buildNav(){
     if(!visible.length) return;
 
     var groupActive = visible.indexOf(pageToNav[state.page]) !== -1;
+    var groupTotal = visible.reduce(function(sum, p){ return sum + (counts[p] || 0); }, 0);
     var det = document.createElement('details');
     det.className = 'navgroup' + (groupActive ? ' ongroup' : '');
     // Deliberately NOT pre-opened: the highlight already answers "where am I";
@@ -462,8 +490,16 @@ function buildNav(){
       }
     });
 
+    // The closed pill carries the group's TOTAL, so she sees where work is
+    // waiting without opening anything — the "full overview" Boss asked for.
     var sum = document.createElement('summary');
     sum.textContent = g.label;
+    if(groupTotal > 0){
+      var gb = document.createElement('span');
+      gb.className = 'navcount';
+      gb.textContent = groupTotal;
+      sum.appendChild(gb);
+    }
     det.appendChild(sum);
 
     var menu = document.createElement('div');
@@ -471,6 +507,12 @@ function buildNav(){
     visible.forEach(function(p){
       var btn = document.createElement('button');
       btn.textContent = navLabels[p];
+      if(counts[p] > 0){
+        var b = document.createElement('span');
+        b.className = 'navcount';
+        b.textContent = counts[p];
+        btn.appendChild(b);
+      }
       btn.onclick = function(){ goto(p); };
       if(pageToNav[state.page] === p) btn.classList.add('on');
       menu.appendChild(btn);
