@@ -181,6 +181,109 @@ footer{text-align:center; padding:26px 0 10px; font-size:12px; color:var(--ink-s
   .money, .money.four, .summary-grid{grid-template-columns:1fr;}
 }
 </style>
+<style id="skin-v7">
+/* ============================================================
+   SKIN v7 — Mailin's chosen direction (21 Aug reference image):
+   black app bar, white cards on light gray, royal blue actions,
+   coral kept for the brand + "needs you" alerts, icon-tile nav.
+   Built as an override layer: structure and behaviour untouched.
+   ============================================================ */
+:root{
+  --cream:#FFFFFF;            /* card surfaces */
+  --cream-2:#F1F3F6;          /* page background / soft fills */
+  --ink:#0B0B0D;
+  --ink-soft:#5A6069;
+  --blue:#2563EB;
+  --coral:#FF5A38;
+  --green:#16A34A;
+  --yellow:#F59E0B;
+  --line:#E4E7EC;
+  --shadow:0 1px 2px rgba(16,24,40,.05), 0 4px 16px rgba(16,24,40,.06);
+}
+body{background:var(--cream-2); padding:22px 14px 70px;}
+.shell{background:transparent; border:none; border-radius:0; padding:0; box-shadow:none;}
+
+/* ---- black app bar ---- */
+.top-bar{background:var(--ink); border-radius:20px; padding:16px 18px; margin-bottom:16px; box-shadow:var(--shadow);}
+.top-bar .logo{color:#fff; font-family:'Bricolage Grotesque',sans-serif; font-size:20px; line-height:1.1;}
+.top-bar .logo b{color:var(--coral);}
+.top-bar .logo small{display:block; font-size:9.5px; letter-spacing:.14em; font-weight:700; color:rgba(255,255,255,.75); font-family:'Manrope',sans-serif;}
+#navToggle{width:42px; height:42px; border-radius:50%; border:2px solid rgba(255,255,255,.35); background:transparent; color:#fff; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; transition:transform .2s ease, background .2s ease;}
+#navToggle:hover{background:rgba(255,255,255,.12); transform:scale(1.05);}
+.who{background:#fff; border:1.5px solid var(--line); color:var(--ink); box-shadow:var(--shadow); margin-bottom:4px;}
+
+/* ---- generic surfaces ---- */
+.card,.formcard,.notif,.attn-block,.notesbox,.kv{background:var(--cream); border:1.5px solid var(--line); box-shadow:var(--shadow); border-radius:18px;}
+.tablewrap{border:1.5px solid var(--line); border-radius:16px; box-shadow:var(--shadow); background:#fff;}
+table{border:none;}
+th{background:var(--ink); color:#fff;}
+.note-banner{background:#fff; border:2px dashed var(--coral); box-shadow:var(--shadow);}
+.lockednote{border-radius:14px;}
+
+/* ---- buttons: primary actions go BLUE; coral = attention/brand ---- */
+.pill-btn{border:1.5px solid var(--line); background:#fff; box-shadow:var(--shadow); border-radius:14px; transition:transform .15s ease, box-shadow .2s ease, background .2s ease;}
+.pill-btn:hover{transform:translateY(-1px); box-shadow:0 6px 18px rgba(16,24,40,.10);}
+.pill-btn:active{transform:scale(.97);}
+.pill-btn.solid{background:var(--blue) !important; border-color:var(--blue) !important; color:#fff !important;}
+.pill-btn.blue{background:var(--blue) !important; border-color:var(--blue) !important; color:#fff !important;}
+.pill-btn.green{background:var(--green) !important; border-color:var(--green) !important; color:#fff !important;}
+.searchbar button{background:var(--blue); border-color:var(--blue);}
+.roletoggle button{background:#fff; border:1.5px solid var(--line); box-shadow:var(--shadow); transition:transform .15s ease;}
+.roletoggle button:active{transform:scale(.97);}
+.roletoggle button.active{background:var(--ink); border-color:var(--ink); color:#fff;}
+input,select,textarea{border-color:var(--line) !important; background:#fff; border-radius:12px !important; transition:border-color .2s ease, box-shadow .2s ease;}
+input:focus,select:focus,textarea:focus{outline:none; border-color:var(--blue) !important; box-shadow:0 0 0 3px rgba(37,99,235,.15);}
+
+/* ---- filter chips with counts (reference style) ---- */
+.segtabs{gap:8px;}
+.segtabs button{border:1.5px solid var(--line); background:#fff; border-radius:14px; padding:9px 14px; box-shadow:var(--shadow); transition:transform .15s ease, border-color .2s ease, background .2s ease; display:inline-flex; align-items:center; gap:7px;}
+.segtabs button:active{transform:scale(.96);}
+.segtabs button.on{border:2px solid var(--blue); color:var(--blue); background:#fff;}
+.segtabs button .chipn{display:inline-flex; align-items:center; justify-content:center; min-width:20px; height:20px; padding:0 6px; border-radius:99px; background:var(--cream-2); font-size:11px; font-weight:800;}
+.segtabs button.on .chipn{background:var(--blue); color:#fff;}
+
+/* ---- summary stat cards: hero card is blue ---- */
+.summary-grid .card{transition:transform .18s ease, box-shadow .2s ease;}
+.summary-grid .card:hover{transform:translateY(-2px);}
+.summary-grid .card:first-child{background:var(--blue); border-color:var(--blue);}
+.summary-grid .card:first-child .l,.summary-grid .card:first-child .v,.summary-grid .card:first-child .hint{color:#fff;}
+.summary-grid .card:first-child .hint{opacity:.8;}
+
+/* ---- TILE NAV (icon grid launcher, the reference's signature) ---- */
+.navbar{display:grid; grid-template-columns:repeat(auto-fill, minmax(96px,1fr)); gap:10px; border-bottom:none; padding-bottom:6px; margin-bottom:20px;}
+.navbar.navhidden{display:none;}
+.navbar button.tile{position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; background:#fff; border:1.5px solid var(--line); border-radius:18px; padding:14px 6px 12px; min-height:92px; cursor:pointer; box-shadow:var(--shadow); font-family:'Manrope',sans-serif; font-size:11px; font-weight:800; color:var(--ink); transition:transform .16s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease; animation:tileIn .35s ease backwards;}
+.navbar button.tile svg{width:22px; height:22px; stroke:var(--ink); fill:none; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; transition:stroke .2s ease;}
+.navbar button.tile:hover{transform:translateY(-3px); box-shadow:0 8px 22px rgba(16,24,40,.12);}
+.navbar button.tile:active{transform:scale(.94);}
+.navbar button.tile.on{background:var(--coral); border-color:var(--coral); color:#fff;}
+.navbar button.tile.on svg{stroke:#fff;}
+.navbar button.tile.locked{opacity:.32; cursor:not-allowed;}
+.navbar button.tile .navcount{position:absolute; top:-6px; right:-6px; box-shadow:0 2px 6px rgba(16,24,40,.25); animation:badgePop .35s cubic-bezier(.34,1.56,.64,1) .22s backwards;}
+.navbar button.tile.on .navcount{background:#fff; color:var(--coral);}
+@keyframes tileIn{from{opacity:0; transform:translateY(10px) scale(.95);} to{opacity:1; transform:translateY(0) scale(1);}}
+@keyframes badgePop{from{opacity:0; transform:scale(.3);} to{opacity:1; transform:scale(1);}}
+.navbar .tile:nth-child(1){animation-delay:.02s} .navbar .tile:nth-child(2){animation-delay:.05s}
+.navbar .tile:nth-child(3){animation-delay:.08s} .navbar .tile:nth-child(4){animation-delay:.11s}
+.navbar .tile:nth-child(5){animation-delay:.14s} .navbar .tile:nth-child(6){animation-delay:.17s}
+.navbar .tile:nth-child(7){animation-delay:.20s} .navbar .tile:nth-child(8){animation-delay:.23s}
+.navbar .tile:nth-child(9){animation-delay:.26s} .navbar .tile:nth-child(10){animation-delay:.29s}
+.navbar .tile:nth-child(11){animation-delay:.32s} .navbar .tile:nth-child(12){animation-delay:.35s}
+.navbar .tile:nth-child(13){animation-delay:.38s} .navbar .tile:nth-child(14){animation-delay:.41s}
+@media(max-width:640px){ .navbar{grid-template-columns:repeat(3,1fr);} }
+
+/* ---- page transition ---- */
+#pageBody.pagein{animation:pageIn .28s ease;}
+@keyframes pageIn{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
+
+/* ---- statuses keep their meaning, restyled softer ---- */
+.status{border:none; background:var(--cream-2);}
+
+/* Respect users who turn animations off at the OS level. */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none !important; transition:none !important;}
+}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -193,9 +296,10 @@ footer{text-align:center; padding:26px 0 10px; font-size:12px; color:var(--ink-s
   <div class="note-banner" style="border-color:var(--blue); background:rgba(47,91,255,.06);"><b>Testing the team view?</b> Switch to "Estimator / team-member view" then use the dropdown that appears to pick which person is logged in — Carlos and Ana each only see their own quotes, jobs, and requests, never each other's.</div>
   <div class="shell">
     <div class="top-bar">
-      <div class="logo">Yumbo General Construction</div>
-      <div class="who" id="whoTag">Logged in as Mailin · Owner</div>
+      <div class="logo"><b>Yumbo</b><small>GENERAL CONSTRUCTION</small></div>
+      <button id="navToggle" title="Show / hide the menu" onclick="document.getElementById('navbar').classList.toggle('navhidden'); this.style.transform=document.getElementById('navbar').classList.contains('navhidden')?'rotate(90deg)':'';">&#9776;</button>
     </div>
+    <div class="who" id="whoTag">Logged in as Mailin · Owner</div>
     <div class="searchbar">
       <select id="searchScope">
         <option value="all">Search everything</option>
@@ -458,67 +562,50 @@ function navCounts(){
   // queues — deliberately no badge.
   return c;
 }
+// Icon set for the tile launcher — minimal stroke SVGs, one per page.
+var navIcons = {
+  dashboard: '<path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/>',
+  quotes:    '<path d="M7 3h8l4 4v14H7z"/><path d="M15 3v4h4"/><path d="M10 12h6M10 16h6"/>',
+  jobs:      '<path d="M3 8h18v12H3z"/><path d="M9 8V5h6v3"/>',
+  lost:      '<path d="M5 21V4"/><path d="M5 4h13l-3 4 3 4H5"/>',
+  clients:   '<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.2 2.7-5 6-5s6 1.8 6 5"/><path d="M16.5 8.5c1.6.4 2.7 1.6 2.7 3.3"/>',
+  vendors:   '<path d="M2 16V7h11v9"/><path d="M13 10h5l3 3v3h-8"/><circle cx="6.5" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/>',
+  expenses:  '<path d="M6 3h12v18l-2-1.4L14 21l-2-1.4L10 21l-2-1.4L6 21z"/><path d="M9.5 8h5M9.5 12h5"/>',
+  subs:      '<circle cx="12" cy="7.5" r="3"/><path d="M5.5 20c.5-3.6 3-5.5 6.5-5.5s6 1.9 6.5 5.5"/><path d="M4 11.5h4M18 11.5h2" transform="rotate(0)"/>',
+  team:      '<circle cx="8" cy="8.5" r="2.8"/><circle cx="16" cy="8.5" r="2.8"/><path d="M2.8 19.5c.4-2.9 2.4-4.5 5.2-4.5 1.5 0 2.8.5 3.7 1.3M12.3 16.3c.9-.8 2.2-1.3 3.7-1.3 2.8 0 4.8 1.6 5.2 4.5"/>',
+  invoices:  '<path d="M5 4h14v16H5z"/><path d="M9 9h6M9 13h6M9 17h3"/>',
+  requests:  '<path d="M8 4h8v3H8z"/><path d="M6 6H5v15h14V6h-1"/><path d="M9 12l2 2 4-4"/>',
+  inbox:     '<path d="M4 5h16v11H9l-5 4z"/><path d="M8.5 9h7M8.5 12h4"/>',
+  money:     '<circle cx="12" cy="12" r="9"/><path d="M12 7v10M15 9.2c-.6-1-1.7-1.5-3-1.5-1.7 0-3 .9-3 2.2 0 2.9 6 1.5 6 4.3 0 1.3-1.3 2.2-3 2.2-1.3 0-2.4-.5-3-1.5"/>',
+  auditor:   '<path d="M12 3 5 6v5c0 4.4 2.9 7.9 7 9.5 4.1-1.6 7-5.1 7-9.5V6z"/><path d="M9 12l2 2 4-4"/>'
+};
+
+// Tile-grid launcher (21 Aug, Mailin's chosen reference): every page is an
+// icon tile, always visible — nothing hidden behind a dropdown. Actionable
+// counts ride on the tiles as notification badges, so the grid doubles as
+// her to-do overview. Locked tiles (owner-only, seen from the team view)
+// stay visible but dimmed — the honest way to show "this exists, not yours."
 function buildNav(){
   var nav = document.getElementById('navbar');
   nav.innerHTML = '';
   var counts = navCounts();
 
-  var homeBtn = document.createElement('button');
-  homeBtn.textContent = 'Home';
-  homeBtn.onclick = function(){ goto('dashboard'); };
-  if(pageToNav[state.page] === 'dashboard') homeBtn.classList.add('on');
-  nav.appendChild(homeBtn);
-
-  navGroups.forEach(function(g){
-    var visible = g.pages.filter(function(p){
-      return !(state.role === 'estimator' && ownerOnly.indexOf(p) !== -1);
-    });
-    if(!visible.length) return;
-
-    var groupActive = visible.indexOf(pageToNav[state.page]) !== -1;
-    var groupTotal = visible.reduce(function(sum, p){ return sum + (counts[p] || 0); }, 0);
-    var det = document.createElement('details');
-    det.className = 'navgroup' + (groupActive ? ' ongroup' : '');
-    // Deliberately NOT pre-opened: the highlight already answers "where am I";
-    // an open menu on load covers the page content (the exact bug in Boss's
-    // 21 Aug screenshot). Menus open on click only, one at a time.
-    det.addEventListener('toggle', function(){
-      if(det.open){
-        document.querySelectorAll('.navgroup[open]').forEach(function(other){
-          if(other !== det) other.open = false;
-        });
-      }
-    });
-
-    // The closed pill carries the group's TOTAL, so she sees where work is
-    // waiting without opening anything — the "full overview" Boss asked for.
-    var sum = document.createElement('summary');
-    sum.textContent = g.label;
-    if(groupTotal > 0){
-      var gb = document.createElement('span');
-      gb.className = 'navcount';
-      gb.textContent = groupTotal;
-      sum.appendChild(gb);
-    }
-    det.appendChild(sum);
-
-    var menu = document.createElement('div');
-    menu.className = 'navmenu';
-    visible.forEach(function(p){
-      var btn = document.createElement('button');
-      btn.textContent = navLabels[p];
+  navPages.forEach(function(p){
+    var locked = state.role === 'estimator' && ownerOnly.indexOf(p) !== -1;
+    var tile = document.createElement('button');
+    tile.className = 'tile' + (pageToNav[state.page] === p ? ' on' : '') + (locked ? ' locked' : '');
+    tile.innerHTML = '<svg viewBox="0 0 24 24">' + (navIcons[p] || navIcons.dashboard) + '</svg>'
+                   + '<span>' + navLabels[p] + '</span>';
+    if(!locked){
       if(counts[p] > 0){
         var b = document.createElement('span');
         b.className = 'navcount';
         b.textContent = counts[p];
-        btn.appendChild(b);
+        tile.appendChild(b);
       }
-      btn.onclick = function(){ goto(p); };
-      if(pageToNav[state.page] === p) btn.classList.add('on');
-      menu.appendChild(btn);
-    });
-    det.appendChild(menu);
-    nav.appendChild(det);
+      tile.onclick = function(){ goto(p); };
+    }
+    nav.appendChild(tile);
   });
 }
 
@@ -874,20 +961,24 @@ function renderQuotes(){
   } else {
     html += '<div class="lockednote">Only Mailin — or team members she\'s granted permission to — can add new quote requests. Ask her to turn this on for you from the Team page.</div>';
   }
+  // One predicate drives BOTH the chip counts and the list, so the number on
+  // a chip always equals what clicking it shows — they can never disagree.
+  function quoteInFilter(q, f){
+    if(!owner && q.assignedEstimator !== state.currentTeamMember) return false;
+    if(f==='all') return true;
+    if(f==='active') return q.stage==='requested' || q.stage==='building' || q.stage==='awaiting_owner';
+    return q.stage === f;
+  }
   html += '<div class="segtabs" id="quoteTabs" style="margin-top:14px;">';
   var tabs = [['active','Needs action'],['requested','Needs quoting'],['building','Being priced'],['awaiting_owner','Awaiting your approval'],['sent','Sent to client'],['won','Won'],['lost','Lost'],['all','All']];
   tabs.forEach(function(t){
-    html += '<button class="' + (state.quoteFilter===t[0]?'on':'') + '" onclick="setQuoteFilter(\'' + t[0] + '\')">' + t[1] + '</button>';
+    var n = state.quotes.filter(function(q){ return quoteInFilter(q, t[0]); }).length;
+    html += '<button class="' + (state.quoteFilter===t[0]?'on':'') + '" onclick="setQuoteFilter(\'' + t[0] + '\')">' + t[1] + '<span class="chipn">' + n + '</span></button>';
   });
   html += '</div>';
   if(!owner){ html += '<div class="lockednote" style="margin-bottom:10px;">You\'re only seeing quotes assigned to you — not the rest of the team\'s.</div>'; }
 
-  var list = state.quotes.filter(function(q){
-    if(!owner && q.assignedEstimator !== state.currentTeamMember) return false;
-    if(state.quoteFilter==='all') return true;
-    if(state.quoteFilter==='active') return q.stage==='requested' || q.stage==='building' || q.stage==='awaiting_owner';
-    return q.stage === state.quoteFilter;
-  });
+  var list = state.quotes.filter(function(q){ return quoteInFilter(q, state.quoteFilter); });
 
   html += '<div class=\'tablewrap\'><table><tr><th>Client</th><th>What\'s needed</th><th>Age</th><th>Estimator</th>' + (owner?'<th>Amount</th>':'') + '<th>Stage</th></tr>';
   list.forEach(function(q){
@@ -1991,6 +2082,9 @@ document.addEventListener('click', function(ev){
 
 function render(){
   buildNav();
+  // Page transition: retrigger the entrance animation on every navigation.
+  var pb = document.getElementById('pageBody');
+  if(pb){ pb.classList.remove('pagein'); void pb.offsetWidth; pb.classList.add('pagein'); }
   if(state.page === 'dashboard') renderDashboard();
   else if(state.page === 'quotes') renderQuotes();
   else if(state.page === 'quoteDetail') renderQuoteDetail();
