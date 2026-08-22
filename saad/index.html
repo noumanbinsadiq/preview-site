@@ -54,7 +54,7 @@ a:focus-visible,summary:focus-visible,button:focus-visible,input:focus-visible{o
 #gate{position:fixed; inset:0; z-index:999; background:var(--canvas-deep);
   display:flex; align-items:center; justify-content:center; padding:24px}
 #gate .box{width:100%; max-width:360px; text-align:center}
-#gate .mark{width:54px; height:54px; margin:0 auto 26px; display:block}
+#gate .mark{width:54px; height:54px; display:block}
 #gate h2{font-size:19px; margin-bottom:8px}
 #gate p{font-size:13.5px; color:var(--ink-dim); margin-bottom:22px; max-width:none}
 #gate input{
@@ -73,11 +73,24 @@ a:focus-visible,summary:focus-visible,button:focus-visible,input:focus-visible{o
   letter-spacing:.1em; text-transform:uppercase; margin-top:16px; display:none}
 #doc{display:none}
 
+/* ---------- LOGO LINK (standard: every logo mark links home) ---------- */
+a.logo-link{
+  display:inline-flex; align-items:center; gap:11px;
+  border:0; text-decoration:none; color:inherit; border-radius:var(--radius);
+  transition:opacity .18s ease;
+  padding:9px; margin:-9px;           /* >=44px touch target, no layout shift */
+}
+a.logo-link:hover{opacity:.78}
+a.logo-link:focus-visible{outline:2px solid var(--gold); outline-offset:4px}
+a.logo-link .brandmark, a.logo-link svg{pointer-events:none}
+.gate-logo{display:inline-flex; margin:-9px auto 17px}
+
 /* ---------- TOP BAR ---------- */
 .topbar{position:sticky; top:0; z-index:50; background:rgba(11,11,9,.9);
   backdrop-filter:blur(14px); border-bottom:1px solid var(--canvas-line)}
 .topbar .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px; height:60px}
 .brandmark{display:flex; align-items:center; gap:11px}
+.topbar a.logo-link{gap:11px}
 .brandmark svg{width:26px; height:26px; flex:none}
 .brandmark span{font-family:var(--font-data); font-size:10.5px; font-weight:700;
   text-transform:uppercase; letter-spacing:.14em; color:var(--ink)}
@@ -279,6 +292,7 @@ tr.total td.num{color:var(--gold); font-weight:700}
 footer{padding:54px 0 74px; border-top:1px solid var(--canvas-line); color:var(--ink-faint)}
 footer .wrap{display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; align-items:flex-end}
 footer .fl{display:flex; align-items:center; gap:12px}
+footer a.logo-link{gap:12px; align-items:center}
 footer svg{width:30px; height:30px}
 footer .fr{font-family:var(--font-data); font-size:9.5px; letter-spacing:.14em;
   text-transform:uppercase; text-align:right; line-height:1.9}
@@ -313,6 +327,7 @@ footer .fr{font-family:var(--font-data); font-size:9.5px; letter-spacing:.14em;
 <!-- ============ GATE ============ -->
 <div id="gate">
   <div class="box">
+    <a class="logo-link gate-logo" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer" aria-label="Nouman Sadiq — noumansadiq.com (opens in a new tab)">
     <svg class="mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
       <defs><linearGradient id="gm" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stop-color="#F0C36A"/><stop offset="100%" stop-color="#C9A84C"/>
@@ -322,6 +337,7 @@ footer .fr{font-family:var(--font-data); font-size:9.5px; letter-spacing:.14em;
       <path d="M20 46 V18 L44 46 V18" fill="none" stroke="url(#gm)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
       <circle cx="47" cy="17" r="4" fill="url(#gm)"/>
     </svg>
+    </a>
     <h2>Private document</h2>
     <p>This proposal was prepared for one person. Enter the passcode you were sent.</p>
     <form id="gateForm" autocomplete="off">
@@ -336,6 +352,7 @@ footer .fr{font-family:var(--font-data); font-size:9.5px; letter-spacing:.14em;
 
 <div class="topbar">
   <div class="wrap">
+    <a class="logo-link" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer" aria-label="Nouman Sadiq — noumansadiq.com (opens in a new tab)">
     <div class="brandmark">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-label="Nouman Sadiq">
         <defs><linearGradient id="tm" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -348,6 +365,7 @@ footer .fr{font-family:var(--font-data); font-size:9.5px; letter-spacing:.14em;
       </svg>
       <span>Brand Partnership Proposal</span>
     </div>
+    </a>
     <div class="meta">Prepared 22 Aug 2026 · Confidential</div>
   </div>
   <div class="progress" id="prog"></div>
@@ -891,6 +909,7 @@ footer .fr{font-family:var(--font-data); font-size:9.5px; letter-spacing:.14em;
     still walk away before the second payment if you do not believe in it.</p>
 
   <div class="contact">
+    <a class="logo-link" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer" aria-label="Nouman Sadiq — noumansadiq.com (opens in a new tab)">
     <svg class="badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
       <defs><linearGradient id="cm" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stop-color="#F0C36A"/><stop offset="100%" stop-color="#C9A84C"/>
@@ -900,6 +919,7 @@ footer .fr{font-family:var(--font-data); font-size:9.5px; letter-spacing:.14em;
       <path d="M20 46 V18 L44 46 V18" fill="none" stroke="url(#cm)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
       <circle cx="47" cy="17" r="4" fill="url(#cm)"/>
     </svg>
+    </a>
     <div>
       <div class="who">Nouman Sadiq</div>
       <div class="role">Systems &amp; brand builds · noumansadiq.com</div>
@@ -923,6 +943,7 @@ footer .fr{font-family:var(--font-data); font-size:9.5px; letter-spacing:.14em;
 
 <footer><div class="wrap">
   <div class="fl">
+    <a class="logo-link" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer" aria-label="Nouman Sadiq — noumansadiq.com (opens in a new tab)">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
       <defs><linearGradient id="fm" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stop-color="#F0C36A"/><stop offset="100%" stop-color="#C9A84C"/>
@@ -932,6 +953,7 @@ footer .fr{font-family:var(--font-data); font-size:9.5px; letter-spacing:.14em;
       <path d="M20 46 V18 L44 46 V18" fill="none" stroke="url(#fm)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
       <circle cx="47" cy="17" r="4" fill="url(#fm)"/>
     </svg>
+    </a>
     <div style="font-size:13.5px; color:var(--ink-dim); line-height:1.5">
       <strong style="color:var(--ink)">Nouman Sadiq</strong><br>
       <a href="mailto:info@noumansadiq.com" style="border:0">info@noumansadiq.com</a> · +1 (929) 939-4060
