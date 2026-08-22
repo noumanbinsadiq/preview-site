@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Brand Partnership Proposal — Nouman Sadiq</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23F0C36A'/%3E%3Cstop offset='100%25' stop-color='%23C9A84C'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='2' y='2' width='60' height='60' rx='14' fill='%230B0B09'/%3E%3Crect x='2' y='2' width='60' height='60' rx='14' fill='none' stroke='url(%23g)' stroke-width='2'/%3E%3Cpath d='M20 46 V18 L44 46 V18' fill='none' stroke='url(%23g)' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='47' cy='17' r='4' fill='url(%23g)'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Instrument+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --canvas:#0B0B09; --canvas-raise:#131311; --canvas-deep:#080806;
+  --canvas-line:rgba(242,239,233,0.12); --canvas-line-soft:rgba(242,239,233,0.06);
+  --ink:#F2EFE9; --ink-dim:#8F8C84; --ink-faint:#55534D;
+  --gold:#C9A84C; --gold-hot:#F0C36A; --gold-wash:rgba(201,168,76,0.09);
+  --whatsapp:#25D366;
+  --loss:#C96A5F; --loss-2:#A8544A; --loss-3:#7E3B33;
+  --seq-1:#7A6529; --seq-2:#A5893A; --seq-3:#D9B858;
+  --wf-1:#4A4841; --wf-2:#67645C; --wf-3:#87837A; --wf-4:#A6A299;
+  --radius:2px; --maxw:1060px;
+  --font-display:'Archivo',system-ui,-apple-system,sans-serif;
+  --font-text:'Instrument Sans',system-ui,-apple-system,sans-serif;
+  --font-data:'Space Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box; margin:0; padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--font-text); background:var(--canvas); color:var(--ink);
+  font-size:17px; line-height:1.62; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px}
+h1,h2,h3,h4{
+  font-family:var(--font-display); font-weight:850; text-transform:uppercase;
+  letter-spacing:-0.02em; font-stretch:125%; line-height:1.05; text-wrap:balance;
+}
+p{margin:0 0 1.05em; max-width:66ch; color:var(--ink)}
+p:last-child{margin-bottom:0}
+strong{font-weight:700}
+em{font-style:italic}
+a{color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(201,168,76,.35)}
+a:hover{color:var(--gold-hot); border-bottom-color:var(--gold-hot)}
+a:focus-visible,summary:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+.mono{font-family:var(--font-data); font-variant-numeric:tabular-nums}
+.eyebrow{
+  font-family:var(--font-data); font-size:10.5px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.14em; color:var(--ink-dim);
+}
+.dim{color:var(--ink-dim)}
+.gold{color:var(--gold)}
+
+/* ---------- GATE ---------- */
+#gate{position:fixed; inset:0; z-index:999; background:var(--canvas-deep);
+  display:flex; align-items:center; justify-content:center; padding:24px}
+#gate .box{width:100%; max-width:360px; text-align:center}
+#gate .mark{width:54px; height:54px; margin:0 auto 26px; display:block}
+#gate h2{font-size:19px; margin-bottom:8px}
+#gate p{font-size:13.5px; color:var(--ink-dim); margin-bottom:22px; max-width:none}
+#gate input{
+  width:100%; padding:13px 14px; background:var(--canvas-raise); color:var(--ink);
+  border:1px solid var(--canvas-line); border-radius:var(--radius);
+  font-family:var(--font-data); font-size:14px; letter-spacing:.08em; text-align:center;
+}
+#gate button{
+  width:100%; margin-top:12px; padding:13px 14px; background:var(--gold); color:var(--canvas);
+  border:0; border-radius:var(--radius); cursor:pointer;
+  font-family:var(--font-data); font-weight:700; font-size:12px;
+  text-transform:uppercase; letter-spacing:.14em;
+}
+#gate button:hover{background:var(--gold-hot)}
+#gateErr{color:var(--loss); font-family:var(--font-data); font-size:11.5px;
+  letter-spacing:.1em; text-transform:uppercase; margin-top:16px; display:none}
+#doc{display:none}
+
+/* ---------- TOP BAR ---------- */
+.topbar{position:sticky; top:0; z-index:50; background:rgba(11,11,9,.9);
+  backdrop-filter:blur(14px); border-bottom:1px solid var(--canvas-line)}
+.topbar .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px; height:60px}
+.brandmark{display:flex; align-items:center; gap:11px}
+.brandmark svg{width:26px; height:26px; flex:none}
+.brandmark span{font-family:var(--font-data); font-size:10.5px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.14em; color:var(--ink)}
+.topbar .meta{font-family:var(--font-data); font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-faint)}
+.progress{position:absolute; left:0; bottom:-1px; height:2px; background:var(--gold); width:0}
+
+/* ---------- HERO ---------- */
+.hero{padding:84px 0 0; position:relative; overflow:hidden}
+.hero-rule{position:absolute; inset:0; pointer-events:none; opacity:.5;
+  background-image:linear-gradient(var(--canvas-line-soft) 1px,transparent 1px),
+                   linear-gradient(90deg,var(--canvas-line-soft) 1px,transparent 1px);
+  background-size:56px 56px;
+  -webkit-mask-image:radial-gradient(ellipse 80% 55% at 72% 0%,#000 0%,transparent 74%);
+  mask-image:radial-gradient(ellipse 80% 55% at 72% 0%,#000 0%,transparent 74%)}
+.hero .wrap{position:relative}
+.hero h1{font-size:clamp(40px,7vw,78px); margin:24px 0 24px; max-width:15ch}
+.hero h1 .g{color:var(--gold)}
+.lede{font-size:19.5px; line-height:1.55; color:var(--ink-dim); max-width:56ch}
+.lede strong{color:var(--ink); font-weight:600}
+.confid{display:inline-flex; align-items:center; gap:10px; margin-top:30px;
+  padding:9px 15px; border:1px solid var(--canvas-line); border-radius:var(--radius);
+  background:var(--canvas-raise); font-family:var(--font-data); font-size:10.5px;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--ink-dim)}
+.confid i{width:6px; height:6px; background:var(--gold); border-radius:50%; flex:none}
+
+/* ---------- STAT ROW ---------- */
+.statrow{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  border:1px solid var(--canvas-line); border-radius:var(--radius); margin-top:54px;
+  background:var(--canvas-raise)}
+.stat{padding:22px 22px 20px; border-right:1px solid var(--canvas-line)}
+.stat:last-child{border-right:0}
+.stat .k{font-family:var(--font-data); font-size:9.5px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-faint); margin-bottom:14px}
+.stat .v{font-family:var(--font-data); font-weight:700; font-size:30px; line-height:1;
+  letter-spacing:-.03em; color:var(--gold); font-variant-numeric:tabular-nums}
+.stat .v small{font-size:20px}
+.stat .s{font-size:13px; color:var(--ink-dim); margin-top:10px; line-height:1.42}
+
+/* ---------- SECTIONS ---------- */
+section{padding:72px 0; border-top:1px solid var(--canvas-line)}
+.shead{display:flex; align-items:center; gap:14px; margin-bottom:14px; flex-wrap:wrap}
+.snum{font-family:var(--font-data); font-size:10.5px; font-weight:700; letter-spacing:.14em;
+  color:var(--gold)}
+h2{font-size:clamp(26px,4vw,38px); margin:4px 0 24px; max-width:22ch}
+h3{font-size:15px; font-weight:850; letter-spacing:.02em; margin:40px 0 14px; color:var(--gold)}
+
+/* ---------- CARDS / TABLES ---------- */
+.card{background:var(--canvas-raise); border:1px solid var(--canvas-line);
+  border-radius:var(--radius); padding:26px}
+.cards{display:grid; gap:14px; margin-top:26px}
+.cards.two{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.cards.three{grid-template-columns:repeat(auto-fit,minmax(228px,1fr))}
+.card h4{font-size:14px; font-weight:850; margin:0 0 10px; letter-spacing:.01em}
+.card p{font-size:14.5px; color:var(--ink-dim); margin:0; max-width:none}
+.card p strong{color:var(--ink)}
+.tag{display:inline-block; font-family:var(--font-data); font-size:9.5px; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase; padding:5px 9px; border-radius:var(--radius);
+  margin-bottom:14px; border:1px solid var(--canvas-line); color:var(--ink-dim)}
+.tag.on{border-color:rgba(201,168,76,.4); color:var(--gold); background:var(--gold-wash)}
+
+.tablewrap{overflow-x:auto; margin-top:26px; border:1px solid var(--canvas-line);
+  border-radius:var(--radius); background:var(--canvas-raise)}
+table{border-collapse:collapse; width:100%; min-width:560px; font-size:14.5px}
+caption{text-align:left; padding:17px 20px 3px; font-family:var(--font-data); font-size:10px;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint)}
+th,td{padding:13px 20px; text-align:left; border-bottom:1px solid var(--canvas-line-soft);
+  vertical-align:top; color:var(--ink-dim)}
+thead th{font-family:var(--font-data); font-size:9.5px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-faint); border-bottom:1px solid var(--canvas-line);
+  white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right; font-family:var(--font-data); font-variant-numeric:tabular-nums;
+  white-space:nowrap; color:var(--ink)}
+td.rowlead{color:var(--ink); font-weight:600}
+tr.total td{background:rgba(201,168,76,.055); border-top:1px solid var(--canvas-line); color:var(--ink)}
+tr.total td.rowlead{font-weight:700}
+tr.total td.num{color:var(--gold); font-weight:700}
+
+/* ---------- WATERFALL ---------- */
+.wf{margin-top:28px}
+.wf-bar{display:flex; height:62px; gap:2px; background:var(--canvas)}
+.wf-seg{display:flex; align-items:center; justify-content:center; min-width:0;
+  border-radius:var(--radius)}
+.wf-seg span{font-family:var(--font-data); font-size:12.5px; font-weight:700}
+.wf-key{display:grid; grid-template-columns:repeat(auto-fit,minmax(178px,1fr));
+  gap:16px; margin-top:22px}
+.wf-item{display:flex; gap:11px}
+.chip{width:10px; height:10px; border-radius:1px; margin-top:6px; flex:none}
+.wf-item .n{font-family:var(--font-data); font-weight:700; font-size:13.5px; display:block; color:var(--ink)}
+.wf-item .d{font-size:12.5px; color:var(--ink-dim); display:block; margin-top:3px; line-height:1.4}
+
+/* ---------- BAR CHARTS ---------- */
+.chart{margin-top:26px}
+.chart-title{font-family:var(--font-display); font-weight:850; text-transform:uppercase;
+  font-size:13.5px; letter-spacing:.01em; margin-bottom:6px}
+.chart-sub{font-size:13px; color:var(--ink-dim); margin-bottom:24px}
+.grp{margin-bottom:26px}
+.grp:last-of-type{margin-bottom:0}
+.grp-label{font-family:var(--font-data); font-size:9.5px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-faint); margin-bottom:12px;
+  padding-bottom:8px; border-bottom:1px solid var(--canvas-line-soft)}
+.brow{display:grid; grid-template-columns:106px 1fr 104px; align-items:center; gap:14px; margin-bottom:8px}
+.brow .name{font-size:13px; color:var(--ink-dim)}
+.btrack{background:rgba(242,239,233,0.05); height:22px; min-width:0}
+.bfill{height:100%; transition:width .9s cubic-bezier(.2,.8,.2,1)}
+.bval{font-family:var(--font-data); font-size:12.5px; font-weight:700; color:var(--ink);
+  text-align:right; font-variant-numeric:tabular-nums}
+.legend{display:flex; gap:20px; flex-wrap:wrap; margin-top:20px; padding-top:16px;
+  border-top:1px solid var(--canvas-line-soft)}
+.legend div{display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--ink-dim)}
+
+/* ---------- TIMELINE ---------- */
+.tl{margin-top:30px; position:relative; padding-left:28px}
+.tl::before{content:""; position:absolute; left:5px; top:8px; bottom:8px; width:1px;
+  background:var(--canvas-line)}
+.tl-item{position:relative; padding-bottom:26px}
+.tl-item:last-child{padding-bottom:0}
+.tl-item::before{content:""; position:absolute; left:-26px; top:8px; width:9px; height:9px;
+  background:var(--canvas); border:1px solid var(--gold); border-radius:1px}
+.tl-item.done::before{background:var(--gold)}
+.tl-item.win::before{background:var(--gold-hot); border-color:var(--gold-hot);
+  box-shadow:0 0 0 4px rgba(201,168,76,.15)}
+.tl-when{font-family:var(--font-data); font-size:9.5px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--gold); margin-bottom:5px}
+.tl-what{font-family:var(--font-display); font-weight:850; text-transform:uppercase;
+  font-size:14px; letter-spacing:.01em; margin-bottom:5px}
+.tl-note{font-size:14px; color:var(--ink-dim); max-width:60ch}
+
+/* ---------- CHECKLIST ---------- */
+.check{margin-top:26px; display:grid; gap:10px}
+.cgroup{border:1px solid var(--canvas-line); border-radius:var(--radius);
+  background:var(--canvas-raise); overflow:hidden}
+.cgroup>summary{cursor:pointer; padding:18px 20px; list-style:none; display:flex;
+  align-items:center; justify-content:space-between; gap:14px;
+  font-family:var(--font-display); font-weight:850; text-transform:uppercase;
+  font-size:13.5px; letter-spacing:.01em}
+.cgroup>summary::-webkit-details-marker{display:none}
+.cgroup>summary::after{content:"+"; font-family:var(--font-data); font-size:17px;
+  color:var(--gold); flex:none; font-weight:400}
+.cgroup[open]>summary::after{content:"\2013"}
+.cgroup>summary:hover{background:rgba(242,239,233,.03)}
+.sumcost{font-family:var(--font-data); font-size:11px; font-weight:400; letter-spacing:.08em;
+  color:var(--ink-dim); text-transform:none; margin-left:auto; margin-right:6px}
+.cbody{padding:0 20px 20px; border-top:1px solid var(--canvas-line)}
+.cbody ul{margin:16px 0 0; padding:0; list-style:none; display:grid; gap:13px}
+.cbody li{display:grid; grid-template-columns:1fr auto; gap:6px 18px; font-size:14px;
+  align-items:baseline; padding-bottom:13px; border-bottom:1px dashed var(--canvas-line-soft)}
+.cbody li:last-child{border-bottom:0; padding-bottom:0}
+.cbody li>b{font-weight:700; color:var(--ink)}
+.cbody li .why{grid-column:1/-1; font-size:12.8px; color:var(--ink-dim); line-height:1.5}
+.cost{font-family:var(--font-data); font-size:12.5px; font-weight:700; color:var(--gold);
+  white-space:nowrap; letter-spacing:.02em}
+.cost.free{color:var(--ink-dim)}
+.cost.warn{color:var(--loss)}
+
+/* ---------- NOTES ---------- */
+.note{border-left:2px solid var(--gold); background:var(--gold-wash);
+  padding:20px 24px; margin-top:26px; border-radius:0 var(--radius) var(--radius) 0}
+.note.warn{border-color:var(--loss); background:rgba(201,106,95,.07)}
+.note .lbl{font-family:var(--font-data); font-size:9.5px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; margin-bottom:10px; display:block; color:var(--gold)}
+.note.warn .lbl{color:var(--loss)}
+.note p{font-size:15px; color:var(--ink-dim); max-width:64ch}
+.note p strong{color:var(--ink)}
+.big{font-family:var(--font-data); font-weight:700; font-size:clamp(30px,5vw,46px);
+  letter-spacing:-.035em; line-height:1; color:var(--gold); font-variant-numeric:tabular-nums;
+  display:block; margin:4px 0 12px}
+
+/* ---------- TERMS ---------- */
+.terms{border:1px solid var(--canvas-line); border-radius:var(--radius); margin-top:26px;
+  background:var(--canvas-raise)}
+.term{padding:19px 22px; display:grid; grid-template-columns:158px 1fr; gap:20px;
+  border-bottom:1px solid var(--canvas-line-soft)}
+.term:last-child{border-bottom:0}
+.term dt{font-family:var(--font-data); font-size:9.5px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-faint); padding-top:4px}
+.term dd{font-size:15px; color:var(--ink-dim)}
+.term dd strong{color:var(--ink)}
+
+/* ---------- CONTACT ---------- */
+.contact{display:grid; grid-template-columns:auto 1fr; gap:26px; align-items:start;
+  border:1px solid var(--canvas-line); border-radius:var(--radius); padding:28px;
+  background:var(--canvas-raise); margin-top:26px}
+.contact .badge{width:62px; height:62px; flex:none}
+.contact .who{font-family:var(--font-display); font-weight:850; text-transform:uppercase;
+  font-size:19px; letter-spacing:-.01em; margin-bottom:4px}
+.contact .role{font-family:var(--font-data); font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--gold); margin-bottom:18px}
+.clist{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:16px}
+.clist a,.clist span{display:block; border:0}
+.clist .cl-k{font-family:var(--font-data); font-size:9.5px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-faint); margin-bottom:5px}
+.clist .cl-v{font-family:var(--font-data); font-size:14px; color:var(--ink); word-break:break-word}
+.clist a .cl-v{color:var(--gold)}
+.clist a:hover .cl-v{color:var(--gold-hot)}
+.wa .cl-v{color:var(--whatsapp)!important}
+
+footer{padding:54px 0 74px; border-top:1px solid var(--canvas-line); color:var(--ink-faint)}
+footer .wrap{display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; align-items:flex-end}
+footer .fl{display:flex; align-items:center; gap:12px}
+footer svg{width:30px; height:30px}
+footer .fr{font-family:var(--font-data); font-size:9.5px; letter-spacing:.14em;
+  text-transform:uppercase; text-align:right; line-height:1.9}
+
+@media (max-width:820px){
+  .topbar .meta{display:none}
+  .stat{border-right:0; border-bottom:1px solid var(--canvas-line)}
+  .stat:last-child{border-bottom:0}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .wrap{padding:0 20px}
+  section{padding:52px 0}
+  .hero{padding:52px 0 0}
+  .lede{font-size:17px}
+  .term{grid-template-columns:1fr; gap:6px}
+  .contact{grid-template-columns:1fr; gap:20px}
+  .brow{grid-template-columns:78px 1fr 88px; gap:10px}
+  .brow .name{font-size:11.5px}
+  .wf-bar{height:52px}
+  .wf-seg span{font-size:0}
+  .wf-seg:nth-child(1) span,.wf-seg:nth-child(5) span{font-size:11px}
+  .cbody li{grid-template-columns:1fr}
+  .cost{justify-self:start}
+  .sumcost{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+@media print{#gate{display:none!important} #doc{display:block!important} .topbar{position:static}}
+</style>
+</head>
+<body>
+<!-- ============ GATE ============ -->
+<div id="gate">
+  <div class="box">
+    <svg class="mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
+      <defs><linearGradient id="gm" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#F0C36A"/><stop offset="100%" stop-color="#C9A84C"/>
+      </linearGradient></defs>
+      <rect x="2" y="2" width="60" height="60" rx="14" fill="#0B0B09"/>
+      <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#gm)" stroke-width="2"/>
+      <path d="M20 46 V18 L44 46 V18" fill="none" stroke="url(#gm)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="47" cy="17" r="4" fill="url(#gm)"/>
+    </svg>
+    <h2>Private document</h2>
+    <p>This proposal was prepared for one person. Enter the passcode you were sent.</p>
+    <form id="gateForm" autocomplete="off">
+      <input id="gateInput" type="password" placeholder="PASSCODE" aria-label="Passcode" autocomplete="off">
+      <button type="submit">Open proposal</button>
+    </form>
+    <div id="gateErr">Wrong passcode — try again</div>
+  </div>
+</div>
+
+<div id="doc">
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brandmark">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-label="Nouman Sadiq">
+        <defs><linearGradient id="tm" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#F0C36A"/><stop offset="100%" stop-color="#C9A84C"/>
+        </linearGradient></defs>
+        <rect x="2" y="2" width="60" height="60" rx="14" fill="#0B0B09"/>
+        <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#tm)" stroke-width="2"/>
+        <path d="M20 46 V18 L44 46 V18" fill="none" stroke="url(#tm)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="47" cy="17" r="4" fill="url(#tm)"/>
+      </svg>
+      <span>Brand Partnership Proposal</span>
+    </div>
+    <div class="meta">Prepared 22 Aug 2026 · Confidential</div>
+  </div>
+  <div class="progress" id="prog"></div>
+</div>
+
+<div class="hero">
+  <div class="hero-rule"></div>
+  <div class="wrap">
+    <div class="eyebrow">Amazon US · Private Label · Build &amp; Handover</div>
+    <h1>I build the brand.<br>You <span class="g">own</span> it.</h1>
+    <p class="lede">A complete, ready-to-run Amazon private label business — product chosen, supplier
+      secured, brand built, listing written, launch planned — handed to you and your team to operate.
+      <strong>This document tells you what it costs, what it returns, and what can go wrong.</strong></p>
+    <div class="confid"><i></i> Every figure is sourced and dated · Nothing rounded up in my favour</div>
+
+    <div class="statrow">
+      <div class="stat"><div class="k">Total to start</div><div class="v">$18,500</div>
+        <div class="s">$3,500 to me · $15,000 stays in your business</div></div>
+      <div class="stat"><div class="k">First profitable month</div><div class="v">Month 4</div>
+        <div class="s">In all three scenarios modelled</div></div>
+      <div class="stat"><div class="k">Money back</div><div class="v">Month 9<small>–10</small></div>
+        <div class="s">Everything recovered, including my fee</div></div>
+      <div class="stat"><div class="k">Year 2 revenue</div><div class="v">$173–383k</div>
+        <div class="s">Conservative to strong case</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- 01 -->
+<section>
+  <div class="shead"><span class="snum">01</span><span class="eyebrow">The arrangement</span></div>
+  <h2>What you are actually buying</h2>
+  <p>You want to own a product brand on Amazon. The hard part is not running it — your team can run it.
+    The hard part is the first ninety days: choosing a product that can actually win, finding a factory that
+    will hold a specification, building a brand that looks like it belongs at its price, and writing a listing
+    that converts. Get those four wrong and no amount of good operating fixes it.</p>
+  <p>That is what I do, once, for a fixed fee. I choose the product, prove the demand, vet and negotiate the
+    supplier, build the entire brand, write the listing, plan the launch, and hand you the operating manual.
+    Then it is yours — <strong>the company, the trademark, the supplier relationship, the Amazon account, the
+    customer data, all of it in your name from day one.</strong> I take no equity and no ongoing cut.</p>
+
+  <div class="cards two">
+    <div class="card"><span class="tag on">Included</span>
+      <h4>Everything up to launch-ready</h4>
+      <p>Product selection with the competitive evidence behind it · supplier shortlist, sample coordination
+        and negotiation · brand name, logo and full identity · packaging design, print-ready · photography
+        art direction and shot list · complete Amazon listing and A+ content · 90-day launch plan with
+        advertising structure · your own copy of the financial model · a full setup checklist · one recorded
+        handover session.</p></div>
+    <div class="card"><span class="tag">Not included</span>
+      <h4>Your costs, paid by you, directly</h4>
+      <p>Inventory · freight and import duty · photography production · advertising spend · company
+        formation and government fees · trademark filing · Amazon's monthly plan · insurance and customs
+        bond. These are listed in full, with real 2026 numbers, in section&nbsp;07. I never hold or handle
+        your money — you pay every supplier and every authority directly.</p></div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section>
+  <div class="shead"><span class="snum">02</span><span class="eyebrow">The money in</span></div>
+  <h2>What it costs to start</h2>
+  <p>Eighteen thousand five hundred dollars, total. Of that, <strong>$3,500 is my fee and $15,000 stays
+    inside your business</strong> as working capital. Here is exactly where that $15,000 goes.</p>
+
+  <div class="tablewrap">
+    <table>
+      <caption>Allocation of working capital · first six months</caption>
+      <thead><tr><th>Where it goes</th><th>What it buys</th><th class="num">Amount</th></tr></thead>
+      <tbody>
+        <tr><td class="rowlead">Company &amp; accounts</td><td>LLC, EIN, registered agent, bank/payment
+          account, Amazon Professional plan, barcodes, business address</td><td class="num">$1,000</td></tr>
+        <tr><td class="rowlead">Trademark</td><td>Filing plus attorney — the single highest-return item on
+          this list, for reasons in section 06</td><td class="num">$1,050</td></tr>
+        <tr><td class="rowlead">Compliance &amp; protection</td><td>Product liability insurance, continuous
+          customs bond, customs broker setup, classification opinion</td><td class="num">$1,250</td></tr>
+        <tr><td class="rowlead">Brand production</td><td>Photography shoot, packaging print setup, samples
+          from five factories, third-party pre-shipment inspection</td><td class="num">$2,150</td></tr>
+        <tr><td class="rowlead">First production run</td><td>Manufacturing, ocean freight, import duty,
+          customs entry, US prep and inbound to Amazon</td><td class="num">$6,250</td></tr>
+        <tr><td class="rowlead">Launch advertising</td><td>First 90 days. Treat this as inventory, not
+          marketing — you are buying rank and reviews</td><td class="num">$2,500</td></tr>
+        <tr><td class="rowlead">Reorder reserve</td><td>Held back deliberately. Section 05 explains why this
+          line matters more than any other</td><td class="num">$800</td></tr>
+        <tr class="total"><td class="rowlead">Working capital</td><td>Paid by you, directly, to each supplier</td><td class="num">$15,000</td></tr>
+        <tr class="total"><td class="rowlead">My fee</td><td>$500 on approval of this proposal · $3,000 on delivery of the assets</td><td class="num">$3,500</td></tr>
+        <tr class="total"><td class="rowlead">Total commitment</td><td></td><td class="num">$18,500</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="lbl">Ongoing cost after year one</span>
+    <p>About <strong>$3,050 a year</strong> keeps the business legally and operationally alive: state
+      report, registered agent, Amazon's plan, accountant, insurance, customs bond, software. That is the
+      floor. It is small, and it is not optional.</p>
+  </div>
+</section>
+
+<!-- 03 -->
+<section>
+  <div class="shead"><span class="snum">03</span><span class="eyebrow">The economics</span></div>
+  <h2>Where every $100 of sales goes</h2>
+  <p>This is the whole business in one bar. It is drawn at a <em>mature</em> advertising load — roughly
+    month six onward. In the first three months the advertising slice is nearly double and the profit
+    slice is gone. That is expected, and it is the reason the business loses money before it makes any.</p>
+
+  <div class="wf">
+    <div class="wf-bar" role="img" aria-label="Every 100 dollars of sales: 29.50 product landed cost, 23.10 Amazon fees, 18.00 advertising, 5.50 returns and admin, 23.90 your profit">
+      <div class="wf-seg" style="background:var(--wf-1); width:29.5%"><span style="color:#F2EFE9">$29.50</span></div>
+      <div class="wf-seg" style="background:var(--wf-2); width:23.1%"><span style="color:#F2EFE9">$23.10</span></div>
+      <div class="wf-seg" style="background:var(--wf-3); width:18%"><span style="color:#0B0B09">$18.00</span></div>
+      <div class="wf-seg" style="background:var(--wf-4); width:5.5%"><span style="color:#0B0B09">$5.50</span></div>
+      <div class="wf-seg" style="background:var(--gold); width:23.9%"><span style="color:#0B0B09">$23.90</span></div>
+    </div>
+    <div class="wf-key">
+      <div class="wf-item"><span class="chip" style="background:var(--wf-1)"></span><span>
+        <span class="n">$29.50 · Product</span><span class="d">Factory price, import duty, ocean freight, US prep</span></span></div>
+      <div class="wf-item"><span class="chip" style="background:var(--wf-2)"></span><span>
+        <span class="n">$23.10 · Amazon</span><span class="d">15% referral fee plus fulfilment, storage and the 3.5% surcharge added in April 2026</span></span></div>
+      <div class="wf-item"><span class="chip" style="background:var(--wf-3)"></span><span>
+        <span class="n">$18.00 · Advertising</span><span class="d">Mature rate. Months 1–3 run at 42–55%</span></span></div>
+      <div class="wf-item"><span class="chip" style="background:var(--wf-4)"></span><span>
+        <span class="n">$5.50 · Returns &amp; admin</span><span class="d">Refunds, removals, long-term storage</span></span></div>
+      <div class="wf-item"><span class="chip" style="background:var(--gold)"></span><span>
+        <span class="n" style="color:var(--gold)">$23.90 · Yours</span><span class="d">Net profit, before your own tax</span></span></div>
+    </div>
+  </div>
+
+  <div class="note warn">
+    <span class="lbl">The number that decides everything</span>
+    <p>Advertising is the only slice that moves much, and it moves against you. Amazon's average cost per
+      click has risen about <strong>35% in three years</strong>, and more than 70% of sellers now advertise.
+      My model assumes that environment gets <em>worse</em>, not better. The hard test is section 08's
+      month-six gate: <strong>if advertising cannot be brought under 30% of sales by month six, the product
+      is wrong and we stop.</strong></p>
+  </div>
+</section>
+
+<!-- 04 -->
+<section>
+  <div class="shead"><span class="snum">04</span><span class="eyebrow">The money out</span></div>
+  <h2>What you could make</h2>
+  <p>Three scenarios. They are not "good, bad and ugly" — they are three answers to one question: how well
+    does the launch land? Every cost, fee, lead time and advertising curve is held <em>identical</em> across
+    all three. Only the rate at which the product sells changes.</p>
+
+  <div class="tablewrap">
+    <table>
+      <caption>24-month projection · $15,000 working capital · all profit reinvested · Amazon US only</caption>
+      <thead><tr><th></th><th class="num">Conservative</th><th class="num">Base</th><th class="num">Strong</th></tr></thead>
+      <tbody>
+        <tr><td class="rowlead">Year 1 revenue</td><td class="num">$87,908</td><td class="num">$113,311</td><td class="num">$137,240</td></tr>
+        <tr><td class="rowlead">Year 1 net profit</td><td class="num">$10,280</td><td class="num">$12,816</td><td class="num">$15,579</td></tr>
+        <tr><td class="rowlead">Year 2 revenue</td><td class="num">$172,786</td><td class="num">$284,002</td><td class="num">$383,052</td></tr>
+        <tr><td class="rowlead">Year 2 net profit</td><td class="num">$38,410</td><td class="num">$64,482</td><td class="num">$88,285</td></tr>
+        <tr><td class="rowlead">Profit in month 24 alone</td><td class="num">$4,784</td><td class="num">$8,088</td><td class="num">$11,802</td></tr>
+        <tr><td class="rowlead">First profitable month</td><td class="num">Month 4</td><td class="num">Month 4</td><td class="num">Month 4</td></tr>
+        <tr class="total"><td class="rowlead">Everything back, incl. my fee</td><td class="num">Month 10</td><td class="num">Month 9</td><td class="num">Month 10</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="chart card">
+    <div class="chart-title">Cumulative profit, from launch</div>
+    <div class="chart-sub">Total money the business has made since day one. Bars share one scale; every value is labelled.</div>
+
+    <div class="grp"><div class="grp-label">End of month 6</div>
+      <div class="brow"><span class="name">Conservative</span><div class="btrack"><div class="bfill" style="width:0.3%; background:var(--seq-1)"></div></div><span class="bval">+$315</span></div>
+      <div class="brow"><span class="name">Base</span><div class="btrack"><div class="bfill" style="width:1.1%; background:var(--seq-2)"></div></div><span class="bval">+$1,190</span></div>
+      <div class="brow"><span class="name">Strong</span><div class="btrack"><div class="bfill" style="width:3.2%; background:var(--seq-3)"></div></div><span class="bval">+$3,510</span></div>
+    </div>
+    <div class="grp"><div class="grp-label">End of month 12</div>
+      <div class="brow"><span class="name">Conservative</span><div class="btrack"><div class="bfill" style="width:9.2%; background:var(--seq-1)"></div></div><span class="bval">$9,979</span></div>
+      <div class="brow"><span class="name">Base</span><div class="btrack"><div class="bfill" style="width:12.4%; background:var(--seq-2)"></div></div><span class="bval">$13,492</span></div>
+      <div class="brow"><span class="name">Strong</span><div class="btrack"><div class="bfill" style="width:15.2%; background:var(--seq-3)"></div></div><span class="bval">$16,543</span></div>
+    </div>
+    <div class="grp"><div class="grp-label">End of month 24</div>
+      <div class="brow"><span class="name">Conservative</span><div class="btrack"><div class="bfill" style="width:44.5%; background:var(--seq-1)"></div></div><span class="bval">$48,390</span></div>
+      <div class="brow"><span class="name">Base</span><div class="btrack"><div class="bfill" style="width:71.7%; background:var(--seq-2)"></div></div><span class="bval">$77,987</span></div>
+      <div class="brow"><span class="name">Strong</span><div class="btrack"><div class="bfill" style="width:100%; background:var(--seq-3)"></div></div><span class="bval">$108,783</span></div>
+    </div>
+    <div class="legend">
+      <div><span class="chip" style="background:var(--seq-1)"></span> Conservative</div>
+      <div><span class="chip" style="background:var(--seq-2)"></span> Base</div>
+      <div><span class="chip" style="background:var(--seq-3)"></span> Strong</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <span class="lbl">Read this the right way</span>
+    <p>Even the conservative case returns your entire $18,500 inside ten months and leaves you owning a
+      business making roughly <strong>$4,800 a month</strong> by month 24. But "conservative" here still
+      assumes the launch works. It is not the failure case — <strong>the failure case is section 08.</strong></p>
+  </div>
+</section>
+
+<!-- 05 -->
+<section>
+  <div class="shead"><span class="snum">05</span><span class="eyebrow">The finding that surprised me</span></div>
+  <h2>Capital is the ceiling, not demand</h2>
+  <p>When I ran the model at different starting amounts, the result was not what I expected. The business
+    does not fail because nobody wants the product. <strong>It fails because it runs out of stock while
+    demand is still rising.</strong></p>
+  <p>Manufacturing takes about thirty days. Ocean freight takes another thirty to thirty-five. So a reorder
+    placed today arrives in two months. If the launch works, demand outruns the first production run before
+    the second one lands — and the listing goes out of stock. A stockout is not a pause. It resets your
+    organic ranking, kills your review velocity, and hands your position to a competitor. Recovering costs
+    more than the sales you lost.</p>
+
+  <div class="chart card">
+    <div class="chart-title">Same product, same plan, different starting capital</div>
+    <div class="chart-sub">Base scenario. The only variable changed is how much money starts in the business.</div>
+    <div class="grp"><div class="grp-label">Year 1 revenue — higher is better</div>
+      <div class="brow"><span class="name">$10,000</span><div class="btrack"><div class="bfill" style="width:59.7%; background:var(--seq-1)"></div></div><span class="bval">$67,663</span></div>
+      <div class="brow"><span class="name">$12,500</span><div class="btrack"><div class="bfill" style="width:82.3%; background:var(--seq-2)"></div></div><span class="bval">$93,206</span></div>
+      <div class="brow"><span class="name">$15,000</span><div class="btrack"><div class="bfill" style="width:100%; background:var(--seq-3)"></div></div><span class="bval">$113,311</span></div>
+    </div>
+    <div class="grp"><div class="grp-label">Sales lost to being out of stock, 24 months — lower is better</div>
+      <div class="brow"><span class="name">$10,000</span><div class="btrack"><div class="bfill" style="width:100%; background:var(--loss)"></div></div><span class="bval">3,501 u</span></div>
+      <div class="brow"><span class="name">$12,500</span><div class="btrack"><div class="bfill" style="width:48.6%; background:var(--loss-2)"></div></div><span class="bval">1,700 u</span></div>
+      <div class="brow"><span class="name">$15,000</span><div class="btrack"><div class="bfill" style="width:26.2%; background:var(--loss-3)"></div></div><span class="bval">917 u</span></div>
+    </div>
+  </div>
+
+  <div class="note warn">
+    <span class="lbl">What this means for you</span>
+    <p><strong>The extra $5,000 between a $10,000 start and a $15,000 start is worth roughly $45,000 of
+      first-year revenue.</strong> It is the highest-return money in the entire plan. If you would rather
+      stage your risk, the alternative is to start at $12,500 and commit — in advance — to a $5,000 top-up
+      in month six. That recovers most of the gap. What does <em>not</em> work is starting small and hoping.</p>
+    <p style="margin-top:12px">The corollary is uncomfortable and I want it said plainly: <strong>every
+      dollar of profit is reinvested for the first eighteen months.</strong> No drawings. If you need income
+      from this business in year one, this plan is the wrong plan.</p>
+  </div>
+</section>
+
+<!-- 06 -->
+<section>
+  <div class="shead"><span class="snum">06</span><span class="eyebrow">The asset</span></div>
+  <h2>What the business could be worth</h2>
+  <p>Amazon brands are bought and sold. There is a real market with published transaction data, and I have
+    used <em>realised</em> sale prices rather than the multiples brokers advertise — those are two very
+    different numbers.</p>
+
+  <div class="cards three">
+    <div class="card"><span class="tag">The honest multiple</span>
+      <span class="big">2.0&times;</span>
+      <p>Brokers market "3–5× annual profit." Across 161 completed sales in 2025 at the largest marketplace
+        for these businesses, the realised blended average was about <strong>2.0× annual profit</strong>.
+        Under $300,000 — which is 78% of all deals — it was 1.87×.</p></div>
+    <div class="card"><span class="tag on">The single biggest lever</span>
+      <span class="big">+108%</span>
+      <p>E-commerce businesses <strong>with a registered trademark</strong> sold for an average of $269,987
+        against $122,852 without — a 108.5% price premium. This is why the trademark is filed in month one,
+        not month twelve.</p></div>
+    <div class="card"><span class="tag">The discount to avoid</span>
+      <span class="big" style="color:var(--loss)">&minus;50%</span>
+      <p>Businesses classed as <strong>distressed</strong> — declining, single-product, owner-dependent, or
+        with account problems — cleared at roughly half the typical multiple. Most of the work in months
+        12–24 exists to stay out of that band.</p></div>
+  </div>
+
+  <div class="tablewrap">
+    <table>
+      <caption>Indicative sale value at month 24–30 · trailing six-month profit run rate</caption>
+      <thead><tr><th>Scenario</th><th class="num">Monthly profit</th><th class="num">Sale value</th>
+        <th class="num">After broker fee</th><th class="num">Cash at closing</th></tr></thead>
+      <tbody>
+        <tr><td class="rowlead">Conservative</td><td class="num">$3,789</td><td class="num">$84,949</td><td class="num">$72,207</td><td class="num">~$49,173</td></tr>
+        <tr><td class="rowlead">Base</td><td class="num">$6,430</td><td class="num">$144,156</td><td class="num">$122,533</td><td class="num">~$83,445</td></tr>
+        <tr><td class="rowlead">Strong</td><td class="num">$9,399</td><td class="num">$210,736</td><td class="num">$179,126</td><td class="num">~$121,985</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="dim" style="font-size:14px; margin-top:16px">Cash at closing is lower than the sale price
+    because about a third of deals carry an earnout, and buyers paid an average of 68% in cash up front with
+    the rest over 12–24 months. Broker fees run around 15%. <strong style="color:var(--ink)">Do not build
+    your plan around the sale.</strong> The business has to be worth owning for its cash flow; the sale is upside.</p>
+
+  <div class="note">
+    <span class="lbl">The two-year picture, all in</span>
+    <p>Cumulative profit plus a sale at month 24–30, against $18,500 committed:
+      <strong>roughly $121,000 in the conservative case, $200,000 in the base case, $283,000 in the strong
+      case.</strong> Read section 08 before you let those numbers do any work on you.</p>
+  </div>
+</section>
+
+<!-- 07 -->
+<section>
+  <div class="shead"><span class="snum">07</span><span class="eyebrow">The setup</span></div>
+  <h2>Everything you need, in the order you need it</h2>
+  <p>This is the complete list — every account, filing, document and fee required to legally start and run
+    this business, with verified August 2026 costs. Nothing is left out and nothing is padded. Two items
+    gate everything else and must start on day one: <strong>your payment account and your tax ID.</strong></p>
+
+  <div class="note warn">
+    <span class="lbl">The critical path</span>
+    <p class="mono" style="color:var(--ink); font-size:13.5px; line-height:2">Company &rarr; Tax ID (2–6 weeks) &rarr; Payment account &rarr; Amazon &rarr;
+      Trademark &rarr; Barcodes &rarr; Supplier &amp; customs &rarr; Insurance</p>
+    <p style="margin-top:12px">The payment account is the one item on this list that can stop the project
+      dead. <strong>Resolve it before a single dollar goes to a factory.</strong></p>
+  </div>
+
+  <div class="check">
+    <details class="cgroup" open>
+      <summary>Company &amp; tax <span class="sumcost">$100 – $1,300 first year</span></summary>
+      <div class="cbody"><ul>
+        <li><span><b>US LLC</b> — Wyoming recommended</span><span class="cost">$100</span>
+          <span class="why">New Mexico is cheaper ($50, no annual report) but Wyoming is the jurisdiction banks, brokers and insurers recognise instantly, for $60/year more. Avoid Delaware — it raised its LLC tax to $400 in 2026 and its advantages are for venture-backed corporations, not this.</span></li>
+        <li><span><b>Registered agent</b> — legally required</span><span class="cost">$125/yr</span></li>
+        <li><span><b>Federal tax ID (EIN)</b></span><span class="cost free">FREE</span>
+          <span class="why">Costs nothing. Anyone charging you for one is selling form-filling — the tax authority says so on its own website. Allow 2–6 weeks if you are outside the US; it gates the bank, Amazon and customs, so start it the day the company is approved.</span></li>
+        <li><span><b>Beneficial ownership filing</b></span><span class="cost free">NOT REQUIRED</span>
+          <span class="why">This requirement was permanently removed for US-formed companies on 14 August 2026 — eight days before this proposal was written. Ignore anyone selling you a filing service for it.</span></li>
+        <li><span><b>US business address</b> (not a PO box)</span><span class="cost">$150/yr</span>
+          <span class="why">Needed for insurance. A registered-agent address may not be accepted.</span></li>
+        <li><span><b>Annual state report</b></span><span class="cost">$60/yr</span></li>
+        <li><span><b>Annual federal filing (Forms 5472 + 1120)</b></span><span class="cost warn">$500/yr</span>
+          <span class="why">If you are not a US resident this is compulsory even in a year with zero sales — your own capital going into the company is itself a reportable transaction. The penalty for missing it is $25,000, and another $25,000 if it stays unfiled 90 days after notice. Use an accountant who has actually filed these. Put 15 April in your calendar permanently.</span></li>
+      </ul></div>
+    </details>
+
+    <details class="cgroup">
+      <summary>Payment account <span class="sumcost">The hard one — read this</span></summary>
+      <div class="cbody"><ul>
+        <li><span><b>A US-dollar receiving account in the company's name</b></span><span class="cost">$0 – $30/yr</span>
+          <span class="why">If you are based outside the US, this is genuinely the hardest item on the list. Two of the most popular US business banking providers ban several countries outright by published policy — including by citizenship, not just residence, so relocating does not solve it. Payoneer works and has long-standing dedicated programmes for South Asian sellers. Apply to a second provider in parallel and get a written answer before committing to inventory.</span></li>
+        <li><span><b>Structure it as USD in, USD out</b></span><span class="cost">SAVES 1.5%</span>
+          <span class="why">Have Amazon pay US dollars into a US-dollar account. A same-currency payout avoids Amazon's currency conversion fee entirely — that fee is 1.5% on cross-currency proceeds under $500,000. Convert to your local currency only when you actually need it, and keep working capital in dollars since your factory is paid in dollars anyway.</span></li>
+        <li><span><b>Do not rely on a single account</b></span><span class="cost warn">RISK</span>
+          <span class="why">These providers are licensed money transmitters, not banks. Balances are not insured the way a bank account is, and compliance holds happen. A second account is cheap insurance.</span></li>
+      </ul></div>
+    </details>
+
+    <details class="cgroup">
+      <summary>Amazon <span class="sumcost">$40/month</span></summary>
+      <div class="cbody"><ul>
+        <li><span><b>Professional selling plan</b></span><span class="cost">$39.99/mo</span></li>
+        <li><span><b>Seller account registration &amp; identity verification</b></span><span class="cost free">FREE</span>
+          <span class="why">You will need: passport · proof of home address dated within the last 180 days · the company registration certificate · a bank account and routing number · an internationally chargeable credit card · tax details. Verification is a selfie-with-ID upload or a short video call, usually within three business days.</span></li>
+        <li><span><b>Three things that cause most rejections</b></span><span class="cost warn">CAREFUL</span>
+          <span class="why">(1) Your name must be spelled <em>identically</em> across the passport, company documents, payment account and address proof — mismatches are the single commonest cause of rejection. (2) Many local bank cards are not internationally chargeable by default; check before you start. (3) Do not use a VPN during registration or verification.</span></li>
+        <li><span><b>Brand Registry</b></span><span class="cost free">FREE</span>
+          <span class="why">Unlocks enhanced listing content, brand advertising, the free review programme, zero-inventory bundles and counterfeit protection. Requires a trademark — see below.</span></li>
+      </ul></div>
+    </details>
+
+    <details class="cgroup">
+      <summary>Trademark &amp; brand protection <span class="sumcost">$1,050</span></summary>
+      <div class="cbody"><ul>
+        <li><span><b>Trademark filing — government fee</b></span><span class="cost">$350</span>
+          <span class="why">The fee structure changed in January 2025. Older guides quoting "$250 TEAS Plus" are wrong. It is now $350 per class plus avoidable surcharges — pick your goods description from the official manual and keep it short and you pay exactly $350.</span></li>
+        <li><span><b>Attorney — via Amazon's IP Accelerator</b></span><span class="cost">$700</span>
+          <span class="why">Costs about the same as a regional flat-fee attorney but gets you into Brand Registry roughly 10–12 months earlier, because a pending application only qualifies if it was filed through this programme. If you are outside the US, a US-licensed attorney is legally mandatory anyway — this satisfies that automatically.</span></li>
+        <li><span><b>Clearance search before committing to a name</b></span><span class="cost">$0 – $650</span>
+          <span class="why">Do not print packaging before the name clears.</span></li>
+        <li><span><b>Registration timeline</b></span><span class="cost">~10–12 months</span>
+          <span class="why">Faster than it used to be — first examination now averages 4.5 months, total about 10 months. Allow 14–18 if an objection is raised.</span></li>
+      </ul></div>
+    </details>
+
+    <details class="cgroup">
+      <summary>Barcodes &amp; insurance <span class="sumcost">$30 + $600/yr</span></summary>
+      <div class="cbody"><ul>
+        <li><span><b>One official barcode (GTIN)</b></span><span class="cost">$30 once</span>
+          <span class="why">No renewal fee. Buying a licence block only makes sense past about eight products. Never buy cheap resold barcodes — they are fragments of prefixes issued to defunct companies, Amazon's validation rejects them, and it can flag the account.</span></li>
+        <li><span><b>Product liability insurance — $1,000,000</b></span><span class="cost">$400 – $1,200/yr</span>
+          <span class="why">Amazon requires it once sales exceed $10,000 in each month across any three consecutive months, and Amazon must be named as an additional insured. Make sure you are rated as an <em>importer</em>, not an "e-commerce retailer" — a cheaper retailer-rated policy may not respond to a claim on goods you had manufactured, which is exactly the exposure you carry. Do not shop on price here.</span></li>
+      </ul></div>
+    </details>
+
+    <details class="cgroup">
+      <summary>Importing <span class="sumcost">$600 – $1,200 first shipment</span></summary>
+      <div class="cbody"><ul>
+        <li><span><b>Importer registration</b> — the LLC does this directly</span><span class="cost free">FREE</span></li>
+        <li><span><b>Continuous customs bond</b></span><span class="cost">$400 – $700/yr</span>
+          <span class="why">A guarantee, not a deposit. Sized at 10% of your annual duties, minimum $50,000 face value. Customs can require a larger bond mid-year and hold your goods until it is posted.</span></li>
+        <li><span><b>Customs broker</b>, per shipment</span><span class="cost">$100 – $250</span></li>
+        <li><span><b>Security filing</b> (ocean, mandatory)</span><span class="cost">$30 – $75</span></li>
+        <li><span><b>Written tariff classification</b></span><span class="cost warn">$50 – $200</span>
+          <span class="why">Get this in writing before signing a purchase order. Duty rates on imported consumer goods moved violently in 2026 — a court struck down one entire tariff regime in February, a replacement expired in July, and a new one took effect on 24 July. Depending on classification, the same product can attract wildly different duty. This is a hard gate in my process, not a formality.</span></li>
+        <li><span><b>Pre-shipment inspection</b></span><span class="cost">$188 – $350</span>
+          <span class="why">Non-negotiable. Never release the balance payment to a factory before an independent inspection passes. Against a $6,000 order it is the cheapest insurance in the plan.</span></li>
+        <li><span><b>Customs examination contingency</b></span><span class="cost warn">$0 – $2,000</span>
+          <span class="why">Entirely outside your control. Budget for it and hope it does not happen.</span></li>
+      </ul></div>
+    </details>
+
+    <details class="cgroup">
+      <summary>Operations &amp; software <span class="sumcost">$29 – $130/month</span></summary>
+      <div class="cbody"><ul>
+        <li><span><b>US prep centre</b> — labelling, bagging, forwarding to Amazon</span><span class="cost">$0.40 – $1.50/unit</span>
+          <span class="why">Use one for the first order even though the factory could label at source — it is your only independent check before goods enter Amazon's network. Switch to factory-direct once the supplier has proven consistent over two or three orders.</span></li>
+        <li><span><b>Product research software</b></span><span class="cost">$29/mo</span>
+          <span class="why">Do not buy an expensive annual plan before the product is chosen. The research phase is short and that is where these tools earn their money.</span></li>
+        <li><span><b>Bookkeeping</b> — accounting software plus a marketplace reconciliation tool</span><span class="cost">$40 – $90/mo</span>
+          <span class="why">Clean books from month one. Messy financials directly reduce what a buyer will pay.</span></li>
+        <li><span><b>Sales tax registration</b></span><span class="cost free">NOT NEEDED</span>
+          <span class="why">Amazon collects and remits sales tax on your behalf in every US state that has one. Selling only on Amazon, you register nowhere. This changes the day you open your own store — worth knowing before, not after.</span></li>
+      </ul></div>
+    </details>
+  </div>
+</section>
+
+<!-- 08 -->
+<section>
+  <div class="shead"><span class="snum">08</span><span class="eyebrow">The part most proposals leave out</span></div>
+  <h2>What can go wrong, honestly</h2>
+  <p>I told you I would give you a plan I believe in. I do. I also said that profit and loss are both part
+    of business, and that is the part this section is about. Here is what the actual data says about people
+    who do what you are about to do.</p>
+
+  <div class="note warn">
+    <span class="lbl">The base rates</span>
+    <p>New sellers launching on Amazon in 2025 fell <strong>44% to 165,000</strong> — the lowest since
+      tracking began. The number of active sellers dropped from 2.4 million in 2021 to <strong>1.65 million</strong>
+      at the end of 2025. Of sellers still trading, <strong>23% are growing revenue and margin together;
+      38% are classed as distressed.</strong> Around six in ten who survive their first year report reaching
+      profitability — but <strong>only about one in five of those ever exceeds $10,000 a month in sales</strong>,
+      and that level is still below the minimum a broker will list a business at.</p>
+    <p style="margin-top:12px">Adjusting for everyone who quit and therefore never answered a survey, my
+      honest estimate is that <strong>fewer than one in ten people who launch a private label brand reach a
+      size worth selling.</strong> This plan is built to put you in that group. It cannot guarantee you land there.</p>
+  </div>
+
+  <h3>The eight risks I am actually watching</h3>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Risk</th><th>Why it matters</th><th>What we do about it</th></tr></thead>
+      <tbody>
+        <tr><td class="rowlead">Payment account refused</td><td>Without a US-dollar receiving account there is no way to be paid. Several major providers exclude entire countries by published policy.</td><td>Resolved in week one, before any factory deposit. Two providers applied to in parallel.</td></tr>
+        <tr><td class="rowlead">Stockout after a good launch</td><td>The single most likely failure. 60-day lead time versus rising demand. Resets your ranking and hands your position to a competitor.</td><td>Start at $15,000. Reorder mechanically at 75 days of forward cover. Reorder <em>smaller</em> rather than <em>later</em>.</td></tr>
+        <tr><td class="rowlead">Advertising costs outrun margin</td><td>Cost per click up ~35% in three years; over 70% of sellers now advertise; Amazon's new AI shopping layer currently shows some ads free and is expected to charge for them.</td><td>Model already assumes it gets worse. Hard gate at month six: under 30% or we stop.</td></tr>
+        <tr><td class="rowlead">Import duty reclassified</td><td>Certain material categories carry a 50% duty rather than the standard rate. It changes the economics materially.</td><td>Written classification from a licensed broker before any purchase order. Product specification designed with this in mind.</td></tr>
+        <tr><td class="rowlead">Annual tax filing missed</td><td>$25,000 penalty, doubling if unresolved. Required even with zero sales.</td><td>Accountant engaged in month one. Calendared permanently.</td></tr>
+        <tr><td class="rowlead">Account suspension</td><td>35% of sellers have experienced one, and the $100k–$1M band was the worst affected — the exact band you must pass through.</td><td>Never solicit reviews. No incentives in packaging. No VPN. Respond to every notice within 24 hours.</td></tr>
+        <tr><td class="rowlead">A competitor copies you</td><td><strong style="color:var(--ink)">They will.</strong> I am not going to pretend otherwise.</td><td>Design registration, published specifications a copier must actually meet, a merchandising system that is awkward to replicate, and a real brand presence. This buys 12–24 months of head start, not a permanent moat.</td></tr>
+        <tr><td class="rowlead">Freight cost spike</td><td>The main China–US West Coast shipping rate roughly <strong style="color:var(--ink)">doubled between May and August 2026.</strong></td><td>Live quotes at order time, never remembered ones. Consolidated shipping. Freight modelled at current, not historic, rates.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Three points where we stop rather than push on</h3>
+  <div class="cards three">
+    <div class="card"><span class="tag">Gate 1 · Before ordering</span>
+      <p>If samples from five factories cannot verifiably hold the specification the whole positioning
+        depends on, we do not order. We change product. This is the most important gate in the plan.</p></div>
+    <div class="card"><span class="tag">Gate 2 · Month 3</span>
+      <p>Reviews under 25, conversion under 8%, or advertising costs not trending down — we diagnose before
+        spending more, rather than after.</p></div>
+    <div class="card"><span class="tag">Gate 3 · Month 6</span>
+      <p>Advertising above 30% of sales, negative margin, or returns above 6% — we sell down the remaining
+        stock rather than fund a structural loss. Losing $6,000 beats losing $15,000.</p></div>
+  </div>
+
+  <h3>What I am not promising</h3>
+  <p>I am not promising profitability. I am not promising a sale, or a multiple. I am not promising that
+    tariffs, shipping rates, or Amazon's own rules hold — all three moved sharply in 2026 and will move
+    again. I am not promising nobody copies you.</p>
+  <p><strong>What I am promising is this:</strong> every deliverable in section 01, built to specification,
+    on the agreed timeline, with every number sourced and every assumption written down so you can challenge
+    it. If a number changes, you hear it from me before you spend, not after.</p>
+</section>
+
+<!-- 09 -->
+<section>
+  <div class="shead"><span class="snum">09</span><span class="eyebrow">The process</span></div>
+  <h2>How this actually runs</h2>
+  <p>Six phases from the day we start to the day you are trading. Weeks one to eight run in parallel — the
+    company paperwork and the product work happen at the same time, because the tax ID alone can take
+    six weeks.</p>
+
+  <div class="tl">
+    <div class="tl-item done"><div class="tl-when">Weeks 1–2 · Foundation</div>
+      <div class="tl-what">Company, tax ID, payment account, factory shortlist</div>
+      <div class="tl-note">Eight to ten factories approached with a written specification. The ones that
+        dodge the specification question are eliminated regardless of price.</div></div>
+    <div class="tl-item done"><div class="tl-when">Weeks 3–5 · Proof</div>
+      <div class="tl-what">Samples from five factories, measured and tested</div>
+      <div class="tl-note">Trademark filed. Amazon account verified. Brand identity drafted.
+        This is where we find out if the plan survives contact with reality.</div></div>
+    <div class="tl-item done"><div class="tl-when">Weeks 6–8 · Commitment</div>
+      <div class="tl-what">Supplier chosen, 30% deposit, production starts</div>
+      <div class="tl-note">Written tariff classification obtained. Photography booked. Packaging designed.
+        Listing and enhanced content written. Terms are always 30% deposit, 70% only against a passed inspection.</div></div>
+    <div class="tl-item"><div class="tl-when">Weeks 9–12 · Manufacture</div>
+      <div class="tl-what">Production, independent inspection, shipping</div>
+      <div class="tl-note">Progress photos at day 7 and day 14. Independent pre-shipment inspection before
+        the balance is released. If it fails, we do not pay and we do not ship.</div></div>
+    <div class="tl-item"><div class="tl-when">Weeks 13–17 · Arrival</div>
+      <div class="tl-what">Ocean freight, customs, prep, into Amazon</div>
+      <div class="tl-note">During transit everything else is finished: listing built, photography retouched,
+        advertising campaigns structured and paused, ready to switch on.</div></div>
+    <div class="tl-item win"><div class="tl-when">Week 18 · Launch — handover complete</div>
+      <div class="tl-what">Live, advertising running, plan handed to your team</div>
+      <div class="tl-note">One recorded handover session. From here your team operates it against the
+        90-day plan. My work is done and my fee is paid in full.</div></div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section>
+  <div class="shead"><span class="snum">10</span><span class="eyebrow">Terms</span></div>
+  <h2>The agreement, in plain words</h2>
+
+  <dl class="terms">
+    <div class="term"><dt>Fee</dt><dd><strong>$3,500</strong>, fixed. Not a percentage, not a retainer, no equity.</dd></div>
+    <div class="term"><dt>Payment</dt><dd><strong>$500</strong> on approval of this proposal, before our first
+      working meeting. <strong>$3,000</strong> on delivery of the assets. No other payment at any point.</dd></div>
+    <div class="term"><dt>What you own</dt><dd>Everything. The company, the brand, the trademark, the Amazon
+      account, the supplier relationship, the designs, the customer data. All of it in your name from the
+      first day. <strong>I hold no equity and take no ongoing share.</strong></dd></div>
+    <div class="term"><dt>Your money</dt><dd>Never passes through me. You pay every factory, freight
+      forwarder, government authority and service provider directly, from your own account.</dd></div>
+    <div class="term"><dt>Timeline</dt><dd>Approximately <strong>18 weeks</strong> from start to live listing.
+      Weeks 9–17 are manufacturing and shipping, which nobody controls.</dd></div>
+    <div class="term"><dt>Working capital</dt><dd><strong>$15,000 recommended.</strong> $12,500 workable with
+      a committed $5,000 top-up at month six. Below $10,000 I would rather not start — section 05 explains why.</dd></div>
+    <div class="term"><dt>Reinvestment</dt><dd>All profit stays in the business for <strong>18 months</strong>.
+      This is a condition of the plan, not a suggestion.</dd></div>
+    <div class="term"><dt>Confidentiality</dt><dd>The product, category, supplier and strategy are disclosed
+      after the second payment. This document deliberately contains none of them.</dd></div>
+    <div class="term"><dt>If we stop</dt><dd>If the samples fail at week five, I change the product and
+      continue at no extra cost. If <em>you</em> decide to stop before delivery, the $500 is not refunded and
+      the $3,000 is not owed.</dd></div>
+  </dl>
+</section>
+
+<!-- 11 -->
+<section style="border-bottom:0">
+  <div class="shead"><span class="snum">11</span><span class="eyebrow">Next step</span></div>
+  <h2>Read it twice, then ask me anything</h2>
+  <p>Take this document apart. Run it through whatever AI you like — I wrote it expecting you to, and every
+    figure in it is traceable to a dated public source. Ask it where I am being optimistic. Ask it what I
+    left out. Then bring me the questions.</p>
+  <p>If you want to go ahead, the $500 confirms it and we book the first working session. In that session
+    I show you the product, the category, the competitive evidence, and the exact positioning — and you can
+    still walk away before the second payment if you do not believe in it.</p>
+
+  <div class="contact">
+    <svg class="badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
+      <defs><linearGradient id="cm" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#F0C36A"/><stop offset="100%" stop-color="#C9A84C"/>
+      </linearGradient></defs>
+      <rect x="2" y="2" width="60" height="60" rx="14" fill="#0B0B09"/>
+      <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#cm)" stroke-width="2"/>
+      <path d="M20 46 V18 L44 46 V18" fill="none" stroke="url(#cm)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="47" cy="17" r="4" fill="url(#cm)"/>
+    </svg>
+    <div>
+      <div class="who">Nouman Sadiq</div>
+      <div class="role">Systems &amp; brand builds · noumansadiq.com</div>
+      <div class="clist">
+        <a href="https://noumansadiq.com"><span class="cl-k">Website</span><span class="cl-v">noumansadiq.com</span></a>
+        <a href="mailto:nouman@noumansadiq.com"><span class="cl-k">Email</span><span class="cl-v">nouman@noumansadiq.com</span></a>
+        <a href="tel:+19299394060"><span class="cl-k">Phone</span><span class="cl-v">+1 (929) 939-4060</span></a>
+        <a class="wa" href="https://wa.me/19299394060"><span class="cl-k">WhatsApp</span><span class="cl-v">+1 (929) 939-4060</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:26px">
+    <span class="lbl">One last thing</span>
+    <p>I would rather you go in with your eyes open and make $40,000 than go in excited and lose $15,000.
+      Everything uncomfortable in this document is in here on purpose.</p>
+  </div>
+</section>
+
+</div><!-- /wrap -->
+
+<footer><div class="wrap">
+  <div class="fl">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
+      <defs><linearGradient id="fm" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#F0C36A"/><stop offset="100%" stop-color="#C9A84C"/>
+      </linearGradient></defs>
+      <rect x="2" y="2" width="60" height="60" rx="14" fill="#0B0B09"/>
+      <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#fm)" stroke-width="2"/>
+      <path d="M20 46 V18 L44 46 V18" fill="none" stroke="url(#fm)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="47" cy="17" r="4" fill="url(#fm)"/>
+    </svg>
+    <div style="font-size:13.5px; color:var(--ink-dim); line-height:1.5">
+      <strong style="color:var(--ink)">Nouman Sadiq</strong><br>
+      <a href="mailto:nouman@noumansadiq.com" style="border:0">nouman@noumansadiq.com</a> · +1 (929) 939-4060
+    </div>
+  </div>
+  <div class="fr">Prepared 22 August 2026<br>Confidential to the addressee<br>
+    All figures sourced &amp; dated · No guaranteed returns</div>
+</div></footer>
+
+</div><!-- /doc -->
+
+<script>
+(function(){
+  var GATE_PW = "NS-2026-SD";
+  var gate = document.getElementById('gate'), doc = document.getElementById('doc');
+  function open(){ gate.style.display='none'; doc.style.display='block'; init(); }
+  try{ if (sessionStorage.getItem('nsp_ok')==='1') open(); }catch(e){}
+  document.getElementById('gateForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    if (document.getElementById('gateInput').value.trim() === GATE_PW){
+      try{ sessionStorage.setItem('nsp_ok','1'); }catch(e){}
+      open();
+    } else {
+      document.getElementById('gateErr').style.display='block';
+    }
+  });
+
+  var inited = false;
+  function init(){
+    if (inited) return; inited = true;
+    var p = document.getElementById('prog');
+    function up(){
+      var h=document.documentElement, s=h.scrollTop||document.body.scrollTop;
+      var m=(h.scrollHeight-h.clientHeight)||1;
+      p.style.width = Math.min(100,(s/m)*100) + '%';
+    }
+    addEventListener('scroll', up, {passive:true}); up();
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window){
+      var bars=[].slice.call(document.querySelectorAll('.bfill'));
+      bars.forEach(function(b){ b.dataset.w=b.style.width; b.style.width='0'; });
+      var io=new IntersectionObserver(function(es){
+        es.forEach(function(e){
+          if(e.isIntersecting){ var t=e.target; setTimeout(function(){ t.style.width=t.dataset.w; },60); io.unobserve(t); }
+        });
+      },{threshold:.2});
+      bars.forEach(function(b){ io.observe(b); });
+    }
+  }
+})();
+</script>
+</body>
+</html>
