@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Inventory Clearance Proposal — Ss Point Sales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Instrument+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+
+:root{
+  --canvas:#0B0B09; --canvas-raise:#131311; --canvas-deep:#080806;
+  --canvas-line:rgba(242,239,233,0.12); --canvas-line-soft:rgba(242,239,233,0.06);
+  --ink:#F2EFE9; --ink-dim:#8F8C84; --ink-faint:#55534D;
+  --gold:#C9A84C; --gold-hot:#F0C36A; --gold-wash:rgba(201,168,76,0.09);
+  --whatsapp:#25D366;
+  --loss:#C96A5F; --loss-2:#A8544A; --loss-3:#7E3B33;
+  --seq-1:#7A6529; --seq-2:#A5893A; --seq-3:#D9B858;
+  --wf-1:#4A4841; --wf-2:#67645C; --wf-3:#87837A; --wf-4:#A6A299;
+  --radius:2px; --maxw:1060px;
+  --font-display:'Archivo',system-ui,-apple-system,sans-serif;
+  --font-text:'Instrument Sans',system-ui,-apple-system,sans-serif;
+  --font-data:'Space Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box; margin:0; padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--font-text); background:var(--canvas); color:var(--ink);
+  font-size:17px; line-height:1.62; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px}
+h1,h2,h3,h4{
+  font-family:var(--font-display); font-weight:850; text-transform:uppercase;
+  letter-spacing:-0.02em; font-stretch:125%; line-height:1.05; text-wrap:balance;
+}
+p{margin:0 0 1.05em; max-width:66ch; color:var(--ink)}
+p:last-child{margin-bottom:0}
+strong{font-weight:700}
+em{font-style:italic}
+a{color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(201,168,76,.35)}
+a:hover{color:var(--gold-hot); border-bottom-color:var(--gold-hot)}
+a:focus-visible,summary:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+.mono{font-family:var(--font-data); font-variant-numeric:tabular-nums}
+.eyebrow{
+  font-family:var(--font-data); font-size:10.5px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.14em; color:var(--ink-dim);
+}
+.dim{color:var(--ink-dim)}
+.gold{color:var(--gold)}
+
+/* ---------- GATE ---------- */
+#gate{position:fixed; inset:0; z-index:999; background:var(--canvas-deep);
+  display:flex; align-items:center; justify-content:center; padding:24px}
+#gate .box{width:100%; max-width:360px; text-align:center}
+#gate .mark{width:54px; height:54px; display:block}
+#gate h2{font-size:19px; margin-bottom:8px}
+#gate p{font-size:13.5px; color:var(--ink-dim); margin-bottom:22px; max-width:none}
+#gate input{
+  width:100%; padding:13px 14px; background:var(--canvas-raise); color:var(--ink);
+  border:1px solid var(--canvas-line); border-radius:var(--radius);
+  font-family:var(--font-data); font-size:14px; letter-spacing:.08em; text-align:center;
+}
+#gate button{
+  width:100%; margin-top:12px; padding:13px 14px; background:var(--gold); color:var(--canvas);
+  border:0; border-radius:var(--radius); cursor:pointer;
+  font-family:var(--font-data); font-weight:700; font-size:12px;
+  text-transform:uppercase; letter-spacing:.14em;
+}
+#gate button:hover{background:var(--gold-hot)}
+#gateErr{color:var(--loss); font-family:var(--font-data); font-size:11.5px;
+  letter-spacing:.1em; text-transform:uppercase; margin-top:16px; display:none}
+#doc{display:none}
+
+/* ---------- LOGO LINK (standard: every logo mark links home) ---------- */
+a.logo-link{
+  display:inline-flex; align-items:center; gap:11px;
+  border:0; text-decoration:none; color:inherit; border-radius:var(--radius);
+  transition:opacity .18s ease;
+  padding:9px; margin:-9px;           /* >=44px touch target, no layout shift */
+}
+a.logo-link:hover{opacity:.78}
+a.logo-link:focus-visible{outline:2px solid var(--gold); outline-offset:4px}
+a.logo-link .brandmark, a.logo-link svg{pointer-events:none}
+.gate-logo{display:inline-flex; margin:-9px auto 17px}
+
+/* ---------- TOP BAR ---------- */
+.topbar{position:sticky; top:0; z-index:50; background:rgba(11,11,9,.9);
+  backdrop-filter:blur(14px); border-bottom:1px solid var(--canvas-line)}
+.topbar .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px; height:60px}
+.brandmark{display:flex; align-items:center; gap:11px}
+.topbar a.logo-link{gap:11px}
+.brandmark svg{width:26px; height:26px; flex:none}
+.brandmark span{font-family:var(--font-data); font-size:10.5px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.14em; color:var(--ink)}
+.topbar .meta{font-family:var(--font-data); font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-faint)}
+.progress{position:absolute; left:0; bottom:-1px; height:2px; background:var(--gold); width:0}
+
+/* ---------- HERO ---------- */
+.hero{padding:84px 0 0; position:relative; overflow:hidden}
+.hero-rule{position:absolute; inset:0; pointer-events:none; opacity:.5;
+  background-image:linear-gradient(var(--canvas-line-soft) 1px,transparent 1px),
+                   linear-gradient(90deg,var(--canvas-line-soft) 1px,transparent 1px);
+  background-size:56px 56px;
+  -webkit-mask-image:radial-gradient(ellipse 80% 55% at 72% 0%,#000 0%,transparent 74%);
+  mask-image:radial-gradient(ellipse 80% 55% at 72% 0%,#000 0%,transparent 74%)}
+.hero .wrap{position:relative}
+.hero h1{font-size:clamp(40px,7vw,78px); margin:24px 0 24px; max-width:15ch}
+.hero h1 .g{color:var(--gold)}
+.lede{font-size:19.5px; line-height:1.55; color:var(--ink-dim); max-width:56ch}
+.lede strong{color:var(--ink); font-weight:600}
+.confid{display:inline-flex; align-items:center; gap:10px; margin-top:30px;
+  padding:9px 15px; border:1px solid var(--canvas-line); border-radius:var(--radius);
+  background:var(--canvas-raise); font-family:var(--font-data); font-size:10.5px;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--ink-dim)}
+.confid i{width:6px; height:6px; background:var(--gold); border-radius:50%; flex:none}
+
+/* ---------- STAT ROW ---------- */
+.statrow{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  border:1px solid var(--canvas-line); border-radius:var(--radius); margin-top:54px;
+  background:var(--canvas-raise)}
+.stat{padding:22px 22px 20px; border-right:1px solid var(--canvas-line)}
+.stat:last-child{border-right:0}
+.stat .k{font-family:var(--font-data); font-size:9.5px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-faint); margin-bottom:14px}
+.stat .v{font-family:var(--font-data); font-weight:700; font-size:30px; line-height:1;
+  letter-spacing:-.03em; color:var(--gold); font-variant-numeric:tabular-nums}
+.stat .v small{font-size:20px}
+.stat .s{font-size:13px; color:var(--ink-dim); margin-top:10px; line-height:1.42}
+
+/* ---------- SECTIONS ---------- */
+section{padding:72px 0; border-top:1px solid var(--canvas-line)}
+.shead{display:flex; align-items:center; gap:14px; margin-bottom:14px; flex-wrap:wrap}
+.snum{font-family:var(--font-data); font-size:10.5px; font-weight:700; letter-spacing:.14em;
+  color:var(--gold)}
+h2{font-size:clamp(26px,4vw,38px); margin:4px 0 24px; max-width:22ch}
+h3{font-size:15px; font-weight:850; letter-spacing:.02em; margin:40px 0 14px; color:var(--gold)}
+
+/* ---------- CARDS / TABLES ---------- */
+.card{background:var(--canvas-raise); border:1px solid var(--canvas-line);
+  border-radius:var(--radius); padding:26px}
+.cards{display:grid; gap:14px; margin-top:26px}
+.cards.two{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.cards.three{grid-template-columns:repeat(auto-fit,minmax(228px,1fr))}
+.card h4{font-size:14px; font-weight:850; margin:0 0 10px; letter-spacing:.01em}
+.card p{font-size:14.5px; color:var(--ink-dim); margin:0; max-width:none}
+.card p strong{color:var(--ink)}
+.tag{display:inline-block; font-family:var(--font-data); font-size:9.5px; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase; padding:5px 9px; border-radius:var(--radius);
+  margin-bottom:14px; border:1px solid var(--canvas-line); color:var(--ink-dim)}
+.tag.on{border-color:rgba(201,168,76,.4); color:var(--gold); background:var(--gold-wash)}
+
+.tablewrap{overflow-x:auto; margin-top:26px; border:1px solid var(--canvas-line);
+  border-radius:var(--radius); background:var(--canvas-raise)}
+table{border-collapse:collapse; width:100%; min-width:560px; font-size:14.5px}
+caption{text-align:left; padding:17px 20px 3px; font-family:var(--font-data); font-size:10px;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint)}
+th,td{padding:13px 20px; text-align:left; border-bottom:1px solid var(--canvas-line-soft);
+  vertical-align:top; color:var(--ink-dim)}
+thead th{font-family:var(--font-data); font-size:9.5px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-faint); border-bottom:1px solid var(--canvas-line);
+  white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right; font-family:var(--font-data); font-variant-numeric:tabular-nums;
+  white-space:nowrap; color:var(--ink)}
+td.rowlead{color:var(--ink); font-weight:600}
+tr.total td{background:rgba(201,168,76,.055); border-top:1px solid var(--canvas-line); color:var(--ink)}
+tr.total td.rowlead{font-weight:700}
+tr.total td.num{color:var(--gold); font-weight:700}
+
+/* ---------- WATERFALL ---------- */
+.wf{margin-top:28px}
+.wf-bar{display:flex; height:62px; gap:2px; background:var(--canvas)}
+.wf-seg{display:flex; align-items:center; justify-content:center; min-width:0;
+  border-radius:var(--radius)}
+.wf-seg span{font-family:var(--font-data); font-size:12.5px; font-weight:700}
+.wf-key{display:grid; grid-template-columns:repeat(auto-fit,minmax(178px,1fr));
+  gap:16px; margin-top:22px}
+.wf-item{display:flex; gap:11px}
+.chip{width:10px; height:10px; border-radius:1px; margin-top:6px; flex:none}
+.wf-item .n{font-family:var(--font-data); font-weight:700; font-size:13.5px; display:block; color:var(--ink)}
+.wf-item .d{font-size:12.5px; color:var(--ink-dim); display:block; margin-top:3px; line-height:1.4}
+
+/* ---------- BAR CHARTS ---------- */
+.chart{margin-top:26px}
+.chart-title{font-family:var(--font-display); font-weight:850; text-transform:uppercase;
+  font-size:13.5px; letter-spacing:.01em; margin-bottom:6px}
+.chart-sub{font-size:13px; color:var(--ink-dim); margin-bottom:24px}
+.grp{margin-bottom:26px}
+.grp:last-of-type{margin-bottom:0}
+.grp-label{font-family:var(--font-data); font-size:9.5px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-faint); margin-bottom:12px;
+  padding-bottom:8px; border-bottom:1px solid var(--canvas-line-soft)}
+.brow{display:grid; grid-template-columns:106px 1fr 104px; align-items:center; gap:14px; margin-bottom:8px}
+.brow .name{font-size:13px; color:var(--ink-dim)}
+.btrack{background:rgba(242,239,233,0.05); height:22px; min-width:0}
+.bfill{height:100%; transition:width .9s cubic-bezier(.2,.8,.2,1)}
+.bval{font-family:var(--font-data); font-size:12.5px; font-weight:700; color:var(--ink);
+  text-align:right; font-variant-numeric:tabular-nums}
+.legend{display:flex; gap:20px; flex-wrap:wrap; margin-top:20px; padding-top:16px;
+  border-top:1px solid var(--canvas-line-soft)}
+.legend div{display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--ink-dim)}
+
+/* ---------- TIMELINE ---------- */
+.tl{margin-top:30px; position:relative; padding-left:28px}
+.tl::before{content:""; position:absolute; left:5px; top:8px; bottom:8px; width:1px;
+  background:var(--canvas-line)}
+.tl-item{position:relative; padding-bottom:26px}
+.tl-item:last-child{padding-bottom:0}
+.tl-item::before{content:""; position:absolute; left:-26px; top:8px; width:9px; height:9px;
+  background:var(--canvas); border:1px solid var(--gold); border-radius:1px}
+.tl-item.done::before{background:var(--gold)}
+.tl-item.win::before{background:var(--gold-hot); border-color:var(--gold-hot);
+  box-shadow:0 0 0 4px rgba(201,168,76,.15)}
+.tl-when{font-family:var(--font-data); font-size:9.5px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--gold); margin-bottom:5px}
+.tl-what{font-family:var(--font-display); font-weight:850; text-transform:uppercase;
+  font-size:14px; letter-spacing:.01em; margin-bottom:5px}
+.tl-note{font-size:14px; color:var(--ink-dim); max-width:60ch}
+
+/* ---------- CHECKLIST ---------- */
+.check{margin-top:26px; display:grid; gap:10px}
+.cgroup{border:1px solid var(--canvas-line); border-radius:var(--radius);
+  background:var(--canvas-raise); overflow:hidden}
+.cgroup>summary{cursor:pointer; padding:18px 20px; list-style:none; display:flex;
+  align-items:center; justify-content:space-between; gap:14px;
+  font-family:var(--font-display); font-weight:850; text-transform:uppercase;
+  font-size:13.5px; letter-spacing:.01em}
+.cgroup>summary::-webkit-details-marker{display:none}
+.cgroup>summary::after{content:"+"; font-family:var(--font-data); font-size:17px;
+  color:var(--gold); flex:none; font-weight:400}
+.cgroup[open]>summary::after{content:"\2013"}
+.cgroup>summary:hover{background:rgba(242,239,233,.03)}
+.sumcost{font-family:var(--font-data); font-size:11px; font-weight:400; letter-spacing:.08em;
+  color:var(--ink-dim); text-transform:none; margin-left:auto; margin-right:6px}
+.cbody{padding:0 20px 20px; border-top:1px solid var(--canvas-line)}
+.cbody ul{margin:16px 0 0; padding:0; list-style:none; display:grid; gap:13px}
+.cbody li{display:grid; grid-template-columns:1fr auto; gap:6px 18px; font-size:14px;
+  align-items:baseline; padding-bottom:13px; border-bottom:1px dashed var(--canvas-line-soft)}
+.cbody li:last-child{border-bottom:0; padding-bottom:0}
+.cbody li>b{font-weight:700; color:var(--ink)}
+.cbody li .why{grid-column:1/-1; font-size:12.8px; color:var(--ink-dim); line-height:1.5}
+.cost{font-family:var(--font-data); font-size:12.5px; font-weight:700; color:var(--gold);
+  white-space:nowrap; letter-spacing:.02em}
+.cost.free{color:var(--ink-dim)}
+.cost.warn{color:var(--loss)}
+
+/* ---------- NOTES ---------- */
+.note{border-left:2px solid var(--gold); background:var(--gold-wash);
+  padding:20px 24px; margin-top:26px; border-radius:0 var(--radius) var(--radius) 0}
+.note.warn{border-color:var(--loss); background:rgba(201,106,95,.07)}
+.note .lbl{font-family:var(--font-data); font-size:9.5px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; margin-bottom:10px; display:block; color:var(--gold)}
+.note.warn .lbl{color:var(--loss)}
+.note p{font-size:15px; color:var(--ink-dim); max-width:64ch}
+.note p strong{color:var(--ink)}
+.big{font-family:var(--font-data); font-weight:700; font-size:clamp(30px,5vw,46px);
+  letter-spacing:-.035em; line-height:1; color:var(--gold); font-variant-numeric:tabular-nums;
+  display:block; margin:4px 0 12px}
+
+/* ---------- TERMS ---------- */
+.terms{border:1px solid var(--canvas-line); border-radius:var(--radius); margin-top:26px;
+  background:var(--canvas-raise)}
+.term{padding:19px 22px; display:grid; grid-template-columns:158px 1fr; gap:20px;
+  border-bottom:1px solid var(--canvas-line-soft)}
+.term:last-child{border-bottom:0}
+.term dt{font-family:var(--font-data); font-size:9.5px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-faint); padding-top:4px}
+.term dd{font-size:15px; color:var(--ink-dim)}
+.term dd strong{color:var(--ink)}
+
+/* ---------- CONTACT ---------- */
+.contact{display:grid; grid-template-columns:auto 1fr; gap:26px; align-items:start;
+  border:1px solid var(--canvas-line); border-radius:var(--radius); padding:28px;
+  background:var(--canvas-raise); margin-top:26px}
+.contact .badge{width:62px; height:62px; flex:none}
+.contact .who{font-family:var(--font-display); font-weight:850; text-transform:uppercase;
+  font-size:19px; letter-spacing:-.01em; margin-bottom:4px}
+.contact .role{font-family:var(--font-data); font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--gold); margin-bottom:18px}
+.clist{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:16px}
+.clist a,.clist span{display:block; border:0}
+.clist .cl-k{font-family:var(--font-data); font-size:9.5px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-faint); margin-bottom:5px}
+.clist .cl-v{font-family:var(--font-data); font-size:14px; color:var(--ink); word-break:break-word}
+.clist a .cl-v{color:var(--gold)}
+.clist a:hover .cl-v{color:var(--gold-hot)}
+.wa .cl-v{color:var(--whatsapp)!important}
+
+footer{padding:54px 0 74px; border-top:1px solid var(--canvas-line); color:var(--ink-faint)}
+footer .wrap{display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; align-items:flex-end}
+footer .fl{display:flex; align-items:center; gap:12px}
+footer a.logo-link{gap:12px; align-items:center}
+footer svg{width:30px; height:30px}
+footer .fr{font-family:var(--font-data); font-size:9.5px; letter-spacing:.14em;
+  text-transform:uppercase; text-align:right; line-height:1.9}
+
+@media (max-width:820px){
+  .topbar .meta{display:none}
+  .stat{border-right:0; border-bottom:1px solid var(--canvas-line)}
+  .stat:last-child{border-bottom:0}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .wrap{padding:0 20px}
+  section{padding:52px 0}
+  .hero{padding:52px 0 0}
+  .lede{font-size:17px}
+  .term{grid-template-columns:1fr; gap:6px}
+  .contact{grid-template-columns:1fr; gap:20px}
+  .brow{grid-template-columns:78px 1fr 88px; gap:10px}
+  .brow .name{font-size:11.5px}
+  .wf-bar{height:52px}
+  .wf-seg span{font-size:0}
+  .wf-seg:nth-child(1) span,.wf-seg:nth-child(5) span{font-size:11px}
+  .cbody li{grid-template-columns:1fr}
+  .cost{justify-self:start}
+  .sumcost{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+@media print{#gate{display:none!important} #doc{display:block!important} .topbar{position:static}}
+
+</style>
+</head>
+<body>
+
+<!-- ============ GATE ============ -->
+<div id="gate">
+  <div class="box">
+    <a class="logo-link gate-logo" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer" aria-label="Nouman Sadiq — noumansadiq.com (opens in a new tab)">
+      <svg class="mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
+        <defs><linearGradient id="gm" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#F0C36A"/><stop offset="100%" stop-color="#C9A84C"/>
+        </linearGradient></defs>
+        <rect x="2" y="2" width="60" height="60" rx="14" fill="#0B0B09"/>
+        <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#gm)" stroke-width="2"/>
+        <path d="M20 46 V18 L44 46 V18" fill="none" stroke="url(#gm)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="47" cy="17" r="4" fill="url(#gm)"/>
+      </svg>
+    </a>
+    <h2>Ss Point Sales</h2>
+    <p>This proposal contains your cost figures and pricing. Enter the passcode you were sent.</p>
+    <form id="gateForm" autocomplete="off">
+      <input id="gateInput" type="password" placeholder="PASSCODE" aria-label="Passcode" autocomplete="off">
+      <button type="submit">Open proposal</button>
+    </form>
+    <div id="gateErr">Wrong passcode — try again</div>
+  </div>
+</div>
+
+<div id="doc" style="display:none">
+
+<div class="topbar">
+  <div class="wrap">
+    <a class="logo-link" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer" aria-label="Nouman Sadiq — noumansadiq.com (opens in a new tab)">
+    <div class="brandmark">
+      <svg class="badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
+      <defs><linearGradient id="tm" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#F0C36A"/><stop offset="100%" stop-color="#C9A84C"/>
+      </linearGradient></defs>
+      <rect x="2" y="2" width="60" height="60" rx="14" fill="#0B0B09"/>
+      <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#tm)" stroke-width="2"/>
+      <path d="M20 46 V18 L44 46 V18" fill="none" stroke="url(#tm)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="47" cy="17" r="4" fill="url(#tm)"/>
+    </svg>
+      <span>Inventory Clearance Proposal</span>
+    </div>
+    </a>
+    <div class="meta">Prepared 24 Aug 2026 · Confidential</div>
+  </div>
+  <div class="progress" id="prog"></div>
+</div>
+
+<div class="hero">
+  <div class="hero-rule"></div>
+  <div class="wrap">
+    <div class="eyebrow">Ss Point Sales · Rowlett, Texas · Wholesale Clearance</div>
+    <h1>Empty the garage. <span class="g">Double</span> the money.</h1>
+    <p class="lede">Three thousand units have been sitting since May because the plan required
+      building a storefront before anything could sell. <strong>This plan sells the same inventory in
+      bulk to businesses that already have the customers</strong> — no shop, no advertising, no
+      platform approval, and nothing further to spend.</p>
+    <div class="confid"><i></i><span class="mono" style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim)">Confidential to the addressee</span></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<section>
+  <div class="shead"><div class="eyebrow">01 — The situation</div></div>
+  <h2>Why nothing moved</h2>
+  <p class="lede" style="margin-bottom:22px">The inventory landed in May. The TikTok Shop registration was
+    rejected because the business address on file traced back to an agent rather than to you, and by the time
+    that could be corrected the momentum was gone.</p>
+  <p style="max-width:64ch;color:var(--ink-dim);font-size:15.5px">I want to be straight about the diagnosis,
+    because it changes everything that follows. <strong style="color:var(--ink)">The address was the trigger,
+    not the cause.</strong> The real problem was that the plan required building an audience from zero — a
+    storefront, content, creators, an advertising budget — before a single unit could sell. That is a long
+    road, and it stops completely the moment any one piece of it fails. It did.</p>
+  <div class="note">
+    <span class="lbl">The decision</span>
+    <p>Rather than repair that route, this proposal abandons it. No TikTok Shop, no storefront of any kind.
+      <strong>Nothing in this plan depends on a platform approving anything.</strong></p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><div class="eyebrow">02 — The approach</div></div>
+  <h2>Fifteen buyers, not three thousand</h2>
+  <p class="lede" style="margin-bottom:22px">Sensory fidget toys and inexpensive giftable self-care items are
+    bought in bulk every single day — by therapy clinics, school districts, party-prize wholesalers,
+    subscription-box companies, and by online sellers who already have traffic. These buyers take
+    <strong>100 to 3,000 units at a time</strong>, on a purchase order or a simple invoice.</p>
+  <p style="max-width:64ch;color:var(--ink-dim);font-size:15.5px">Reaching them costs nothing but email. The
+    professional product photography is already paid for on your original invoice, so there is no creative
+    spend either. And when it is finished, it is genuinely finished: five to fifteen bulk shipments out of
+    the garage instead of three thousand individual orders, each with its own packing, postage and customer.</p>
+  <div class="statrow">
+    <div class="stat"><div class="k">Units held</div><div class="v">3,000</div><div class="s">Five products, 600 of each</div></div>
+    <div class="stat"><div class="k">Your cost</div><div class="v"><small>$</small>4,852</div><div class="s">Landed, per invoice YSF-337</div></div>
+    <div class="stat"><div class="k">Target proceeds</div><div class="v"><small>$</small>11,040</div><div class="s">A 2.28&times; return on cost</div></div>
+    <div class="stat"><div class="k">Further spend</div><div class="v"><small>$</small>0</div><div class="s">No ads, no fees, no software</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><div class="eyebrow">03 — The numbers</div></div>
+  <h2>What each product is worth</h2>
+  <p style="max-width:64ch;color:var(--ink-dim);font-size:15.5px">Your cost below is the factory price plus
+    China domestic freight plus each item's share of the $635 international shipping, reconciled exactly to
+    your invoice total of $4,851.82. <strong style="color:var(--ink)">Target</strong> is the opening quote at
+    small volume. <strong style="color:var(--ink)">Floor</strong> is the walk-away price — I will not go below
+    it without asking you first.</p>
+  <div class="tablewrap"><table>
+    <thead><tr>
+      <th>Product</th><th class="num">Units</th><th class="num">Your cost</th>
+      <th class="num">Target</th><th class="num">Floor</th><th class="num">At target</th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="rowlead">Sensory Stone Fidget Toy</td><td class="num">600</td><td class="num">$3.12</td><td class="num">$5.95</td><td class="num">$4.75</td><td class="num">$3,570</td></tr>
+      <tr><td class="rowlead">Heatless Hair Curler</td><td class="num">600</td><td class="num">$1.54</td><td class="num">$3.95</td><td class="num">$2.95</td><td class="num">$2,370</td></tr>
+      <tr><td class="rowlead">Slime Toy (pairs)</td><td class="num">600</td><td class="num">$1.56</td><td class="num">$3.50</td><td class="num">$2.60</td><td class="num">$2,100</td></tr>
+      <tr><td class="rowlead">Silicone Sensory Fidget Stones</td><td class="num">600</td><td class="num">$0.77</td><td class="num">$2.25</td><td class="num">$1.60</td><td class="num">$1,350</td></tr>
+      <tr><td class="rowlead">Nano Glass Foot File</td><td class="num">600</td><td class="num">$1.10</td><td class="num">$2.75</td><td class="num">$2.00</td><td class="num">$1,650</td></tr>
+      <tr class="total"><td class="rowlead">Total</td><td class="num">3,000</td><td class="num">$4,852</td><td class="num">&mdash;</td><td class="num">$8,340</td><td class="num">$11,040</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note warn">
+    <span class="lbl">The honest downside</span>
+    <p>If every unit sold at the floor instead of the target, proceeds are <strong>$8,340</strong> — still
+      about 1.7&times; your cost. If a single buyer takes the entire lot in one transaction, the price is
+      <strong>$7,728</strong>. That last figure is the safety net, not the plan: it trades roughly $3,300 of
+      upside for finishing in a single afternoon. I would only reach for it if we were close to the deadline
+      with stock still on the shelf.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><div class="eyebrow">04 — The buyers</div></div>
+  <h2>Six channels, worked in order</h2>
+  <p style="max-width:64ch;color:var(--ink-dim);font-size:15.5px">Ranked by the price each can pay, not by how
+    easy they are. The money is at the top of this list; the certainty is at the bottom.</p>
+  <div class="cards two">
+    <div class="card"><h4>01 · Therapy &amp; school institutions</h4><p>Fidget and sensory tools are a standing
+      budget line for special education, pediatric occupational therapy and ABA autism programs. They buy in
+      bulk, on purchase orders, from small vendors routinely — and <strong>August to October is exactly when
+      they spend.</strong> Best pricing of any channel.</p></div>
+    <div class="card"><h4>02 · Party, carnival &amp; prize wholesalers</h4><p>These companies buy closeout
+      novelty stock as a matter of course and resell it as prizes. Halloween and school-carnival buying peaks
+      in September, which puts the slime and fidget stock <strong>right in the middle of their season.</strong></p></div>
+    <div class="card"><h4>03 · Subscription box companies</h4><p>A box needs several hundred identical,
+      giftable, low-cost units every month and is permanently hunting for them. Sourcing happens by direct
+      email to the founder — no gatekeeper. <strong>600 units is exactly one month's run</strong> for a
+      mid-size box.</p></div>
+    <div class="card"><h4>04 · Sellers who already have traffic</h4><p>Active TikTok Shop, Amazon and Walmart
+      sellers pay real money for stock already sitting in the US, because it ships immediately instead of
+      waiting six weeks on an import. <strong>Rather than competing with them for attention, we sell to
+      them.</strong></p></div>
+    <div class="card"><h4>05 · Faire wholesale marketplace</h4><p>Free to list, and it puts all five products
+      in front of hundreds of thousands of boutiques and gift shops that order at wholesale. One afternoon of
+      setup, then it runs quietly in the background alongside everything else.</p></div>
+    <div class="card"><h4>06 · Closeout liquidators — the safety net</h4><p>Anything still unsold after four
+      weeks goes to closeout buyers or Dallas pallet wholesalers as one lot. This roughly returns your cost
+      and guarantees the garage ends up empty. <strong>It exists so there is no version of this where you are
+      still holding stock in November.</strong></p></div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><div class="eyebrow">05 — Execution</div></div>
+  <h2>How it actually runs</h2>
+  <p style="max-width:64ch;color:var(--ink-dim);font-size:15.5px">The outreach runs on an automated operator
+    working from a written brief. It researches buyers, writes and personalises every email, sends from your
+    inbox within legal sending limits, answers replies, builds a <strong style="color:var(--ink)">personal
+    quote page for each serious buyer</strong> with your PayPal and Zelle details on it, and reports every
+    week. It works each weekday without being asked.</p>
+  <div class="tl">
+    <div class="tl-item"><div class="tl-when">Week 1</div><div class="tl-what">Institutions &amp; prize buyers</div>
+      <div class="tl-note">First hundred businesses contacted. Faire listing goes live. Sample packs ship the
+        day they are requested.</div></div>
+    <div class="tl-item"><div class="tl-when">Week 2</div><div class="tl-what">Boxes &amp; sellers</div>
+      <div class="tl-note">Subscription boxes and marketplace sellers added. First follow-ups go out. First
+        orders should close here.</div></div>
+    <div class="tl-item"><div class="tl-when">Week 3</div><div class="tl-what">Widen the net</div>
+      <div class="tl-note">Same segments, new cities. Bundles pushed to anyone buying a single product.</div></div>
+    <div class="tl-item win"><div class="tl-when">By 15 October</div><div class="tl-what">Empty garage</div>
+      <div class="tl-note">Open negotiations closed. Anything unsold moved to liquidators as one lot. Final
+        accounting to you.</div></div>
+  </div>
+  <div class="cards two" style="margin-top:34px">
+    <div class="card"><h4>What I handle</h4><p>Finding and qualifying every buyer · writing and sending all
+      outreach · answering enquiries and negotiating down to the agreed floors · producing quotes and payment
+      links · reporting weekly.</p></div>
+    <div class="card"><h4>What you handle</h4><p>Confirming payments have landed in your account · packing and
+      shipping five to fifteen bulk orders · approving any price below the agreed floor. Roughly an hour a
+      day, and less once orders consolidate.</p></div>
+  </div>
+  <div class="note">
+    <span class="lbl">On the money</span>
+    <p><strong>Payments come directly to you</strong> — PayPal invoice or Zelle, into your own accounts.
+      Nothing passes through me at any point, and nothing ships until you have personally confirmed the funds
+      cleared. No buyer gets credit terms on a first order, however large it sounds.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><div class="eyebrow">06 — Terms</div></div>
+  <h2>What this costs you</h2>
+  <div class="note warn">
+    <span class="lbl">Complete before sending</span>
+    <p><strong>[ FEE / TERMS TO BE INSERTED ]</strong> — flat fee, percentage of proceeds, or waived as part
+      of the handover. This is the only field deliberately left blank. Fill it in before this proposal goes
+      to the client.</p>
+  </div>
+  <p style="max-width:64ch;color:var(--ink-dim);font-size:15.5px;margin-top:24px">Everything else costs
+    nothing. No advertising budget, no software, no listing fees, no photography. The only outgoing cost in
+    this plan is outbound freight, and the buyer pays it.</p>
+
+  <h3>Where this leaves you afterwards</h3>
+  <p style="max-width:64ch;color:var(--ink-dim);font-size:15.5px">My work is focused on automation systems,
+    and this engagement is built to finish rather than to continue. That shapes the whole design: every step
+    is aimed at emptying the shelf and handing you something durable at the end.</p>
+  <p style="max-width:64ch;color:var(--ink-dim);font-size:15.5px;margin-top:14px">The final handover is a list
+    of <strong style="color:var(--ink)">every business that bought from you</strong> — with contacts, volumes
+    and prices. If you import again, that list is worth considerably more than this inventory was. It is a
+    wholesale customer base, and one campaign is what it takes to build one.</p>
+
+  <div class="contact">
+    <a class="logo-link" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer" aria-label="Nouman Sadiq — noumansadiq.com (opens in a new tab)">
+    <svg class="badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
+      <defs><linearGradient id="cm" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#F0C36A"/><stop offset="100%" stop-color="#C9A84C"/>
+      </linearGradient></defs>
+      <rect x="2" y="2" width="60" height="60" rx="14" fill="#0B0B09"/>
+      <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#cm)" stroke-width="2"/>
+      <path d="M20 46 V18 L44 46 V18" fill="none" stroke="url(#cm)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="47" cy="17" r="4" fill="url(#cm)"/>
+    </svg>
+    </a>
+    <div>
+      <div class="who">Nouman Sadiq</div>
+      <div class="role">Systems &amp; brand builds · noumansadiq.com</div>
+      <div class="clist">
+        <a href="https://noumansadiq.com"><span class="cl-k">Website</span><span class="cl-v">noumansadiq.com</span></a>
+        <a href="mailto:info@noumansadiq.com"><span class="cl-k">Email</span><span class="cl-v">info@noumansadiq.com</span></a>
+        <a href="tel:+19299394060"><span class="cl-k">Phone</span><span class="cl-v">+1 (929) 939-4060</span></a>
+        <a class="wa" href="https://wa.me/19299394060"><span class="cl-k">WhatsApp</span><span class="cl-v">+1 (929) 939-4060</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:26px">
+    <span class="lbl">One last thing</span>
+    <p>Every figure in this document traces back to your own supplier invoice. The floors are real floors, and
+      the downside case is printed next to the target on purpose. I would rather you agree to this knowing
+      exactly what the worst outcome looks like.</p>
+  </div>
+</section>
+
+</div><!-- /wrap -->
+
+<footer><div class="wrap">
+  <div class="fl">
+    <a class="logo-link" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer" aria-label="Nouman Sadiq — noumansadiq.com (opens in a new tab)">
+    <svg class="badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
+      <defs><linearGradient id="fm" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#F0C36A"/><stop offset="100%" stop-color="#C9A84C"/>
+      </linearGradient></defs>
+      <rect x="2" y="2" width="60" height="60" rx="14" fill="#0B0B09"/>
+      <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#fm)" stroke-width="2"/>
+      <path d="M20 46 V18 L44 46 V18" fill="none" stroke="url(#fm)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="47" cy="17" r="4" fill="url(#fm)"/>
+    </svg>
+    </a>
+    <div style="font-size:13.5px; color:var(--ink-dim); line-height:1.5">
+      <strong style="color:var(--ink)">Nouman Sadiq</strong><br>
+      <a href="mailto:info@noumansadiq.com" style="border:0">info@noumansadiq.com</a> · +1 (929) 939-4060
+    </div>
+  </div>
+  <div class="fr">Prepared 24 August 2026<br>Confidential to the addressee<br>
+    All figures traced to supplier invoice YSF-SCM250337</div>
+</div></footer>
+
+</div><!-- /doc -->
+
+<script>
+(function(){
+  var GATE_PW = "NS-2026-SP";
+  var gate = document.getElementById('gate'), doc = document.getElementById('doc');
+  function open(){ gate.style.display='none'; doc.style.display='block'; init(); }
+  try{ if (sessionStorage.getItem('nsp_ok_sp')==='1') open(); }catch(e){}
+  document.getElementById('gateForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    if (document.getElementById('gateInput').value.trim() === GATE_PW){
+      try{ sessionStorage.setItem('nsp_ok_sp','1'); }catch(e){}
+      open();
+    } else {
+      document.getElementById('gateErr').style.display='block';
+    }
+  });
+  var inited=false;
+  function init(){
+    if(inited) return; inited=true;
+    var p=document.getElementById('prog');
+    function up(){
+      var h=document.documentElement, s=h.scrollTop||document.body.scrollTop;
+      var m=(h.scrollHeight-h.clientHeight)||1;
+      p.style.width=Math.min(100,(s/m)*100)+'%';
+    }
+    addEventListener('scroll', up, {passive:true}); up();
+  }
+})();
+</script>
+</body></html>
