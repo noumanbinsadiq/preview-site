@@ -3,684 +3,1748 @@
 <head>
 <meta charset="UTF-8">
 <meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yumbo — how a job travels through the system</title>
+<title>Yumbo — CRM &amp; Estimating Platform (v8 preview)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F1F3F6; --card:#FFFFFF; --ink:#0F1115; --ink2:#5B6270; --ink3:#8A919E;
-  --line:#E3E7ED; --blue:#2563EB; --blue-soft:#EFF4FF;
-  --coral:#FF5A38; --coral-soft:#FFF1ED;
-  --green:#0F9D58; --green-soft:#E9F7EF;
-  --amber:#D89A3C; --amber-soft:#FDF6E9;
-  --r:14px; --r2:10px;
+  --cream:#FBF6EA; --cream-2:#F4ECD9; --ink:#1B1710; --ink-soft:#4B4438;
+  --blue:#2F5BFF; --coral:#FF5A38; --green:#12A66B; --violet:#7A4DFF; --yellow:#FFC42E;
 }
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:var(--bg);color:var(--ink);
-  font-family:Manrope,system-ui,-apple-system,sans-serif;font-size:15px;line-height:1.5}
-a{color:inherit}
-.appbar{background:#0F1115;color:#fff;padding:11px 16px;display:flex;align-items:center;
-  gap:12px;position:sticky;top:0;z-index:40}
-.appbar .brand{font-weight:800;letter-spacing:-.02em;font-size:17px}
-.appbar .spacer{flex:1}
-.whoami{background:rgba(255,255,255,.12);border:0;color:#fff;font:inherit;font-size:12.5px;
-  font-weight:700;padding:9px 11px;border-radius:9px;min-height:40px}
-.gear{width:40px;height:40px;min-width:40px;border-radius:50%;background:rgba(255,255,255,.14);
-  display:flex;align-items:center;justify-content:center;cursor:pointer;border:0;color:#fff}
-.gear:hover{background:var(--blue)}
-.gear.on{background:var(--blue)}
-.tabs{background:#fff;border-bottom:1px solid var(--line);padding:0 8px;
-  display:flex;gap:2px;overflow-x:auto;position:sticky;top:56px;z-index:30;
-  -webkit-overflow-scrolling:touch;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tabs button{background:0;border:0;font:inherit;font-size:13px;font-weight:700;color:var(--ink2);
-  padding:14px 13px;white-space:nowrap;cursor:pointer;border-bottom:3px solid transparent;min-height:48px}
-.tabs button.on{color:var(--blue);border-bottom-color:var(--blue)}
-.tabs .pipdot{display:inline-block;background:var(--coral);color:#fff;border-radius:99px;
-  font-size:10.5px;font-weight:800;padding:1px 6px;margin-left:5px;vertical-align:1px}
-main{padding:18px 16px 60px;max-width:1100px;margin:0 auto}
-h1{font-size:22px;font-weight:800;letter-spacing:-.02em;margin:0 0 4px}
-h2{font-size:15px;font-weight:800;margin:26px 0 10px;letter-spacing:-.01em}
-.sub{color:var(--ink2);font-size:13.5px;margin:0 0 16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:12px}
-.card.tap{cursor:pointer;transition:border-color .14s,transform .12s}
-.card.tap:hover{border-color:var(--blue);transform:translateY(-1px)}
-.row{display:flex;gap:12px;align-items:center}
-.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
-.kpi .l{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
-.kpi .v{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-top:3px}
-.kpi .n{font-size:11.5px;color:var(--ink2);margin-top:2px}
-.pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:800;
-  letter-spacing:.02em;background:#EEF1F5;color:var(--ink2);white-space:nowrap}
-.pill.blue{background:var(--blue-soft);color:var(--blue)}
-.pill.green{background:var(--green-soft);color:var(--green)}
-.pill.coral{background:var(--coral-soft);color:var(--coral)}
-.pill.amber{background:var(--amber-soft);color:#9A6B14}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:var(--blue);
-  color:#fff;border:0;font:inherit;font-size:13.5px;font-weight:700;padding:12px 18px;
-  border-radius:var(--r2);cursor:pointer;min-height:46px}
-.btn:hover{filter:brightness(1.08)}
-.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
-.btn.coral{background:var(--coral)}
-.btn.sm{padding:9px 13px;font-size:12.5px;min-height:40px}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-label.f{display:block;font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
-  color:var(--ink3);margin-bottom:5px}
-.in{width:100%;padding:12px;border:1px solid var(--line);border-radius:var(--r2);
-  font:inherit;font-size:16px;background:#fff;min-height:46px}
-.in:focus{outline:2px solid var(--blue);border-color:var(--blue)}
-textarea.in{min-height:88px;resize:vertical}
-.note{background:var(--blue-soft);border:1px solid #D6E4FF;border-radius:var(--r2);
-  padding:12px 14px;font-size:13px;color:#1E3A8A;margin:12px 0}
-.note.warn{background:var(--amber-soft);border-color:#F0DFBC;color:#7A5310}
-.note.good{background:var(--green-soft);border-color:#C9E9D6;color:#0B6B3C}
-.note.bad{background:var(--coral-soft);border-color:#FFD5CA;color:#A5321A}
-.scrollx{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--r);border:1px solid var(--line);background:#fff}
-table{border-collapse:collapse;width:100%;min-width:560px}
-th{background:#0F1115;color:#fff;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
-  text-align:left;padding:11px 13px;white-space:nowrap}
-td{padding:12px 13px;border-bottom:1px solid var(--line);font-size:13.5px;white-space:nowrap}
-tr:last-child td{border-bottom:0}
-td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
-td.wrap{white-space:normal;min-width:200px}
-tr.tap{cursor:pointer}
-tr.tap:hover{background:#F7F9FC}
-tr.total td{font-weight:800;background:#FAFBFD;border-top:2px solid var(--ink)}
-tr.dim td{color:var(--ink3);font-style:italic;background:#FAFBFD}
-.in-money{color:var(--green);font-weight:800}
-.out-money{color:var(--coral);font-weight:800}
-.hint{font-size:11.5px;color:var(--ink3);padding:9px 13px;border-top:1px solid var(--line);background:#FAFBFD}
-.chain{display:flex;gap:0;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch}
-.step{flex:0 0 auto;min-width:132px;background:#fff;border:1px solid var(--line);padding:12px;
-  position:relative;cursor:pointer;transition:.14s}
-.step:first-child{border-radius:var(--r) 0 0 var(--r)}
-.step:last-child{border-radius:0 var(--r) var(--r) 0}
-.step:hover{background:#F7F9FC}
-.step.on{background:#0F1115;color:#fff;border-color:#0F1115}
-.step .n{font-size:10px;font-weight:800;letter-spacing:.08em;color:var(--ink3)}
-.step.on .n{color:rgba(255,255,255,.55)}
-.step .t{font-size:13px;font-weight:800;margin-top:3px}
-.step .w{font-size:11px;color:var(--ink2);margin-top:3px;line-height:1.35}
-.step.on .w{color:rgba(255,255,255,.7)}
-.door{border-left:4px solid var(--blue)}
-.door.b2{border-left-color:var(--green)}
-.door.b3{border-left-color:var(--amber)}
-.door.b4{border-left-color:var(--ink3)}
-.avatar{width:38px;height:38px;min-width:38px;border-radius:50%;background:#0F1115;color:#fff;
-  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
-.avatar.o{background:var(--coral)}
-.tl{position:relative;padding-left:26px;margin:0}
-.tl li{list-style:none;position:relative;padding:0 0 16px}
-.tl li::before{content:"";position:absolute;left:-19px;top:5px;width:10px;height:10px;
-  border-radius:50%;background:var(--blue)}
-.tl li::after{content:"";position:absolute;left:-15px;top:17px;bottom:-3px;width:2px;background:var(--line)}
-.tl li:last-child::after{display:none}
-.tl li.done::before{background:var(--green)}
-.tl li.wait::before{background:#fff;border:2px solid var(--line)}
-.tl .w{font-size:11.5px;color:var(--ink3)}
-details.more{margin-top:10px}
-details.more>summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:6px;
-  font-size:12.5px;font-weight:800;color:var(--blue);padding:11px 0;min-height:44px}
-details.more>summary::-webkit-details-marker{display:none}
-details.more>summary::after{content:"▾";font-size:10px}
-details.more[open]>summary::after{content:"▴"}
-.banner{background:#0F1115;color:#fff;padding:9px 16px;font-size:12px;text-align:center}
-.banner b{color:#FFB4A1}
-.hide{display:none!important}
+*{box-sizing:border-box; margin:0; padding:0;}
+html,body{overflow-x:hidden; max-width:100%;}
+body{font-family:'Manrope',sans-serif; background:var(--cream-2); color:var(--ink); line-height:1.55; padding:30px 16px 70px;}
+h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; letter-spacing:-0.02em;}
+.wrap{max-width:980px; margin:0 auto;}
+.note-banner{background:rgba(255,90,56,.08); border:2px dashed var(--coral); border-radius:16px; padding:14px 18px; font-size:12.5px; color:var(--ink-soft); margin-bottom:22px;}
+.note-banner b{color:var(--coral);}
+.roletoggle{display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;}
+.roletoggle button{font-family:'Manrope',sans-serif; font-weight:800; font-size:13px; padding:10px 18px; border:2.5px solid var(--ink); border-radius:99px; background:var(--cream); cursor:pointer;}
+.roletoggle button.active{background:var(--ink); color:var(--cream);}
+.shell{background:var(--cream); border:3px solid var(--ink); border-radius:24px; padding:24px; box-shadow:6px 6px 0 var(--ink);}
+.top-bar{display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px;}
+.logo{font-size:16px; font-weight:800;}
+.who{font-size:12px; font-weight:700; color:var(--ink-soft); background:var(--cream-2); border:2px solid var(--ink); border-radius:99px; padding:5px 12px;}
+.navbar{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:24px; padding-bottom:18px; border-bottom:2px solid rgba(27,23,16,.1);}
+.navbar button{font-family:'Manrope',sans-serif; font-size:11.5px; font-weight:800; padding:8px 14px; border:2px solid var(--ink); border-radius:99px; background:var(--cream-2); cursor:pointer; color:var(--ink);}
+.navbar button.on{background:var(--coral); color:#fff; border-color:var(--coral);}
+.navbar button.locked{opacity:.35; cursor:not-allowed;}
+/* Grouped nav (20 Aug redesign, matches the real system).
+   Rules that keep it calm for someone in here 3-4h/day:
+   - only ONE menu open at a time (enforced in buildNav's toggle handler)
+   - nothing opens on page load — highlight shows where you are, click shows more
+   - click anywhere else closes it
+   - everything eases in/out; nothing snaps */
+.navbar{align-items:flex-start; position:relative;}
+.navbar button, .navgroup summary{transition:background .18s ease, color .18s ease, border-color .18s ease, transform .12s ease, box-shadow .18s ease;}
+.navbar > button:hover, .navgroup summary:hover{transform:translateY(-1px); box-shadow:0 3px 0 rgba(27,23,16,.14);}
+.navgroup{position:relative;}
+.navgroup summary{list-style:none; cursor:pointer; font-family:'Manrope',sans-serif; font-size:11.5px; font-weight:800; padding:8px 15px; border:2px solid var(--ink); border-radius:99px; background:var(--cream-2); user-select:none; letter-spacing:.02em; display:inline-flex; align-items:center; gap:5px;}
+.navgroup summary::-webkit-details-marker{display:none;}
+.navgroup summary::after{content:"▾"; font-size:8px; opacity:.55; transition:transform .18s ease;}
+.navgroup[open] > summary::after{transform:rotate(180deg);}
+.navgroup.ongroup > summary{background:var(--coral); color:#fff; border-color:var(--coral);}
+.navgroup[open] > summary{background:var(--ink); color:var(--cream-2); border-color:var(--ink);}
+.navmenu{position:absolute; top:calc(100% + 8px); left:0; background:#fff; border:2px solid var(--ink); border-radius:16px; padding:7px; display:flex; flex-direction:column; gap:2px; min-width:172px; z-index:40; box-shadow:0 10px 28px rgba(27,23,16,.16), 0 2px 0 rgba(27,23,16,.08); animation:menuIn .16s ease both; transform-origin:top left;}
+@keyframes menuIn{from{opacity:0; transform:translateY(-5px) scale(.98);} to{opacity:1; transform:translateY(0) scale(1);}}
+.navmenu button{text-align:left; border-radius:10px !important; border-color:transparent !important; background:transparent !important; color:var(--ink) !important; width:100%; transition:background .14s ease, padding-left .14s ease;}
+.navmenu button:hover{background:var(--cream-2) !important; padding-left:18px;}
+.navmenu button.on{background:var(--coral) !important; color:#fff !important;}
+.navmenu button{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+.navcount{display:inline-flex; align-items:center; justify-content:center; min-width:19px; height:19px; padding:0 6px; background:var(--coral); color:#fff; border-radius:99px; font-size:10.5px; font-weight:800; line-height:1;}
+.navgroup summary .navcount{margin-left:2px;}
+.navgroup[open] > summary .navcount{background:#fff; color:var(--ink);}
+.navmenu button.on .navcount{background:#fff; color:var(--coral);}
 @media(max-width:640px){
-  main{padding:16px 12px 60px}
-  .tabs{top:54px}
-  h1{font-size:19px}
-  .kpi .v{font-size:21px}
-  /* The "Viewing as…" select sizes itself to its LONGEST option, not the
-     selected one, so at 390px it was 247px wide and pushed the gear 6px off
-     the right edge — the whole page then scrolled sideways. Found by measuring
-     which element overflowed rather than guessing at the tab bar, which
-     scrolls inside itself and was innocent. */
-  .whoami{max-width:44vw;min-width:0;text-overflow:ellipsis}
-  .appbar{padding-left:12px;padding-right:12px;gap:8px}
-  .appbar .brand{font-size:15px}
+  .navmenu{position:static; box-shadow:none; margin-top:6px; min-width:0; animation:menuInMobile .18s ease both;}
+  @keyframes menuInMobile{from{opacity:0; transform:translateY(-4px);} to{opacity:1; transform:translateY(0);}}
 }
+.back{display:inline-block; font-size:12px; font-weight:800; margin-bottom:14px; cursor:pointer; color:var(--coral);}
+.greet{font-size:12.5px; font-weight:700; color:var(--coral); text-transform:uppercase; letter-spacing:.05em; margin-bottom:4px;}
+h1.dt{font-size:23px; margin-bottom:18px;}
+.money{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:18px;}
+.money.four{grid-template-columns:repeat(4,1fr);}
+.card{border:2.5px solid var(--ink); border-radius:16px; padding:14px 16px; background:var(--cream-2); position:relative;}
+.card .l{font-size:11px; font-weight:700; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.04em; margin-bottom:6px;}
+.card .v{font-size:19px; font-weight:800;}
+.card.click{cursor:pointer; transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;}
+.card.click:hover{transform:translateY(-1px); box-shadow:4px 4px 0 rgba(27,23,16,.08);}
+.card.blurred .v{filter:blur(6px); user-select:none;}
+.notif{border:2.5px solid var(--yellow); background:#fffaf0; border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:transform .12s ease, box-shadow .12s ease;}
+.notif:hover{transform:translateY(-1px); box-shadow:3px 3px 0 rgba(27,23,16,.08);}
+.card .hint{font-size:10px; font-weight:700; color:var(--ink-soft); margin-top:4px;}
+.card.profit .v{color:var(--green);}
+.sec-title{font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin:28px 0 12px; padding-top:18px; border-top:2px solid rgba(27,23,16,.08);}
+.sec-title:first-of-type{padding-top:0; border-top:none; margin-top:20px;}
+.summary-grid{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:12px; margin:6px 0 18px;}
+.summary-grid .card{padding:12px 14px;}
+.summary-grid .card .v{font-size:16px;}
+.attn-block{border:2.5px solid var(--coral); border-radius:20px; padding:18px; background:rgba(255,90,56,.05); margin-bottom:26px;}
+.attn-head{display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:12px;}
+.attn-title{font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--coral);}
+.sortbox{display:flex; align-items:center; gap:8px; font-size:11px; font-weight:800; color:var(--ink-soft);}
+.sortbox select{padding:7px 10px; border:2px solid var(--ink); border-radius:10px; background:var(--cream); font-family:'Manrope',sans-serif; font-weight:800; font-size:11px;}
+.attn-empty{font-size:12.5px; font-weight:700; color:var(--green);}
+.notif{border:2.5px solid var(--yellow); background:#fffaf0; border-radius:14px; padding:12px 14px; margin-bottom:8px;}
+.notif.orange{border-color:var(--coral); background:rgba(255,90,56,.06);}
+.notif.green{border-color:var(--green); background:rgba(18,166,107,.06);}
+.notif.blue{border-color:var(--blue); background:rgba(47,91,255,.06);}
+.notif.yellow{border-color:var(--yellow); background:#fffaf0;}
+.notif .l{font-size:11px; font-weight:800; color:var(--ink-soft); text-transform:uppercase; margin-bottom:3px;}
+.notif .v{font-size:13.5px; font-weight:700;}
+.pill-btn{display:inline-block; font-size:11px; font-weight:800; padding:7px 13px; border:2px solid var(--ink); border-radius:99px; background:var(--cream); margin-top:6px; margin-right:6px; cursor:pointer;}
+.pill-btn.solid{background:var(--coral); color:#fff; border-color:var(--coral);}
+.pill-btn.green{background:var(--green); color:#fff; border-color:var(--green);}
+.pill-btn.blue{background:var(--blue); color:#fff; border-color:var(--blue);}
+.pill-btn.ghost{background:transparent;}
+.segtabs{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px;}
+.segtabs button{font-family:'Manrope',sans-serif; font-size:11.5px; font-weight:800; padding:8px 14px; border:2px solid var(--ink); border-radius:10px; background:var(--cream-2); cursor:pointer;}
+.segtabs button.on{background:var(--ink); color:var(--cream);}
+.tablewrap{width:100%; overflow-x:auto; border-radius:14px; margin-bottom:10px;}
+/* -webkit-overflow-scrolling:touch REMOVED 21 Aug 2026 — prime suspect for the
+   iOS-only "infinite footer" blank space (documented Safari bug where legacy
+   momentum-scroll containers inflate the page height; deprecated since iOS 13,
+   momentum scrolling is default now — removing costs nothing). */
+table{width:100%; min-width:460px; border-collapse:collapse; border:2.5px solid var(--ink); border-radius:14px; font-size:12.5px; margin-bottom:0;}
+th{background:var(--ink); color:var(--cream); text-align:left; padding:9px 12px; font-size:10.5px; text-transform:uppercase; letter-spacing:.04em;}
+td{padding:9px 12px; border-top:1.5px solid rgba(27,23,16,.12); font-weight:600;}
+tr.link{cursor:pointer;}
+tr.link:hover td{background:rgba(255,90,56,.05);}
+.status{display:inline-block; font-size:10px; font-weight:800; padding:3px 9px; border-radius:99px; background:var(--cream-2); border:1.5px solid var(--ink); white-space:nowrap;}
+.status.needsattn{background:var(--coral); color:#fff; border-color:var(--coral);}
+.status.waiting{background:var(--yellow); border-color:var(--yellow);}
+.status.approved,.status.won,.status.paid,.status.matched{background:var(--green); color:#fff; border-color:var(--green);}
+.status.declined,.status.lost{background:var(--ink-soft); color:#fff; border-color:var(--ink-soft);}
+.status.progress{background:var(--blue); color:#fff; border-color:var(--blue);}
+.kv{border:2.5px solid var(--ink); border-radius:16px; padding:14px 18px; background:var(--cream-2); margin-bottom:16px;}
+.kv .row{display:flex; justify-content:space-between; padding:7px 0; border-bottom:1.5px solid rgba(27,23,16,.1); font-size:13px; gap:12px;}
+.kv .row:last-child{border-bottom:none;}
+.kv .row span:first-child{color:var(--ink-soft); font-weight:700; flex-shrink:0;}
+.kv .row span:last-child{font-weight:800; text-align:right;}
+.field{margin-bottom:12px;}
+.field label{display:block; font-size:11.5px; font-weight:800; color:var(--ink-soft); margin-bottom:4px;}
+.field input,.field select,.field textarea{width:100%; padding:9px 11px; border:2px solid var(--ink); border-radius:10px; font-size:13px; font-family:'Manrope',sans-serif; background:var(--cream);}
+.field textarea{resize:vertical; min-height:60px;}
+.formcard{border:2.5px solid var(--ink); border-radius:16px; padding:16px; background:var(--cream-2); max-width:440px;}
+.subrow{display:flex; gap:8px; align-items:center; margin-bottom:8px; font-size:12.5px;}
+.subrow .nm{flex:1; font-weight:700;}
+.subrow input{width:70px; padding:6px 8px; border:2px solid var(--ink); border-radius:8px; font-size:12px;}
+.empty{font-size:12.5px; color:var(--ink-soft); font-weight:700; padding:10px 0;}
+.legend{display:flex; gap:16px; flex-wrap:wrap; margin-top:24px; font-size:11.5px; color:var(--ink-soft); font-weight:700;}
+.legend span{display:inline-flex; align-items:center; gap:6px;}
+.dot{width:10px; height:10px; border-radius:50%; border:1.5px solid var(--ink);}
+footer{text-align:center; padding:26px 0 10px; font-size:12px; color:var(--ink-soft);}
+.searchbar{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;}
+.searchbar select{padding:9px 10px; border:2px solid var(--ink); border-radius:10px; font-size:12.5px; font-family:'Manrope',sans-serif; background:var(--cream-2); font-weight:700; flex-shrink:0;}
+.searchbar input{flex:1 1 160px; min-width:0; padding:9px 12px; border:2px solid var(--ink); border-radius:10px; font-size:13px; font-family:'Manrope',sans-serif;}
+.searchbar .pill-btn{margin-top:0; flex-shrink:0;}
+.attach{display:flex; align-items:center; gap:10px; border:2px solid var(--ink); border-radius:12px; padding:9px 12px; margin-bottom:6px; font-size:12px; font-weight:700;}
+.attach .tag{font-size:9.5px; font-weight:800; text-transform:uppercase; background:var(--violet); color:#fff; padding:2px 8px; border-radius:99px;}
+.attach .ico{width:26px; height:26px; border-radius:8px; border:2px solid var(--ink); display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; background:var(--cream-2);}
+.lockednote{font-size:11.5px; color:var(--ink-soft); font-weight:700; font-style:italic;}
+.notesbox{border:2px solid var(--ink); border-radius:14px; overflow:hidden; margin-bottom:10px;}
+.note{padding:11px 14px; border-top:1.5px solid rgba(27,23,16,.12); font-size:12.5px;}
+.note:first-child{border-top:none;}
+.note .meta{font-weight:800; color:var(--ink-soft); font-size:10.5px; text-transform:uppercase; margin-bottom:3px; display:flex; justify-content:space-between; gap:8px;}
+.note .to{background:var(--violet); color:#fff; padding:2px 8px; border-radius:99px; font-size:9.5px;}
+.noteform{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;}
+.noteform textarea{flex:1; min-width:200px; padding:9px 11px; border:2px solid var(--ink); border-radius:10px; font-size:12.5px; font-family:'Manrope',sans-serif; min-height:44px;}
+.noteform select{padding:9px; border:2px solid var(--ink); border-radius:10px; font-size:12px; font-family:'Manrope',sans-serif; background:var(--cream);}
+/* ---- COMPLETION FUNNEL & WORKFLOW ---- */
+.funnel-container{margin:20px 0; background:var(--cream-2); border:2px solid var(--ink); border-radius:14px; padding:16px; overflow-x:auto;}
+.funnel-row{display:flex; gap:8px; margin-bottom:12px; align-items:center;}
+.funnel-step{flex:1; min-width:140px; background:var(--cream); border:2.5px solid var(--ink); border-radius:10px; padding:12px; text-align:center; transition:all .12s ease;}
+.funnel-step.active{background:var(--coral); color:#fff; border-color:var(--coral);}
+.funnel-step.completed{background:var(--green); color:#fff; border-color:var(--green);}
+.funnel-step.pending{background:var(--yellow); border-color:var(--yellow);}
+.funnel-step.skipped{opacity:.5; border-style:dashed;}
+.funnel-step .step-label{font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.04em; margin-bottom:4px; opacity:.8;}
+.funnel-step .step-title{font-size:12px; font-weight:800; margin-bottom:2px;}
+.funnel-step .step-detail{font-size:10px; font-weight:700; opacity:.85; line-height:1.3;}
+.funnel-arrow{width:24px; height:2px; background:var(--ink); margin-top:30px;}
+.funnel-footer{font-size:10.5px; color:var(--ink-soft); margin-top:12px; padding-top:8px; border-top:1px solid rgba(27,23,16,.1);}
+
+/* ---- MOBILE ---- */
+@media (max-width:640px){
+  body{padding:16px 10px 20px;}
+  footer{padding:16px 0 4px;}
+  .shell{padding:16px; border-radius:18px;}
+  .money{grid-template-columns:repeat(2,1fr); gap:8px;}
+  .money.four{grid-template-columns:repeat(2,1fr);}
+  .summary-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .card{padding:11px 12px;}
+  .card .v{font-size:16px;}
+  .searchbar select{flex:1 1 100%;}
+  .formcard{max-width:100%;}
+  h1.dt{font-size:19px;}
+}
+@media (max-width:380px){
+  .money, .money.four, .summary-grid{grid-template-columns:1fr;}
+}
+</style>
+<style id="skin-v7">
+/* ============================================================
+   SKIN v7 — Mailin's chosen direction (21 Aug reference image):
+   black app bar, white cards on light gray, royal blue actions,
+   coral kept for the brand + "needs you" alerts, icon-tile nav.
+   Built as an override layer: structure and behaviour untouched.
+   ============================================================ */
+:root{
+  --cream:#FFFFFF;            /* card surfaces */
+  --cream-2:#F1F3F6;          /* page background / soft fills */
+  --ink:#0B0B0D;
+  --ink-soft:#5A6069;
+  --blue:#2563EB;
+  --coral:#FF5A38;
+  --green:#16A34A;
+  --yellow:#F59E0B;
+  --line:#E4E7EC;
+  --shadow:0 1px 2px rgba(16,24,40,.05), 0 4px 16px rgba(16,24,40,.06);
+}
+body{background:var(--cream-2); padding:22px 14px 70px;}
+.shell{background:transparent; border:none; border-radius:0; padding:0; box-shadow:none;}
+
+/* ---- black app bar ---- */
+.top-bar{background:var(--ink); border-radius:20px; padding:16px 18px; margin-bottom:16px; box-shadow:var(--shadow);}
+.top-bar .logo{color:#fff; font-family:'Bricolage Grotesque',sans-serif; font-size:20px; line-height:1.1;}
+.top-bar .logo b{color:var(--coral);}
+.top-bar .logo small{display:block; font-size:9.5px; letter-spacing:.14em; font-weight:700; color:rgba(255,255,255,.75); font-family:'Manrope',sans-serif;}
+#navToggle{width:42px; height:42px; border-radius:50%; border:2px solid rgba(255,255,255,.35); background:transparent; color:#fff; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; transition:transform .2s ease, background .2s ease;}
+#navToggle:hover{background:rgba(255,255,255,.12); transform:scale(1.05);}
+.who{background:#fff; border:1.5px solid var(--line); color:var(--ink); box-shadow:var(--shadow); margin-bottom:4px;}
+
+/* ---- generic surfaces ---- */
+.card,.formcard,.notif,.attn-block,.notesbox,.kv{background:var(--cream); border:1.5px solid var(--line); box-shadow:var(--shadow); border-radius:18px;}
+.tablewrap{border:1.5px solid var(--line); border-radius:16px; box-shadow:var(--shadow); background:#fff;}
+table{border:none;}
+th{background:var(--ink); color:#fff;}
+.note-banner{background:#fff; border:2px dashed var(--coral); box-shadow:var(--shadow);}
+.lockednote{border-radius:14px;}
+
+/* ---- buttons: primary actions go BLUE; coral = attention/brand ---- */
+.pill-btn{border:1.5px solid var(--line); background:#fff; box-shadow:var(--shadow); border-radius:14px; transition:transform .15s ease, box-shadow .2s ease, background .2s ease;}
+.pill-btn:hover{transform:translateY(-1px); box-shadow:0 6px 18px rgba(16,24,40,.10);}
+.pill-btn:active{transform:scale(.97);}
+.pill-btn.solid{background:var(--blue) !important; border-color:var(--blue) !important; color:#fff !important;}
+.pill-btn.blue{background:var(--blue) !important; border-color:var(--blue) !important; color:#fff !important;}
+.pill-btn.green{background:var(--green) !important; border-color:var(--green) !important; color:#fff !important;}
+.searchbar button{background:var(--blue); border-color:var(--blue);}
+.roletoggle button{background:#fff; border:1.5px solid var(--line); box-shadow:var(--shadow); transition:transform .15s ease;}
+.roletoggle button:active{transform:scale(.97);}
+.roletoggle button.active{background:var(--ink); border-color:var(--ink); color:#fff;}
+input,select,textarea{border-color:var(--line) !important; background:#fff; border-radius:12px !important; transition:border-color .2s ease, box-shadow .2s ease;}
+input:focus,select:focus,textarea:focus{outline:none; border-color:var(--blue) !important; box-shadow:0 0 0 3px rgba(37,99,235,.15);}
+
+/* ---- filter chips with counts (reference style) ---- */
+.segtabs{gap:8px;}
+.segtabs button{border:1.5px solid var(--line); background:#fff; border-radius:14px; padding:9px 14px; box-shadow:var(--shadow); transition:transform .15s ease, border-color .2s ease, background .2s ease; display:inline-flex; align-items:center; gap:7px;}
+.segtabs button:active{transform:scale(.96);}
+.segtabs button.on{border:2px solid var(--blue); color:var(--blue); background:#fff;}
+.segtabs button .chipn{display:inline-flex; align-items:center; justify-content:center; min-width:20px; height:20px; padding:0 6px; border-radius:99px; background:var(--cream-2); font-size:11px; font-weight:800;}
+.segtabs button.on .chipn{background:var(--blue); color:#fff;}
+
+/* ---- summary stat cards: hero card is blue ---- */
+.summary-grid .card{transition:transform .18s ease, box-shadow .2s ease;}
+.summary-grid .card:hover{transform:translateY(-2px);}
+.summary-grid .card:first-child{background:var(--blue); border-color:var(--blue);}
+.summary-grid .card:first-child .l,.summary-grid .card:first-child .v,.summary-grid .card:first-child .hint{color:#fff;}
+.summary-grid .card:first-child .hint{opacity:.8;}
+
+/* ---- TILE NAV (icon grid launcher, the reference's signature) ---- */
+.navbar{display:grid; grid-template-columns:repeat(auto-fill, minmax(96px,1fr)); gap:10px; border-bottom:none; padding-bottom:6px; margin-bottom:20px;}
+.navbar.navhidden{display:none;}
+.navbar button.tile{position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; background:#fff; border:1.5px solid var(--line); border-radius:18px; padding:14px 6px 12px; min-height:92px; cursor:pointer; box-shadow:var(--shadow); font-family:'Manrope',sans-serif; font-size:11px; font-weight:800; color:var(--ink); transition:transform .16s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease; animation:tileIn .35s ease backwards;}
+.navbar button.tile svg{width:22px; height:22px; stroke:var(--ink); fill:none; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; transition:stroke .2s ease;}
+.navbar button.tile:hover{transform:translateY(-3px); box-shadow:0 8px 22px rgba(16,24,40,.12);}
+.navbar button.tile:active{transform:scale(.94);}
+.navbar button.tile.on{background:var(--coral); border-color:var(--coral); color:#fff;}
+.navbar button.tile.on svg{stroke:#fff;}
+.navbar button.tile.locked{opacity:.32; cursor:not-allowed;}
+.navbar button.tile .navcount{position:absolute; top:-6px; right:-6px; box-shadow:0 2px 6px rgba(16,24,40,.25); animation:badgePop .35s cubic-bezier(.34,1.56,.64,1) .22s backwards;}
+.navbar button.tile.on .navcount{background:#fff; color:var(--coral);}
+@keyframes tileIn{from{opacity:0; transform:translateY(10px) scale(.95);} to{opacity:1; transform:translateY(0) scale(1);}}
+@keyframes badgePop{from{opacity:0; transform:scale(.3);} to{opacity:1; transform:scale(1);}}
+.navbar .tile:nth-child(1){animation-delay:.02s} .navbar .tile:nth-child(2){animation-delay:.05s}
+.navbar .tile:nth-child(3){animation-delay:.08s} .navbar .tile:nth-child(4){animation-delay:.11s}
+.navbar .tile:nth-child(5){animation-delay:.14s} .navbar .tile:nth-child(6){animation-delay:.17s}
+.navbar .tile:nth-child(7){animation-delay:.20s} .navbar .tile:nth-child(8){animation-delay:.23s}
+.navbar .tile:nth-child(9){animation-delay:.26s} .navbar .tile:nth-child(10){animation-delay:.29s}
+.navbar .tile:nth-child(11){animation-delay:.32s} .navbar .tile:nth-child(12){animation-delay:.35s}
+.navbar .tile:nth-child(13){animation-delay:.38s} .navbar .tile:nth-child(14){animation-delay:.41s}
+@media(max-width:640px){ .navbar{grid-template-columns:repeat(3,1fr);} }
+
+/* ---- page transition ---- */
+#pageBody.pagein{animation:pageIn .28s ease;}
+@keyframes pageIn{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
+
+/* ---- statuses keep their meaning, restyled softer ---- */
+.status{border:none; background:var(--cream-2);}
+
+/* ---- iOS "infinite footer" hardening (21 Aug) ----
+   overflow:hidden makes body a scrollable box on iOS, which can reserve
+   phantom scroll area below the content. overflow:clip clips WITHOUT
+   creating a scrollable box — supported iOS 16+; older Safari keeps the
+   hidden fallback from the base styles. Height explicitly left to content. */
+@supports (overflow: clip){
+  html, body{overflow-x: clip;}
+}
+html, body{height: auto; min-height: 0;}
+
+/* Respect users who turn animations off at the OS level. */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none !important; transition:none !important;}
+}
+</style>
+
+<style id="v8-extra">
+/* ===== v8 additions: role-based platform + estimator module ===== */
+.rolebar{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;}
+.rolebar button{font-family:'Manrope',sans-serif; font-weight:800; font-size:12px; padding:9px 14px; border:1.5px solid var(--line); border-radius:14px; background:#fff; cursor:pointer; box-shadow:var(--shadow); transition:transform .15s ease, background .2s ease;}
+.rolebar button:active{transform:scale(.96);}
+.rolebar button.on{background:var(--ink); color:#fff; border-color:var(--ink);}
+.stepbar{display:flex; gap:0; align-items:stretch; margin:14px 0 18px; flex-wrap:wrap; border:1.5px solid var(--line); border-radius:16px; overflow:hidden; background:#fff; box-shadow:var(--shadow);}
+.stepbar .stp{flex:1 1 120px; padding:11px 12px; font-size:11px; font-weight:800; color:var(--ink-soft); border-right:1.5px solid var(--line); display:flex; align-items:center; gap:7px;}
+.stepbar .stp:last-child{border-right:none;}
+.stepbar .stp .n{width:20px; height:20px; border-radius:50%; background:var(--cream-2); display:inline-flex; align-items:center; justify-content:center; font-size:10px;}
+.stepbar .stp.done{color:var(--green);} .stepbar .stp.done .n{background:var(--green); color:#fff;}
+.stepbar .stp.now{color:#fff; background:var(--blue);} .stepbar .stp.now .n{background:rgba(255,255,255,.28); color:#fff;}
+.lineitem{background:#fff; border:1.5px solid var(--line); border-radius:16px; padding:13px 14px; margin-bottom:10px; box-shadow:var(--shadow); animation:tileIn .3s ease backwards;}
+.lineitem .li-top{display:flex; justify-content:space-between; gap:10px; align-items:flex-start; margin-bottom:9px;}
+.lineitem .li-desc{font-weight:800; font-size:13.5px; line-height:1.35;}
+.lineitem .li-tot{font-weight:800; font-size:14px; white-space:nowrap;}
+.li-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(88px,1fr)); gap:8px;}
+.li-cell{background:var(--cream-2); border-radius:10px; padding:7px 9px;}
+.li-cell .k{font-size:9.5px; font-weight:800; text-transform:uppercase; color:var(--ink-soft); letter-spacing:.03em;}
+.li-cell .v{font-size:12.5px; font-weight:800; margin-top:1px;}
+.totrow{display:flex; justify-content:space-between; padding:9px 2px; font-size:13px; border-bottom:1px solid var(--line);}
+.totrow:last-child{border-bottom:none;}
+.totrow.grand{font-size:16px; font-weight:900; border-top:2px solid var(--ink); border-bottom:none; padding-top:12px; margin-top:4px;}
+.totrow .lbl{color:var(--ink-soft); font-weight:700;}
+.totrow .amt{font-weight:800;}
+.pricecard{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:12px 0;}
+.pricecard .pc{background:#fff; border:1.5px solid var(--line); border-radius:16px; padding:13px; box-shadow:var(--shadow);}
+.pricecard .pc.rec{background:var(--blue); border-color:var(--blue); color:#fff;}
+.pricecard .pc.strong{background:var(--ink); border-color:var(--ink); color:#fff;}
+.pricecard .pc .k{font-size:10px; font-weight:800; text-transform:uppercase; opacity:.75;}
+.pricecard .pc .v{font-size:19px; font-weight:900; margin-top:3px;}
+.doc{background:#fff; border:1.5px solid var(--line); border-radius:18px; padding:20px 18px; box-shadow:var(--shadow); font-size:13px; line-height:1.65;}
+.doc h2{font-size:16px; margin:16px 0 7px;}
+.doc h2:first-child{margin-top:0;}
+.doc .docmeta{color:var(--ink-soft); font-size:12.5px;}
+.doc ul{margin:6px 0 6px 18px;} .doc li{margin-bottom:4px;}
+.doc .bigprice{font-size:19px; font-weight:900; background:var(--cream-2); border-radius:12px; padding:11px 14px; margin:14px 0;}
+.rolenote{background:#EEF4FF; border:1.5px solid #C7DAFF; color:#1E3A8A; border-radius:14px; padding:11px 13px; font-size:12.5px; font-weight:600; margin-bottom:14px;}
+.catrow{display:flex; justify-content:space-between; gap:10px; padding:11px 13px; background:#fff; border:1.5px solid var(--line); border-radius:14px; margin-bottom:8px; box-shadow:var(--shadow); cursor:pointer; transition:transform .15s ease;}
+.catrow:active{transform:scale(.99);}
+.catrow .nm{font-weight:800; font-size:13px;}
+.catrow .sub{font-size:11.5px; color:var(--ink-soft); margin-top:2px;}
+.catrow .pr{text-align:right; white-space:nowrap;}
+.catrow .pr .y{font-weight:900; font-size:13.5px;} .catrow .pr .s{font-size:11px; color:var(--ink-soft);}
+/* ADDED 1 Sep: the permission grid needs the full column width. .formcard is
+   capped at 440px, which is right for the small "add someone" form and wrong
+   for sixteen tick boxes — it was rendering as two columns in a narrow strip.
+   A separate class, so the existing form keeps the width Mailin approved. */
+.permcard{max-width:100% !important;}
+.permgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px;}
+.permtile{display:flex; gap:9px; align-items:center; min-height:50px; padding:9px 11px;
+  border-radius:12px; background:var(--cream-2); border:1.5px solid var(--line);}
+.permtile.on{background:var(--blue); border-color:var(--blue); color:#fff;}
+.permtile.lock{opacity:.55;}
+.permtile:not(.lock){cursor:pointer;}
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<div class="banner">Preview &middot; sample content, not real jobs or real money. <b>Nothing here is sent to anybody.</b></div>
+  <div class="note-banner">
+    <b>Click-through preview — sample data, nothing here is real yet.</b>
+    Built from the notes and files Alex sent (estimate format, pricing sheet, follow-up tracker,
+    and your Olympus quote). Property and sub names are yours so it feels real; phone numbers and
+    emails are deliberately left out of this preview. Switch roles below to see what each person
+    sees — nothing you click changes anything.
+  </div>
 
-<div class="appbar">
-  <div class="brand">Yumbo</div>
-  <div class="spacer"></div>
-  <select class="whoami" id="who" aria-label="View as">
-    <option value="owner">Viewing as: Mailin — Owner</option>
-    <option value="secretary">Viewing as: Secretary</option>
-    <option value="supervisor">Viewing as: Supervisor estimator</option>
-    <option value="estimator">Viewing as: Estimator</option>
-    <option value="pm">Viewing as: Project manager</option>
-    <option value="sales">Viewing as: Sales</option>
-  </select>
-  <button class="gear" id="gearBtn" title="Settings" aria-label="Settings">
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.1"
-         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <circle cx="12" cy="12" r="3.1"></circle>
-      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-    </svg>
-  </button>
+  <div class="rolebar" id="roleBar"></div>
+  <div class="rolenote" id="roleNote"></div>
+
+  <div class="shell">
+    <div class="top-bar">
+      <div class="logo"><b>Yumbo</b><small>GENERAL CONSTRUCTION</small></div>
+      <button id="navToggle" title="Show / hide the menu"
+        onclick="var n=document.getElementById('navbar'); n.classList.toggle('navhidden'); this.style.transform=n.classList.contains('navhidden')?'rotate(90deg)':'';">&#9776;</button>
+    </div>
+    <div class="who" id="whoTag"></div>
+
+    <div class="searchbar">
+      <select id="searchScope">
+        <option value="all">Search everything</option>
+        <option value="properties">Properties / clients</option>
+        <option value="quotes">Quotes</option>
+        <option value="jobs">Jobs</option>
+        <option value="catalog">Price catalog</option>
+      </select>
+      <input type="text" id="searchInput" placeholder="Search by name, job #, description…">
+      <button class="pill-btn solid" onclick="doSearch()">Search</button>
+    </div>
+
+    <div class="navbar" id="navbar"></div>
+    <div id="pageBody"></div>
+
+    <div class="legend">
+      <span><span class="dot" style="background:var(--coral)"></span> Coral = needs attention now</span>
+      <span><span class="dot" style="background:var(--yellow)"></span> Yellow = waiting / in progress</span>
+      <span><span class="dot" style="background:var(--green)"></span> Green = done / approved</span>
+    </div>
+  </div>
+
+  <div class="note" style="text-align:center; margin-top:16px; font-size:12px; color:var(--ink-soft);">
+    Yumbo CRM &amp; Estimating Platform — preview v8, sample data, for review only.
+  </div>
 </div>
 
-<nav class="tabs" id="tabs"></nav>
-<main id="view"></main>
-
 <script>
-/* ------------------------------------------------------------------
-   Yumbo — click-through preview, v9.
-   Everything below is in-memory sample data. No network, no storage.
-------------------------------------------------------------------- */
-
+/* ============================================================
+   ROLES — six, exactly as Alex specified. Module lists are the
+   permission model: a role simply does not receive tiles it has
+   no access to ("the system should not display modules the user
+   does not have permission to access").
+   ============================================================ */
 var ROLES = {
-  owner:     {name:'Mailin Quintana', short:'Owner',      tabs:['flow','intake','bids','quotes','jobs','money','people']},
-  secretary: {name:'Secretary',       short:'Secretary',  tabs:['flow','intake','bids','quotes','jobs','money','people']},
-  supervisor:{name:'Supervisor est.', short:'Supervisor', tabs:['flow','intake','bids','quotes','jobs']},
-  estimator: {name:'Estimator',       short:'Estimator',  tabs:['flow','bids','quotes','jobs']},
-  pm:        {name:'Project manager', short:'PM',         tabs:['flow','jobs']},
-  sales:     {name:'Sales',           short:'Sales',      tabs:['flow','intake','bids','quotes','jobs']}
+  owner:      {label:'Owner — Mailin',        person:'Mailin',    note:'You see everything. The system only pulls you in for approvals, ignored items, and the weekly report — the day-to-day runs without you.'},
+  secretary:  {label:'Secretary',             person:'Daniela',   note:'Same access as the owner, and you are the one running the day. Your job reports go up to Mailin.'},
+  supervisor: {label:'Supervisor Estimator',  person:'Edison',    note:'Everything an estimator sees, plus the approval queue — estimates land here for you to approve or send back.'},
+  estimator:  {label:'Estimator',             person:'Carlos R.', note:'You price the work and write the quote, all inside the system. When you submit, it goes to the supervisor.'},
+  pm:         {label:'Project Manager',       person:'Rafa',      note:'Jobs, clients and expenses. You are on site — post updates, request change orders, and call in materials or people.'},
+  sales:      {label:'Sales Person',          person:'Ana M.',    note:'Clients, jobs, subs, and the full property CRM — every property, who manages it, and how they pay.'}
 };
-var MONEY_ROLES = ['owner','secretary','supervisor','pm','sales'];
-var TAB_LABELS = {flow:'The chain', intake:'How work arrives', bids:'Bids', quotes:'Quotes',
-                  jobs:'Jobs', money:'Money', people:'Settings'};
 
-var state = {role:'owner', tab:'flow', open:null, step:0};
-
-var BIDS = [
-  {id:'B-118', prop:'Olympus Preserve at Town Center', who:'Rob (property manager)', via:'Request link',
-   desc:'Aluminium fence fabrication and installation, pool deck side', got:'28 Aug', age:4, status:'Needs quoting'},
-  {id:'B-119', prop:'Mirador Apartments', who:'Sandra, on-site manager', via:'Phone call',
-   desc:'Two stair stringers cracked, building 4', got:'30 Aug', age:2, status:'Needs quoting'},
-  {id:'B-120', prop:'Light House Condos', who:'Maintenance supervisor', via:'Email forwarded',
-   desc:'Handrail replacement, three landings', got:'31 Aug', age:1, status:'Being priced'},
-  {id:'B-121', prop:'Cape House', who:'Regional manager', via:'Request link',
-   desc:'Concrete kit plates, walkway settling', got:'1 Sep', age:0, status:'Needs quoting'}
-];
-
-var LINES = [
-  {d:'Aluminium picket fence, 6ft', qty:120, mat:14.50, hrs:0.35, sub:0,    eq:0},
-  {d:'Gate, self-closing, welded',  qty:2,   mat:310.00, hrs:6.00, sub:0,    eq:0},
-  {d:'Sub — RMC Solutions welding', qty:1,   mat:0,     hrs:0,    sub:2757.02, eq:0},
-  {d:'Lift hire, 2 days',           qty:1,   mat:0,     hrs:0,    sub:0,    eq:120.00}
-];
-var PRICING = {labor:30, tax:7.5, profit:40, cont:5, gc:0};
-
-var JOB = {
-  no:'26-4611', prop:'Olympus Preserve at Town Center', desc:'Aluminium fence',
-  price:8300, pm:'Carlos R.', est:'Alex M.', sales:'Dani P.', sub:'Rafa — RMC Solutions',
-  started:'3 Sep', status:'In progress', pct:60
+var MODULES = {
+  owner:      ['dashboard','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses','money','banking','reports','team'],
+  secretary:  ['dashboard','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses','money','reports','team'],
+  supervisor: ['dashboard','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses'],
+  estimator:  ['dashboard','quotes','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses'],
+  pm:         ['dashboard','jobs','requests','inbox','properties','expenses'],  // sees quoted price + sub pay (confirmed 1 Sep)
+  sales:      ['dashboard','quotes','jobs','properties','subs']
 };
-var COSTS = [
-  {w:'Materials — Town &amp; County', d:'aluminium + tax', a:-1354.50, s:'bought'},
-  {w:'Subcontractor — Rafa', d:'agreed payout', a:-2757.02, s:'paid in full'},
-  {w:'Fuel', d:'on site', a:-250.20, s:'approved'},
-  {w:'Crew lunch', d:'on site', a:-186.00, s:'approved'},
-  {w:'Equipment hire', d:'lift, 2 days', a:-120.00, s:'approved'},
-  {w:'Commission — Dani P.', d:'5% of job price', a:-415.00, s:'still moving'}
-];
 
-var INVOICES = [
-  {no:'26-4611-D', job:'26-4611', prop:'Olympus Preserve', stage:'Deposit 35%', amt:2905.00, paid:2905.00,
-   due:'10 Sep', state:'paid', promise:null, portal:'OPS Merchant'},
-  {no:'26-4611-F', job:'26-4611', prop:'Olympus Preserve', stage:'Final', amt:5395.00, paid:2000.00,
-   due:'8 Oct', state:'part', promise:'19 Sep — Rob said the rest goes out with the October run', portal:'OPS Merchant'},
-  {no:'26-4590',   job:'26-4590', prop:'Mirador Apartments', stage:'Single', amt:1840.00, paid:0,
-   due:'12 Aug', state:'late', promise:'8 Sep — accounts said the cheque is cut', portal:'VendorCafe'},
-  {no:'26-4602',   job:'26-4602', prop:'Cape House', stage:'Single', amt:640.00, paid:0,
-   due:'20 Sep', state:'open', promise:null, portal:'AvidXchange'}
-];
+var navLabels = {
+  dashboard:'Home', quotes:'Quotes', approvals:'Approvals', jobs:'Jobs', requests:'Requests',
+  inbox:'Team inbox', properties:'Properties', subs:'Subs', vendors:'Suppliers',
+  catalog:'Price list', stepsizes:'Step sizes', expenses:'Expenses', money:'Money', banking:'Banking', reports:'Reports', team:'Settings'
+};
 
-var PEOPLE = [
-  {n:'Mailin Quintana', r:'Owner', mgr:'—', tabs:'everything', o:true},
-  {n:'Alex M.', r:'Secretary', mgr:'Mailin', tabs:'20 of 21'},
-  {n:'Jorge S.', r:'Supervisor estimator', mgr:'Mailin', tabs:'13 of 21'},
-  {n:'Carlos R.', r:'Project manager', mgr:'Jorge S.', tabs:'8 of 21'},
-  {n:'Luis T.', r:'Estimator', mgr:'Jorge S.', tabs:'10 of 21'},
-  {n:'Ana G.', r:'Estimator', mgr:'Jorge S.', tabs:'6 of 21'},
-  {n:'Dani P.', r:'Sales', mgr:'Mailin', tabs:'6 of 21'}
-];
+var navIcons = {
+  dashboard:'<path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/>',
+  quotes:'<path d="M7 3h8l4 4v14H7z"/><path d="M15 3v4h4"/><path d="M10 12h6M10 16h6"/>',
+  approvals:'<path d="M12 3 5 6v5c0 4.4 2.9 7.9 7 9.5 4.1-1.6 7-5.1 7-9.5V6z"/><path d="M9 12l2 2 4-4"/>',
+  jobs:'<path d="M3 8h18v12H3z"/><path d="M9 8V5h6v3"/>',
+  requests:'<path d="M8 4h8v3H8z"/><path d="M6 6H5v15h14V6h-1"/><path d="M9 12l2 2 4-4"/>',
+  inbox:'<path d="M4 5h16v11H9l-5 4z"/><path d="M8.5 9h7M8.5 12h4"/>',
+  properties:'<path d="M3 21V8l7-5 7 5v13"/><path d="M10 21v-6h4v6"/><path d="M17 12h4v9h-4"/>',
+  subs:'<circle cx="12" cy="7.5" r="3"/><path d="M5.5 20c.5-3.6 3-5.5 6.5-5.5s6 1.9 6.5 5.5"/>',
+  vendors:'<path d="M2 16V7h11v9"/><path d="M13 10h5l3 3v3h-8"/><circle cx="6.5" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/>',
+  catalog:'<path d="M5 4h14v16H5z"/><path d="M9 8h6M9 12h6M9 16h3"/>',
+  stepsizes:'<path d="M3 20h5v-4h5v-4h5V8h3"/><path d="M3 20V4"/>',
+  expenses:'<path d="M6 3h12v18l-2-1.4L14 21l-2-1.4L10 21l-2-1.4L6 21z"/><path d="M9.5 8h5M9.5 12h5"/>',
+  money:'<circle cx="12" cy="12" r="9"/><path d="M12 7v10M15 9.2c-.6-1-1.7-1.5-3-1.5-1.7 0-3 .9-3 2.2 0 2.9 6 1.5 6 4.3 0 1.3-1.3 2.2-3 2.2-1.3 0-2.4-.5-3-1.5"/>',
+  reports:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  banking:'<path d="M3 10 12 4l9 6"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8"/><path d="M3 20h18"/>',
+  /* gear, 1 Sep — Boss asked for a settings icon; this is the tile it sits on */
+  team:'<circle cx="12" cy="12" r="3.1"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>'
+};
 
-/* ---------- helpers ---------- */
-function $(s){return document.querySelector(s)}
-function money(n){return (n<0?'-$':'$')+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}
-function canMoney(){return MONEY_ROLES.indexOf(state.role)!==-1}
-function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+/* ============================================================
+   SAMPLE DATA — real property/sub names from their own tracker so
+   it reads true. Contact emails/phones deliberately omitted: this
+   preview sits on a public URL and their client contact list is
+   not ours to publish.
+   ============================================================ */
+var state = {
+  role: 'estimator',
+  page: 'dashboard',
+  quoteFilter: 'all',
+  currentQuoteId: 1,
+  currentPropertyId: null,
 
-function priceLine(it){
-  var matsBase=it.mat*it.qty, taxes=matsBase*(PRICING.tax/100), matsSub=matsBase+taxes;
-  var labor=it.hrs*it.qty*PRICING.labor;
-  var actual=matsSub+labor+it.sub+it.eq;
-  var profit=actual*(PRICING.profit/100), cont=actual*(PRICING.cont/100), gc=actual*(PRICING.gc/100);
-  return {actual:actual, taxes:taxes, labor:labor, profit:profit, cont:cont, gc:gc,
-          sub:actual+gc+profit+cont};
+  /* Their real cost model defaults, from YGC ESTIMATE FORMAT.xlsx */
+  /* Company defaults. Every estimate STARTS here and can override any of
+     them — their words: "the profit can change same as the labor rates,
+     give the option to change it the same way we can in the google sheet." */
+  defaults: { salesTax:0.075, laborRate:35, crew:4, workDays:3, gcPct:0.00, profitPct:0.35, contingencyPct:0.05,
+              qpOverhead:0.06, qpProfit:0.45 },
+
+  /* Their own examples, 1 Sep: "sinkhole jobs we have a 40% profit while air
+     conditioner jobs we do a 25% profit bc we are not specialized in it,
+     welding we do 40% because we specialize in it." Presets only — the
+     estimator can always type a different number. */
+  jobTypes: [
+    {name:'Sinkholes',        profitPct:0.40, laborRate:35},
+    {name:'Welding / metal',  profitPct:0.40, laborRate:35},
+    {name:'Concrete',         profitPct:0.35, laborRate:30},
+    {name:'Air conditioning', profitPct:0.25, laborRate:30},
+    {name:'General / other',  profitPct:0.35, laborRate:30}
+  ],
+
+  quotes: [
+    { id:1, num:'26-4611', property:'Olympus Preserve at Town Center', mgmt:'Olympus Property',
+      requestedBy:'Rob Westenbarger', dateRequested:'Aug 28', scope:'Aluminum fence fabrication & installation — replace damaged section, approx 50 LF',
+      stage:'pricing', estimator:'Carlos R.', daysOld:4,
+      jobType:'Welding / metal', pricing:{profitPct:0.40, laborRate:35, salesTax:0.075, gcPct:0, contingencyPct:0.05},
+      versions:[{v:1, when:'Aug 30', by:'Carlos R.', note:'First pricing'}],
+      items:[
+        {desc:'Aluminum fence panels — fabricate 6 panels @ 7.5 LF', qty:6, materials:210, laborHrs:4, sub:0, equip:0},
+        {desc:'4x4 aluminum posts, set in concrete', qty:8, materials:64, laborHrs:1.5, sub:0, equip:0},
+        {desc:'Remove & dispose damaged fence section', qty:1, materials:0, laborHrs:6, sub:0, equip:120}
+      ],
+      docScope:[
+        {title:'Fence Fabrication', bullets:[
+          'Bring crew and equipment to remove and dispose of the damaged fence section, take proper measurements to use as a template.',
+          'Furnish and fabricate approximately 50 linear feet of aluminum fencing to match the existing design as closely as possible.',
+          'Fence construction to include: 4" x 4" aluminum posts; 3" x 1" top and bottom rails; 1" x 1" aluminum pickets.'
+        ]},
+        {title:'Post Installation & Re-Securing', bullets:[
+          'Furnish and install new 4" x 4" aluminum fence posts, set and secured in concrete.',
+          'Re-secure two (2) existing fence posts that have become loose at their bases.'
+        ]},
+        {title:'Installation', bullets:[
+          'Install the newly fabricated aluminum fence panels and posts in the designated area.',
+          'Ensure the completed fence is properly secured and visually aligned upon completion.'
+        ]}
+      ],
+      exclusions:[
+        'Replacement of any existing fence sections not specifically identified in this scope.',
+        'Repair or replacement of existing concrete, pavement, landscaping, irrigation, or underground utilities.',
+        'Painting, powder coating, or color changes beyond the agreed-upon finish.',
+        'Engineering, permitting, or inspections unless specifically stated.'
+      ]},
+
+    { id:2, num:'26-4612', property:'Creekside', mgmt:'Maryland Management',
+      requestedBy:'Sharon Redmond', dateRequested:'Aug 29', scope:'Dumpster enclosure replacement — 3 enclosures',
+      stage:'submitted', estimator:'Carlos R.', daysOld:3,
+      jobType:'Concrete', pricing:{profitPct:0.35, laborRate:30, salesTax:0.075, gcPct:0, contingencyPct:0.05},
+      versions:[{v:1, when:'Aug 29', by:'Carlos R.', note:'First pricing'},
+                {v:2, when:'Aug 31', by:'Carlos R.', note:'Client asked to add the third enclosure'}],
+      items:[
+        {desc:'Concrete work — enclosure pads', qty:3, materials:0, laborHrs:0, sub:2757.02, equip:0}
+      ], docScope:[], exclusions:[] },
+
+    { id:3, num:'26-4613', property:'Timberwood Trace', mgmt:'Timberwood Trace',
+      requestedBy:'April', dateRequested:'Aug 30', scope:'Sink hole repair — parking area, phase 2',
+      stage:'needs_quoting', estimator:null, daysOld:2, items:[], docScope:[], exclusions:[] },
+
+    { id:4, num:'26-4610', property:'Cape House', mgmt:'Olympus Property',
+      requestedBy:'Traci Taylor', dateRequested:'Aug 22', scope:'Gutter cleaning — 20 residential buildings',
+      stage:'approved', estimator:'Ana M.', daysOld:10, items:[], docScope:[], exclusions:[] },
+
+    { id:5, num:'26-4609', property:'The Palms at Marsh Landing', mgmt:'—',
+      requestedBy:'April', dateRequested:'Aug 20', scope:'Entrance gate repair',
+      stage:'sent', estimator:'Carlos R.', daysOld:12, items:[], docScope:[], exclusions:[] }
+  ],
+
+  jobs: [
+    {num:'25-3620', desc:'Timberwood Trace — Sink Hole', client:'Timberwood Trace', ygc:16913, sub:'Alay (Ocana)', status:'in_progress', pm:'Rafa', wtn:'79625855'},
+    {num:'25-3588', desc:'Drain install bldg 9 garages', client:'Creekside', ygc:7807.65, sub:'Joselino', status:'in_progress', pm:'Rafa', wtn:'—'},
+    {num:'25-3595', desc:'Tournament Plaza — Ponte Vedra', client:'NEFL', ygc:30000, sub:'RD & Sons Paving', status:'waiting', pm:'Rafa', wtn:'—'},
+    {num:'25-3559', desc:'Garage repair — G407', client:'Olympus Preserve at Town Center', ygc:1150, sub:'Overhead Doors', status:'done', pm:'Rafa', wtn:'79560204'}
+  ],
+
+  properties: [
+    {id:1, name:'Olympus Preserve at Town Center', mgmt:'Olympus Property', contact:'Rob Westenbarger — Business Manager', pay:'OPS Merchant', po:'OP', stepSize:'—', openQuotes:1, jobs:2},
+    {id:2, name:'Cape House', mgmt:'Olympus Property', contact:'Traci Taylor — Business Manager', pay:'Vendor Cafe', po:'OP', stepSize:'39" – 42"', openQuotes:0, jobs:1},
+    {id:3, name:'Creekside', mgmt:'Maryland Management', contact:'Sharon Redmond — Regional', pay:'AvidXchange', po:'—', stepSize:'39"', openQuotes:1, jobs:2},
+    {id:4, name:'Mirador at River City', mgmt:'Olympus Property', contact:'Amy Illas — Business Manager', pay:'Vendor Cafe', po:'OP', stepSize:'42"', openQuotes:0, jobs:0},
+    {id:5, name:'Courtney Isles', mgmt:'RPM Living', contact:'Sarah Ellison', pay:'OPS Merchant', po:'OP — WTN', stepSize:'—', openQuotes:0, jobs:1},
+    {id:6, name:'Timberwood Trace', mgmt:'Timberwood Trace', contact:'April', pay:'Check', po:'WTN', stepSize:'—', openQuotes:1, jobs:2},
+    {id:7, name:'The Palms at Marsh Landing', mgmt:'—', contact:'April', pay:'Check', po:'—', stepSize:'36"', openQuotes:1, jobs:0}
+  ],
+
+  catalog: [
+    {item:'Steel Clip', unit:'ea', sub:90, yumbo:130},
+    {item:'Steel Handrail Repair', unit:'LF', sub:90, yumbo:130},
+    {item:'Steel Picket', unit:'LF', sub:60, yumbo:100},
+    {item:'New Steel Handrail', unit:'LF', sub:100, yumbo:150},
+    {item:'Kit Plates', unit:'ea', sub:100, yumbo:160},
+    {item:'Kit Plates with Concrete', unit:'ea', sub:320, yumbo:450},
+    {item:'Stringer Repair Plate', unit:'ea', sub:50, yumbo:90},
+    {item:'Stringer Replacement 1F', unit:'LF', sub:250, yumbo:350},
+    {item:'Stringer Replacement 2F+', unit:'LF', sub:200, yumbo:300},
+    {item:'Stringer Replacement 3F+', unit:'LF', sub:200, yumbo:250}
+  ],
+
+  stepSizes: [
+    {property:'Mirador at River City', size:'42"'}, {property:'Light House', size:'44"'},
+    {property:'Mission Pointe', size:'42"'}, {property:'Mandarin Lakes', size:'39"'},
+    {property:'Wolf Creek', size:'42"'}, {property:'Oak Hammock', size:'42"'},
+    {property:'Ocean Grove', size:'36" – 44"'}, {property:'Wood Hollow', size:'32" / 35" / 44"'},
+    {property:'The Place at Capper Landing', size:'42"'}, {property:'Hunter Ridge', size:'40"'},
+    {property:'Williams Walk', size:'42"'}, {property:'Cape House', size:'39" – 42"'},
+    {property:'Whispering Woods', size:'39"'}, {property:'Creekside', size:'39"'},
+    {property:'The Palms at Marsh Landing', size:'36"'}
+  ],
+
+  suppliers: [
+    {name:'Town & County', what:'Aluminum materials', where:'Stuart Ave, Jacksonville'},
+    {name:'Chancy Metals', what:'Steel clips, precast steps', where:'Sunbeam Rd'},
+    {name:'Berman Brothers', what:'All types of metal', where:'Evergreen Ave, Jacksonville'},
+    {name:'Metal Supermarket', what:'All sizes & types of metal', where:'Jacksonville'},
+    {name:'Commercial Concrete Products', what:'Concrete steps, parking stalls', where:'Plant City'},
+    {name:'Coastal Construction Products', what:'Sika Crete 211+', where:'Jacksonville'},
+    {name:'Martin Marietta', what:'Limestone road base', where:'Jacksonville'}
+  ],
+
+  subs: [
+    {name:'Rafa — RMC Solutions', trade:'Welding, concrete, asphalt', active:2},
+    {name:'Joselino — Campone', trade:'Stucco, fascia, general work', active:1},
+    {name:'Alay — Ocana Construction', trade:'Concrete / asphalt', active:1},
+    {name:'Omar — Omar Solutions', trade:'Electrical, garage motors', active:0},
+    {name:'Hector — Ulloa Group', trade:'Roofing', active:0},
+    {name:'Davidson', trade:'Metal fabrication & welding', active:1}
+  ],
+
+  requests: [
+    {id:1, type:'change_order', job:'25-3533', title:'Pothole repair needs change order', by:'Rafa', amount:null, status:'pending'},
+    {id:2, type:'material', job:'25-3620', title:'Extra limestone base — 4 tons', by:'Rafa', amount:640, status:'pending'}
+  ],
+  inbox: [
+    {id:1, cmd:'/update', from:'Rafa', note:'Sink hole dug out, pouring tomorrow', confirmed:false},
+    {id:2, cmd:'/payment', from:'Ana M.', note:'Check received — Cape House', confirmed:false}
+  ],
+  expenses: [ {what:'Fuel — crew truck', amount:180, approved:false}, {what:'Equipment rental — mini ex', amount:420, approved:false} ],
+
+  /* Team is real data now, not a fixed list. Mailin asked (1 Sep) for the
+     ability to add MORE estimators, project managers and sales people — so
+     roles hold as many people as she likes. Owner and Secretary are
+     deliberately single-seat; everything else is add-as-many. */
+  team: [
+    {id:1, name:'Mailin',    role:'owner',      active:true,  added:'Day one'},
+    {id:2, name:'Daniela',   role:'secretary',  active:true,  added:'Day one'},
+    {id:3, name:'Edison',    role:'supervisor', active:true,  added:'Aug 2026'},
+    {id:4, name:'Carlos R.', role:'estimator',  active:true,  added:'Aug 2026'},
+    {id:5, name:'Rafa',      role:'pm',         active:true,  added:'Aug 2026'},
+    {id:6, name:'Ana M.',    role:'sales',      active:true,  added:'Aug 2026'}
+  ],
+  newMember: {name:'', role:'estimator'},
+
+  /* ===== ADDED 1 Sep 2026 =====
+     Three things Boss asked for, built into this same preview rather than a
+     separate one: what a job leaves you holding, how payments are recorded
+     (including a promise to pay), and the settings screen behind the gear. */
+
+  /* Who reports to whom, and exactly which tiles each person gets. Two
+     estimators on purpose — Carlos sees more than Ana. Same job title,
+     different access, which is the whole point of the permission screen. */
+  reportsTo: {1:null, 2:1, 3:1, 4:3, 5:3, 6:1, 7:3},
+  memberTabs: {
+    1:null,
+    2:['dashboard','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses','money','reports','team'],
+    3:['dashboard','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses'],
+    4:['dashboard','quotes','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses'],
+    5:['dashboard','jobs','requests','inbox','properties','expenses'],
+    6:['dashboard','quotes','jobs','properties','subs'],
+    7:['dashboard','quotes','jobs','properties']
+  },
+  currentMemberId: null,
+
+  /* Recurring questions the system asks by itself. New ones start OFF so
+     nothing begins messaging the team before Mailin has seen it. */
+  checkins: [
+    {id:1, name:'Monday site check', asks:'How far along is this job? Anything I should know?',
+     when:'Every Monday, 8:00am', to:'The PM on that job', answerIn:'24h', on:true},
+    {id:2, name:'Friday spend check', asks:'Anything spent on this job this week that is not in the system yet?',
+     when:'Every Friday, 4:00pm', to:'The PM on that job', answerIn:'24h', on:true},
+    {id:3, name:'Finishing check', asks:'Is anything stopping you finishing?',
+     when:'Every 3 days, 9:00am', to:'The PM on that job', answerIn:'12h', on:false}
+  ],
+  prefs: {remindAfter:24, tellMeAfter:48, stopAfter:3, escalateTo:'both',
+          commissionBasis:'price', commissionPct:5, callBackAfter:14, repeatEvery:30,
+          depositOver:10000, depositPct:35},
+
+  /* Per-job money and the update trail. Keyed by job number. */
+  jobDetail: {
+    '25-3620': {
+      pct:60, started:'12 Aug', estimator:'Carlos R.', salesBy:'Ana M.',
+      costs:[
+        {w:'Materials — Town & County', d:'fill + rebar, incl. tax', a:-4120.50, s:'bought'},
+        {w:'Subcontractor — Alay (Ocana)', d:'agreed payout', a:-8200.00, s:'part paid'},
+        {w:'Fuel', d:'crew truck, 3 trips', a:-250.20, s:'approved'},
+        {w:'Crew lunch', d:'on site', a:-186.00, s:'approved'},
+        {w:'Equipment hire', d:'mini excavator, 2 days', a:-420.00, s:'approved'},
+        {w:'Commission — Ana M.', d:'5% of the job price', a:-845.65, s:'still moving'}
+      ],
+      pending:[{w:'Dump fees', a:-85.00}],
+      collected:9500,
+      updates:[
+        {who:'Rafa', what:'60% done', note:'Fill is in, pouring Thursday.', when:'1 Sep', state:'answered'},
+        {who:'Rafa', what:'$186 spent', note:'Fuel and lunch for the crew.', when:'30 Aug', state:'answered'},
+        {who:'Rafa', what:'Are the forms set?', note:'', when:'due in 6 hours', state:'waiting'}
+      ]
+    }
+  },
+
+  /* Invoices — the three ways money actually arrives. */
+  invoices: [
+    {no:'25-3620-D', job:'25-3620', client:'Timberwood Trace', stage:'Deposit 35%',
+     amount:5919.55, paid:5919.55, due:'20 Aug', portal:'VendorCafe', promise:null,
+     payments:[{d:'18 Aug', a:5919.55, ref:'Check 61140', by:'Daniela'}]},
+    {no:'25-3620-F', job:'25-3620', client:'Timberwood Trace', stage:'Final',
+     amount:10993.45, paid:3580.45, due:'8 Oct', portal:'VendorCafe',
+     promise:{date:'19 Sep', who:'Rob in accounts', said:'Goes out with the October run.'},
+     payments:[{d:'28 Aug', a:3580.45, ref:'Check 61402', by:'Daniela'}]},
+    {no:'25-3588', job:'25-3588', client:'Creekside', stage:'One invoice',
+     amount:7807.65, paid:0, due:'12 Aug', portal:'OPS Merchant',
+     promise:{date:'8 Sep', who:'Sandra, on-site manager', said:'Cheque is cut, posting Friday.'},
+     payments:[]},
+    {no:'25-3559', job:'25-3559', client:'Olympus Preserve at Town Center', stage:'One invoice',
+     amount:1150, paid:0, due:'25 Sep', portal:'AvidXchange', promise:null, payments:[]}
+  ],
+  currentInvoice: null,
+
+  /* ===== OWNER-ONLY DATA (Mailin, 1 Sep) =====
+     Her own company banking, and the sensitive parts of sub/vendor records.
+     Everyone else sees the masked view or nothing at all — enforced per
+     FIELD, not per page, so a figure can't leak through a screen someone
+     else is allowed to open. */
+  bank: {
+    label:'Yumbo General Construction — Operating',
+    bankName:'Your bank',
+    accountMasked:'••••••••1234',
+    accountFull:'0000 0000 1234  (sample)',
+    routingMasked:'•••••0021',
+    routingFull:'000000000  (sample)',
+    balance:38420.55,
+    lastSync:'Today, 6:04 AM'
+  },
+  partySensitive: {
+    'Rafa — RMC Solutions':   {ein:'82-••••4417', einFull:'82-3914417', w9:true,  payVia:'Zelle — ends 4021', payFull:'Zelle · rafa.rmc@•••'},
+    'Joselino — Campone':     {ein:'59-••••1180', einFull:'59-2231180', w9:true,  payVia:'Check',              payFull:'Check by mail'},
+    'Alay — Ocana Construction':{ein:'87-••••2210',einFull:'87-6612210', w9:true,  payVia:'ACH — ends 8830',    payFull:'ACH · ••••8830'},
+    'Omar — Omar Solutions':  {ein:'82-••••5540', einFull:'82-7715540', w9:true,  payVia:'Zelle — ends 7712',  payFull:'Zelle · ••••7712'},
+    'Hector — Ulloa Group':   {ein:'91-••••0087', einFull:'91-4450087', w9:true,  payVia:'Check',              payFull:'Check by mail'},
+    'Davidson':               {ein:'59-••••3320', einFull:'59-8813320', w9:true,  payVia:'ACH — ends 1194',    payFull:'ACH · ••••1194'}
+  },
+
+  /* Major issues escalate to the owner. Everything else stays with the
+     secretary — the point is that Mailin is pulled in only when it matters. */
+  alerts: [
+    {id:1, level:'high', title:'Job over its estimate', detail:'Job 25-3620 is $2,140 above the approved price — change order not signed yet.', when:'2 hours ago', ack:false},
+    {id:2, level:'high', title:'Invoice 60+ days unpaid', detail:'An invoice has been outstanding 62 days with no reply to two follow-ups.', when:'Yesterday', ack:false},
+    {id:3, level:'med',  title:'Sub missing W-9', detail:'A subcontractor has passed $600 in payouts this year with no W-9 on file.', when:'3 days ago', ack:false}
+  ]
+};
+
+/* Which roles can hold more than one person. Owner/Secretary are single-seat
+   by design — two owners is a different business question, not a settings
+   toggle. Everything else is unlimited, which is what Mailin asked for. */
+var MULTI_SEAT = {owner:false, secretary:false, supervisor:true, estimator:true, pm:true, sales:true};
+var ROLE_ORDER = ['owner','secretary','supervisor','estimator','pm','sales'];
+
+/* One gate, used everywhere. Only the owner sees real account numbers, EINs
+   and payout details. Not a page-level check — every sensitive FIELD asks. */
+function isOwner(){ return state.role === 'owner'; }
+function sensitive(fullValue, maskedValue){
+  return isOwner() ? fullValue : (maskedValue || 'Owner only');
 }
-function quoteTotals(){
-  var t={cost:0,profit:0,cont:0,gc:0,total:0};
-  LINES.forEach(function(l){var p=priceLine(l);
-    t.cost+=p.actual;t.profit+=p.profit;t.cont+=p.cont;t.gc+=p.gc;t.total+=p.sub;});
-  t.gross=t.total-t.cost;
+
+function money(n){ if(n===null||n===undefined) return '—'; return '$' + Number(n).toLocaleString('en-US',{minimumFractionDigits:2, maximumFractionDigits:2}); }
+function money0(n){ if(n===null||n===undefined) return '—'; return '$' + Number(n).toLocaleString('en-US',{maximumFractionDigits:0}); }
+
+/* ============================================================
+   THE COST ENGINE — rebuilt from YGC ESTIMATE FORMAT.xlsx.
+   Every number below traces to a column in their own sheet, so
+   the totals match what they already trust.
+
+   Per line:  mats subt = materials x qty (+ sales tax)
+              labor subt = labor hrs x labor rate
+              actual cost = mats + labor + sub + equipment
+              GC's, profit, contingency applied on actual cost
+   Verified against their 'alex copy' sheet: sub 2,757.02 @ 35%
+   profit + 5% contingency  ->  grand total 3,859.83.
+   ============================================================ */
+function lineCalc(it, d){
+  var matsBase  = (it.materials||0) * (it.qty||0);
+  var taxes     = matsBase * d.salesTax;
+  var matsSubt  = matsBase + taxes;
+  var laborSubt = (it.laborHrs||0) * d.laborRate * (it.qty||1);
+  var subSubt   = it.sub||0;
+  var equipSubt = it.equip||0;
+  var actual    = matsSubt + laborSubt + subSubt + equipSubt;
+  var gcs       = actual * d.gcPct;
+  var profit    = actual * d.profitPct;
+  var conting   = actual * d.contingencyPct;
+  var subtotal  = actual + gcs + profit + conting;
+  return {matsBase:matsBase, taxes:taxes, matsSubt:matsSubt, laborSubt:laborSubt, subSubt:subSubt,
+          equipSubt:equipSubt, actual:actual, gcs:gcs, profit:profit, conting:conting, subtotal:subtotal};
+}
+function pricingFor(q){
+  // The estimate's own numbers win; company defaults only fill the gaps.
+  return Object.assign({}, state.defaults, q.pricing || {});
+}
+function quoteTotals(q){
+  var d = pricingFor(q), t = {taxes:0, mats:0, laborHrs:0, labor:0, sub:0, equip:0, actual:0, gcs:0, profit:0, conting:0, grand:0};
+  (q.items||[]).forEach(function(it){
+    var c = lineCalc(it, d);
+    t.taxes+=c.taxes; t.mats+=c.matsSubt; t.laborHrs+=(it.laborHrs||0)*(it.qty||1); t.labor+=c.laborSubt;
+    t.sub+=c.subSubt; t.equip+=c.equipSubt; t.actual+=c.actual; t.gcs+=c.gcs; t.profit+=c.profit;
+    t.conting+=c.conting; t.grand+=c.subtotal;
+  });
+  t.grossRev = t.grand - t.sub - t.mats - t.equip;
+  t.grossPct = t.grand > 0 ? (t.profit / t.grand * 100) : 0;
   return t;
 }
-
-/* ---------- chrome ---------- */
-function renderTabs(){
-  var allowed=ROLES[state.role].tabs;
-  if(allowed.indexOf(state.tab)===-1) state.tab=allowed[0];
-  $('#tabs').innerHTML = allowed.map(function(t){
-    var badge = (t==='bids') ? '<span class="pipdot">4</span>'
-              : (t==='money' && canMoney()) ? '<span class="pipdot">2</span>' : '';
-    return '<button data-tab="'+t+'" class="'+(state.tab===t?'on':'')+'">'+TAB_LABELS[t]+badge+'</button>';
-  }).join('');
-  $('#gearBtn').classList.toggle('on', state.tab==='people');
-  $('#gearBtn').classList.toggle('hide', allowed.indexOf('people')===-1);
+/* The simpler "Estimator" tab from their workbook — quick price for small jobs. */
+function quickPrice(inp){
+  var d = state.defaults;
+  var direct = (inp.materials||0) + (inp.sub||0) + ((inp.laborHrs||0) * (inp.laborRate||30)) + (inp.extra||0);
+  var overhead = direct * d.qpOverhead;
+  var profit   = direct * d.qpProfit;
+  var conting  = (direct + overhead + profit) * d.contingencyPct;
+  var breakEven = direct + overhead;
+  var recommended = direct + overhead + profit + conting;
+  return {direct:direct, overhead:overhead, profit:profit, conting:conting,
+          breakEven:breakEven, recommended:recommended, strong:recommended * 1.15};
 }
 
-function go(tab, open){ state.tab=tab; state.open=open||null; render(); window.scrollTo(0,0); }
-
-/* ---------- screens ---------- */
-function scrFlow(){
-  var steps=[
-    ['01','Work arrives','A property asks for a price'],
-    ['02','Logged as a bid','Ages red after 4 days'],
-    ['03','Priced','Estimator builds the cost sheet'],
-    ['04','Approved inside','Supervisor or Mailin says yes'],
-    ['05','Quote sent','The property says yes or no'],
-    ['06','Job created','Only this step makes a job'],
-    ['07','Work happens','Updates, spend, subs'],
-    ['08','Finished','Marked complete'],
-    ['09','Invoiced','Deposit / progress / final'],
-    ['10','Paid','Part, in full, or promised']
-  ];
-  var s=state.step;
-  var detail=[
-    'Four ways in — see <b>How work arrives</b>. Whichever door it comes through, it lands in one place so nothing is remembered only in somebody\'s inbox.',
-    'Property, who asked, their contact, what they need, the date. It turns red after four days so an unanswered request cannot go quiet.',
-    'The estimator opens the cost sheet: materials, labour hours, subcontractor, equipment. Profit and labour rate are set per job — 40% on welding, 25% on air conditioning.',
-    'The supervisor estimator checks it, or Mailin does. They see the price <b>and</b> what it leaves her holding. Every version is kept.',
-    'The quote goes to the property in the usual layout. Then it is out of our hands.',
-    '<b>This is the only step in the whole system that creates a job.</b> Nothing else can. The property gives the job number here.',
-    'The PM is asked for updates on a schedule Mailin sets. Fuel, lunch and tolls get tagged to this job, not to the office.',
-    'Marked complete, with the date. That is what starts the invoice.',
-    'Over $10,000 it starts with a 35% deposit. Otherwise one invoice. Goes out through the property\'s own portal.',
-    'Paid in part, paid in full, or <b>promised for a date</b> — and a promise is chased if it passes.'
-  ][s];
-
-  return '<h1>How a job travels through the system</h1>'+
-   '<p class="sub">Tap any step. This is the whole chain, start to finish.</p>'+
-   '<div class="chain">'+steps.map(function(x,i){
-     return '<div class="step '+(i===s?'on':'')+'" data-step="'+i+'"><div class="n">'+x[0]+
-            '</div><div class="t">'+x[1]+'</div><div class="w">'+x[2]+'</div></div>';
-   }).join('')+'</div>'+
-   '<div class="card" style="margin-top:14px"><div class="pill blue">Step '+steps[s][0]+'</div>'+
-   '<h2 style="margin:10px 0 6px">'+steps[s][1]+'</h2><div style="font-size:14px;color:var(--ink2)">'+detail+'</div></div>'+
-
-   '<h2>Who does what</h2>'+
-   '<div class="scrollx"><table><thead><tr><th>Step</th><th>Who</th><th>Why them</th></tr></thead><tbody>'+
-   [['Log the bid','Secretary &middot; Sales &middot; Estimator &middot; Mailin','Whoever the request reaches first'],
-    ['Price it','Estimator','Assigned when the bid is converted'],
-    ['Approve it','Supervisor estimator &middot; Mailin','It commits the company, so it is a named permission'],
-    ['Run the job','Project manager','On site, orders materials, answers the updates'],
-    ['Invoice + chase','Secretary &middot; Mailin','Money screens are permission-gated'],
-    ['Take the payment','Mailin','Bank details are hers alone and cannot be granted']
-   ].map(function(r){return '<tr><td class="wrap"><b>'+r[0]+'</b></td><td class="wrap">'+r[1]+'</td><td class="wrap">'+r[2]+'</td></tr>'}).join('')+
-   '</tbody></table><div class="hint">Scroll sideways for every column.</div></div>';
+var STAGES = [
+  {k:'needs_quoting', l:'Needs quoting'},
+  {k:'pricing',       l:'Being priced'},
+  {k:'submitted',     l:'Waiting approval'},
+  {k:'approved',      l:'Approved'},
+  {k:'sent',          l:'Sent to client'}
+];
+function stageLabel(k){ var s=STAGES.find(function(x){return x.k===k;}); return s?s.l:k; }
+function stageColor(k){
+  return k==='needs_quoting' ? 'var(--coral)' : k==='pricing' ? 'var(--yellow)'
+       : k==='submitted' ? 'var(--blue)' : 'var(--green)';
 }
 
-function scrIntake(){
-  return '<h1>How work arrives</h1>'+
-   '<p class="sub">Yumbo\'s clients are property managers. They email, they ring, they use their own portal. '+
-   'All four routes end in the same place, so nothing lives only in one person\'s inbox.</p>'+
-
-   '<div class="card door"><div class="row"><span class="pill blue">Door 1</span>'+
-   '<b style="font-size:15px">The request link &mdash; recommended</b></div>'+
-   '<p style="font-size:13.5px;color:var(--ink2);margin:9px 0 0">A short link Yumbo gives every property manager. '+
-   'They fill it in themselves and it lands as a bid straight away, already spelled correctly. '+
-   'No login, no app for them to learn. <b>Nobody at Yumbo has to type anything.</b></p>'+
-   '<details class="more"><summary>See what they would fill in</summary>'+
-   '<div class="grid" style="margin-top:10px">'+
-     '<div><label class="f">Property</label><input class="in" value="Olympus Preserve at Town Center" readonly></div>'+
-     '<div><label class="f">Your name</label><input class="in" value="Rob" readonly></div>'+
-     '<div><label class="f">Phone or email</label><input class="in" value="rob@example-property.test" readonly></div>'+
-     '<div><label class="f">Needed by</label><input class="in" value="Before the end of the month" readonly></div>'+
-   '</div>'+
-   '<div style="margin-top:10px"><label class="f">What needs doing</label>'+
-   '<textarea class="in" readonly>Fence along the pool deck is bent in three sections. Need a price to replace it.</textarea></div>'+
-   '<div style="margin-top:10px"><label class="f">Photos</label>'+
-   '<div class="in" style="display:flex;align-items:center;color:var(--ink3)">Add photos from your phone</div></div>'+
-   '<button class="btn" style="margin-top:12px" data-demo="req">Send it to Yumbo</button>'+
-   '<p style="font-size:11.5px;color:var(--ink3);margin:9px 0 0">This is a preview &mdash; the button does not send anything.</p>'+
-   '</details></div>'+
-
-   '<div class="card door b2"><div class="row"><span class="pill green">Door 2</span>'+
-   '<b style="font-size:15px">Typed in by whoever took the call</b></div>'+
-   '<p style="font-size:13.5px;color:var(--ink2);margin:9px 0 0">A property manager rings, or catches somebody on site. '+
-   'The secretary, sales or an estimator adds the bid in about twenty seconds. '+
-   '<b>This is how it works today and it always stays available</b> &mdash; the link is a shortcut, not a replacement.</p>'+
-   '<button class="btn ghost sm" style="margin-top:11px" data-go="bids">See the bids board</button></div>'+
-
-   '<div class="card door b3"><div class="row"><span class="pill amber">Door 3</span>'+
-   '<b style="font-size:15px">Forwarded email</b></div>'+
-   '<p style="font-size:13.5px;color:var(--ink2);margin:9px 0 0">Forward the request to a Yumbo address and it becomes a bid. '+
-   'Worth knowing before choosing this: letting software read a mailbox needs Google\'s highest permission level, '+
-   'which means a paid security review and an annual re-check. <b>Door 1 gets the same result for nothing.</b></p></div>'+
-
-   '<div class="card door b4"><div class="row"><span class="pill">Door 4</span>'+
-   '<b style="font-size:15px">From the field</b></div>'+
-   '<p style="font-size:13.5px;color:var(--ink2);margin:9px 0 0">A crew member sends a photo and a line of text from site. '+
-   'It arrives in the Team Inbox for somebody to confirm &mdash; it never creates a bid on its own, '+
-   'because a blurry photo is not a request until a person says it is.</p></div>'+
-
-   '<div class="note"><b>The rule underneath all four:</b> a request only becomes real work when a human at Yumbo '+
-   'has looked at it. Nothing books itself.</div>';
-}
-
-function scrBids(){
-  if(state.open){
-    var b=BIDS.filter(function(x){return x.id===state.open})[0];
-    return '<button class="btn ghost sm" data-go="bids">&larr; All bids</button>'+
-      '<h1 style="margin-top:12px">'+esc(b.prop)+'</h1>'+
-      '<p class="sub">'+esc(b.desc)+'</p>'+
-      '<div class="card"><div class="grid">'+
-      [['Came in via',b.via],['Who asked',b.who],['Received',b.got],
-       ['Waiting',b.age+' day'+(b.age===1?'':'s')],['Status',b.status]]
-      .map(function(r){return '<div><div class="kpi"><div class="l">'+r[0]+'</div>'+
-        '<div style="font-size:14px;font-weight:700;margin-top:3px">'+esc(r[1])+'</div></div></div>'}).join('')+
-      '</div></div>'+
-      '<div class="note">Turning this into a quote assigns an estimator and keeps the two linked, '+
-      'so the quote always knows which request it came from.</div>'+
-      '<div class="row" style="gap:9px;flex-wrap:wrap">'+
-      '<button class="btn" data-go="quotes">Turn into a quote</button>'+
-      '<button class="btn ghost" data-demo="meet">Log a site meeting</button>'+
-      '<button class="btn ghost" data-demo="drop">Not going ahead</button></div>';
+/* ---------- counts: only ACTIONABLE things, and only what this role may see ---------- */
+function navCounts(){
+  var r = state.role, c = {};
+  if(r==='estimator'){
+    c.quotes = state.quotes.filter(function(q){ return (q.stage==='needs_quoting') || (q.stage==='pricing' && q.estimator===ROLES.estimator.person); }).length;
+  } else if(r==='sales'){
+    c.quotes = state.quotes.filter(function(q){ return q.stage==='needs_quoting'; }).length;
+  } else {
+    c.quotes = state.quotes.filter(function(q){ return q.stage==='needs_quoting' || q.stage==='pricing'; }).length;
   }
-  return '<h1>Bids</h1>'+
-   '<p class="sub">Every request for a price, from all four doors. Red after four days.</p>'+
-   '<div class="scrollx"><table><thead><tr><th>Property</th><th>What they need</th><th>Came in via</th>'+
-   '<th>Waiting</th><th>Status</th></tr></thead><tbody>'+
-   BIDS.map(function(b){
-     var late=b.age>=4;
-     return '<tr class="tap" data-bid="'+b.id+'"><td class="wrap"><b>'+esc(b.prop)+'</b><br>'+
-       '<span style="font-size:11.5px;color:var(--ink3)">'+esc(b.who)+'</span></td>'+
-       '<td class="wrap">'+esc(b.desc)+'</td><td>'+esc(b.via)+'</td>'+
-       '<td><span class="pill '+(late?'coral':'')+'">'+b.age+'d</span></td>'+
-       '<td><span class="pill '+(b.status==='Being priced'?'blue':'')+'">'+b.status+'</span></td></tr>';
-   }).join('')+'</tbody></table><div class="hint">Tap a row. Scroll sideways for every column.</div></div>'+
-   '<button class="btn" style="margin-top:14px" data-demo="newbid">+ Add a bid</button>';
-}
-
-function scrQuotes(){
-  var t=quoteTotals(), comm=t.total*0.05;
-  var canApprove = (state.role==='owner'||state.role==='supervisor'||state.role==='secretary');
-  return '<h1>Quote 26-4611</h1>'+
-   '<p class="sub">Olympus Preserve at Town Center &middot; aluminium fence &middot; priced by Alex M.</p>'+
-   '<div class="grid">'+
-   '<div class="card kpi"><div class="l">Quote</div><div class="v">'+money(t.total)+'</div></div>'+
-   (canMoney()?'<div class="card kpi"><div class="l">It will cost</div><div class="v">'+money(t.cost)+'</div></div>':'')+
-   (canMoney()?'<div class="card kpi" style="border:2px solid var(--ink)"><div class="l">Yours when it finishes</div>'+
-     '<div class="v">'+money(t.gross-comm)+'</div><div class="n">after the 5% commission</div></div>':'')+
-   '</div>'+
-   (canMoney()?'':'<div class="note">Money figures are switched off for your login. You can still price the work.</div>')+
-
-   '<h2>The cost sheet</h2>'+
-   '<div class="scrollx"><table><thead><tr><th>Item</th><th class="num">Qty</th><th class="num">Materials</th>'+
-   '<th class="num">Labour</th><th class="num">Sub</th><th class="num">Equip</th><th class="num">Cost</th>'+
-   '<th class="num">Line total</th></tr></thead><tbody>'+
-   LINES.map(function(l){var p=priceLine(l);
-     return '<tr><td class="wrap">'+l.d+'</td><td class="num">'+l.qty+'</td>'+
-     '<td class="num">'+money(l.mat*l.qty)+'</td><td class="num">'+money(p.labor)+'</td>'+
-     '<td class="num">'+money(l.sub)+'</td><td class="num">'+money(l.eq)+'</td>'+
-     '<td class="num">'+money(p.actual)+'</td><td class="num"><b>'+money(p.sub)+'</b></td></tr>';
-   }).join('')+
-   '<tr class="total"><td>Total</td><td class="num"></td><td class="num"></td><td class="num"></td>'+
-   '<td class="num"></td><td class="num"></td><td class="num">'+money(t.cost)+'</td>'+
-   '<td class="num">'+money(t.total)+'</td></tr>'+
-   '</tbody></table><div class="hint">Scroll sideways for every column. '+
-   'Profit '+PRICING.profit+'% &middot; labour $'+PRICING.labor+'/hr &middot; tax '+PRICING.tax+'% &middot; contingency '+PRICING.cont+'% &mdash; all set per job.</div></div>'+
-
-   '<div class="note">On a phone this opens as cards instead of a wide grid, so it never looks like a spreadsheet.</div>'+
-
-   (canApprove
-     ? '<h2>Approve it</h2><div class="card">'+
-       '<p style="margin:0 0 12px;font-size:13.5px;color:var(--ink2)">You are approving <b>'+money(t.total)+'</b> to go to the property. '+
-       (canMoney()?'If it runs to plan it leaves you <b>'+money(t.gross-comm)+'</b>.':'')+'</p>'+
-       '<div class="row" style="gap:9px;flex-wrap:wrap">'+
-       '<button class="btn" data-demo="approve">Approve and send</button>'+
-       '<button class="btn ghost" data-demo="back">Send back to the estimator</button></div></div>'
-     : '<div class="note warn">You cannot approve quotes. Approving is what creates a real job, '+
-       'so it is switched on for named people only &mdash; today that is Mailin and the supervisor estimator.</div>')+
-
-   '<h2>Every version is kept</h2>'+
-   '<ul class="tl">'+
-   '<li class="done"><b>v3 &middot; submitted by Alex M.</b> &mdash; 1 Sep, 9:14am<div class="w">Profit moved 35% &rarr; 40%, welding</div></li>'+
-   '<li class="done"><b>v2 &middot; sent back by Jorge S.</b> &mdash; 31 Aug<div class="w">"Lift hire missing, and check the gate count"</div></li>'+
-   '<li class="done"><b>v1 &middot; submitted by Alex M.</b> &mdash; 30 Aug<div class="w">First pass</div></li>'+
-   '</ul>';
-}
-
-function scrJobs(){
-  if(!state.open){
-    return '<h1>Jobs</h1><p class="sub">Work the property has approved.</p>'+
-     '<div class="card tap" data-job="1"><div class="row">'+
-     '<div><div style="font-weight:800">'+JOB.no+' &middot; '+JOB.prop+'</div>'+
-     '<div style="font-size:12.5px;color:var(--ink2);margin-top:3px">'+JOB.desc+' &middot; '+JOB.sub+'</div></div>'+
-     '<div style="margin-left:auto;text-align:right">'+
-     '<span class="pill blue">'+JOB.status+'</span>'+
-     (canMoney()?'<div style="font-size:12px;color:var(--ink2);margin-top:5px">'+money(JOB.price)+'</div>':'')+
-     '</div></div></div>'+
-     '<div class="card"><div style="font-weight:800">26-4590 &middot; Mirador Apartments</div>'+
-     '<div style="font-size:12.5px;color:var(--ink2);margin-top:3px">Stair stringers &middot; finished 22 Aug</div>'+
-     '<div style="margin-top:8px"><span class="pill green">Complete</span> '+
-     '<span class="pill coral">invoice 20 days late</span></div></div>';
+  if(['owner','secretary','supervisor'].indexOf(r)!==-1){
+    c.approvals = state.quotes.filter(function(q){ return q.stage==='submitted'; }).length;
   }
-  var spent=0; COSTS.forEach(function(c){spent+=c.a});
-  var left=JOB.price+spent;
-  return '<button class="btn ghost sm" data-go="jobs">&larr; All jobs</button>'+
-   '<h1 style="margin-top:12px">Job '+JOB.no+'</h1>'+
-   '<p class="sub">'+JOB.prop+' &middot; '+JOB.desc+' &middot; started '+JOB.started+'</p>'+
-
-   '<div class="card"><div class="row" style="justify-content:space-between;flex-wrap:wrap;gap:8px">'+
-   '<div><span class="pill blue">'+JOB.pct+'% done</span></div>'+
-   '<div style="font-size:12.5px;color:var(--ink2)">PM '+JOB.pm+' &middot; priced by '+JOB.est+' &middot; sold by '+JOB.sales+'</div>'+
-   '</div><div style="height:8px;background:#EEF1F5;border-radius:99px;margin-top:11px;overflow:hidden">'+
-   '<div style="height:100%;width:'+JOB.pct+'%;background:var(--blue)"></div></div></div>'+
-
-   (canMoney()
-    ? '<div class="grid">'+
-      '<div class="card kpi"><div class="l">Quoted</div><div class="v">'+money(JOB.price)+'</div></div>'+
-      '<div class="card kpi"><div class="l">Costs committed</div><div class="v">'+money(-spent)+'</div></div>'+
-      '<div class="card kpi" style="border:2px solid var(--ink)"><div class="l">Yours when it finishes</div>'+
-      '<div class="v">'+money(left)+'</div><div class="n">'+(left/JOB.price*100).toFixed(1)+'% of the job</div></div>'+
-      '<div class="card kpi"><div class="l">Collected so far</div><div class="v">'+money(4905)+'</div>'+
-      '<div class="n">deposit + part of the final</div></div></div>'+
-
-      '<details class="more"><summary>Show every dollar</summary>'+
-      '<div class="scrollx" style="margin-top:10px"><table><thead><tr><th>What</th><th>Detail</th>'+
-      '<th class="num">Amount</th><th class="num">Running</th><th>Status</th></tr></thead><tbody>'+
-      (function(){var run=JOB.price;
-        var html='<tr><td><b>Quoted price</b></td><td class="wrap">'+JOB.desc+'</td>'+
-          '<td class="num in-money">+'+money(JOB.price)+'</td><td class="num">'+money(run)+'</td><td>agreed</td></tr>';
-        COSTS.forEach(function(c){run+=c.a;
-          html+='<tr><td class="wrap">'+c.w+'</td><td class="wrap">'+c.d+'</td>'+
-            '<td class="num out-money">'+money(c.a)+'</td><td class="num">'+money(run)+'</td><td>'+c.s+'</td></tr>';});
-        html+='<tr class="total"><td>Yours when it finishes</td><td></td><td class="num"></td>'+
-          '<td class="num">'+money(run)+'</td><td></td></tr>';
-        html+='<tr class="dim"><td>Waiting to be approved</td><td class="wrap">dump fee, not counted</td>'+
-          '<td class="num">-$85.00</td><td class="num">would be '+money(run-85)+'</td><td>pending</td></tr>';
-        return html;})()+
-      '</tbody></table><div class="hint">Every line comes from a real record you can open. Scroll sideways for every column.</div></div></details>'
-    : '<div class="note">Money figures are switched off for your login. Everything else on this job is yours.</div>')+
-
-   '<h2>Updates on this job</h2>'+
-   '<ul class="tl">'+
-   '<li class="done"><b>Carlos R. &mdash; 60% done</b><div class="w">1 Sep &middot; "Fence is up, gates tomorrow." &middot; asked by the Monday check-in</div></li>'+
-   '<li class="done"><b>Carlos R. &mdash; $186 spent</b><div class="w">31 Aug &middot; "Fuel and lunch for the crew" &middot; asked by the Friday spend check</div></li>'+
-   '<li class="wait"><b>Waiting: are the gates in?</b><div class="w">Due in 6 hours &middot; sent to Carlos R. by Alex</div></li>'+
-   '</ul>'+
-   '<div class="row" style="gap:9px;flex-wrap:wrap"><button class="btn" data-demo="ask">Ask for an update</button>'+
-   '<button class="btn ghost" data-demo="spend">Log something spent</button>'+
-   '<button class="btn ghost" data-demo="done">Mark the job finished</button></div>'+
-   '<div class="note">If nobody answers in time the system chases them, and if they still do not, it comes to Mailin. '+
-   'Every question and answer stays on this job forever.</div>';
+  if(['owner','secretary','pm','supervisor','estimator'].indexOf(r)!==-1){
+    c.requests = state.requests.filter(function(x){ return x.status==='pending'; }).length;
+  }
+  c.inbox = state.inbox.filter(function(x){ return !x.confirmed; }).length;
+  // Warnings go to BOTH the owner and the secretary (1 Sep): "notifications
+  // that need to be given to the secretary and the owner like warnings."
+  // The BANK SCREEN itself stays owner-only — that is separate.
+  if(r==='owner'){ c.banking = state.alerts.filter(function(a){ return !a.ack && a.level==='high'; }).length; }
+  if(['owner','secretary','supervisor','estimator','pm'].indexOf(r)!==-1){
+    c.expenses = state.expenses.filter(function(e){ return !e.approved; }).length;
+  }
+  return c;
 }
 
-function scrMoney(){
-  var owed=0, promised=0;
-  INVOICES.forEach(function(i){owed+=(i.amt-i.paid); if(i.promise) promised+=(i.amt-i.paid);});
-  return '<h1>Money coming in</h1>'+
-   '<p class="sub">Every invoice, what has landed, and what somebody has promised.</p>'+
-   '<div class="grid">'+
-   '<div class="card kpi"><div class="l">Owed to you</div><div class="v">'+money(owed)+'</div></div>'+
-   '<div class="card kpi"><div class="l">Promised for a date</div><div class="v">'+money(promised)+'</div>'+
-   '<div class="n">chased if the date passes</div></div>'+
-   '<div class="card kpi"><div class="l">Past due</div><div class="v" style="color:var(--coral)">'+money(1840)+'</div></div>'+
-   '</div>'+
+function goto(page, id){
+  if(MODULES[state.role].indexOf(page)===-1 && ['quoteDetail','breakdown','quoteDoc','propertyDetail','jobDetail'].indexOf(page)===-1) return;
+  state.page = page;
+  if(page==='jobDetail' && id){ state.currentJobNum = id; }
+  if(page==='quoteDetail'||page==='breakdown'||page==='quoteDoc'){ if(id) state.currentQuoteId=id; }
+  if(page==='propertyDetail' && id){ state.currentPropertyId=id; }
+  window.scrollTo({top:0, behavior:'smooth'});
+  render();
+}
+function setRole(r){ state.role=r; state.page='dashboard'; render(); }
 
-   '<h2>The three ways money arrives</h2>'+
-   '<div class="card"><b style="font-size:14px">Paid in full</b>'+
-   '<p style="font-size:13px;color:var(--ink2);margin:6px 0 0">One entry, invoice closed.</p></div>'+
-   '<div class="card"><b style="font-size:14px">Paid in parts</b>'+
-   '<p style="font-size:13px;color:var(--ink2);margin:6px 0 0">Each payment is logged on its own with the date, '+
-   'the cheque number and who recorded it. The balance comes down each time. Already working today.</p></div>'+
-   '<div class="card" style="border-color:var(--amber)"><b style="font-size:14px">Promised for a date</b> '+
-   '<span class="pill amber">new</span>'+
-   '<p style="font-size:13px;color:var(--ink2);margin:6px 0 0">"Accounts said the cheque goes out on the 19th." '+
-   'That gets written down against the invoice with who said it. If the date passes and nothing has landed, '+
-   'it appears on the call list &mdash; and it is never lost because it was only ever in somebody\'s memory.</p></div>'+
+function buildRoleBar(){
+  var bar = document.getElementById('roleBar'); bar.innerHTML='';
+  Object.keys(ROLES).forEach(function(r){
+    var b=document.createElement('button');
+    b.textContent=ROLES[r].label;
+    if(state.role===r) b.classList.add('on');
+    b.onclick=function(){ setRole(r); };
+    bar.appendChild(b);
+  });
+  document.getElementById('roleNote').textContent = ROLES[state.role].note;
+  // Who is "logged in" reflects the real team list, so adding a second
+  // estimator visibly changes who can be signed in as.
+  var inRole = (state.team||[]).filter(function(t){ return t.role===state.role && t.active; });
+  var who = inRole.length ? inRole[0].name : ROLES[state.role].person;
+  var extra = inRole.length > 1 ? ' (+' + (inRole.length-1) + ' more in this role)' : '';
+  document.getElementById('whoTag').textContent =
+    'Logged in as ' + who + ' · ' + ROLES[state.role].label.split('—')[0].trim() + extra;
+}
 
-   '<h2>Invoices</h2>'+
-   '<div class="scrollx"><table><thead><tr><th>Invoice</th><th>Property</th><th>Stage</th>'+
-   '<th class="num">Amount</th><th class="num">Paid</th><th class="num">Still owed</th>'+
-   '<th>Due</th><th>Where</th><th class="wrap">Promise</th></tr></thead><tbody>'+
-   INVOICES.map(function(i){
-     var bal=i.amt-i.paid;
-     var pill = i.state==='paid'?'<span class="pill green">paid</span>'
-              : i.state==='part'?'<span class="pill blue">part paid</span>'
-              : i.state==='late'?'<span class="pill coral">late</span>'
-              : '<span class="pill">open</span>';
-     return '<tr class="tap" data-inv="'+i.no+'"><td><b>'+i.no+'</b><br>'+pill+'</td>'+
-       '<td class="wrap">'+i.prop+'</td><td>'+i.stage+'</td>'+
-       '<td class="num">'+money(i.amt)+'</td><td class="num in-money">'+(i.paid?money(i.paid):'—')+'</td>'+
-       '<td class="num '+(bal>0?'out-money':'')+'">'+(bal>0?money(bal):'—')+'</td>'+
-       '<td>'+i.due+'</td><td>'+i.portal+'</td>'+
-       '<td class="wrap">'+(i.promise?'<span class="pill amber">'+i.promise+'</span>':'—')+'</td></tr>';
-   }).join('')+
-   '</tbody></table><div class="hint">Tap a row to record a payment. Scroll sideways for every column.</div></div>'+
+function buildNav(){
+  var nav=document.getElementById('navbar'); nav.innerHTML='';
+  var counts=navCounts();
+  // Honour the per-person tile list set under the gear, falling back to the
+  // role default. Without this the Settings screen would promise something
+  // the preview did not actually do.
+  MODULES[state.role].filter(function(p){
+    var who=(state.team||[]).filter(function(t){ return t.role===state.role && t.active; })[0];
+    if(!who || !state.memberTabs || !state.memberTabs[who.id]) return true;
+    return state.memberTabs[who.id].indexOf(p)!==-1;
+  }).forEach(function(p){
+    var tile=document.createElement('button');
+    tile.className='tile' + (state.page===p ? ' on' : '');
+    tile.innerHTML='<svg viewBox="0 0 24 24">'+(navIcons[p]||navIcons.dashboard)+'</svg><span>'+navLabels[p]+'</span>';
+    if(counts[p]>0){
+      var b=document.createElement('span'); b.className='navcount'; b.textContent=counts[p]; tile.appendChild(b);
+    }
+    tile.onclick=function(){ goto(p); };
+    nav.appendChild(tile);
+  });
+}
 
-   (state.open ? '<h2>Record what came in &mdash; '+esc(state.open)+'</h2>'+
-     '<div class="card"><div class="grid">'+
-     '<div><label class="f">How much</label><input class="in" placeholder="0.00" inputmode="decimal"></div>'+
-     '<div><label class="f">When</label><input class="in" type="date"></div>'+
-     '<div><label class="f">Cheque / reference</label><input class="in" placeholder="62812"></div>'+
+/* ================= PAGES ================= */
+function renderDashboard(){
+  var r=state.role, c=navCounts(), h='';
+  h += '<div class="greet">Good morning</div><h1 class="dt">'+(r==='owner'?'Everything, in one place':r==='pm'?'Your job sites today':'Your work today')+'</h1>';
+
+  var cards=[];
+  if(c.quotes)    cards.push({l:'Quotes needing work', v:c.quotes,    hint:'Price them or pick one up', go:'quotes'});
+  if(c.approvals) cards.push({l:'Waiting your approval', v:c.approvals, hint:'Estimates submitted to you', go:'approvals'});
+  if(c.requests)  cards.push({l:'Requests pending',    v:c.requests,  hint:'Materials & change orders', go:'requests'});
+  if(c.inbox)     cards.push({l:'Field updates',       v:c.inbox,     hint:'From the crew, unconfirmed', go:'inbox'});
+  if(['owner','secretary'].indexOf(r)!==-1) cards.push({l:'Live jobs', v:state.jobs.filter(function(j){return j.status==='in_progress';}).length, hint:'Work in motion', go:'jobs'});
+
+  if(cards.length){
+    h += '<div class="summary-grid">';
+    cards.forEach(function(cd){
+      h += '<div class="card click" onclick="goto(\''+cd.go+'\')"><div class="l">'+cd.l+'</div><div class="v">'+cd.v+'</div><div class="hint">'+cd.hint+'</div></div>';
+    });
+    h += '</div>';
+  }
+
+  h += '<div class="sec-title">Needs your attention</div>';
+  var any=false;
+  if(r==='owner' || r==='secretary'){
+    state.alerts.filter(function(a){return !a.ack;}).forEach(function(a){
+      any=true;
+      h += '<div class="notif '+(a.level==='high'?'orange':'')+'"><div class="l">'+(a.level==='high'?'Needs you now':'Worth a look')+' · '+a.when+'</div>'+
+           '<div class="v" style="font-size:14px;">'+a.title+'</div>'+
+           '<div style="font-size:13px; color:var(--ink-soft); margin-top:4px;">'+a.detail+'</div>'+
+           (r==='owner' ? '<div class="pill-btn" style="margin-top:9px;" onclick="goto(\'banking\')">Open &rarr;</div>' : '<div class="pill-btn" style="margin-top:9px;" onclick="ackAlert('+a.id+')">Mark as seen</div>')+'</div>';
+    });
+  }
+  if(c.approvals && ['owner','secretary','supervisor'].indexOf(r)!==-1){
+    state.quotes.filter(function(q){return q.stage==='submitted';}).forEach(function(q){
+      any=true;
+      h += '<div class="notif orange"><div class="l">Estimate waiting on you</div><div class="v">'+q.num+' — '+q.property+'</div>'+
+           '<div class="pill-btn solid" style="margin-top:8px;" onclick="goto(\'quoteDetail\','+q.id+')">Review &amp; decide &rarr;</div></div>';
+    });
+  }
+  if(r==='estimator'||r==='supervisor'){
+    state.quotes.filter(function(q){return q.stage==='needs_quoting';}).forEach(function(q){
+      any=true;
+      h += '<div class="notif"><div class="l">New quote request — '+q.daysOld+' days old</div><div class="v">'+q.property+' — '+q.scope+'</div>'+
+           '<div class="pill-btn blue" style="margin-top:8px;" onclick="goto(\'quoteDetail\','+q.id+')">Start pricing &rarr;</div></div>';
+    });
+  }
+  if(r==='pm'){
+    state.jobs.filter(function(j){return j.status==='in_progress';}).forEach(function(j){
+      any=true;
+      h += '<div class="notif"><div class="l">On site — '+j.client+'</div><div class="v">'+j.num+' — '+j.desc+'</div>'+
+           '<div style="margin-top:8px;"><span class="pill-btn">Post update</span> <span class="pill-btn">Request change order</span></div></div>';
+    });
+  }
+  if(r==='sales'){
+    any=true;
+    h += '<div class="notif"><div class="l">Follow up</div><div class="v">3 quotes sent last week with no answer yet</div>'+
+         '<div class="pill-btn blue" style="margin-top:8px;" onclick="goto(\'properties\')">Open the property list &rarr;</div></div>';
+  }
+  if(!any) h += '<div class="empty">Nothing needs attention right now.</div>';
+
+  if(['owner','secretary'].indexOf(r)!==-1){
+    h += '<div class="sec-title">This week</div><div class="card"><div class="l">Secretary report to owner</div>'+
+         '<div class="v" style="font-size:14px;">5 quotes out · 2 approved · 4 jobs running · $24,350 invoiced</div>'+
+         '<div class="hint">Sent every Friday, and any time you ask for it.</div></div>';
+  }
+  document.getElementById('pageBody').innerHTML=h;
+}
+
+function renderQuotes(){
+  var r=state.role, mine=ROLES[r].person;
+  var h='<h1 class="dt">Quotes</h1>';
+  if(r==='estimator') h+='<div class="lockednote">You see unassigned requests and the ones assigned to you.</div>';
+  h += '<div class="segtabs">';
+  var tabs=[['all','All']].concat(STAGES.map(function(s){return [s.k,s.l];}));
+  tabs.forEach(function(t){
+    var n=state.quotes.filter(function(q){ return inQuoteFilter(q,t[0]); }).length;
+    h += '<button class="'+(state.quoteFilter===t[0]?'on':'')+'" onclick="setQuoteFilter(\''+t[0]+'\')">'+t[1]+'<span class="chipn">'+n+'</span></button>';
+  });
+  h += '</div>';
+  var list=state.quotes.filter(function(q){ return inQuoteFilter(q, state.quoteFilter); });
+  if(!list.length){ h+='<div class="empty">Nothing in this view.</div>'; document.getElementById('pageBody').innerHTML=h; return; }
+  list.forEach(function(q){
+    var t=quoteTotals(q);
+    h += '<div class="catrow" onclick="goto(\'quoteDetail\','+q.id+')">'+
+         '<div><div class="nm">'+q.num+' — '+q.property+'</div>'+
+         '<div class="sub">'+q.scope.slice(0,64)+(q.scope.length>64?'…':'')+'</div>'+
+         '<div class="sub" style="margin-top:4px;"><span class="status" style="background:'+stageColor(q.stage)+'; color:#fff;">'+stageLabel(q.stage)+'</span> · '+(q.estimator||'Unassigned')+' · '+q.daysOld+'d</div></div>'+
+         '<div class="pr"><div class="y">'+(t.grand>0?money0(t.grand):'—')+'</div><div class="s">'+(t.grand>0?'priced':'not priced')+'</div></div></div>';
+  });
+  document.getElementById('pageBody').innerHTML=h;
+}
+function inQuoteFilter(q,f){
+  if(state.role==='estimator' && q.estimator && q.estimator!==ROLES.estimator.person) return false;
+  return f==='all' ? true : q.stage===f;
+}
+function setQuoteFilter(f){ state.quoteFilter=f; renderQuotes(); }
+
+function renderQuoteDetail(){
+  var q=state.quotes.find(function(x){return x.id===state.currentQuoteId;});
+  if(!q){ goto('quotes'); return; }
+  var t=quoteTotals(q), canApprove=['owner','secretary','supervisor'].indexOf(state.role)!==-1;
+  var h='<div class="back" onclick="goto(\'quotes\')">&larr; Back to quotes</div>';
+  h += '<h1 class="dt">'+q.num+' <span class="status" style="background:'+stageColor(q.stage)+'; color:#fff; font-size:11px; vertical-align:middle;">'+stageLabel(q.stage)+'</span></h1>';
+
+  h += '<div class="stepbar">';
+  var si = STAGES.findIndex(function(s){return s.k===q.stage;});
+  STAGES.forEach(function(s,i){
+    var cls = i<si ? 'done' : i===si ? 'now' : '';
+    h += '<div class="stp '+cls+'"><span class="n">'+(i<si?'✓':(i+1))+'</span>'+s.l+'</div>';
+  });
+  h += '</div>';
+
+  h += '<div class="kv">'+
+       '<div class="row"><span>Property</span><span>'+q.property+'</span></div>'+
+       '<div class="row"><span>Management</span><span>'+q.mgmt+'</span></div>'+
+       '<div class="row"><span>Requested by</span><span>'+q.requestedBy+'</span></div>'+
+       '<div class="row"><span>Date requested</span><span>'+q.dateRequested+'</span></div>'+
+       '<div class="row"><span>Estimator</span><span>'+(q.estimator||'Unassigned')+'</span></div>'+
+       '<div class="row"><span>Scope of work</span><span>'+q.scope+'</span></div></div>';
+
+  h += '<div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:14px;">'+
+       '<div class="pill-btn blue" onclick="goto(\'breakdown\','+q.id+')">Cost breakdown</div>'+
+       '<div class="pill-btn" onclick="goto(\'quoteDoc\','+q.id+')">Quote document</div></div>';
+
+  // Every version kept — their words: "so they can be saved in our chain of events."
+  if(q.versions && q.versions.length){
+    h += '<div class="sec-title">Version history</div>';
+    h += '<div class="lockednote">Nothing is overwritten. Every version of this quote stays on the record.</div>';
+    q.versions.slice().reverse().forEach(function(v){
+      h += '<div class="catrow" style="cursor:default;"><div><div class="nm">Version '+v.v+(v.v===q.versions.length?' — current':'')+'</div>'+
+           '<div class="sub">'+v.note+'</div></div>'+
+           '<div class="pr"><div class="s">'+v.by+'<br>'+v.when+'</div></div></div>';
+    });
+  }
+
+  if(t.grand>0){
+    h += '<div class="sec-title">Price</div><div class="card">'+
+         '<div class="totrow"><span class="lbl">Actual cost</span><span class="amt">'+money(t.actual)+'</span></div>'+
+         '<div class="totrow"><span class="lbl">Profit ('+(state.defaults.profitPct*100).toFixed(0)+'%)</span><span class="amt">'+money(t.profit)+'</span></div>'+
+         '<div class="totrow"><span class="lbl">Contingency (5%)</span><span class="amt">'+money(t.conting)+'</span></div>'+
+         '<div class="totrow grand"><span>Grand total</span><span>'+money(t.grand)+'</span></div></div>';
+  }
+
+  if(q.stage==='submitted' && canApprove){
+    h += '<div class="notif orange" style="margin-top:14px;"><div class="l">Waiting on your decision</div>'+
+         '<div class="v" style="font-size:13.5px;">Approving sends it to the client. Sending it back returns it to '+(q.estimator||'the estimator')+' with your note.</div>'+
+         '<div style="margin-top:10px;"><span class="pill-btn green" onclick="decide('+q.id+',\'approved\')">Approve</span> '+
+         '<span class="pill-btn" onclick="decide('+q.id+',\'pricing\')">Send back for review</span></div></div>';
+  } else if(q.stage==='pricing' && state.role==='estimator'){
+    h += '<div class="notif" style="margin-top:14px;"><div class="l">When you\'re done</div>'+
+         '<div class="v" style="font-size:13.5px;">Submit it and Edison (supervisor estimator) reviews it.</div>'+
+         '<div class="pill-btn solid" style="margin-top:10px;" onclick="decide('+q.id+',\'submitted\')">Submit for approval</div></div>';
+  } else if(q.stage==='needs_quoting'){
+    h += '<div class="notif" style="margin-top:14px;"><div class="l">Not started</div>'+
+         '<div class="v" style="font-size:13.5px;">Pick this up and the cost breakdown opens.</div>'+
+         '<div class="pill-btn blue" style="margin-top:10px;" onclick="pickUp('+q.id+')">Start pricing</div></div>';
+  }
+  document.getElementById('pageBody').innerHTML=h;
+}
+function decide(id, stage){
+  var q=state.quotes.find(function(x){return x.id===id;}); q.stage=stage; render();
+}
+function pickUp(id){
+  var q=state.quotes.find(function(x){return x.id===id;});
+  q.stage='pricing'; q.estimator=ROLES[state.role].person; goto('breakdown', id);
+}
+
+/* ---------- COST BREAKDOWN — their spreadsheet, rebuilt as cards ---------- */
+function renderBreakdown(){
+  var q=state.quotes.find(function(x){return x.id===state.currentQuoteId;});
+  if(!q){ goto('quotes'); return; }
+  // Must read THIS ESTIMATE's pricing, not company defaults — otherwise the
+  // panel shows one number while the maths uses another (caught 1 Sep).
+  var d=pricingFor(q), t=quoteTotals(q);
+  var h='<div class="back" onclick="goto(\'quoteDetail\','+q.id+')">&larr; Back to '+q.num+'</div>';
+  h+='<h1 class="dt">Cost breakdown</h1>';
+  h+='<div class="lockednote">Same maths as your estimate sheet — laid out so it reads on a phone.</div>';
+
+  // Pricing is per-estimate, exactly as in their sheet: "the profit can change
+  // same as the labor rates — give the option to change it."
+  h+='<div class="sec-title">This job\'s pricing</div>';
+  h+='<div class="formcard">'+
+     '<div class="field"><label>Job type — sets the starting profit and labor rate</label><select onchange="setJobType('+q.id+', this.value)">';
+  state.jobTypes.forEach(function(jt){
+    h+='<option value="'+jt.name+'"'+(q.jobType===jt.name?' selected':'')+'>'+jt.name+' — '+(jt.profitPct*100).toFixed(0)+'% profit, $'+jt.laborRate+'/hr</option>';
+  });
+  h+='</select></div>'+
+     '<div class="li-grid">'+
+     '<div class="li-cell"><div class="k">Profit %</div><div class="v">'+(d.profitPct*100).toFixed(0)+'%</div></div>'+
+     '<div class="li-cell"><div class="k">Labor rate</div><div class="v">$'+d.laborRate+'/hr</div></div>'+
+     '<div class="li-cell"><div class="k">Sales tax</div><div class="v">'+(d.salesTax*100).toFixed(1)+'%</div></div>'+
+     '<div class="li-cell"><div class="k">GC\'s %</div><div class="v">'+(d.gcPct*100).toFixed(0)+'%</div></div>'+
+     '<div class="li-cell"><div class="k">Contingency</div><div class="v">'+(d.contingencyPct*100).toFixed(0)+'%</div></div>'+
      '</div>'+
-     '<div style="margin-top:12px"><label class="f">Or: they promised a date</label>'+
-     '<div class="grid"><input class="in" type="date">'+
-     '<input class="in" placeholder="Who said it, and what exactly"></div></div>'+
-     '<div class="row" style="gap:9px;margin-top:13px;flex-wrap:wrap">'+
-     '<button class="btn" data-demo="pay">Record the payment</button>'+
-     '<button class="btn ghost" data-demo="promise">Save the promise</button></div>'+
-     '<p style="font-size:11.5px;color:var(--ink3);margin:10px 0 0">A promise does not reduce the balance. '+
-     'It only decides when you are reminded.</p></div>' : '')+
+     '<div class="lockednote" style="margin:10px 0 0;">Every one of these can be changed on this job without touching any other. Sinkholes 40%, welding 40%, A/C 25% — your numbers, per job.</div>'+
+     '</div>';
 
-   '<h2>What gets chased, and when</h2>'+
-   '<div class="scrollx"><table><thead><tr><th>Situation</th><th>What happens</th><th>Who hears about it</th></tr></thead><tbody>'+
-   [['A promise date passes','On the call list that morning','Whoever you choose &mdash; you or the secretary'],
-    ['Invoice past its due date','On the call list','Same'],
-    ['Invoice 60+ days','Comes to you directly','You, and the secretary'],
-    ['A job is costing more than it was quoted','Comes to you directly','You, and the secretary'],
-    ['A sub is over $600 with no W-9','Comes to you directly','You, and the secretary']]
-   .map(function(r){return '<tr><td class="wrap"><b>'+r[0]+'</b></td><td class="wrap">'+r[1]+'</td><td class="wrap">'+r[2]+'</td></tr>'}).join('')+
-   '</tbody></table><div class="hint">Every one of these timings is yours to change in Settings.</div></div>';
-}
-
-function scrPeople(){
-  return '<h1>Settings</h1>'+
-   '<p class="sub">Your people, what each of them can see, and how the system behaves.</p>'+
-   '<h2>Everyone</h2>'+
-   PEOPLE.map(function(p){
-     var ini=p.n.split(' ').map(function(x){return x[0]}).join('').slice(0,2).toUpperCase();
-     return '<div class="card tap" style="padding:13px"><div class="row">'+
-       '<div class="avatar '+(p.o?'o':'')+'">'+ini+'</div>'+
-       '<div style="min-width:0;flex:1"><div style="font-weight:800">'+p.n+'</div>'+
-       '<div style="font-size:11.5px;color:var(--ink2);margin-top:2px">'+
-       '<span class="pill '+(p.o?'coral':'')+'">'+p.r+'</span> reports to '+p.mgr+'</div></div>'+
-       '<div style="font-size:11.5px;font-weight:800;color:var(--ink2);white-space:nowrap">'+p.tabs+'</div>'+
+  h+='<div class="sec-title">Line items</div>';
+  if(!q.items.length){ h+='<div class="empty">No line items yet.</div>'; }
+  q.items.forEach(function(it,i){
+    var c=lineCalc(it,d);
+    h+='<div class="lineitem" style="animation-delay:'+(i*0.05)+'s">'+
+       '<div class="li-top"><div class="li-desc">'+(i+1)+'. '+it.desc+'</div><div class="li-tot">'+money(c.subtotal)+'</div></div>'+
+       '<div class="li-grid">'+
+       '<div class="li-cell"><div class="k">Qty</div><div class="v">'+it.qty+'</div></div>'+
+       (c.matsBase?'<div class="li-cell"><div class="k">Materials</div><div class="v">'+money(c.matsBase)+'</div></div>':'')+
+       (c.taxes?'<div class="li-cell"><div class="k">Tax</div><div class="v">'+money(c.taxes)+'</div></div>':'')+
+       (it.laborHrs?'<div class="li-cell"><div class="k">Labor hrs</div><div class="v">'+(it.laborHrs*(it.qty||1))+'</div></div>':'')+
+       (c.laborSubt?'<div class="li-cell"><div class="k">Labor $</div><div class="v">'+money(c.laborSubt)+'</div></div>':'')+
+       (c.subSubt?'<div class="li-cell"><div class="k">Sub</div><div class="v">'+money(c.subSubt)+'</div></div>':'')+
+       (c.equipSubt?'<div class="li-cell"><div class="k">Equipment</div><div class="v">'+money(c.equipSubt)+'</div></div>':'')+
+       '<div class="li-cell"><div class="k">Actual cost</div><div class="v">'+money(c.actual)+'</div></div>'+
+       '<div class="li-cell"><div class="k">Profit</div><div class="v">'+money(c.profit)+'</div></div>'+
+       '<div class="li-cell"><div class="k">Contingency</div><div class="v">'+money(c.conting)+'</div></div>'+
        '</div></div>';
-   }).join('')+
-   '<div class="note"><b>Two estimators, different access.</b> Luis can see 10 tabs, Ana 6. '+
-   'Same job title, different trust &mdash; that is the point, and you set it yourself.</div>'+
+  });
+  h+='<div style="display:flex; gap:8px; flex-wrap:wrap; margin:4px 0 16px;">'+
+     '<div class="pill-btn blue" onclick="alert(\'In the real system this opens the line-item form, with your price list ready to pick from.\')">+ Add line item</div>'+
+     '<div class="pill-btn" onclick="goto(\'catalog\')">Open price list</div></div>';
 
-   '<h2>What one person can see</h2>'+
-   '<div class="card"><div style="font-weight:800;margin-bottom:10px">Luis T. &middot; Estimator</div>'+
-   '<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px">'+
-   [['Home',1,1],['Alerts',1,1],['Updates',1,1],['Jobs',1,0],['Clients',1,0],['Bids',1,0],
-    ['Quotes',1,0],['Requests',0,0],['Team inbox',0,0],['Who owes you',0,0],['Expenses',1,0],
-    ['Company',0,0],['Reports',0,0],['Banking',0,2],['Subcontractors',1,0],['Suppliers',1,0],['Settings',0,0]]
-   .map(function(t){
-     var locked=t[2]===1?'always':t[2]===2?'you only':'';
-     return '<label style="display:flex;gap:8px;align-items:center;padding:10px;border:1px solid '+
-       (t[1]?'var(--ink)':'var(--line)')+';border-radius:10px;background:'+(t[1]?'#F7F9FC':'#fff')+
-       ';font-size:12.5px;font-weight:700;min-height:44px'+(t[2]?';opacity:.6':'')+'">'+
-       '<input type="checkbox" '+(t[1]?'checked':'')+' '+(t[2]?'disabled':'')+' style="width:20px;height:20px">'+
-       '<span>'+t[0]+(locked?' <span class="pill" style="font-size:9.5px">'+locked+'</span>':'')+'</span></label>';
-   }).join('')+'</div>'+
-   '<div class="row" style="gap:9px;margin-top:13px;flex-wrap:wrap">'+
-   '<button class="btn" data-demo="save">Save changes</button>'+
-   '<button class="btn ghost" data-demo="pw">Give them a new password</button></div></div>'+
+  h+='<div class="sec-title">Totals</div><div class="card">'+
+     '<div class="totrow"><span class="lbl">Total materials (inc. tax)</span><span class="amt">'+money(t.mats)+'</span></div>'+
+     '<div class="totrow"><span class="lbl">Total labor — '+t.laborHrs+' hrs</span><span class="amt">'+money(t.labor)+'</span></div>'+
+     '<div class="totrow"><span class="lbl">Total subcontractor</span><span class="amt">'+money(t.sub)+'</span></div>'+
+     '<div class="totrow"><span class="lbl">Total equipment</span><span class="amt">'+money(t.equip)+'</span></div>'+
+     '<div class="totrow"><span class="lbl">Total cost</span><span class="amt">'+money(t.actual)+'</span></div>'+
+     '<div class="totrow"><span class="lbl">Profit</span><span class="amt">'+money(t.profit)+'</span></div>'+
+     '<div class="totrow"><span class="lbl">Contingency</span><span class="amt">'+money(t.conting)+'</span></div>'+
+     '<div class="totrow grand"><span>Grand total</span><span>'+money(t.grand)+'</span></div></div>';
 
-   '<h2>Check-ins you set</h2>'+
-   '<div class="scrollx"><table><thead><tr><th>Name</th><th>Asks</th><th>When</th><th>Goes to</th><th></th></tr></thead><tbody>'+
-   [['Monday site check','How far along is this job?','Every Monday, 8am','The PM on that job','On'],
-    ['Friday spend check','Anything spent that is not in the system?','Every Friday, 4pm','The PM on that job','On'],
-    ['Finishing check','Is anything stopping you finishing?','Every 3 days','The PM on that job','Off']]
-   .map(function(r){return '<tr><td><b>'+r[0]+'</b></td><td class="wrap">'+r[1]+'</td><td>'+r[2]+'</td>'+
-     '<td>'+r[3]+'</td><td><span class="pill '+(r[4]==='On'?'green':'')+'">'+r[4]+'</span></td></tr>'}).join('')+
-   '</tbody></table><div class="hint">Scroll sideways for every column.</div></div>'+
-   '<div class="note">New check-ins start switched off, so you can see what one looks like before it starts '+
-   'messaging your team.</div>';
+  h+='<div class="sec-title">Quick price — for the small jobs</div>'+
+     '<div class="lockednote">The short version from your workbook: direct cost, then overhead '+(d.qpOverhead*100)+'%, profit '+(d.qpProfit*100)+'%, contingency '+(d.contingencyPct*100)+'%.</div>';
+  var qp=quickPrice({materials:t.mats, sub:t.sub, laborHrs:t.laborHrs, laborRate:30, extra:t.equip});
+  h+='<div class="pricecard">'+
+     '<div class="pc"><div class="k">Break-even safe price</div><div class="v">'+money0(qp.breakEven)+'</div></div>'+
+     '<div class="pc rec"><div class="k">Recommended price</div><div class="v">'+money0(qp.recommended)+'</div></div>'+
+     '<div class="pc strong"><div class="k">Strong price</div><div class="v">'+money0(qp.strong)+'</div></div></div>'+
+     '<div class="lockednote">Your own rule, kept: don\'t go below the safe price; use the strong price on hard jobs.</div>';
+
+  h+='<div style="margin-top:16px;"><div class="pill-btn solid" onclick="goto(\'quoteDoc\','+q.id+')">Next: write the quote &rarr;</div></div>';
+  document.getElementById('pageBody').innerHTML=h;
 }
 
-/* ---------- render ---------- */
-function render(){
-  renderTabs();
-  var v={flow:scrFlow,intake:scrIntake,bids:scrBids,quotes:scrQuotes,jobs:scrJobs,money:scrMoney,people:scrPeople};
-  $('#view').innerHTML = (v[state.tab]||scrFlow)();
+/* ---------- QUOTE DOCUMENT — their exact client-facing format ---------- */
+function setJobType(id, name){
+  var q=state.quotes.find(function(x){return x.id===id;});
+  var jt=state.jobTypes.find(function(x){return x.name===name;});
+  if(!q||!jt) return;
+  q.jobType=name;
+  q.pricing=Object.assign({}, q.pricing||{}, {profitPct:jt.profitPct, laborRate:jt.laborRate});
+  render();
 }
 
-document.addEventListener('click',function(e){
-  var t=e.target.closest('[data-tab],[data-step],[data-go],[data-bid],[data-job],[data-inv],[data-demo]');
-  if(!t) return;
-  if(t.dataset.tab){ go(t.dataset.tab); return; }
-  if(t.dataset.step!==undefined){ state.step=+t.dataset.step; render(); return; }
-  if(t.dataset.go){ go(t.dataset.go); return; }
-  if(t.dataset.bid){ go('bids',t.dataset.bid); return; }
-  if(t.dataset.job){ go('jobs','1'); return; }
-  if(t.dataset.inv){ state.open=t.dataset.inv; render(); return; }
-  if(t.dataset.demo){
-    var msg={req:'In the real system this lands on the bids board within a second.',
-      meet:'A site meeting would be saved against this bid.',
-      drop:'It would move to "not going ahead", with the reason kept.',
-      newbid:'The add-a-bid form opens here.',
-      approve:'This is the one action in the whole system that creates a job.',
-      back:'It goes back to the estimator with your comment. The old version is kept.',
-      ask:'They get it straight away. If they do not answer, they get chased.',
-      spend:'It comes off this job\'s profit, not the office overhead.',
-      done:'The job is marked finished and the invoice can go out.',
-      pay:'The balance comes down and the payment is logged with who recorded it.',
-      promise:'Saved. If the date passes with nothing paid, it lands on the call list.',
-      save:'Their access changes immediately.',
-      pw:'A one-time password appears once, to read to them.'}[t.dataset.demo];
-    alert('Preview\n\n'+msg+'\n\nNothing was actually sent or saved.');
+function renderQuoteDoc(){
+  var q=state.quotes.find(function(x){return x.id===state.currentQuoteId;});
+  if(!q){ goto('quotes'); return; }
+  var t=quoteTotals(q);
+  var h='<div class="back" onclick="goto(\'quoteDetail\','+q.id+')">&larr; Back to '+q.num+'</div>';
+  h+='<h1 class="dt">Quote document</h1>';
+  h+='<div class="lockednote">This is what the property receives — the same layout you send today. The estimator writes the scope and exclusions here; everything else fills itself in.</div>';
+
+  h+='<div class="doc">';
+  h+='<h2>ESTIMATE #'+q.num+'</h2>';
+  h+='<div class="docmeta">September 1, 2026<br>To: '+q.mgmt+'<br>Attn: '+q.requestedBy+'<br>Ref: '+q.property+' – '+q.scope+'</div>';
+  h+='<p style="margin-top:12px; color:var(--ink-soft);">YUMBO GENERAL CONSTRUCTION, LLC is proposing the following services for the prices mentioned below. Any item not specifically mentioned is subject to change.</p>';
+
+  h+='<h2>Scope of Work</h2>';
+  if(q.docScope && q.docScope.length){
+    q.docScope.forEach(function(s,i){
+      h+='<div style="font-weight:800; margin-top:10px;">'+(i+1)+'. '+s.title+'</div><ul>';
+      s.bullets.forEach(function(b){ h+='<li>'+b+'</li>'; });
+      h+='</ul>';
+    });
+  } else {
+    h+='<div class="empty" style="text-align:left; padding:14px 0;">The estimator writes the procedures here, section by section — same as the document you send now.</div>';
   }
-});
 
-$('#who').addEventListener('change',function(){ state.role=this.value; state.open=null; render(); window.scrollTo(0,0); });
-$('#gearBtn').addEventListener('click',function(){ go('people'); });
+  if(q.exclusions && q.exclusions.length){
+    h+='<h2>Exclusions</h2><ul>';
+    q.exclusions.forEach(function(e){ h+='<li>'+e+'</li>'; });
+    h+='</ul>';
+  }
 
+  h+='<div class="bigprice">MATERIALS AND LABOR — '+(t.grand>0?money(t.grand):'price the job first')+'</div>';
+  h+='<p><b>🔒 Price Match Guarantee:</b> Got a better price? Show us. We\'ll match it — or do better and still deliver top tier quality.</p>';
+  h+='<p style="color:var(--ink-soft);">Price valid only 45 days. We hope to earn your business daily with our service!</p>';
+  h+='<p style="margin-top:10px;"><b>YUMBO GENERAL CONSTRUCTION, LLC</b><br>Charles Quintana</p>';
+  h+='<h2>💳 Payment Terms</h2><ul>'+
+     '<li>Projects over $10,000 require a 35% deposit for materials before work begins.</li>'+
+     '<li>All invoices are due within 30 days of issue.</li>'+
+     '<li>A 1.5% interest fee per month will be added to unpaid balances after 30 days.</li></ul>';
+  h+='<h2>🛡️ Peace of Mind, guaranteed</h2><p>Every job comes with a 1-year guarantee on workmanship, unless noted otherwise.</p>';
+  h+='<h2>✍️ Approval &amp; Agreement</h2><p>By signing below, you agree to the terms above.</p>'+
+     '<p style="margin-top:14px; color:var(--ink-soft);">Client Signature: ________________________ Date: ____________</p>';
+  h+='</div>';
+
+  h+='<div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:14px;">'+
+     '<div class="pill-btn" onclick="alert(\'In the real system: saves a PDF into this property\\u2019s folder in your Google Drive.\')">Save as PDF</div>'+
+     (q.stage==='pricing'?'<div class="pill-btn solid" onclick="decide('+q.id+',\'submitted\')">Submit for approval</div>':'')+
+     '</div>';
+  document.getElementById('pageBody').innerHTML=h;
+}
+
+function renderApprovals(){
+  var list=state.quotes.filter(function(q){return q.stage==='submitted';});
+  var h='<h1 class="dt">Approvals</h1><div class="lockednote">Estimates submitted to you. Approve sends it to the client; sending back returns it to the estimator with your note.</div>';
+  if(!list.length){ h+='<div class="empty">Nothing waiting on you.</div>'; }
+  list.forEach(function(q){
+    var t=quoteTotals(q);
+    h+='<div class="catrow" onclick="goto(\'quoteDetail\','+q.id+')">'+
+       '<div><div class="nm">'+q.num+' — '+q.property+'</div><div class="sub">'+q.scope.slice(0,60)+'…</div>'+
+       '<div class="sub" style="margin-top:4px;">by '+(q.estimator||'—')+' · submitted '+q.daysOld+'d ago</div></div>'+
+       '<div class="pr"><div class="y">'+money0(t.grand)+'</div><div class="s">review &rarr;</div></div></div>';
+  });
+  document.getElementById('pageBody').innerHTML=h;
+}
+
+function renderProperties(){
+  var h='<h1 class="dt">Properties</h1>';
+  h+='<div class="lockednote">Every property, who manages it, how they pay you, and what\'s open — the CRM tab, in the system instead of a sheet.</div>';
+  state.properties.forEach(function(p){
+    h+='<div class="catrow" onclick="goto(\'propertyDetail\','+p.id+')">'+
+       '<div><div class="nm">'+p.name+'</div><div class="sub">'+p.mgmt+' · '+p.contact+'</div>'+
+       '<div class="sub" style="margin-top:4px;">Pays via <b>'+p.pay+'</b>'+(p.po!=='—'?' · '+p.po:'')+'</div></div>'+
+       '<div class="pr"><div class="y">'+p.jobs+'</div><div class="s">jobs'+(p.openQuotes?' · '+p.openQuotes+' quote':'')+'</div></div></div>';
+  });
+  document.getElementById('pageBody').innerHTML=h;
+}
+function renderPropertyDetail(){
+  var p=state.properties.find(function(x){return x.id===state.currentPropertyId;});
+  if(!p){ goto('properties'); return; }
+  var h='<div class="back" onclick="goto(\'properties\')">&larr; Back to properties</div><h1 class="dt">'+p.name+'</h1>';
+  h+='<div class="kv">'+
+     '<div class="row"><span>Management</span><span>'+p.mgmt+'</span></div>'+
+     '<div class="row"><span>Contact</span><span>'+p.contact+'</span></div>'+
+     '<div class="row"><span>Invoices go through</span><span>'+p.pay+'</span></div>'+
+     '<div class="row"><span>PO type</span><span>'+p.po+'</span></div>'+
+     '</div>';
+  var qs=state.quotes.filter(function(q){return q.property===p.name;});
+  h+='<div class="sec-title">Quotes</div>';
+  if(!qs.length) h+='<div class="empty">No quotes for this property yet.</div>';
+  qs.forEach(function(q){
+    h+='<div class="catrow" onclick="goto(\'quoteDetail\','+q.id+')"><div><div class="nm">'+q.num+'</div>'+
+       '<div class="sub">'+q.scope.slice(0,52)+'…</div></div>'+
+       '<div class="pr"><span class="status" style="background:'+stageColor(q.stage)+'; color:#fff;">'+stageLabel(q.stage)+'</span></div></div>';
+  });
+  var js=state.jobs.filter(function(j){return j.client===p.name;});
+  h+='<div class="sec-title">Jobs</div>';
+  if(!js.length) h+='<div class="empty">No jobs for this property yet.</div>';
+  js.forEach(function(j){
+    h+='<div class="catrow"><div><div class="nm">'+j.num+' — '+j.desc+'</div><div class="sub">'+j.sub+' · PM '+j.pm+'</div></div>'+
+       '<div class="pr"><div class="y">'+money0(j.ygc)+'</div><div class="s">'+j.status.replace('_',' ')+'</div></div></div>';
+  });
+  document.getElementById('pageBody').innerHTML=h;
+}
+
+function renderCatalog(){
+  var h='<h1 class="dt">Price list</h1>';
+  h+='<div class="lockednote">Your pricing sheet, in the system. The estimator picks from here so line items are priced the same way every time.</div>';
+  state.catalog.forEach(function(c){
+    h+='<div class="catrow" onclick="alert(\'In the real system this drops the item straight into the estimate you are pricing.\')">'+
+       '<div><div class="nm">'+c.item+'</div><div class="sub">per '+c.unit+'</div></div>'+
+       '<div class="pr"><div class="y">'+money0(c.yumbo)+'</div><div class="s">sub pays '+money0(c.sub)+'</div></div></div>';
+  });
+  document.getElementById('pageBody').innerHTML=h;
+}
+function renderStepSizes(){
+  var h='<h1 class="dt">Step sizes</h1>';
+  h+='<div class="lockednote">Your step measurements by property — kept here in the estimating area so whoever is pricing stair work can check the size without leaving the estimate.</div>';
+  h+='<div class="searchbar" style="margin-bottom:12px;"><input type="text" id="stepFilter" placeholder="Filter by property…" oninput="renderStepSizes.filter=this.value; renderStepSizes();"></div>';
+  var f=(renderStepSizes.filter||'').toLowerCase();
+  var list=state.stepSizes.filter(function(x){ return !f || x.property.toLowerCase().indexOf(f)!==-1; });
+  if(!list.length) h+='<div class="empty">No property matches that.</div>';
+  list.forEach(function(x){
+    h+='<div class="catrow" style="cursor:default;"><div><div class="nm">'+x.property+'</div></div>'+
+       '<div class="pr"><div class="y">'+x.size+'</div><div class="s">step height</div></div></div>';
+  });
+  document.getElementById('pageBody').innerHTML=h;
+  var inp=document.getElementById('stepFilter');
+  if(inp && f){ inp.value=renderStepSizes.filter; inp.focus(); inp.setSelectionRange(f.length,f.length); }
+}
+
+function renderVendors(){
+  var h='<h1 class="dt">Suppliers</h1><div class="lockednote">Where you buy — from your materials directions sheet.</div>';
+  state.suppliers.forEach(function(s){
+    h+='<div class="catrow"><div><div class="nm">'+s.name+'</div><div class="sub">'+s.what+'</div>'+
+       '<div class="sub" style="margin-top:3px;">'+s.where+'</div></div>'+
+       '<div class="pr"><div class="s">contact in system</div></div></div>';
+  });
+  document.getElementById('pageBody').innerHTML=h;
+}
+function renderSubs(){
+  var h='<h1 class="dt">Subcontractors</h1>';
+  h+='<div class="lockednote">'+(isOwner()
+      ? 'You can see tax IDs and how each sub gets paid. Nobody else on the team can.'
+      : 'Tax IDs and payment details are owner-only — you see who they are and what they do.')+'</div>';
+  state.subs.forEach(function(sb){
+    var sen=state.partySensitive[sb.name]||{};
+    h+='<div class="catrow" style="cursor:default;"><div><div class="nm">'+sb.name+'</div>'+
+       '<div class="sub">'+sb.trade+'</div>';
+    if(isOwner()){
+      h+='<div class="sub" style="margin-top:5px;">Tax ID <b>'+(sen.einFull||'—')+'</b> · Paid by <b>'+(sen.payFull||'—')+'</b>'+
+         (sen.w9===false?' · <span style="color:var(--coral); font-weight:800;">no W-9 on file</span>':'')+'</div>';
+    } else {
+      h+='<div class="sub" style="margin-top:5px; color:var(--ink-soft);">Tax ID and payment details — owner only</div>';
+    }
+    h+='</div><div class="pr"><div class="y">'+sb.active+'</div><div class="s">active jobs</div></div></div>';
+  });
+  document.getElementById('pageBody').innerHTML=h;
+}
+
+/* ---------- BANKING — owner only, and the escalation feed ---------- */
+function renderBanking(){
+  if(!isOwner()){
+    document.getElementById('pageBody').innerHTML='<h1 class="dt">Banking</h1><div class="empty">This is owner-only.</div>';
+    return;
+  }
+  var b=state.bank;
+  var h='<h1 class="dt">Banking</h1>';
+  h+='<div class="lockednote">Only you can open this screen. Nobody else on the team — not the secretary, not the estimators — can see the account numbers or the balance.</div>';
+  h+='<div class="summary-grid"><div class="card"><div class="l">Balance right now</div><div class="v">'+money(b.balance)+'</div><div class="hint">'+b.bankName+' · synced '+b.lastSync+'</div></div></div>';
+  h+='<div class="kv">'+
+     '<div class="row"><span>Account</span><span>'+b.label+'</span></div>'+
+     '<div class="row"><span>Account number</span><span>'+b.accountFull+'</span></div>'+
+     '<div class="row"><span>Routing number</span><span>'+b.routingFull+'</span></div></div>';
+  h+='<div class="lockednote" style="margin-top:12px;">Read-only. The system can show you what you have and match payments against invoices — it can never move money. Any transfer is still you, in your own bank app.</div>';
+
+  h+='<div class="sec-title">Things you should know about</div>';
+  var open=state.alerts.filter(function(a){return !a.ack;});
+  if(!open.length) h+='<div class="empty">Nothing needs you right now.</div>';
+  open.forEach(function(a){
+    h+='<div class="notif '+(a.level==='high'?'orange':'')+'">'+
+       '<div class="l">'+(a.level==='high'?'Needs you now':'Worth a look')+' · '+a.when+'</div>'+
+       '<div class="v" style="font-size:14px;">'+a.title+'</div>'+
+       '<div style="font-size:13px; color:var(--ink-soft); margin-top:4px;">'+a.detail+'</div>'+
+       '<div class="pill-btn" style="margin-top:9px;" onclick="ackAlert('+a.id+')">Mark as seen</div></div>';
+  });
+  document.getElementById('pageBody').innerHTML=h;
+}
+function ackAlert(id){ var a=state.alerts.find(function(x){return x.id===id;}); if(a) a.ack=true; render(); }
+function renderJobs(){
+  var h='<h1 class="dt">Jobs</h1>';
+  var showMoney=state.role!=='sales' || true; // ALL roles see job money (1 Sep: PM yes, sales yes for commission)
+  state.jobs.forEach(function(j){
+    var openable = !!state.jobDetail[j.num];
+    h+='<div class="catrow"'+(openable?' onclick="goto(\'jobDetail\',\''+j.num+'\')"':' style="cursor:default;"')+'>'+
+       '<div><div class="nm">'+j.num+' — '+j.desc+'</div>'+
+       '<div class="sub">'+j.client+' · '+j.sub+' · PM '+j.pm+'</div>'+
+       (j.wtn!=='—'?'<div class="sub" style="margin-top:3px;">WTN/PO '+j.wtn+'</div>':'')+'</div>'+
+       '<div class="pr">'+(showMoney?'<div class="y">'+money0(j.ygc)+'</div>':'')+
+       '<div class="s">'+j.status.replace('_',' ')+(openable?' ›':'')+'</div></div></div>';
+  });
+  document.getElementById('pageBody').innerHTML=h;
+}
+
+/* ---- ADDED 1 Sep: one job, and what it actually leaves you holding ----
+   The figure this screen exists for is "yours when it finishes". The old
+   sum — invoiced minus subs minus materials — could not see fuel, crew
+   lunch or the commission, so it read high on every single job. */
+function renderJobDetail(){
+  var num = state.currentJobNum || '25-3620';
+  var j = state.jobs.filter(function(x){return x.num===num;})[0];
+  var d = state.jobDetail[num];
+  if(!j || !d){ goto('jobs'); return; }
+
+  var spent=0; d.costs.forEach(function(c){ spent+=c.a; });
+  var pending=0; d.pending.forEach(function(c){ pending+=c.a; });
+  var left = j.ygc + spent;
+
+  var h='<div class="pill-btn" style="margin-bottom:12px;" onclick="goto(\'jobs\')">‹ All jobs</div>';
+  h+='<h1 class="dt">Job '+j.num+'</h1>';
+  h+='<div class="rolenote">'+j.client+' · '+j.desc+' · started '+d.started+
+     ' · PM '+j.pm+' · priced by '+d.estimator+' · sold by '+d.salesBy+'</div>';
+
+  h+='<div class="summary-grid">'+
+     '<div class="card"><div class="l">Quoted</div><div class="v">'+money0(j.ygc)+'</div></div>'+
+     '<div class="card"><div class="l">Costs committed</div><div class="v">'+money0(-spent)+'</div></div>'+
+     '<div class="card" style="border-color:var(--ink); border-width:2.5px;">'+
+       '<div class="l">Yours when it finishes</div><div class="v">'+money0(left)+'</div>'+
+       '<div class="hint">'+(left/j.ygc*100).toFixed(1)+'% of the job</div></div>'+
+     '<div class="card"><div class="l">Collected so far</div><div class="v">'+money0(d.collected)+'</div>'+
+       '<div class="hint">deposit + part of the final</div></div>'+
+     '</div>';
+
+  if(pending<0){
+    h+='<div class="lockednote">'+money0(-pending)+' of expenses on this job are waiting to be approved. '+
+       'They are <b>not</b> in the figures above yet.</div>';
+  }
+
+  h+='<div class="sec-title">Where the money went</div>';
+  var run=j.ygc;
+  h+='<div class="lineitem"><div class="li-top"><div class="li-desc">Quoted price</div>'+
+     '<div class="li-tot" style="color:var(--green);">+'+money(j.ygc)+'</div></div>'+
+     '<div class="sub" style="font-size:11.5px; color:var(--ink-soft);">'+j.desc+'</div></div>';
+  d.costs.forEach(function(c){
+    run+=c.a;
+    h+='<div class="lineitem"><div class="li-top"><div class="li-desc">'+c.w+'</div>'+
+       '<div class="li-tot" style="color:var(--orange);">'+money(c.a)+'</div></div>'+
+       '<div class="li-grid">'+
+       '<div class="li-cell"><div class="k">What</div><div class="v" style="font-size:11.5px;">'+c.d+'</div></div>'+
+       '<div class="li-cell"><div class="k">Status</div><div class="v" style="font-size:11.5px;">'+c.s+'</div></div>'+
+       '<div class="li-cell"><div class="k">Left</div><div class="v">'+money0(run)+'</div></div>'+
+       '</div></div>';
+  });
+  h+='<div class="formcard" style="margin-top:2px;">'+
+     '<div class="totrow grand"><span class="lbl">Yours when it finishes</span>'+
+     '<span class="amt">'+money(left)+'</span></div></div>';
+
+  h+='<div class="sec-title">Updates on this job</div>';
+  d.updates.forEach(function(u){
+    var waiting = u.state==='waiting';
+    h+='<div class="catrow" style="cursor:default;'+(waiting?' border-color:var(--orange);':'')+'">'+
+       '<div><div class="nm">'+u.who+' — '+u.what+'</div>'+
+       '<div class="sub">'+(u.note||'Not answered yet')+'</div></div>'+
+       '<div class="pr"><div class="s">'+u.when+'</div>'+
+       '<div class="s" style="color:'+(waiting?'var(--orange)':'var(--green)')+'; font-weight:800;">'+
+       (waiting?'waiting':'answered')+'</div></div></div>';
+  });
+  h+='<div class="lockednote">If nobody answers in time the system asks again, and if they still do not, '+
+     'it comes to you. Every question and answer stays on this job.</div>';
+  h+='<div style="display:flex; gap:8px; flex-wrap:wrap;">'+
+     '<div class="pill-btn solid" onclick="say(\'They get it straight away. If they do not answer, they get chased, then it comes to you.\')">Ask for an update</div>'+
+     '<div class="pill-btn" onclick="say(\'Fuel, lunch, tolls and dump fees come off THIS job — not the office overhead.\')">Log something spent</div>'+
+     '<div class="pill-btn" onclick="say(\'The job is marked finished and the final invoice can go out.\')">Mark it finished</div>'+
+     '</div>';
+
+  document.getElementById('pageBody').innerHTML=h;
+}
+function renderRequests(){
+  var h='<h1 class="dt">Requests</h1><div class="lockednote">Materials, change orders and incidents from the field — instead of a phone call.</div>';
+  state.requests.forEach(function(r){
+    h+='<div class="catrow"><div><div class="nm">'+r.title+'</div>'+
+       '<div class="sub">'+r.type.replace('_',' ')+' · job '+r.job+' · by '+r.by+'</div></div>'+
+       '<div class="pr">'+(r.amount?'<div class="y">'+money0(r.amount)+'</div>':'')+
+       '<div class="s"><span class="status" style="background:var(--yellow);">'+r.status+'</span></div></div></div>';
+  });
+  document.getElementById('pageBody').innerHTML=h;
+}
+function renderInbox(){
+  var h='<h1 class="dt">Team inbox</h1><div class="lockednote">Photos and updates the crew sends in. Nothing becomes a record until someone confirms it.</div>';
+  state.inbox.forEach(function(i){
+    h+='<div class="catrow"><div><div class="nm">'+i.cmd+' — '+i.from+'</div><div class="sub">'+i.note+'</div></div>'+
+       '<div class="pr"><div class="s">'+(i.confirmed?'confirmed':'<span class="status" style="background:var(--coral); color:#fff;">confirm</span>')+'</div></div></div>';
+  });
+  document.getElementById('pageBody').innerHTML=h;
+}
+function renderExpenses(){
+  var h='<h1 class="dt">Expenses</h1>';
+  var pend=state.expenses.filter(function(e){return !e.approved;}).reduce(function(s,e){return s+e.amount;},0);
+  h+='<div class="summary-grid"><div class="card"><div class="l">Pending approval</div><div class="v">'+money0(pend)+'</div><div class="hint">Fuel, travel, equipment</div></div></div>';
+  state.expenses.forEach(function(e){
+    h+='<div class="catrow"><div><div class="nm">'+e.what+'</div><div class="sub">'+(e.approved?'approved':'waiting approval')+'</div></div>'+
+       '<div class="pr"><div class="y">'+money0(e.amount)+'</div></div></div>';
+  });
+  document.getElementById('pageBody').innerHTML=h;
+}
+/* ---- REBUILT 1 Sep: the three ways money actually arrives ----
+   Paid in full and paid in parts already work in the real build. A PROMISE
+   to pay on a date was not tracked anywhere — it lived in somebody's memory
+   and quietly went missing. A promise never reduces the balance; it only
+   decides when you get reminded. That distinction is on screen on purpose. */
+function renderMoney(){
+  var owed=0, promised=0, late=0;
+  state.invoices.forEach(function(i){
+    var bal=i.amount-i.paid; owed+=bal;
+    if(i.promise) promised+=bal;
+    if(bal>0 && i.no==='25-3588') late+=bal;
+  });
+
+  var h='<h1 class="dt">Money coming in</h1>';
+  h+='<div class="summary-grid">'+
+     '<div class="card"><div class="l">Owed to you</div><div class="v">'+money0(owed)+'</div>'+
+       '<div class="hint">Across '+state.invoices.filter(function(i){return i.amount>i.paid;}).length+' invoices</div></div>'+
+     '<div class="card"><div class="l">Promised for a date</div><div class="v">'+money0(promised)+'</div>'+
+       '<div class="hint">Chased if the date passes</div></div>'+
+     '<div class="card"><div class="l">Past due</div><div class="v" style="color:var(--orange);">'+money0(late)+'</div>'+
+       '<div class="hint">Creekside, 20 days over</div></div>'+
+     '</div>';
+
+  h+='<div class="sec-title">Invoices</div>';
+  state.invoices.forEach(function(i){
+    var bal=i.amount-i.paid;
+    var label = bal<=0 ? 'paid in full'
+              : i.paid>0 ? 'part paid — '+money0(bal)+' still owed'
+              : 'nothing received yet';
+    var colour = bal<=0 ? 'var(--green)' : (i.no==='25-3588' ? 'var(--orange)' : 'var(--ink-soft)');
+    h+='<div class="catrow" onclick="openInvoice(\''+i.no+'\')">'+
+       '<div><div class="nm">'+i.no+' — '+i.client+'</div>'+
+       '<div class="sub">'+i.stage+' · due '+i.due+' · via '+i.portal+'</div>'+
+       '<div class="sub" style="color:'+colour+'; font-weight:700; margin-top:3px;">'+label+'</div>'+
+       (i.promise ? '<div class="sub" style="margin-top:3px;">Promised '+i.promise.date+' — '+i.promise.who+'</div>' : '')+
+       '</div>'+
+       '<div class="pr"><div class="y">'+money0(i.amount)+'</div>'+
+       '<div class="s">'+(i.paid>0?money0(i.paid)+' in':'—')+' ›</div></div></div>';
+  });
+
+  if(state.currentInvoice){
+    var inv = state.invoices.filter(function(x){return x.no===state.currentInvoice;})[0];
+    if(inv){
+      var bal2=inv.amount-inv.paid;
+      h+='<div class="sec-title">'+inv.no+' — '+inv.client+'</div>';
+      h+='<div class="formcard">';
+      h+='<div class="totrow"><span class="lbl">Invoice</span><span class="amt">'+money(inv.amount)+'</span></div>';
+      inv.payments.forEach(function(p){
+        h+='<div class="totrow"><span class="lbl">'+p.d+' · '+p.ref+' · logged by '+p.by+'</span>'+
+           '<span class="amt" style="color:var(--green);">+'+money(p.a)+'</span></div>';
+      });
+      if(!inv.payments.length){
+        h+='<div class="totrow"><span class="lbl">No payments yet</span><span class="amt">—</span></div>';
+      }
+      h+='<div class="totrow grand"><span class="lbl">Still owed</span>'+
+         '<span class="amt" style="color:'+(bal2>0?'var(--orange)':'var(--green)')+';">'+money(bal2)+'</span></div>';
+      h+='</div>';
+
+      if(inv.promise){
+        h+='<div class="lockednote" style="border-color:var(--orange);">'+
+           '<b>They promised '+inv.promise.date+'.</b> '+inv.promise.who+' said: “'+inv.promise.said+'” '+
+           'If that date passes with nothing received, this lands on the call list that morning.</div>';
+      }
+
+      h+='<div class="formcard">'+
+         '<div class="field"><label>Money came in — how much</label><input placeholder="0.00" inputmode="decimal"></div>'+
+         '<div class="field"><label>When</label><input type="date"></div>'+
+         '<div class="field"><label>Cheque or reference</label><input placeholder="61402"></div>'+
+         '<div class="pill-btn solid" onclick="say(\'The balance comes down and the payment is logged with the date, the reference and who recorded it. Part payments simply stack up.\')">Record the payment</div>'+
+         '</div>';
+
+      h+='<div class="formcard">'+
+         '<div class="field"><label>Or — they promised a date</label><input type="date"></div>'+
+         '<div class="field"><label>Who said it</label><input placeholder="Rob in accounts"></div>'+
+         '<div class="field"><label>What exactly they said</label><input placeholder="Cheque is cut, posting Friday"></div>'+
+         '<div class="pill-btn" onclick="say(\'Saved. A promise does NOT reduce the balance — it only decides when you are reminded. If the date passes with nothing paid, it goes on the call list.\')">Save the promise</div>'+
+         '</div>';
+    }
+  } else {
+    h+='<div class="lockednote">Tap any invoice to record what came in, or to write down a date somebody promised.</div>';
+  }
+
+  h+='<div class="sec-title">What gets chased, and when</div>';
+  [['A promise date passes','On the call list that morning'],
+   ['Invoice past its due date','On the call list'],
+   ['Invoice 60+ days','Comes to you directly'],
+   ['A job costing more than it was quoted','Comes to you directly'],
+   ['A sub over $600 with no W-9','Comes to you directly']].forEach(function(r){
+    h+='<div class="catrow" style="cursor:default;"><div><div class="nm">'+r[0]+'</div>'+
+       '<div class="sub">'+r[1]+'</div></div></div>';
+  });
+  h+='<div class="lockednote">Every one of these timings is yours to change under the gear.</div>';
+
+  document.getElementById('pageBody').innerHTML=h;
+}
+function openInvoice(no){ state.currentInvoice = (state.currentInvoice===no ? null : no); render(); }
+function say(msg){ alert('Preview\n\n'+msg+'\n\nNothing was actually saved or sent.'); }
+function renderReports(){
+  document.getElementById('pageBody').innerHTML='<h1 class="dt">Reports</h1>'+
+    '<div class="card"><div class="l">Weekly company report</div><div class="v" style="font-size:14px;">5 quotes out · 2 approved · 4 jobs running · $24,350 invoiced · close rate 62%</div>'+
+    '<div class="hint">Goes to the owner every Friday. The secretary\'s daily report feeds it.</div></div>'+
+    '<div class="lockednote">Close rate, monthly trend and per-estimator performance carry over from the earlier version.</div>';
+}
+function roleLabel(r){ return ROLES[r] ? ROLES[r].label.split('—')[0].trim() : r; }
+function countInRole(r){ return state.team.filter(function(t){ return t.role===r && t.active; }).length; }
+
+/* ---- ADDED 1 Sep: the gear ----
+   Boss asked for a settings icon that opens adding people, giving them a
+   post, putting them in a reporting line, setting their password, and
+   choosing HOW MANY TILES each one can open. All of that lives here, on the
+   page that was already called Team. */
+var ALL_TABS = ['dashboard','quotes','approvals','jobs','requests','inbox','properties',
+                'subs','vendors','catalog','stepsizes','expenses','money','banking','reports','team'];
+var ALWAYS_ON = ['dashboard'];
+var OWNER_ONLY = ['banking'];
+
+function openMember(id){ state.currentMemberId = (state.currentMemberId===id ? null : id); render(); }
+function toggleTab(id, tab){
+  var list = (state.memberTabs[id] || (MODULES[state.team.filter(function(x){return x.id===id;})[0].role]||[])).slice();
+  if(ALWAYS_ON.indexOf(tab)!==-1 || OWNER_ONLY.indexOf(tab)!==-1) return;
+  var i=list.indexOf(tab);
+  if(i===-1) list.push(tab); else list.splice(i,1);
+  state.memberTabs[id]=list;
+  render();
+}
+function setManager(id, mgrId){ state.reportsTo[id] = mgrId ? Number(mgrId) : null; render(); }
+
+function memberPanel(t){
+  var mine = state.memberTabs[t.id] || MODULES[t.role] || [];
+  var h='<div class="formcard permcard" style="margin:-4px 0 12px;">';
+
+  h+='<div class="field"><label>Reports to</label><select onchange="setManager('+t.id+', this.value)">'+
+     '<option value="">Nobody</option>';
+  state.team.forEach(function(o){
+    if(o.id===t.id || !o.active) return;
+    h+='<option value="'+o.id+'"'+(state.reportsTo[t.id]===o.id?' selected':'')+'>'+o.name+' — '+roleLabel(o.role)+'</option>';
+  });
+  h+='</select></div>';
+
+  h+='<div class="field"><label>What they can open — '+mine.length+' of '+ALL_TABS.length+'</label></div>';
+  h+='<div class="permgrid">';
+  ALL_TABS.forEach(function(tab){
+    var on = mine.indexOf(tab)!==-1 || ALWAYS_ON.indexOf(tab)!==-1;
+    var locked = ALWAYS_ON.indexOf(tab)!==-1 || OWNER_ONLY.indexOf(tab)!==-1;
+    if(OWNER_ONLY.indexOf(tab)!==-1) on=false;
+    h+='<div class="permtile'+(on?' on':'')+(locked?' lock':'')+'"'+
+       (locked?'':' onclick="toggleTab('+t.id+',\''+tab+'\')"')+'>'+
+       '<span style="font-size:14px; font-weight:900;">'+(on?'✓':'○')+'</span>'+
+       '<span style="font-size:11.5px; font-weight:800;">'+navLabels[tab]+
+       (ALWAYS_ON.indexOf(tab)!==-1?'<br><span style="font-weight:600; opacity:.7;">always on</span>':'')+
+       (OWNER_ONLY.indexOf(tab)!==-1?'<br><span style="font-weight:600; opacity:.7;">yours only</span>':'')+
+       '</span></div>';
+  });
+  h+='</div>';
+
+  h+='<div class="lockednote" style="margin:12px 0 10px;">Anything unticked is not greyed out for them — '+
+     'it simply is not on their screen. Switch a role over to '+t.name+'’s and you will see the tiles disappear.</div>';
+  h+='<div style="display:flex; gap:8px; flex-wrap:wrap;">'+
+     '<div class="pill-btn solid" onclick="say(\'Their access changes the moment you save.\')">Save changes</div>'+
+     '<div class="pill-btn" onclick="say(\'A one-time password appears once, in readable blocks, for you to read to them. They change it the first time they sign in.\')">New password</div>'+
+     '<div class="pill-btn" onclick="toggleMember('+t.id+')">'+(t.active?'Remove them':'Bring them back')+'</div>'+
+     '</div>';
+  return h+'</div>';
+}
+
+function toggleCheckin(id){
+  state.checkins.forEach(function(c){ if(c.id===id) c.on=!c.on; });
+  render();
+}
+
+function renderTeam(){
+  var h='<h1 class="dt">Settings</h1>';
+  h+='<div class="lockednote">Each person gets a role, and the role decides what they see. You can add as many estimators, project managers and sales people as you need — add one and they get their own login.</div>';
+
+  // Grouped by role so "how many estimators do I have" is answerable at a glance.
+  ROLE_ORDER.forEach(function(r){
+    var people=state.team.filter(function(t){ return t.role===r; });
+    if(!people.length && !MULTI_SEAT[r]) return;
+    h+='<div class="sec-title" style="display:flex; justify-content:space-between; align-items:center; gap:10px;">'+
+       '<span>'+roleLabel(r)+'</span>'+
+       '<span style="font-size:11px; font-weight:700; color:var(--ink-soft); text-transform:none; letter-spacing:0;">'+
+       countInRole(r)+' active'+(MULTI_SEAT[r]?' · add as many as you need':' · one person')+'</span></div>';
+    if(!people.length){
+      h+='<div class="empty" style="padding:14px;">Nobody in this role yet.</div>';
+    }
+    people.forEach(function(t){
+      // ADDED 1 Sep: tap a person to set exactly which tiles they get, and
+      // who they report to. Two estimators can differ — that was the ask.
+      var mine = state.memberTabs[t.id] || MODULES[t.role] || [];
+      var mgrId = state.reportsTo[t.id];
+      var mgr = mgrId ? (state.team.filter(function(x){return x.id===mgrId;})[0]||{}).name : null;
+      h+='<div class="catrow"'+(t.role==='owner'?' style="cursor:default;"':' onclick="openMember('+t.id+')"')+'>'+
+         '<div><div class="nm">'+t.name+(t.active?'':' <span style="color:var(--ink-soft); font-weight:600;">(removed)</span>')+'</div>'+
+         '<div class="sub">'+(t.role==='owner' ? 'sees everything' : mine.length+' of '+ALL_TABS.length+' tiles')+
+         (mgr?' · reports to '+mgr:'')+' · added '+t.added+'</div></div>'+
+         '<div class="pr">'+
+         (t.role==='owner' ? '<div class="s">can\'t be removed</div>'
+           : '<div class="s">'+(t.active?'set what they see ›':'removed')+'</div>')+
+         '</div></div>';
+      if(state.currentMemberId===t.id && t.role!=='owner') h+=memberPanel(t);
+    });
+  });
+
+  h+='<div class="sec-title">Add someone</div>';
+  h+='<div class="formcard">'+
+     '<div class="field"><label>Their name</label>'+
+     '<input id="newName" placeholder="e.g. Miguel" value="'+(state.newMember.name||'')+'" oninput="state.newMember.name=this.value"></div>'+
+     '<div class="field"><label>Role</label><select id="newRole" onchange="state.newMember.role=this.value">';
+  ROLE_ORDER.forEach(function(r){
+    if(!MULTI_SEAT[r] && countInRole(r)>0) return; // single-seat and already filled
+    h+='<option value="'+r+'"'+(state.newMember.role===r?' selected':'')+'>'+roleLabel(r)+'</option>';
+  });
+  h+='</select></div>'+
+     '<div class="lockednote" style="margin:0 0 10px;">They get their own login and pick their own password the first time they sign in. You can change or remove their access any time.</div>'+
+     '<div class="pill-btn solid" onclick="addMember()">+ Add to the team</div></div>';
+
+  /* ---- ADDED 1 Sep: the recurring questions the system asks by itself ---- */
+  h+='<div class="sec-title">Check-ins you set</div>';
+  h+='<div class="lockednote">A question the system asks on its own, on the day and time you choose, '+
+     'about every active job — sent to whoever is on that job. New ones start switched OFF so you can '+
+     'see what one looks like before it starts messaging your team.</div>';
+  state.checkins.forEach(function(c){
+    h+='<div class="catrow" style="cursor:default;">'+
+       '<div><div class="nm">'+c.name+'</div>'+
+       '<div class="sub">“'+c.asks+'”</div>'+
+       '<div class="sub" style="margin-top:3px;">'+c.when+' · to '+c.to+' · answer within '+c.answerIn+'</div></div>'+
+       '<div class="pr"><span class="pill-btn" style="font-size:11px; padding:6px 12px;'+
+       (c.on?' background:var(--green); color:#fff; border-color:var(--green);':'')+'" '+
+       'onclick="toggleCheckin('+c.id+')">'+(c.on?'On':'Off')+'</span></div></div>';
+  });
+
+  /* ---- ADDED 1 Sep: the numbers that decide when people get chased ---- */
+  h+='<div class="sec-title">How it behaves</div>';
+  var p=state.prefs;
+  [['Remind after', p.remindAfter+' hours', 'If nobody answers this long after it was due, the system asks again.'],
+   ['Tell me after', p.tellMeAfter+' hours', 'Still nothing? It comes to you, not just the secretary.'],
+   ['Stop asking after', p.stopAfter+' tries', 'It stops chasing and simply stays on your list.'],
+   ['Escalations go to', 'You and the secretary', 'Warnings reach both of you.'],
+   ['Call a declined client back after', p.callBackAfter+' days', 'Then every '+p.repeatEvery+' days until you close them out.'],
+   ['Deposit required above', money0(p.depositOver), 'At '+p.depositPct+'% — your own quote terms.']
+  ].forEach(function(r){
+    h+='<div class="catrow" style="cursor:default;"><div><div class="nm">'+r[0]+'</div>'+
+       '<div class="sub">'+r[2]+'</div></div>'+
+       '<div class="pr"><div class="y" style="font-size:12.5px;">'+r[1]+'</div></div></div>';
+  });
+
+  h+='<div class="lockednote" style="border-color:var(--orange);">'+
+     '<b>One thing we still need from you.</b> You said a percentage of newly approved jobs is '+
+     'commissioned. A percentage of the <b>job price</b> and a percentage of the <b>job profit</b> are '+
+     'very different numbers — on an $8,300 job at 5% that is $415 against about $194. '+
+     'Tell us which and every job will work it out the same way.</div>';
+
+  document.getElementById('pageBody').innerHTML=h;
+}
+function addMember(){
+  var n=(state.newMember.name||'').trim();
+  if(!n){ alert('Type their name first.'); return; }
+  var r=state.newMember.role;
+  if(!MULTI_SEAT[r] && countInRole(r)>0){ alert(roleLabel(r)+' is a single-person role.'); return; }
+  var id=Math.max.apply(null, state.team.map(function(t){return t.id;}))+1;
+  state.team.push({id:id, name:n, role:r, active:true, added:'Just now'});
+  state.newMember={name:'', role:r};
+  render();
+}
+function toggleMember(id){
+  var t=state.team.find(function(x){return x.id===id;});
+  if(!t || t.role==='owner') return;
+  // Never delete — deactivate, so their history on past jobs stays intact.
+  t.active=!t.active;
+  render();
+}
+
+function doSearch(){
+  var q=(document.getElementById('searchInput').value||'').trim();
+  if(!q){ return; }
+  alert('In the real system this searches '+document.getElementById('searchScope').selectedOptions[0].text.toLowerCase()+' for "'+q+'".');
+}
+
+var RENDER = {
+  dashboard:renderDashboard, quotes:renderQuotes, quoteDetail:renderQuoteDetail,
+  breakdown:renderBreakdown, quoteDoc:renderQuoteDoc, approvals:renderApprovals,
+  properties:renderProperties, propertyDetail:renderPropertyDetail, catalog:renderCatalog, stepsizes:renderStepSizes,
+  vendors:renderVendors, subs:renderSubs, jobs:renderJobs, requests:renderRequests,
+  inbox:renderInbox, expenses:renderExpenses, money:renderMoney, banking:renderBanking, reports:renderReports, team:renderTeam,
+  jobDetail:renderJobDetail
+};
+function render(){
+  buildRoleBar(); buildNav();
+  var pb=document.getElementById('pageBody');
+  pb.classList.remove('pagein'); void pb.offsetWidth; pb.classList.add('pagein');
+  (RENDER[state.page] || renderDashboard)();
+}
 render();
 </script>
 </body>
