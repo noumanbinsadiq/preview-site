@@ -393,6 +393,7 @@ html, body{height: auto; min-height: 0;}
 .chainarrow{align-self:center; color:var(--ink-soft); font-weight:800;}
 @media (max-width:620px){ .chainarrow{display:none;} .chainstep{flex:1 1 100%;} }
 .assignsel{padding:6px 8px; border:2px solid var(--ink); border-radius:8px; font:inherit; font-weight:700; font-size:12.5px; background:#fff; cursor:pointer;}
+.rate-eg{font-size:13px; font-weight:800; color:var(--green); margin:-4px 0 10px; background:#f2f9f4; border:1.5px solid #cfe8d6; border-radius:10px; padding:8px 11px;}
 .catrow{display:flex; justify-content:space-between; gap:10px; padding:11px 13px; background:#fff; border:1.5px solid var(--line); border-radius:14px; margin-bottom:8px; box-shadow:var(--shadow); cursor:pointer; transition:transform .15s ease;}
 .catrow:active{transform:scale(.99);}
 .catrow .nm{font-weight:800; font-size:13px;}
@@ -2061,9 +2062,8 @@ function renderTeam(){
 
   /* ---- ADDED 1 Sep: commission is a rate ladder, not a number in the code ---- */
   h+='<div class="sec-title">Commission rates</div>';
-  h+='<div class="lockednote">Nothing here is fixed in the software. Set a rate for everyone, '+
-     'for a post, or for one person — and change it whenever you like. Changing it never erases '+
-     'what it used to be, so a commission paid in August can still be explained in November.</div>';
+  h+='<div class="lockednote">Set what you normally pay someone. You can change it any time, '+
+     'and the old rate stays on record.</div>';
   state.commRates.forEach(function(r){
     var live = r.to==='still in force';
     h+='<div class="catrow" style="cursor:default;'+(live?'':' opacity:.55;')+'">'+
@@ -2075,22 +2075,19 @@ function renderTeam(){
      '<div class="field"><label>Applies to</label><select>'+
      '<option>One person</option><option>A post — everyone doing that job</option>'+
      '<option>Everyone (the company default)</option></select></div>'+
-     '<div class="field"><label>Rate</label><input placeholder="5" inputmode="decimal"></div>'+
+     '<div class="field"><label>Rate (%)</label>'+
+     '<input id="rateInput" placeholder="5" inputmode="decimal" oninput="showRateExample(this.value)"></div>'+
+     '<div id="rateExample" class="rate-eg">5% of a $10,000 job = <b>$500</b></div>'+
      '<div class="field"><label>Of what</label><select>'+
-     '<option>The job price</option><option>The job profit</option></select></div>'+
-     '<div class="field"><label>Why (worth writing down)</label><input placeholder="Raised after the Olympus job"></div>'+
-     '<div class="pill-btn solid" onclick="say(\'Saved as a new rate. The old one stays on record with the dates it applied.\')">Save this rate</div>'+
+     '<option>The job price (the whole amount you charge)</option>'+
+     '<option>The job profit (what is left after costs)</option></select></div>'+
+     '<div class="field"><label>Why (optional note to yourself)</label><input placeholder="e.g. raised after the Olympus job"></div>'+
+     '<div class="pill-btn solid" onclick="say(\'Saved. This is the usual rate now — you still confirm it with the person on each job.\')">Save this rate</div>'+
      '</div>';
-  h+='<div class="lockednote" style="border-color:var(--orange);">'+
-     '<b>How a rate becomes an agreement.</b> The above is only the starting point. When a job is '+
-     'assigned you offer a rate for <b>that job</b> — the usual one, or a different number if the '+
-     'job is unusually large. The person opens the job, sees exactly what they will earn, and '+
-     'agrees to it. <b>From that moment you cannot change it for that job.</b> You can offer a new '+
-     'rate, but they have to agree to that too, and until they do the old one stands.</div>';
-  h+='<div class="lockednote"><b>The rate is locked, the amount is not.</b> If a change order '+
-     'raises the job price, an agreed 5% is still 5% — of the new price. Freezing the dollar '+
-     'figure would mean somebody agreed to a percentage and got paid on a smaller job than the '+
-     'one they actually sold.</div>';
+  h+='<div class="lockednote" style="border-color:var(--blue);">'+
+     '<b>This is just the usual rate.</b> When you give someone a job, they see exactly what '+
+     'they will earn and tap <b>Agree</b> — and after that it is locked for that job. '+
+     'A much bigger job? You can offer a different rate for that one only.</div>';
 
   /* ---- ADDED 1 Sep: the recurring questions the system asks by itself ---- */
   h+='<div class="sec-title">Check-ins you set</div>';
@@ -2130,6 +2127,16 @@ function renderTeam(){
 
   document.getElementById('pageBody').innerHTML=h;
 }
+// Money is easiest to understand as a number, not a rule. As she types a rate,
+// this shows what it means in dollars on a round example job.
+function showRateExample(val){
+  var el=document.getElementById('rateExample'); if(!el) return;
+  var pct=parseFloat(val);
+  if(isNaN(pct)||pct<=0){ el.innerHTML='Type a rate to see what it means in dollars.'; return; }
+  var dollars=Math.round(10000*pct/100);
+  el.innerHTML=(pct % 1 === 0 ? pct : pct.toFixed(2))+'% of a $10,000 job = <b>$'+dollars.toLocaleString()+'</b>';
+}
+
 function addMember(){
   var n=(state.newMember.name||'').trim();
   if(!n){ alert('Type their name first.'); return; }
