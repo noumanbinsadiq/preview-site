@@ -74,6 +74,11 @@ h1.dt{font-size:23px; margin-bottom:18px;}
 .card.blurred .v{filter:blur(6px); user-select:none;}
 .notif{border:2.5px solid var(--yellow); background:#fffaf0; border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:transform .12s ease, box-shadow .12s ease;}
 .notif:hover{transform:translateY(-1px); box-shadow:3px 3px 0 rgba(27,23,16,.08);}
+/* A card that holds its own decision buttons is NOT itself clickable — it
+   must not offer a pointer cursor, and it must not lift on hover, or a
+   mis-tap becomes an approval. */
+.notif.static{cursor:default;}
+.notif.static:hover{transform:none; box-shadow:none;}
 .card .hint{font-size:10px; font-weight:700; color:var(--ink-soft); margin-top:4px;}
 .card.profit .v{color:var(--green);}
 .sec-title{font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin:28px 0 12px; padding-top:18px; border-top:2px solid rgba(27,23,16,.08);}
@@ -213,6 +218,16 @@ body{background:var(--cream-2); padding:22px 14px 70px;}
 .top-bar .logo small{display:block; font-size:9.5px; letter-spacing:.14em; font-weight:700; color:rgba(255,255,255,.75); font-family:'Manrope',sans-serif;}
 #navToggle{width:42px; height:42px; border-radius:50%; border:2px solid rgba(255,255,255,.35); background:transparent; color:#fff; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; transition:transform .2s ease, background .2s ease;}
 #navToggle:hover{background:rgba(255,255,255,.12); transform:scale(1.05);}
+/* The gear sits beside the menu button, top right, and is styled to match
+   it exactly so neither looks bolted on. 42px square clears the 44px touch
+   guidance once its 2px border is counted. */
+.topbtns{display:flex; align-items:center; gap:9px;}
+.gearbtn{width:42px; height:42px; border-radius:50%; border:2px solid rgba(255,255,255,.35);
+  background:transparent; color:#fff; cursor:pointer; display:flex; align-items:center;
+  justify-content:center; transition:transform .2s ease, background .2s ease;}
+.gearbtn:hover{background:rgba(255,255,255,.12); transform:rotate(35deg);}
+.gearbtn svg{display:block; pointer-events:none;}
+.gearbtn[hidden]{display:none;}
 .who{background:#fff; border:1.5px solid var(--line); color:var(--ink); box-shadow:var(--shadow); margin-bottom:4px;}
 
 /* ---- generic surfaces ---- */
@@ -277,6 +292,13 @@ input:focus,select:focus,textarea:focus{outline:none; border-color:var(--blue) !
 
 /* ---- page transition ---- */
 #pageBody.pagein{animation:pageIn .28s ease;}
+/* Enough height that ANY screen can be scrolled up to sit under the tiles.
+   Without this, a short screen (Reports, Banking) physically cannot reach the
+   top of the window — there is nothing below it to scroll against — so tapping
+   its tile left you still looking at the navigation. This is the other half of
+   scrollToContent(); the JS asks for the scroll, this is what makes the scroll
+   possible. */
+#pageBody{min-height:calc(100vh - 120px);}
 @keyframes pageIn{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
 
 /* ---- statuses keep their meaning, restyled softer ---- */
@@ -336,6 +358,40 @@ html, body{height: auto; min-height: 0;}
 .doc ul{margin:6px 0 6px 18px;} .doc li{margin-bottom:4px;}
 .doc .bigprice{font-size:19px; font-weight:900; background:var(--cream-2); border-radius:12px; padding:11px 14px; margin:14px 0;}
 .rolenote{background:#EEF4FF; border:1.5px solid #C7DAFF; color:#1E3A8A; border-radius:14px; padding:11px 13px; font-size:12.5px; font-weight:600; margin-bottom:14px;}
+/* Job file code — the thing someone reads off this screen and types into a
+   Telegram caption. Sized to be legible on a phone held in one hand on a site. */
+.codebox{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  background:#fff; border:2px solid var(--ink); border-radius:14px; padding:14px 16px; margin-bottom:10px; box-shadow:var(--shadow);}
+.codelab{font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-soft);}
+.codeval{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:26px; font-weight:800; letter-spacing:.05em; margin:3px 0 6px;}
+.codehelp{font-size:11.5px; color:var(--ink-soft); font-weight:700; max-width:46ch;}
+/* On a touch device the shared .pill-btn is 33px tall, which is under the 44px
+   a thumb needs. Raised HERE rather than on .pill-btn itself — that style is
+   used across every screen Mailin has already approved. */
+@media (hover:none){
+  .codeval{font-size:22px;}
+  .codebox .pill-btn{width:100%; text-align:center; min-height:44px; line-height:28px;}
+}
+/* The door to the intake, on the Jobs page. */
+.newjob-cta{display:flex; align-items:center; gap:13px; cursor:pointer; background:#fff;
+  border:2.5px solid var(--coral); border-radius:14px; padding:14px 16px; margin-bottom:16px;
+  box-shadow:var(--shadow); transition:transform .12s ease;}
+.newjob-cta:active{transform:scale(.99);}
+.newjob-cta strong{display:block; font-size:14px; font-weight:800;}
+.newjob-cta small{display:block; font-size:11.5px; color:var(--ink-soft); margin-top:2px;}
+.newjob-plus{flex:0 0 auto; width:38px; height:38px; border-radius:50%; background:var(--coral);
+  color:#fff; font-size:22px; font-weight:800; display:flex; align-items:center; justify-content:center;}
+/* The four steps from a phone call to a job. */
+.chainbox{display:flex; align-items:stretch; gap:8px; flex-wrap:wrap; margin-bottom:16px;}
+.chainstep{flex:1 1 130px; display:flex; gap:9px; align-items:flex-start; background:#fff;
+  border:1.5px solid var(--line); border-radius:14px; padding:11px 12px; box-shadow:var(--shadow);}
+.chainstep.done{border-color:var(--green); border-width:2px;}
+.chainstep b{flex:0 0 auto; width:22px; height:22px; border-radius:50%; background:var(--ink);
+  color:#fff; font-size:11.5px; display:flex; align-items:center; justify-content:center;}
+.chainstep span{font-size:12.5px; font-weight:800; line-height:1.35;}
+.chainstep small{font-weight:600; color:var(--ink-soft); font-size:11px;}
+.chainarrow{align-self:center; color:var(--ink-soft); font-weight:800;}
+@media (max-width:620px){ .chainarrow{display:none;} .chainstep{flex:1 1 100%;} }
 .catrow{display:flex; justify-content:space-between; gap:10px; padding:11px 13px; background:#fff; border:1.5px solid var(--line); border-radius:14px; margin-bottom:8px; box-shadow:var(--shadow); cursor:pointer; transition:transform .15s ease;}
 .catrow:active{transform:scale(.99);}
 .catrow .nm{font-weight:800; font-size:13px;}
@@ -372,8 +428,25 @@ html, body{height: auto; min-height: 0;}
   <div class="shell">
     <div class="top-bar">
       <div class="logo"><b>Yumbo</b><small>GENERAL CONSTRUCTION</small></div>
-      <button id="navToggle" title="Show / hide the menu"
-        onclick="var n=document.getElementById('navbar'); n.classList.toggle('navhidden'); this.style.transform=n.classList.contains('navhidden')?'rotate(90deg)':'';">&#9776;</button>
+      <div class="topbtns">
+        <button id="navToggle" title="Show / hide the menu"
+          onclick="var n=document.getElementById('navbar'); n.classList.toggle('navhidden'); this.style.transform=n.classList.contains('navhidden')?'rotate(90deg)':'';">&#9776;</button>
+        <!-- The gear owns the top-right corner, which is where Boss asked for it.
+             The menu button moves inboard of it. -->
+        <!-- The gear. Boss asked for it top right, and the REAL system already
+             has it there — this mockup was the thing that did not, so anyone
+             reviewing the picture would ask where the settings were. Same icon
+             as the product, so what she sees here is what she gets. Owner
+             only: nobody else can change who sees what. -->
+        <button id="gearBtn" class="gearbtn" title="Settings" aria-label="Settings"
+          onclick="goto('team')">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"
+               fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3.1"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
+      </div>
     </div>
     <div class="who" id="whoTag"></div>
 
@@ -421,16 +494,16 @@ var ROLES = {
 };
 
 var MODULES = {
-  owner:      ['dashboard','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses','money','banking','reports','team'],
-  secretary:  ['dashboard','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses','money','reports','team'],
-  supervisor: ['dashboard','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses'],
-  estimator:  ['dashboard','quotes','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses'],
+  owner:      ['dashboard','newwork','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses','money','banking','reports','team'],
+  secretary:  ['dashboard','newwork','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses','money','reports','team'],
+  supervisor: ['dashboard','newwork','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses'],
+  estimator:  ['dashboard','newwork','quotes','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses'],
   pm:         ['dashboard','jobs','requests','inbox','properties','expenses'],  // sees quoted price + sub pay (confirmed 1 Sep)
   sales:      ['dashboard','quotes','jobs','properties','subs']
 };
 
 var navLabels = {
-  dashboard:'Home', quotes:'Quotes', approvals:'Approvals', jobs:'Jobs', requests:'Requests',
+  dashboard:'Home', newwork:'New work', quotes:'Quotes', approvals:'Approvals', jobs:'Jobs', requests:'Requests',
   inbox:'Team inbox', properties:'Properties', subs:'Subs', vendors:'Suppliers',
   catalog:'Price list', stepsizes:'Step sizes', expenses:'Expenses', money:'Money', banking:'Banking', reports:'Reports', team:'Settings'
 };
@@ -440,6 +513,7 @@ var navIcons = {
   quotes:'<path d="M7 3h8l4 4v14H7z"/><path d="M15 3v4h4"/><path d="M10 12h6M10 16h6"/>',
   approvals:'<path d="M12 3 5 6v5c0 4.4 2.9 7.9 7 9.5 4.1-1.6 7-5.1 7-9.5V6z"/><path d="M9 12l2 2 4-4"/>',
   jobs:'<path d="M3 8h18v12H3z"/><path d="M9 8V5h6v3"/>',
+  newwork:'<path d="M12 5v14M5 12h14"/>',
   requests:'<path d="M8 4h8v3H8z"/><path d="M6 6H5v15h14V6h-1"/><path d="M9 12l2 2 4-4"/>',
   inbox:'<path d="M4 5h16v11H9l-5 4z"/><path d="M8.5 9h7M8.5 12h4"/>',
   properties:'<path d="M3 21V8l7-5 7 5v13"/><path d="M10 21v-6h4v6"/><path d="M17 12h4v9h-4"/>',
@@ -543,11 +617,25 @@ var state = {
       stage:'sent', estimator:'Carlos R.', daysOld:12, items:[], docScope:[], exclusions:[] }
   ],
 
+  /* WORK THAT HAS COME IN BUT IS NOT A JOB YET — added 2 Sep 2026.
+     This stage existed in the real system from the start and was missing from
+     this preview entirely, so nobody reviewing the picture could see how a job
+     begins. That is the gap Boss hit: he could not find it because it was not
+     here. */
+  newwork: [
+    {id:1, property:'Cape House', who:'Sandra — on-site manager', contact:'(904) 555-0142',
+     what:'Two garage doors sticking, one will not close', received:'31 Aug', days:2, stage:'needs_pricing'},
+    {id:2, property:'Olympus Preserve at Town Center', who:'Rob Westenbarger', contact:'(904) 555-0188',
+     what:'Aluminium fence, section by the pool deck', received:'28 Aug', days:5, stage:'meeting_set', meeting:'4 Sep'},
+    {id:3, property:'Timberwood Trace', who:'Kevin — JHA', contact:'(904) 555-0110',
+     what:'Sidewalk trip hazard, three panels', received:'26 Aug', days:7, stage:'needs_pricing'}
+  ],
+
   jobs: [
-    {num:'25-3620', desc:'Timberwood Trace — Sink Hole', client:'Timberwood Trace', ygc:16913, sub:'Alay (Ocana)', status:'in_progress', pm:'Rafa', wtn:'79625855'},
-    {num:'25-3588', desc:'Drain install bldg 9 garages', client:'Creekside', ygc:7807.65, sub:'Joselino', status:'in_progress', pm:'Rafa', wtn:'—'},
-    {num:'25-3595', desc:'Tournament Plaza — Ponte Vedra', client:'NEFL', ygc:30000, sub:'RD & Sons Paving', status:'waiting', pm:'Rafa', wtn:'—'},
-    {num:'25-3559', desc:'Garage repair — G407', client:'Olympus Preserve at Town Center', ygc:1150, sub:'Overhead Doors', status:'done', pm:'Rafa', wtn:'79560204'}
+    {num:'25-3620', code:'3620-K7M', desc:'Timberwood Trace — Sink Hole', client:'Timberwood Trace', ygc:16913, sub:'Alay (Ocana)', status:'in_progress', pm:'Rafa', wtn:'79625855'},
+    {num:'25-3588', code:'3588-M2P', desc:'Drain install bldg 9 garages', client:'Creekside', ygc:7807.65, sub:'Joselino', status:'in_progress', pm:'Rafa', wtn:'—'},
+    {num:'25-3595', code:'3595-DHK', desc:'Tournament Plaza — Ponte Vedra', client:'NEFL', ygc:30000, sub:'RD & Sons Paving', status:'waiting', pm:'Rafa', wtn:'—'},
+    {num:'25-3559', code:'3559-THD', desc:'Garage repair — G407', client:'Olympus Preserve at Town Center', ygc:1150, sub:'Overhead Doors', status:'done', pm:'Rafa', wtn:'79560204'}
   ],
 
   properties: [
@@ -604,7 +692,10 @@ var state = {
   ],
 
   requests: [
-    {id:1, type:'change_order', job:'25-3533', title:'Pothole repair needs change order', by:'Rafa', amount:null, status:'pending'},
+    /* 2 Sep: was job 25-3533, which is not in the jobs list — so tapping this
+       request went nowhere. Pointed at a real job, and a pothole change order
+       belongs on the paving job anyway. */
+    {id:1, type:'change_order', job:'25-3595', title:'Pothole repair needs change order', by:'Rafa', amount:null, status:'pending'},
     {id:2, type:'material', job:'25-3620', title:'Extra limestone base — 4 tons', by:'Rafa', amount:640, status:'pending'}
   ],
   inbox: [
@@ -625,7 +716,7 @@ var state = {
     {id:5, name:'Rafa',      role:'pm',         active:true,  added:'Aug 2026'},
     {id:6, name:'Ana M.',    role:'sales',      active:true,  added:'Aug 2026'}
   ],
-  newMember: {name:'', role:'estimator'},
+  newMember: {name:'', role:'estimator', comm:''},
 
   /* ===== ADDED 1 Sep 2026 =====
      Three things Boss asked for, built into this same preview rather than a
@@ -661,6 +752,40 @@ var state = {
           commissionBasis:'price', commissionPct:5, callBackAfter:14, repeatEvery:30,
           depositOver:10000, depositPct:35},
 
+  /* ===== COMMISSION AS AN AGREEMENT (1 Sep 2026) =====
+     Boss: not hard-coded. A rate for everyone, a rate per post, a rate per
+     person, and a rate you can change for ONE job while it is running — and
+     once the person has agreed it, you cannot change it for that job. */
+  commRates: [
+    {who:'Everyone',            scope:'the company default', pct:2,    basis:'the job price',  from:'1 Jan 2026', to:'still in force', why:'Company floor'},
+    {who:'Sales',               scope:'a post',              pct:5,    basis:'the job price',  from:'1 Mar 2026', to:'still in force', why:'Standard for sales'},
+    {who:'Supervisor estimator',scope:'a post',              pct:1.5,  basis:'the job profit', from:'1 Jun 2026', to:'still in force', why:'Bonus on approved work'},
+    {who:'Ana M.',              scope:'one person',          pct:6.5,  basis:'the job price',  from:'1 Jul 2026', to:'31 Aug 2026',    why:'Original agreement'},
+    {who:'Ana M.',              scope:'one person',          pct:7.5,  basis:'the job price',  from:'1 Sep 2026', to:'still in force', why:'Raised after the Olympus job'}
+  ],
+  commOnJob: {
+    '25-3620': [
+      {who:'Ana M.', role:'Sales', pct:7.5, basis:'the job price', source:'their own agreed rate',
+       state:'agreed', when:'12 Aug', note:'Happy with that.', amount:1268.47},
+      {who:'Edison', role:'Supervisor estimator', pct:1.5, basis:'the job profit', source:'the standard rate for their post',
+       state:'offered', when:'sent 1 Sep', note:'', amount:56.04}
+    ],
+    '25-3595': [
+      {who:'Ana M.', role:'Sales', pct:2, basis:'the job price', source:'set for this job',
+       state:'offered', when:'sent 1 Sep', note:'Very large job — reduced by agreement', amount:600.00,
+       wouldHaveBeen:2250.00}
+    ],
+    /* Added 2 Sep with the 25-3588 detail screen. A commission COST line with
+       no commission panel behind it would leave the reader unable to see who
+       the money goes to or whether they agreed — so the two are added together
+       or not at all. 7.5% of 7,807.65 = 585.57, which is the figure on the
+       cost line. */
+    '25-3588': [
+      {who:'Ana M.', role:'Sales', pct:7.5, basis:'the job price', source:'their own agreed rate',
+       state:'agreed', when:'26 Jul', note:'Standard rate.', amount:585.57}
+    ]
+  },
+
   /* Per-job money and the update trail. Keyed by job number. */
   jobDetail: {
     '25-3620': {
@@ -671,7 +796,8 @@ var state = {
         {w:'Fuel', d:'crew truck, 3 trips', a:-250.20, s:'approved'},
         {w:'Crew lunch', d:'on site', a:-186.00, s:'approved'},
         {w:'Equipment hire', d:'mini excavator, 2 days', a:-420.00, s:'approved'},
-        {w:'Commission — Ana M.', d:'5% of the job price', a:-845.65, s:'still moving'}
+        {w:'Commission — Ana M.', d:'7.5% of the job price — agreed', a:-1268.47, s:'agreed, still moving'},
+        {w:'Commission — Edison', d:'1.5% of the job profit — not agreed yet', a:-56.04, s:'waiting on him'}
       ],
       pending:[{w:'Dump fees', a:-85.00}],
       collected:9500,
@@ -679,6 +805,79 @@ var state = {
         {who:'Rafa', what:'60% done', note:'Fill is in, pouring Thursday.', when:'1 Sep', state:'answered'},
         {who:'Rafa', what:'$186 spent', note:'Fuel and lunch for the crew.', when:'30 Aug', state:'answered'},
         {who:'Rafa', what:'Are the forms set?', note:'', when:'due in 6 hours', state:'waiting'}
+      ],
+      files:[
+        {name:'sinkhole-before.jpg', from:'Rafa', when:'12 Aug', via:'Telegram, code 3620-K7M', size:'2.4 MB', inDrive:true},
+        {name:'rebar-delivered.jpg', from:'Rafa', when:'19 Aug', via:'Telegram, code 3620-K7M', size:'1.8 MB', inDrive:true},
+        {name:'town-county-receipt.pdf', from:'Rafa', when:'19 Aug', via:'Telegram, code 3620-K7M', size:'240 KB', inDrive:true},
+        {name:'site-visit-1.jpg', from:'Carlos R.', when:'8 Aug', via:'with the estimate', size:'3.1 MB', inDrive:true},
+        {name:'pour-day.jpg', from:'Rafa', when:'today', via:'Telegram, code 3620-K7M', size:'2.2 MB', inDrive:false}
+      ]
+    },
+
+    /* ADDED 2 Sep. Every job in the list now opens. Before this only 25-3620
+       had detail data, so the other three rows rendered with cursor:default
+       and a click did nothing at all — which reads as a broken system, not as
+       a preview limit.
+
+       The arithmetic in each is real and reconciles with the rest of the page:
+       every "yours when it finishes" is the quoted price minus the costs
+       listed under it, and every "collected" matches what the Money screen
+       says has actually been paid on that job. 25-3595's commission is $600
+       because the commission panel already says Ana agreed to 2% on this one —
+       putting the standard 7.5% here would have made the page contradict
+       itself. */
+
+    '25-3588': {
+      pct:80, started:'28 Jul', estimator:'Carlos R.', salesBy:'Ana M.',
+      costs:[
+        {w:'Sub — Joselino', d:'drain install, bldg 9 garages', a:-4200.00, s:'agreed, half paid'},
+        {w:'Materials — Coastal Construction', d:'pipe, fittings, Sika Crete', a:-1180.40, s:'bought'},
+        {w:'Fuel — crew truck', d:'three trips', a:-96.00, s:'approved'},
+        {w:'Crew lunch', d:'on site', a:-74.00, s:'approved'},
+        {w:'Commission — Ana M.', d:'7.5% of the job price — agreed', a:-585.57, s:'agreed, still moving'}
+      ],
+      pending:[{w:'Dump fees', a:-120.00}],
+      collected:0,
+      updates:[
+        {who:'Rafa', what:'80% done', note:'Drain in, backfilling Monday.', when:'31 Aug', state:'answered'},
+        {who:'Daniela', what:'Has Creekside paid?', note:'', when:'due in 2 days', state:'waiting'}
+      ],
+      files:[
+        {name:'drain-trench.jpg', from:'Rafa', when:'29 Jul', via:'Telegram, code 3588-M2P', size:'1.9 MB', inDrive:true},
+        {name:'coastal-receipt.pdf', from:'Rafa', when:'30 Jul', via:'Telegram, code 3588-M2P', size:'188 KB', inDrive:true}
+      ]
+    },
+
+    '25-3595': {
+      pct:0, started:'not started', estimator:'Carlos R.', salesBy:'Ana M.',
+      costs:[
+        {w:'Sub — RD & Sons Paving', d:'Tournament Plaza resurface', a:-19500.00, s:'agreed, not started'},
+        {w:'Commission — Ana M.', d:'2% of the job price — offered, not agreed yet', a:-600.00, s:'waiting on her'}
+      ],
+      pending:[],
+      collected:0,
+      updates:[
+        {who:'Rafa', what:'When can RD start?', note:'', when:'due in 4 days', state:'waiting'}
+      ],
+      files:[
+        {name:'plaza-walkthrough.jpg', from:'Carlos R.', when:'22 Aug', via:'with the estimate', size:'2.8 MB', inDrive:true}
+      ]
+    },
+
+    '25-3559': {
+      pct:100, started:'14 Jul', estimator:'Carlos R.', salesBy:'—',
+      costs:[
+        {w:'Sub — Overhead Doors', d:'garage door repair, G407', a:-720.00, s:'paid in full'},
+        {w:'Fuel — crew truck', d:'one trip', a:-38.00, s:'approved'}
+      ],
+      pending:[],
+      collected:0,
+      updates:[
+        {who:'Rafa', what:'Finished', note:'Door working, tenant happy.', when:'16 Jul', state:'answered'}
+      ],
+      files:[
+        {name:'G407-door-fixed.jpg', from:'Rafa', when:'16 Jul', via:'Telegram, code 3559-THD', size:'1.4 MB', inDrive:true}
       ]
     }
   },
@@ -852,10 +1051,36 @@ function goto(page, id){
   if(page==='jobDetail' && id){ state.currentJobNum = id; }
   if(page==='quoteDetail'||page==='breakdown'||page==='quoteDoc'){ if(id) state.currentQuoteId=id; }
   if(page==='propertyDetail' && id){ state.currentPropertyId=id; }
-  window.scrollTo({top:0, behavior:'smooth'});
   render();
+  // Land on the CONTENT you just asked for, not at the top of the page.
+  // scrollTo({top:0}) put you back above the role bar, the search box and the
+  // whole tile grid, so every tap meant scrolling past the navigation again to
+  // reach the thing you had just chosen. Now the page body's own top edge is
+  // what comes to rest just under the tiles.
+  //
+  // render() runs FIRST so the new content exists and has its real height —
+  // scrolling before the render measures the OLD page and lands in the wrong
+  // place on anything shorter.
+  scrollToContent();
 }
-function setRole(r){ state.role=r; state.page='dashboard'; render(); }
+/* Bring the page body to the top of the window, so the thing that was clicked
+   is what you see. Two details that matter on a phone:
+     - a small gap above it, so the content does not sit flush against the
+       browser chrome and look cut off
+     - never scroll UPWARD past the document top, which produces a bounce on
+       iOS and looks broken
+   Falls back to the old behaviour if the element is missing, rather than
+   throwing inside goto() and leaving the page half-rendered. */
+function scrollToContent(){
+  var pb = document.getElementById('pageBody');
+  if(!pb){ window.scrollTo({top:0, behavior:'smooth'}); return; }
+  var top = pb.getBoundingClientRect().top + window.pageYOffset - 12;
+  window.scrollTo({ top: Math.max(0, top), behavior:'smooth' });
+}
+
+/* Switching role is a different act from navigating — you are changing WHO you
+   are, so the whole page including the role bar is the right thing to see. */
+function setRole(r){ state.role=r; state.page='dashboard'; render(); window.scrollTo({top:0, behavior:'smooth'}); }
 
 function buildRoleBar(){
   var bar = document.getElementById('roleBar'); bar.innerHTML='';
@@ -923,37 +1148,41 @@ function renderDashboard(){
   if(r==='owner' || r==='secretary'){
     state.alerts.filter(function(a){return !a.ack;}).forEach(function(a){
       any=true;
-      h += '<div class="notif '+(a.level==='high'?'orange':'')+'"><div class="l">'+(a.level==='high'?'Needs you now':'Worth a look')+' · '+a.when+'</div>'+
+      // The whole card carries the action. It looked clickable (pointer cursor)
+      // but only the small button worked, so tapping the card did nothing —
+      // which on a phone is most of the card's area.
+      var act = (r==='owner') ? 'goto(&quot;banking&quot;)' : 'ackAlert('+a.id+')';
+      h += '<div class="notif '+(a.level==='high'?'orange':'')+'" onclick="'+act+'"><div class="l">'+(a.level==='high'?'Needs you now':'Worth a look')+' · '+a.when+'</div>'+
            '<div class="v" style="font-size:14px;">'+a.title+'</div>'+
            '<div style="font-size:13px; color:var(--ink-soft); margin-top:4px;">'+a.detail+'</div>'+
-           (r==='owner' ? '<div class="pill-btn" style="margin-top:9px;" onclick="goto(\'banking\')">Open &rarr;</div>' : '<div class="pill-btn" style="margin-top:9px;" onclick="ackAlert('+a.id+')">Mark as seen</div>')+'</div>';
+           '<div class="pill-btn" style="margin-top:9px;">'+(r==='owner'?'Open &rarr;':'Mark as seen')+'</div></div>';
     });
   }
   if(c.approvals && ['owner','secretary','supervisor'].indexOf(r)!==-1){
     state.quotes.filter(function(q){return q.stage==='submitted';}).forEach(function(q){
       any=true;
-      h += '<div class="notif orange"><div class="l">Estimate waiting on you</div><div class="v">'+q.num+' — '+q.property+'</div>'+
-           '<div class="pill-btn solid" style="margin-top:8px;" onclick="goto(\'quoteDetail\','+q.id+')">Review &amp; decide &rarr;</div></div>';
+      h += '<div class="notif orange" onclick="goto(&quot;quoteDetail&quot;,'+q.id+')"><div class="l">Estimate waiting on you</div><div class="v">'+q.num+' — '+q.property+'</div>'+
+           '<div class="pill-btn solid" style="margin-top:8px;">Review &amp; decide &rarr;</div></div>';
     });
   }
   if(r==='estimator'||r==='supervisor'){
     state.quotes.filter(function(q){return q.stage==='needs_quoting';}).forEach(function(q){
       any=true;
-      h += '<div class="notif"><div class="l">New quote request — '+q.daysOld+' days old</div><div class="v">'+q.property+' — '+q.scope+'</div>'+
-           '<div class="pill-btn blue" style="margin-top:8px;" onclick="goto(\'quoteDetail\','+q.id+')">Start pricing &rarr;</div></div>';
+      h += '<div class="notif" onclick="goto(&quot;quoteDetail&quot;,'+q.id+')"><div class="l">New quote request — '+q.daysOld+' days old</div><div class="v">'+q.property+' — '+q.scope+'</div>'+
+           '<div class="pill-btn blue" style="margin-top:8px;">Start pricing &rarr;</div></div>';
     });
   }
   if(r==='pm'){
     state.jobs.filter(function(j){return j.status==='in_progress';}).forEach(function(j){
       any=true;
-      h += '<div class="notif"><div class="l">On site — '+j.client+'</div><div class="v">'+j.num+' — '+j.desc+'</div>'+
+      h += '<div class="notif" onclick="goto(&quot;jobDetail&quot;,&quot;'+j.num+'&quot;)"><div class="l">On site — '+j.client+'</div><div class="v">'+j.num+' — '+j.desc+'</div>'+
            '<div style="margin-top:8px;"><span class="pill-btn">Post update</span> <span class="pill-btn">Request change order</span></div></div>';
     });
   }
   if(r==='sales'){
     any=true;
-    h += '<div class="notif"><div class="l">Follow up</div><div class="v">3 quotes sent last week with no answer yet</div>'+
-         '<div class="pill-btn blue" style="margin-top:8px;" onclick="goto(\'properties\')">Open the property list &rarr;</div></div>';
+    h += '<div class="notif" onclick="goto(&quot;properties&quot;)"><div class="l">Follow up</div><div class="v">3 quotes sent last week with no answer yet</div>'+
+         '<div class="pill-btn blue" style="margin-top:8px;">Open the property list &rarr;</div></div>';
   }
   if(!any) h += '<div class="empty">Nothing needs attention right now.</div>';
 
@@ -1041,16 +1270,16 @@ function renderQuoteDetail(){
   }
 
   if(q.stage==='submitted' && canApprove){
-    h += '<div class="notif orange" style="margin-top:14px;"><div class="l">Waiting on your decision</div>'+
+    h += '<div class="notif static orange" style="margin-top:14px;"><div class="l">Waiting on your decision</div>'+
          '<div class="v" style="font-size:13.5px;">Approving sends it to the client. Sending it back returns it to '+(q.estimator||'the estimator')+' with your note.</div>'+
          '<div style="margin-top:10px;"><span class="pill-btn green" onclick="decide('+q.id+',\'approved\')">Approve</span> '+
          '<span class="pill-btn" onclick="decide('+q.id+',\'pricing\')">Send back for review</span></div></div>';
   } else if(q.stage==='pricing' && state.role==='estimator'){
-    h += '<div class="notif" style="margin-top:14px;"><div class="l">When you\'re done</div>'+
+    h += '<div class="notif static" style="margin-top:14px;"><div class="l">When you\'re done</div>'+
          '<div class="v" style="font-size:13.5px;">Submit it and Edison (supervisor estimator) reviews it.</div>'+
          '<div class="pill-btn solid" style="margin-top:10px;" onclick="decide('+q.id+',\'submitted\')">Submit for approval</div></div>';
   } else if(q.stage==='needs_quoting'){
-    h += '<div class="notif" style="margin-top:14px;"><div class="l">Not started</div>'+
+    h += '<div class="notif static" style="margin-top:14px;"><div class="l">Not started</div>'+
          '<div class="v" style="font-size:13.5px;">Pick this up and the cost breakdown opens.</div>'+
          '<div class="pill-btn blue" style="margin-top:10px;" onclick="pickUp('+q.id+')">Start pricing</div></div>';
   }
@@ -1282,9 +1511,9 @@ function renderStepSizes(){
 function renderVendors(){
   var h='<h1 class="dt">Suppliers</h1><div class="lockednote">Where you buy — from your materials directions sheet.</div>';
   state.suppliers.forEach(function(s){
-    h+='<div class="catrow"><div><div class="nm">'+s.name+'</div><div class="sub">'+s.what+'</div>'+
+    h+='<div class="catrow" onclick="say(\''+s.name.replace(/'/g,"\\'")+' — '+s.what.replace(/'/g,"\\'")+', '+s.where.replace(/'/g,"\\'")+'.\\n\\nIn the real system this opens the supplier: their contact, what you have bought from them, and every material cost tagged back to the job it went on.\')"><div><div class="nm">'+s.name+'</div><div class="sub">'+s.what+'</div>'+
        '<div class="sub" style="margin-top:3px;">'+s.where+'</div></div>'+
-       '<div class="pr"><div class="s">contact in system</div></div></div>';
+       '<div class="pr"><div class="s">contact in system ›</div></div></div>';
   });
   document.getElementById('pageBody').innerHTML=h;
 }
@@ -1328,17 +1557,75 @@ function renderBanking(){
   var open=state.alerts.filter(function(a){return !a.ack;});
   if(!open.length) h+='<div class="empty">Nothing needs you right now.</div>';
   open.forEach(function(a){
-    h+='<div class="notif '+(a.level==='high'?'orange':'')+'">'+
+    h+='<div class="notif '+(a.level==='high'?'orange':'')+'" onclick="ackAlert('+a.id+')">'+
        '<div class="l">'+(a.level==='high'?'Needs you now':'Worth a look')+' · '+a.when+'</div>'+
        '<div class="v" style="font-size:14px;">'+a.title+'</div>'+
        '<div style="font-size:13px; color:var(--ink-soft); margin-top:4px;">'+a.detail+'</div>'+
-       '<div class="pill-btn" style="margin-top:9px;" onclick="ackAlert('+a.id+')">Mark as seen</div></div>';
+       '<div class="pill-btn" style="margin-top:9px;">Mark as seen</div></div>';
   });
   document.getElementById('pageBody').innerHTML=h;
 }
 function ackAlert(id){ var a=state.alerts.find(function(x){return x.id===id;}); if(a) a.ack=true; render(); }
+/* ---- New work: where a job actually starts ---------------------------------
+   Deliberately the plainest screen in the system. Somebody rings, you write it
+   down, it goes to an estimator, you approve the price, and only then does it
+   become a job with a number. The chain is drawn on the page because "why can
+   I not just add a job?" is the first question anybody asks. */
+function renderNewWork(){
+  var h='<h1 class="dt">New work</h1>';
+  h+='<div class="lockednote"><b>This is where a new job starts.</b> Somebody calls or '+
+     'emails asking for work — write it down here. It goes to an estimator to be priced, '+
+     'you approve the price, and at that moment it becomes a real job with its own number.</div>';
+
+  h+='<div class="chainbox">'+
+     '<div class="chainstep"><b>1</b><span>Someone asks<br><small>you write it here</small></span></div>'+
+     '<div class="chainarrow">→</div>'+
+     '<div class="chainstep"><b>2</b><span>Estimator prices it<br><small>builds the quote</small></span></div>'+
+     '<div class="chainarrow">→</div>'+
+     '<div class="chainstep"><b>3</b><span>You approve<br><small>or send it back</small></span></div>'+
+     '<div class="chainarrow">→</div>'+
+     '<div class="chainstep done"><b>4</b><span>It becomes a job<br><small>with its own number</small></span></div>'+
+     '</div>';
+
+  h+='<div class="formcard">'+
+     '<div class="sec-title" style="margin-top:0; padding-top:0; border-top:none;">Write down what came in</div>'+
+     '<div class="field"><label>Property or client</label><input placeholder="e.g. Cape House"></div>'+
+     '<div class="field"><label>Who asked, and how to reach them</label><input placeholder="Sandra — on-site manager · (904) 555-0142"></div>'+
+     '<div class="field"><label>What they need</label><input placeholder="Two garage doors sticking, one will not close"></div>'+
+     '<div class="pill-btn solid" onclick="say(\'Saved. It now shows below as waiting to be priced, and an estimator can pick it up. Nothing becomes a job until you approve a price.\')">+ Add this work</div>'+
+     '</div>';
+
+  h+='<div class="sec-title">Waiting to be priced</div>';
+  (state.newwork||[]).forEach(function(w){
+    var late = w.days>=4 && w.stage==='needs_pricing';
+    h+='<div class="catrow" style="'+(late?'border-color:var(--coral);':'')+'" '+
+       'onclick="say(\'Opens this so an estimator can price it. Once you approve the price it becomes a real job.\')">'+
+       '<div><div class="nm">'+w.property+'</div>'+
+       '<div class="sub">'+w.what+'</div>'+
+       '<div class="sub" style="margin-top:3px;">'+w.who+' · came in '+w.received+'</div></div>'+
+       '<div class="pr">'+
+       (w.stage==='meeting_set'
+         ? '<div class="s"><span class="status" style="background:var(--blue); color:#fff;">meeting '+w.meeting+'</span></div>'
+         : '<div class="s"><span class="status" style="background:'+(late?'var(--coral); color:#fff;':'var(--yellow);')+'">'+
+           (late? w.days+' days waiting':'needs pricing')+'</span></div>')+
+       '</div></div>';
+  });
+  h+='<div class="lockednote">Anything sitting here untouched for four days turns red, '+
+     'here and on your home screen. Nothing is lost because nobody got round to it.</div>';
+
+  document.getElementById('pageBody').innerHTML=h;
+}
+
 function renderJobs(){
   var h='<h1 class="dt">Jobs</h1>';
+  // A job cannot be typed in directly — it is created when a price is approved,
+  // which is what keeps every job tied to a quote somebody agreed to. So the
+  // door to the intake lives HERE, on the page where a person goes looking.
+  h+='<div class="newjob-cta" onclick="goto(\'newwork\')">'+
+     '<span class="newjob-plus">+</span>'+
+     '<span><strong>New work has come in</strong>'+
+     '<small>Start it here — it gets priced, you approve it, and it becomes a job</small></span>'+
+     '</div>';
   var showMoney=state.role!=='sales' || true; // ALL roles see job money (1 Sep: PM yes, sales yes for commission)
   state.jobs.forEach(function(j){
     var openable = !!state.jobDetail[j.num];
@@ -1405,6 +1692,38 @@ function renderJobDetail(){
      '<div class="totrow grand"><span class="lbl">Yours when it finishes</span>'+
      '<span class="amt">'+money(left)+'</span></div></div>';
 
+  /* ---- ADDED 1 Sep: who earns what on this job, and whether they agreed ---- */
+  var comm = state.commOnJob[num] || [];
+  if(comm.length){
+    h+='<div class="sec-title">Commission on this job</div>';
+    comm.forEach(function(c){
+      var agreed = c.state==='agreed';
+      h+='<div class="lineitem" style="'+(agreed?'':'border-color:var(--orange);')+'">'+
+         '<div class="li-top"><div class="li-desc">'+c.who+' <span style="font-weight:600; color:var(--ink-soft);">'+c.role+'</span></div>'+
+         '<div class="li-tot">'+money(c.amount)+'</div></div>'+
+         '<div class="li-grid">'+
+         '<div class="li-cell"><div class="k">Rate</div><div class="v">'+c.pct+'%</div></div>'+
+         '<div class="li-cell"><div class="k">Of</div><div class="v" style="font-size:11px;">'+c.basis+'</div></div>'+
+         '<div class="li-cell"><div class="k">From</div><div class="v" style="font-size:11px;">'+c.source+'</div></div>'+
+         '<div class="li-cell"><div class="k">Status</div><div class="v" style="font-size:11px; color:'+
+            (agreed?'var(--green)':'var(--orange)')+';">'+(agreed?'agreed '+c.when:'waiting — '+c.when)+'</div></div>'+
+         '</div>'+
+         (c.wouldHaveBeen ? '<div class="sub" style="margin-top:8px;">Their usual rate would have been '+
+            money(c.wouldHaveBeen)+' on this job. Reduced by agreement because of the size.</div>' : '')+
+         (c.note ? '<div class="sub" style="margin-top:6px;">“'+c.note+'”</div>' : '')+
+         '<div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">'+
+         (agreed
+           ? '<span class="pill-btn" style="opacity:.5; cursor:not-allowed;">Locked — they agreed to this</span>'+
+             '<span class="pill-btn" onclick="say(\'You cannot change an agreed rate. You can offer a new one — they have to agree to that too, and until they do this rate stands.\')">Offer a different rate</span>'
+           : '<span class="pill-btn solid" onclick="say(\'They see it on their own screen with the dollar figure, and agree or decline. Nobody can agree on their behalf.\')">Waiting on them</span>'+
+             '<span class="pill-btn" onclick="say(\'Not yet agreed, so it can still be changed.\')">Change the rate</span>')+
+         '</div></div>';
+    });
+    h+='<div class="lockednote">An offer nobody has agreed to yet still counts against this job\'s '+
+       'profit — leaving it out would make the job look better than it is. It is shown separately '+
+       'so it is never mistaken for agreed.</div>';
+  }
+
   h+='<div class="sec-title">Updates on this job</div>';
   d.updates.forEach(function(u){
     var waiting = u.state==='waiting';
@@ -1423,22 +1742,50 @@ function renderJobDetail(){
      '<div class="pill-btn" onclick="say(\'The job is marked finished and the final invoice can go out.\')">Mark it finished</div>'+
      '</div>';
 
+  // ---- Files & photos -----------------------------------------------------
+  h+='<div class="sec-title">Files &amp; photos</div>';
+  h+='<div class="codebox">'+
+     '<div><div class="codelab">Send photos to this job</div>'+
+     '<div class="codeval">'+j.code+'</div>'+
+     '<div class="codehelp">Whoever is on site texts this code with the photo to the Yumbo bot. '+
+     'It lands on this job by itself — nobody in the office has to work out where it goes.</div></div>'+
+     '<div class="pill-btn solid" onclick="say(\'Copies the code so they can paste it into the message.\')">Copy</div>'+
+     '</div>';
+  h+='<div class="pill-btn" onclick="say(\'Opens this job\\\'s folder in Google Drive. Everything sent with the code is filed in there automatically. Who can open it is decided in Drive — you share the folder with whoever you want.\')">Open this job\'s Google Drive folder ↗</div>';
+
+  (d.files||[]).forEach(function(f){
+    h+='<div class="catrow" style="cursor:default;"><div>'+
+       '<div class="nm">'+f.name+'</div>'+
+       '<div class="sub">'+f.from+' · '+f.when+(f.via?' · '+f.via:'')+'</div></div>'+
+       '<div class="pr"><div class="s">'+f.size+'</div>'+
+       '<div class="s" style="color:'+(f.inDrive?'var(--green)':'var(--orange)')+'; font-weight:800;">'+
+       (f.inDrive?'in Drive':'uploading…')+'</div></div></div>';
+  });
+  if(!(d.files||[]).length){
+    h+='<div class="empty">Nothing sent to this job yet.</div>';
+  }
+  h+='<div class="lockednote">A photo sent with the <b>wrong</b> code does not get filed anywhere — '+
+     'the bot writes back to say it did not recognise it. That is on purpose: a photo waiting an hour '+
+     'in the office inbox is a small problem, a photo on the wrong job is one nobody finds for months.</div>';
+
   document.getElementById('pageBody').innerHTML=h;
 }
 function renderRequests(){
   var h='<h1 class="dt">Requests</h1><div class="lockednote">Materials, change orders and incidents from the field — instead of a phone call.</div>';
   state.requests.forEach(function(r){
-    h+='<div class="catrow"><div><div class="nm">'+r.title+'</div>'+
+    // A request always belongs to a job, so tapping it takes you to that job —
+    // which is where you decide whether to approve it.
+    h+='<div class="catrow" onclick="goto(\'jobDetail\',\''+r.job+'\')"><div><div class="nm">'+r.title+'</div>'+
        '<div class="sub">'+r.type.replace('_',' ')+' · job '+r.job+' · by '+r.by+'</div></div>'+
        '<div class="pr">'+(r.amount?'<div class="y">'+money0(r.amount)+'</div>':'')+
-       '<div class="s"><span class="status" style="background:var(--yellow);">'+r.status+'</span></div></div></div>';
+       '<div class="s"><span class="status" style="background:var(--yellow);">'+r.status+'</span> ›</div></div></div>';
   });
   document.getElementById('pageBody').innerHTML=h;
 }
 function renderInbox(){
   var h='<h1 class="dt">Team inbox</h1><div class="lockednote">Photos and updates the crew sends in. Nothing becomes a record until someone confirms it.</div>';
   state.inbox.forEach(function(i){
-    h+='<div class="catrow"><div><div class="nm">'+i.cmd+' — '+i.from+'</div><div class="sub">'+i.note+'</div></div>'+
+    h+='<div class="catrow" onclick="say(\'This is what came in from the field. You pick which job it belongs to, then confirm — and only then does it become a real record on that job. Nothing files itself unless the sender put the job code in the message.\')"><div><div class="nm">'+i.cmd+' — '+i.from+'</div><div class="sub">'+i.note+'</div></div>'+
        '<div class="pr"><div class="s">'+(i.confirmed?'confirmed':'<span class="status" style="background:var(--coral); color:#fff;">confirm</span>')+'</div></div></div>';
   });
   document.getElementById('pageBody').innerHTML=h;
@@ -1448,8 +1795,8 @@ function renderExpenses(){
   var pend=state.expenses.filter(function(e){return !e.approved;}).reduce(function(s,e){return s+e.amount;},0);
   h+='<div class="summary-grid"><div class="card"><div class="l">Pending approval</div><div class="v">'+money0(pend)+'</div><div class="hint">Fuel, travel, equipment</div></div></div>';
   state.expenses.forEach(function(e){
-    h+='<div class="catrow"><div><div class="nm">'+e.what+'</div><div class="sub">'+(e.approved?'approved':'waiting approval')+'</div></div>'+
-       '<div class="pr"><div class="y">'+money0(e.amount)+'</div></div></div>';
+    h+='<div class="catrow" onclick="say(\'Opens the expense: who spent it, on which job, and the receipt photo they sent in.\\n\\nUntil you approve it, it does NOT come off that job\\\'s profit — it sits here so a job never looks better than it is by accident.\')"><div><div class="nm">'+e.what+'</div><div class="sub">'+(e.approved?'approved':'waiting approval')+'</div></div>'+
+       '<div class="pr"><div class="y">'+money0(e.amount)+'</div> <div class="s">›</div></div></div>';
   });
   document.getElementById('pageBody').innerHTML=h;
 }
@@ -1647,7 +1994,9 @@ function renderTeam(){
       h+='<div class="catrow"'+(t.role==='owner'?' style="cursor:default;"':' onclick="openMember('+t.id+')"')+'>'+
          '<div><div class="nm">'+t.name+(t.active?'':' <span style="color:var(--ink-soft); font-weight:600;">(removed)</span>')+'</div>'+
          '<div class="sub">'+(t.role==='owner' ? 'sees everything' : mine.length+' of '+ALL_TABS.length+' tiles')+
-         (mgr?' · reports to '+mgr:'')+' · added '+t.added+'</div></div>'+
+         (mgr?' · reports to '+mgr:'')+
+         (t.comm!==null&&t.comm!==undefined ? ' · '+t.comm+'% commission' : '')+
+         ' · added '+t.added+'</div></div>'+
          '<div class="pr">'+
          (t.role==='owner' ? '<div class="s">can\'t be removed</div>'
            : '<div class="s">'+(t.active?'set what they see ›':'removed')+'</div>')+
@@ -1666,8 +2015,49 @@ function renderTeam(){
     h+='<option value="'+r+'"'+(state.newMember.role===r?' selected':'')+'>'+roleLabel(r)+'</option>';
   });
   h+='</select></div>'+
-     '<div class="lockednote" style="margin:0 0 10px;">They get their own login and pick their own password the first time they sign in. You can change or remove their access any time.</div>'+
+     // Boss, 2 Sep: "whenever she adds a person she can decide how much
+     // commission she is going to pay to them." The real system already has
+     // this field; the mockup did not, so the picture disagreed with the
+     // product. Optional on purpose — a project manager may earn none.
+     '<div class="field"><label>Commission %, if they get one</label>'+
+     '<input id="newComm" type="number" step="0.01" min="0" max="100" placeholder="e.g. 5" '+
+     'value="'+(state.newMember.comm||'')+'" oninput="state.newMember.comm=this.value"></div>'+
+     '<div class="lockednote" style="margin:0 0 10px;">They get their own login and pick their own password the first time they sign in. '+
+     'Leave the commission blank if they do not earn one — you can set or change it later, and changing it never erases what it used to be.</div>'+
      '<div class="pill-btn solid" onclick="addMember()">+ Add to the team</div></div>';
+
+  /* ---- ADDED 1 Sep: commission is a rate ladder, not a number in the code ---- */
+  h+='<div class="sec-title">Commission rates</div>';
+  h+='<div class="lockednote">Nothing here is fixed in the software. Set a rate for everyone, '+
+     'for a post, or for one person — and change it whenever you like. Changing it never erases '+
+     'what it used to be, so a commission paid in August can still be explained in November.</div>';
+  state.commRates.forEach(function(r){
+    var live = r.to==='still in force';
+    h+='<div class="catrow" style="cursor:default;'+(live?'':' opacity:.55;')+'">'+
+       '<div><div class="nm">'+r.who+' — '+r.pct+'% <span style="font-weight:600; color:var(--ink-soft);">'+r.basis+'</span></div>'+
+       '<div class="sub">'+r.scope+' · from '+r.from+' · '+r.why+'</div></div>'+
+       '<div class="pr"><div class="s">'+(live?'<b>in force</b>':'until '+r.to)+'</div></div></div>';
+  });
+  h+='<div class="formcard">'+
+     '<div class="field"><label>Applies to</label><select>'+
+     '<option>One person</option><option>A post — everyone doing that job</option>'+
+     '<option>Everyone (the company default)</option></select></div>'+
+     '<div class="field"><label>Rate</label><input placeholder="5" inputmode="decimal"></div>'+
+     '<div class="field"><label>Of what</label><select>'+
+     '<option>The job price</option><option>The job profit</option></select></div>'+
+     '<div class="field"><label>Why (worth writing down)</label><input placeholder="Raised after the Olympus job"></div>'+
+     '<div class="pill-btn solid" onclick="say(\'Saved as a new rate. The old one stays on record with the dates it applied.\')">Save this rate</div>'+
+     '</div>';
+  h+='<div class="lockednote" style="border-color:var(--orange);">'+
+     '<b>How a rate becomes an agreement.</b> The above is only the starting point. When a job is '+
+     'assigned you offer a rate for <b>that job</b> — the usual one, or a different number if the '+
+     'job is unusually large. The person opens the job, sees exactly what they will earn, and '+
+     'agrees to it. <b>From that moment you cannot change it for that job.</b> You can offer a new '+
+     'rate, but they have to agree to that too, and until they do the old one stands.</div>';
+  h+='<div class="lockednote"><b>The rate is locked, the amount is not.</b> If a change order '+
+     'raises the job price, an agreed 5% is still 5% — of the new price. Freezing the dollar '+
+     'figure would mean somebody agreed to a percentage and got paid on a smaller job than the '+
+     'one they actually sold.</div>';
 
   /* ---- ADDED 1 Sep: the recurring questions the system asks by itself ---- */
   h+='<div class="sec-title">Check-ins you set</div>';
@@ -1713,8 +2103,13 @@ function addMember(){
   var r=state.newMember.role;
   if(!MULTI_SEAT[r] && countInRole(r)>0){ alert(roleLabel(r)+' is a single-person role.'); return; }
   var id=Math.max.apply(null, state.team.map(function(t){return t.id;}))+1;
-  state.team.push({id:id, name:n, role:r, active:true, added:'Just now'});
-  state.newMember={name:'', role:r};
+  // Blank means "earns no commission", which is a real answer and different
+  // from zero — so it is stored as null rather than 0.
+  var c=(state.newMember.comm||'').toString().trim();
+  var pct=(c==='')?null:parseFloat(c);
+  if(pct!==null && (isNaN(pct)||pct<0||pct>100)){ alert('Commission must be a number between 0 and 100, or blank.'); return; }
+  state.team.push({id:id, name:n, role:r, active:true, added:'Just now', comm:pct});
+  state.newMember={name:'', role:r, comm:''};
   render();
 }
 function toggleMember(id){
@@ -1732,7 +2127,7 @@ function doSearch(){
 }
 
 var RENDER = {
-  dashboard:renderDashboard, quotes:renderQuotes, quoteDetail:renderQuoteDetail,
+  dashboard:renderDashboard, newwork:renderNewWork, quotes:renderQuotes, quoteDetail:renderQuoteDetail,
   breakdown:renderBreakdown, quoteDoc:renderQuoteDoc, approvals:renderApprovals,
   properties:renderProperties, propertyDetail:renderPropertyDetail, catalog:renderCatalog, stepsizes:renderStepSizes,
   vendors:renderVendors, subs:renderSubs, jobs:renderJobs, requests:renderRequests,
@@ -1741,6 +2136,10 @@ var RENDER = {
 };
 function render(){
   buildRoleBar(); buildNav();
+  // Settings is owner-only, so the gear only exists for the owner. Showing
+  // it to everybody and refusing the click would be worse than not showing it.
+  var g=document.getElementById('gearBtn');
+  if(g) g.hidden = (state.role!=='owner');
   var pb=document.getElementById('pageBody');
   pb.classList.remove('pagein'); void pb.offsetWidth; pb.classList.add('pagein');
   (RENDER[state.page] || renderDashboard)();
