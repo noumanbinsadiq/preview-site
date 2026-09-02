@@ -392,6 +392,7 @@ html, body{height: auto; min-height: 0;}
 .chainstep small{font-weight:600; color:var(--ink-soft); font-size:11px;}
 .chainarrow{align-self:center; color:var(--ink-soft); font-weight:800;}
 @media (max-width:620px){ .chainarrow{display:none;} .chainstep{flex:1 1 100%;} }
+.assignsel{padding:6px 8px; border:2px solid var(--ink); border-radius:8px; font:inherit; font-weight:700; font-size:12.5px; background:#fff; cursor:pointer;}
 .catrow{display:flex; justify-content:space-between; gap:10px; padding:11px 13px; background:#fff; border:1.5px solid var(--line); border-radius:14px; margin-bottom:8px; box-shadow:var(--shadow); cursor:pointer; transition:transform .15s ease;}
 .catrow:active{transform:scale(.99);}
 .catrow .nm{font-weight:800; font-size:13px;}
@@ -1223,6 +1224,38 @@ function inQuoteFilter(q,f){
 }
 function setQuoteFilter(f){ state.quoteFilter=f; renderQuotes(); }
 
+// Who is pricing this, and — for the owner and supervisor — a dropdown to
+// change it. This was display-only in the preview: it SHOWED the estimator but
+// not the control to assign or reassign, so nobody reviewing the picture could
+// see how the work gets handed out or moved. In the real system this is a
+// dropdown gated to the owner and supervisors, and it reassigns as many times
+// as needed — which is the answer to "what if they don't do it".
+function estimatorControl(q){
+  var canAssign = state.role==='owner' || state.role==='supervisor';
+  if(!canAssign){
+    return (q.estimator||'Unassigned');
+  }
+  var estimators = (state.team||[]).filter(function(t){
+    return t.active && (t.role==='estimator' || t.role==='supervisor');
+  });
+  var opts = '<option value="">Unassigned</option>';
+  estimators.forEach(function(t){
+    opts += '<option'+(t.name===q.estimator?' selected':'')+'>'+t.name+'</option>';
+  });
+  return '<select class="assignsel" onchange="reassign('+q.id+', this.value)">'+opts+'</select>';
+}
+// In the real system this writes the new estimator and tells the two people
+// involved. Here it just narrates, because nothing in the preview changes data.
+function reassign(quoteId, name){
+  var q=(state.quotes||[]).filter(function(x){return x.id===quoteId;})[0];
+  var was=q?q.estimator:null;
+  if(q){ q.estimator = name||null; }
+  say(name
+    ? ('Now assigned to '+name+'.'+(was&&was!==name?' Moved off '+was+' — both are told.':' They are told, and it shows on their Quotes list.'))
+    : 'Set back to Unassigned. Anyone can pick it up, or you can assign it here.');
+  render();
+}
+
 function renderQuoteDetail(){
   var q=state.quotes.find(function(x){return x.id===state.currentQuoteId;});
   if(!q){ goto('quotes'); return; }
@@ -1243,7 +1276,7 @@ function renderQuoteDetail(){
        '<div class="row"><span>Management</span><span>'+q.mgmt+'</span></div>'+
        '<div class="row"><span>Requested by</span><span>'+q.requestedBy+'</span></div>'+
        '<div class="row"><span>Date requested</span><span>'+q.dateRequested+'</span></div>'+
-       '<div class="row"><span>Estimator</span><span>'+(q.estimator||'Unassigned')+'</span></div>'+
+       '<div class="row"><span>Estimator</span><span>'+estimatorControl(q)+'</span></div>'+
        '<div class="row"><span>Scope of work</span><span>'+q.scope+'</span></div></div>';
 
   h += '<div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:14px;">'+
