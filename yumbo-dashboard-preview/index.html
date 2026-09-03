@@ -9,9 +9,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+/* ONE palette. 3 Sep: there were two :root blocks — this one (the old warm
+   cream skin) and a second one further down that overrides it. --blue, --green
+   and --yellow were each declared TWICE at different hex values, so "the blue"
+   depended on which block won the cascade. The live values all live in the
+   second block now; only --violet ever survived from here, and it has moved
+   there too. Do not reintroduce a second :root. */
 :root{
   --cream:#FBF6EA; --cream-2:#F4ECD9; --ink:#1B1710; --ink-soft:#4B4438;
-  --blue:#2F5BFF; --coral:#FF5A38; --green:#12A66B; --violet:#7A4DFF; --yellow:#FFC42E;
 }
 *{box-sizing:border-box; margin:0; padding:0;}
 html,body{overflow-x:hidden; max-width:100%;}
@@ -145,7 +150,7 @@ footer{text-align:center; padding:26px 0 10px; font-size:12px; color:var(--ink-s
 .searchbar select{padding:9px 10px; border:2px solid var(--ink); border-radius:10px; font-size:12.5px; font-family:'Manrope',sans-serif; background:var(--cream-2); font-weight:700; flex-shrink:0;}
 .searchbar input{flex:1 1 160px; min-width:0; padding:9px 12px; border:2px solid var(--ink); border-radius:10px; font-size:13px; font-family:'Manrope',sans-serif;}
 .searchbar .pill-btn{margin-top:0; flex-shrink:0;}
-.attach{display:flex; align-items:center; gap:10px; border:2px solid var(--ink); border-radius:12px; padding:9px 12px; margin-bottom:6px; font-size:12px; font-weight:700;}
+.attach{display:flex; align-items:center; gap:10px; border:2px solid var(--ink); border-radius:14px; padding:9px 12px; margin-bottom:6px; font-size:12px; font-weight:700;}
 .attach .tag{font-size:9.5px; font-weight:800; text-transform:uppercase; background:var(--violet); color:#fff; padding:2px 8px; border-radius:99px;}
 .attach .ico{width:26px; height:26px; border-radius:8px; border:2px solid var(--ink); display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; background:var(--cream-2);}
 .lockednote{font-size:11.5px; color:var(--ink-soft); font-weight:700; font-style:italic;}
@@ -205,6 +210,7 @@ footer{text-align:center; padding:26px 0 10px; font-size:12px; color:var(--ink-s
   --coral:#FF5A38;
   --green:#16A34A;
   --yellow:#F59E0B;
+  --violet:#7A4DFF;           /* re-declared here — see note below */
   --line:#E4E7EC;
   --shadow:0 1px 2px rgba(16,24,40,.05), 0 4px 16px rgba(16,24,40,.06);
 }
@@ -249,7 +255,7 @@ th{background:var(--ink); color:#fff;}
 .roletoggle button{background:#fff; border:1.5px solid var(--line); box-shadow:var(--shadow); transition:transform .15s ease;}
 .roletoggle button:active{transform:scale(.97);}
 .roletoggle button.active{background:var(--ink); border-color:var(--ink); color:#fff;}
-input,select,textarea{border-color:var(--line) !important; background:#fff; border-radius:12px !important; transition:border-color .2s ease, box-shadow .2s ease;}
+input,select,textarea{border-color:var(--line) !important; background:#fff; border-radius:14px !important; transition:border-color .2s ease, box-shadow .2s ease;}
 input:focus,select:focus,textarea:focus{outline:none; border-color:var(--blue) !important; box-shadow:0 0 0 3px rgba(37,99,235,.15);}
 
 /* ---- filter chips with counts (reference style) ---- */
@@ -263,20 +269,43 @@ input:focus,select:focus,textarea:focus{outline:none; border-color:var(--blue) !
 /* ---- summary stat cards: hero card is blue ---- */
 .summary-grid .card{transition:transform .18s ease, box-shadow .2s ease;}
 .summary-grid .card:hover{transform:translateY(-2px);}
-.summary-grid .card:first-child{background:var(--blue); border-color:var(--blue);}
-.summary-grid .card:first-child .l,.summary-grid .card:first-child .v,.summary-grid .card:first-child .hint{color:#fff;}
-.summary-grid .card:first-child .hint{opacity:.8;}
+/* The emphasised card is CORAL, not blue. The app prints its own colour legend
+   at the foot of every screen — "Coral = needs attention now" — and then the
+   first thing a person saw each morning was an attention count in blue, which
+   is the action/link colour everywhere else (Search, Start pricing, Submit).
+   The screen contradicted the legend. Coral = attention, blue = the thing you
+   click. 3 Sep. */
+.summary-grid .card:first-child{background:rgba(255,90,56,.08); border:2px solid var(--coral);}
+/* No coral TEXT here: #FF5A38 measures 2.56:1 on this surface and cannot pass AA
+   on any light background. The tint plus the 2px coral border does the work, and
+   the text stays ink. (The decorative "Good morning" greeting elsewhere is coral
+   on cream and has the same problem — flagged for Boss, not changed here.) */
+/* White on coral measures 3.10:1 — it fails AA for the label and the hint, and
+   only scrapes large-text AA for the number. This is the SAME treatment the app
+   already uses for "Needs your attention" (.attn-block): coral tint, coral
+   border, ink text. Reusing it rather than inventing a third attention style. */
 
 /* ---- TILE NAV (icon grid launcher, the reference's signature) ---- */
-.navbar{display:grid; grid-template-columns:repeat(auto-fill, minmax(96px,1fr)); gap:10px; border-bottom:none; padding-bottom:6px; margin-bottom:20px;}
+/* The navbar is a plain block; .navrow is what lays the tiles out in a grid.
+   3 Sep: the navbar used to BE the tile grid, and buildNav wraps every set of
+   tiles in a .navrow — so each row became one 96px cell of the outer grid and
+   the tiles stacked into a single column. Grouped roles AND flat roles were
+   both wrong. One place owns the columns now: .navrow. */
+/* One touch-target rule for the whole app. There were six scattered
+   @media(hover:none) blocks each patching one component, and everything nobody
+   remembered to patch stayed at 31–42px: pill buttons on four screens, the
+   search input, the scope select. A phone is the primary device here. */
+@media (hover:none){
+  button, .pill-btn, input, select, textarea, .segtabs button, .sortbox select,
+  .w9btn, .sectab, .crumb, .assignsel{ min-height:44px; }
+  button, .pill-btn, .sectab{ display:inline-flex; align-items:center; justify-content:center; }
+  textarea{ min-height:66px; }
+}
+.navbar{display:block; border-bottom:none; padding-bottom:6px; margin-bottom:20px;}
 .navbar.navhidden{display:none;}
-/* When the nav is grouped, the headers and rows are blocks, not tiles. Leaving
-   the tile grid on made each header a 96px cell and stacked every tile in one
-   column (Boss's screenshot, 3 Sep). */
-.navbar.grouped{display:block;}
 /* One-screen estimate: section tabs, anchors, and the bar that stays put. */
 .sectabs{display:flex; gap:6px; flex-wrap:wrap; margin:12px 0 4px;}
-.sectab{font-size:12px; font-weight:800; padding:7px 12px; border-radius:999px; border:1.5px solid var(--line); background:#fff; cursor:pointer;}
+.sectab{font-size:12px; font-weight:800; padding:7px 12px; border-radius:99px; border:1.5px solid var(--line); background:#fff; cursor:pointer;}
 .sectab:hover{border-color:var(--ink);}
 .sec-anchor{scroll-margin-top:8px;}
 .scope-in{width:100%; border:none; border-bottom:2px solid var(--ink); background:transparent; font:inherit; font-weight:800; text-align:right; outline:none;}
@@ -302,7 +331,7 @@ input:focus,select:focus,textarea:focus{outline:none; border-color:var(--blue) !
 /* reference strip + price picker inside costing */
 .refstrip{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:0 0 12px;}
 .refstrip .k{font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft);}
-.refchip{font-size:12px; font-weight:700; background:#fff; border:1.5px solid var(--line); border-radius:999px; padding:5px 10px;}
+.refchip{font-size:12px; font-weight:700; background:#fff; border:1.5px solid var(--line); border-radius:99px; padding:5px 10px;}
 .picker{background:#fff; border:2px solid var(--ink); border-radius:14px; padding:10px 12px; margin:-8px 0 16px; max-width:560px;}
 .picker .k{font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin-bottom:6px;}
 .pickrow{display:flex; justify-content:space-between; align-items:center; padding:8px 6px; border-top:1px solid var(--line); cursor:pointer; font-size:13px; font-weight:700;}
@@ -346,7 +375,7 @@ body.showhelp .lockednote:not(.keep){display:block;}
 .navbar .tile:nth-child(9){animation-delay:.26s} .navbar .tile:nth-child(10){animation-delay:.29s}
 .navbar .tile:nth-child(11){animation-delay:.32s} .navbar .tile:nth-child(12){animation-delay:.35s}
 .navbar .tile:nth-child(13){animation-delay:.38s} .navbar .tile:nth-child(14){animation-delay:.41s}
-@media(max-width:640px){ .navbar{grid-template-columns:repeat(3,1fr);} }
+/* (the phone column count lives on .navrow now — see the rule near .navgroup) */
 
 /* ---- page transition ---- */
 #pageBody.pagein{animation:pageIn .28s ease;}
@@ -438,7 +467,7 @@ html, body{height: auto; min-height: 0;}
 .doc h2:first-child{margin-top:0;}
 .doc .docmeta{color:var(--ink-soft); font-size:12.5px;}
 .doc ul{margin:6px 0 6px 18px;} .doc li{margin-bottom:4px;}
-.doc .bigprice{font-size:19px; font-weight:900; background:var(--cream-2); border-radius:12px; padding:11px 14px; margin:14px 0;}
+.doc .bigprice{font-size:19px; font-weight:900; background:var(--cream-2); border-radius:14px; padding:11px 14px; margin:14px 0;}
 .rolenote{background:#EEF4FF; border:1.5px solid #C7DAFF; color:#1E3A8A; border-radius:14px; padding:11px 13px; font-size:12.5px; font-weight:600; margin-bottom:14px;}
 /* Job file code — the thing someone reads off this screen and types into a
    Telegram caption. Sized to be legible on a phone held in one hand on a site. */
@@ -489,7 +518,7 @@ html, body{height: auto; min-height: 0;}
 .permcard{max-width:100% !important;}
 .permgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px;}
 .permtile{display:flex; gap:9px; align-items:center; min-height:50px; padding:9px 11px;
-  border-radius:12px; background:var(--cream-2); border:1.5px solid var(--line);}
+  border-radius:14px; background:var(--cream-2); border:1.5px solid var(--line);}
 .permtile.on{background:var(--blue); border-color:var(--blue); color:#fff;}
 .permtile.lock{opacity:.55;}
 .permtile:not(.lock){cursor:pointer;}
@@ -823,9 +852,13 @@ var state = {
   reportsTo: {1:null, 2:1, 3:1, 4:3, 5:3, 6:1, 7:3},
   memberTabs: {
     1:null,
-    2:['dashboard','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','expenses','money','reports','team'],
-    3:['dashboard','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','expenses'],
-    4:['dashboard','quotes','jobs','requests','inbox','properties','subs','vendors','expenses'],
+    /* 3 Sep: 'newwork' was added to MODULES and NOT to these three seeds, so the
+       intake tile was silently missing for Daniela, Edison and Carlos while the
+       owner saw it. A new tab has three homes — MODULES, ALL_TABS, and these
+       per-person lists. Miss one and it disappears for the person who needs it. */
+    2:['dashboard','newwork','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','expenses','money','reports','team'],
+    3:['dashboard','newwork','quotes','approvals','jobs','requests','inbox','expenses'],
+    4:['dashboard','newwork','quotes','jobs','requests'],
     5:['dashboard','jobs','requests','inbox','properties','expenses'],
     6:['dashboard','quotes','jobs','properties','subs'],
     7:['dashboard','quotes','jobs','properties']
