@@ -34,7 +34,7 @@ h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; letter-s
 .who{font-size:12px; font-weight:700; color:var(--ink-soft); background:var(--cream-2); border:2px solid var(--ink); border-radius:99px; padding:5px 12px;}
 .navbar{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:24px; padding-bottom:18px; border-bottom:2px solid rgba(27,23,16,.1);}
 .navbar button{font-family:'Manrope',sans-serif; font-size:11.5px; font-weight:800; padding:8px 14px; border:2px solid var(--ink); border-radius:99px; background:var(--cream-2); cursor:pointer; color:var(--ink);}
-.navbar button.on{background:var(--coral); color:#fff; border-color:var(--coral);}
+.navbar button.on{background:var(--coral); color:var(--ink); border-color:var(--coral);}
 .navbar button.locked{opacity:.35; cursor:not-allowed;}
 /* Grouped nav (20 Aug redesign, matches the real system).
    Rules that keep it calm for someone in here 3-4h/day:
@@ -50,7 +50,7 @@ h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; letter-s
 .navgroup summary::-webkit-details-marker{display:none;}
 .navgroup summary::after{content:"▾"; font-size:8px; opacity:.55; transition:transform .18s ease;}
 .navgroup[open] > summary::after{transform:rotate(180deg);}
-.navgroup.ongroup > summary{background:var(--coral); color:#fff; border-color:var(--coral);}
+.navgroup.ongroup > summary{background:var(--coral); color:var(--ink); border-color:var(--coral);}
 .navgroup[open] > summary{background:var(--ink); color:var(--cream-2); border-color:var(--ink);}
 .navmenu{position:absolute; top:calc(100% + 8px); left:0; background:#fff; border:2px solid var(--ink); border-radius:16px; padding:7px; display:flex; flex-direction:column; gap:2px; min-width:172px; z-index:40; box-shadow:0 10px 28px rgba(27,23,16,.16), 0 2px 0 rgba(27,23,16,.08); animation:menuIn .16s ease both; transform-origin:top left;}
 @keyframes menuIn{from{opacity:0; transform:translateY(-5px) scale(.98);} to{opacity:1; transform:translateY(0) scale(1);}}
@@ -58,10 +58,10 @@ h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; letter-s
 .navmenu button:hover{background:var(--cream-2) !important; padding-left:18px;}
 .navmenu button.on{background:var(--coral) !important; color:#fff !important;}
 .navmenu button{display:flex; align-items:center; justify-content:space-between; gap:10px;}
-.navcount{display:inline-flex; align-items:center; justify-content:center; min-width:19px; height:19px; padding:0 6px; background:var(--coral); color:#fff; border-radius:99px; font-size:10.5px; font-weight:800; line-height:1;}
+.navcount{display:inline-flex; align-items:center; justify-content:center; min-width:19px; height:19px; padding:0 6px; background:var(--coral); color:var(--ink); border-radius:99px; font-size:10.5px; font-weight:800; line-height:1;}
 .navgroup summary .navcount{margin-left:2px;}
 .navgroup[open] > summary .navcount{background:#fff; color:var(--ink);}
-.navmenu button.on .navcount{background:#fff; color:var(--coral);}
+.navmenu button.on .navcount{background:#fff; color:var(--ink);}
 @media(max-width:640px){
   .navmenu{position:static; box-shadow:none; margin-top:6px; min-width:0; animation:menuInMobile .18s ease both;}
   @keyframes menuInMobile{from{opacity:0; transform:translateY(-4px);} to{opacity:1; transform:translateY(0);}}
@@ -85,7 +85,7 @@ h1.dt{font-size:23px; margin-bottom:18px;}
 .notif.static{cursor:default;}
 .notif.static:hover{transform:none; box-shadow:none;}
 .card .hint{font-size:10px; font-weight:700; color:var(--ink-soft); margin-top:4px;}
-.card.profit .v{color:var(--green);}
+.card.profit .v{color:var(--green-ink);}
 .sec-title{font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin:28px 0 12px; padding-top:18px; border-top:2px solid rgba(27,23,16,.08);}
 .sec-title:first-of-type{padding-top:0; border-top:none; margin-top:20px;}
 .summary-grid{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:12px; margin:6px 0 18px;}
@@ -96,7 +96,7 @@ h1.dt{font-size:23px; margin-bottom:18px;}
 .attn-title{font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--coral);}
 .sortbox{display:flex; align-items:center; gap:8px; font-size:11px; font-weight:800; color:var(--ink-soft);}
 .sortbox select{padding:7px 10px; border:2px solid var(--ink); border-radius:10px; background:var(--cream); font-family:'Manrope',sans-serif; font-weight:800; font-size:11px;}
-.attn-empty{font-size:12.5px; font-weight:700; color:var(--green);}
+.attn-empty{font-size:12.5px; font-weight:700; color:var(--green-ink);}
 .notif{border:2.5px solid var(--yellow); background:#fffaf0; border-radius:14px; padding:12px 14px; margin-bottom:8px;}
 .notif.orange{border-color:var(--coral); background:rgba(255,90,56,.06);}
 .notif.green{border-color:var(--green); background:rgba(18,166,107,.06);}
@@ -105,8 +105,8 @@ h1.dt{font-size:23px; margin-bottom:18px;}
 .notif .l{font-size:11px; font-weight:800; color:var(--ink-soft); text-transform:uppercase; margin-bottom:3px;}
 .notif .v{font-size:13.5px; font-weight:700;}
 .pill-btn{display:inline-block; font-size:11px; font-weight:800; padding:7px 13px; border:2px solid var(--ink); border-radius:99px; background:var(--cream); margin-top:6px; margin-right:6px; cursor:pointer;}
-.pill-btn.solid{background:var(--coral); color:#fff; border-color:var(--coral);}
-.pill-btn.green{background:var(--green); color:#fff; border-color:var(--green);}
+.pill-btn.solid{background:var(--coral); color:var(--ink); border-color:var(--coral);}
+.pill-btn.green{background:var(--green); color:var(--ink); border-color:var(--green);}
 .pill-btn.blue{background:var(--blue); color:#fff; border-color:var(--blue);}
 .pill-btn.ghost{background:transparent;}
 .segtabs{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px;}
@@ -123,9 +123,9 @@ td{padding:9px 12px; border-top:1.5px solid rgba(27,23,16,.12); font-weight:600;
 tr.link{cursor:pointer;}
 tr.link:hover td{background:rgba(255,90,56,.05);}
 .status{display:inline-block; font-size:10px; font-weight:800; padding:3px 9px; border-radius:99px; background:var(--cream-2); border:1.5px solid var(--ink); white-space:nowrap;}
-.status.needsattn{background:var(--coral); color:#fff; border-color:var(--coral);}
-.status.waiting{background:var(--yellow); border-color:var(--yellow);}
-.status.approved,.status.won,.status.paid,.status.matched{background:var(--green); color:#fff; border-color:var(--green);}
+.status.needsattn{background:var(--coral); color:var(--ink); border-color:var(--coral);}
+.status.waiting{background:var(--yellow); color:var(--ink); border-color:var(--yellow);}
+.status.approved,.status.won,.status.paid,.status.matched{background:var(--green); color:var(--ink); border-color:var(--green);}
 .status.declined,.status.lost{background:var(--ink-soft); color:#fff; border-color:var(--ink-soft);}
 .status.progress{background:var(--blue); color:#fff; border-color:var(--blue);}
 .kv{border:2.5px solid var(--ink); border-radius:16px; padding:14px 18px; background:var(--cream-2); margin-bottom:16px;}
@@ -166,8 +166,8 @@ footer{text-align:center; padding:26px 0 10px; font-size:12px; color:var(--ink-s
 .funnel-container{margin:20px 0; background:var(--cream-2); border:2px solid var(--ink); border-radius:14px; padding:16px; overflow-x:auto;}
 .funnel-row{display:flex; gap:8px; margin-bottom:12px; align-items:center;}
 .funnel-step{flex:1; min-width:140px; background:var(--cream); border:2.5px solid var(--ink); border-radius:10px; padding:12px; text-align:center; transition:all .12s ease;}
-.funnel-step.active{background:var(--coral); color:#fff; border-color:var(--coral);}
-.funnel-step.completed{background:var(--green); color:#fff; border-color:var(--green);}
+.funnel-step.active{background:var(--coral); color:var(--ink); border-color:var(--coral);}
+.funnel-step.completed{background:var(--green); color:var(--ink); border-color:var(--green);}
 .funnel-step.pending{background:var(--yellow); border-color:var(--yellow);}
 .funnel-step.skipped{opacity:.5; border-style:dashed;}
 .funnel-step .step-label{font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.04em; margin-bottom:4px; opacity:.8;}
@@ -209,6 +209,12 @@ footer{text-align:center; padding:26px 0 10px; font-size:12px; color:var(--ink-s
   --blue:#2563EB;
   --coral:#FF5A38;
   --green:#16A34A;
+  --green-ink:#137A38;      /* green as TEXT: #16A34A is 3.3:1 on white */
+  /* --orange was used 11 times and DEFINED NOWHERE. An undefined var makes the
+     whole declaration invalid, so "Past due", the waiting states and several
+     borders silently fell back to inherited colour. It is the warning hue. */
+  --orange:#F59E0B;
+  --orange-ink:#8A5A06;     /* amber as TEXT: #F59E0B is 2.15:1 on white */
   --yellow:#F59E0B;
   --violet:#7A4DFF;           /* re-declared here — see note below */
   --line:#E4E7EC;
@@ -250,7 +256,7 @@ th{background:var(--ink); color:#fff;}
 .pill-btn:active{transform:scale(.97);}
 .pill-btn.solid{background:var(--blue) !important; border-color:var(--blue) !important; color:#fff !important;}
 .pill-btn.blue{background:var(--blue) !important; border-color:var(--blue) !important; color:#fff !important;}
-.pill-btn.green{background:var(--green) !important; border-color:var(--green) !important; color:#fff !important;}
+.pill-btn.green{background:var(--green) !important; border-color:var(--green) !important; color:var(--ink) !important;}
 .searchbar button{background:var(--blue); border-color:var(--blue);}
 .roletoggle button{background:#fff; border:1.5px solid var(--line); box-shadow:var(--shadow); transition:transform .15s ease;}
 .roletoggle button:active{transform:scale(.97);}
@@ -315,8 +321,8 @@ input:focus,select:focus,textarea:focus{outline:none; border-color:var(--blue) !
 .ab-total .v{font-size:18px; font-weight:800;}
 .ab-btns{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;}
 .ab-btns .pill-btn{background:#fff; color:var(--ink); border-color:#fff;}
-.ab-btns .pill-btn.solid{background:var(--coral); color:#fff; border-color:var(--coral);}
-.ab-btns .pill-btn.green{background:var(--green); color:#fff; border-color:var(--green);}
+.ab-btns .pill-btn.solid{background:var(--coral); color:var(--ink); border-color:var(--coral);}
+.ab-btns .pill-btn.green{background:var(--green); color:var(--ink); border-color:var(--green);}
 .ab-btns .pill-btn.blue{background:var(--blue); color:#fff; border-color:var(--blue);}
 .actionbar-spacer{height:74px;}
 @media (hover:none){ .actionbar{padding:12px 14px;} .ab-btns .pill-btn{min-height:44px; display:inline-flex; align-items:center;} .sectab{min-height:40px; display:inline-flex; align-items:center;} }
@@ -361,11 +367,17 @@ body.showhelp .lockednote:not(.keep){display:block;}
 .navbar button.tile svg{width:22px; height:22px; stroke:var(--ink); fill:none; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; transition:stroke .2s ease;}
 .navbar button.tile:hover{transform:translateY(-3px); box-shadow:0 8px 22px rgba(16,24,40,.12);}
 .navbar button.tile:active{transform:scale(.94);}
-.navbar button.tile.on{background:var(--coral); border-color:var(--coral); color:#fff;}
-.navbar button.tile.on svg{stroke:#fff;}
+/* THE CORAL RULE, 3 Sep. #FF5A38 is a FILL and a BORDER. It is never text, and
+   text on it is never white. Measured: white on coral 3.10:1, coral on white
+   3.10:1, ink on coral 6.34:1. The tile label is 11px, so it needs 4.5:1 — the
+   white version failed, and darkening the tile instead would have put a second
+   coral millimetres from the wordmark and the count badges, which is the exact
+   colour drift this pass removed. One coral; the text changes, not the hue. */
+.navbar button.tile.on{background:var(--coral); border-color:var(--coral); color:var(--ink);}
+.navbar button.tile.on svg{stroke:var(--ink);}
 .navbar button.tile.locked{opacity:.32; cursor:not-allowed;}
 .navbar button.tile .navcount{position:absolute; top:-6px; right:-6px; box-shadow:0 2px 6px rgba(16,24,40,.25); animation:badgePop .35s cubic-bezier(.34,1.56,.64,1) .22s backwards;}
-.navbar button.tile.on .navcount{background:#fff; color:var(--coral);}
+.navbar button.tile.on .navcount{background:#fff; color:var(--ink);}
 @keyframes tileIn{from{opacity:0; transform:translateY(10px) scale(.95);} to{opacity:1; transform:translateY(0) scale(1);}}
 @keyframes badgePop{from{opacity:0; transform:scale(.3);} to{opacity:1; transform:scale(1);}}
 .navbar .tile:nth-child(1){animation-delay:.02s} .navbar .tile:nth-child(2){animation-delay:.05s}
@@ -417,7 +429,7 @@ html, body{height: auto; min-height: 0;}
 .stepbar .stp{flex:1 1 120px; padding:11px 12px; font-size:11px; font-weight:800; color:var(--ink-soft); border-right:1.5px solid var(--line); display:flex; align-items:center; gap:7px;}
 .stepbar .stp:last-child{border-right:none;}
 .stepbar .stp .n{width:20px; height:20px; border-radius:50%; background:var(--cream-2); display:inline-flex; align-items:center; justify-content:center; font-size:10px;}
-.stepbar .stp.done{color:var(--green);} .stepbar .stp.done .n{background:var(--green); color:#fff;}
+.stepbar .stp.done{color:var(--green);} .stepbar .stp.done .n{background:var(--green); color:var(--ink);}
 .stepbar .stp.now{color:#fff; background:var(--blue);} .stepbar .stp.now .n{background:rgba(255,255,255,.28); color:#fff;}
 .lineitem{background:#fff; border:1.5px solid var(--line); border-radius:16px; padding:13px 14px; margin-bottom:10px; box-shadow:var(--shadow); animation:tileIn .3s ease backwards;}
 .lineitem .li-top{display:flex; justify-content:space-between; gap:10px; align-items:flex-start; margin-bottom:9px;}
@@ -504,7 +516,7 @@ html, body{height: auto; min-height: 0;}
 .chainarrow{align-self:center; color:var(--ink-soft); font-weight:800;}
 @media (max-width:620px){ .chainarrow{display:none;} .chainstep{flex:1 1 100%;} }
 .assignsel{padding:6px 8px; border:2px solid var(--ink); border-radius:8px; font:inherit; font-weight:700; font-size:12.5px; background:#fff; cursor:pointer;}
-.rate-eg{font-size:13px; font-weight:800; color:var(--green); margin:-4px 0 10px; background:#f2f9f4; border:1.5px solid #cfe8d6; border-radius:10px; padding:8px 11px;}
+.rate-eg{font-size:13px; font-weight:800; color:var(--green-ink); margin:-4px 0 10px; background:#f2f9f4; border:1.5px solid #cfe8d6; border-radius:10px; padding:8px 11px;}
 .catrow{display:flex; justify-content:space-between; gap:10px; padding:11px 13px; background:#fff; border:1.5px solid var(--line); border-radius:14px; margin-bottom:8px; box-shadow:var(--shadow); cursor:pointer; transition:transform .15s ease;}
 .catrow:active{transform:scale(.99);}
 .catrow .nm{font-weight:800; font-size:13px;}
@@ -731,13 +743,30 @@ var state = {
       requestedBy:'April', dateRequested:'Aug 30', scope:'Sink hole repair — parking area, phase 2',
       stage:'needs_quoting', estimator:null, daysOld:2, items:[], docScope:[], exclusions:[] },
 
+    /* 3 Sep: these two were 'approved' and 'sent to client' with NO line items,
+       so the Quotes list read "Approved · not priced" and "Sent to client · not
+       priced". A quote cannot reach either stage without a price — the first
+       thing Mailin or Alex would take for a broken system. Priced now. Only
+       26-4613 stays empty, because "needs quoting" is exactly what unpriced is. */
     { id:4, num:'26-4610', property:'Cape House', mgmt:'Olympus Property',
       requestedBy:'Traci Taylor', dateRequested:'Aug 22', scope:'Gutter cleaning — 20 residential buildings',
-      stage:'approved', estimator:'Ana M.', daysOld:10, items:[], docScope:[], exclusions:[] },
+      stage:'approved', estimator:'Ana M.', daysOld:10,
+      jobType:'General / other', pricing:{profitPct:0.30, laborRate:28, salesTax:0.075, gcPct:0, contingencyPct:0.05},
+      versions:[{v:1, when:'Aug 22', by:'Ana M.', note:'First pricing'}],
+      items:[
+        {desc:'Gutter cleaning — 20 buildings, two storeys', qty:20, materials:0, laborHrs:1.5, sub:0, equip:0},
+        {desc:'Debris haul-off', qty:1, materials:0, laborHrs:0, sub:180, equip:0}
+      ], docScope:[], exclusions:[] },
 
     { id:5, num:'26-4609', property:'The Palms at Marsh Landing', mgmt:'—',
       requestedBy:'April', dateRequested:'Aug 20', scope:'Entrance gate repair',
-      stage:'sent', estimator:'Carlos R.', daysOld:12, items:[], docScope:[], exclusions:[] }
+      stage:'sent', estimator:'Carlos R.', daysOld:12,
+      jobType:'Welding / metal', pricing:{profitPct:0.40, laborRate:35, salesTax:0.075, gcPct:0, contingencyPct:0.05},
+      versions:[{v:1, when:'Aug 20', by:'Carlos R.', note:'First pricing'}],
+      items:[
+        {desc:'Gate operator arm — replace', qty:1, materials:640, laborHrs:4, sub:0, equip:0},
+        {desc:'Weld and re-hang gate leaf', qty:1, materials:85, laborHrs:3, sub:0, equip:0}
+      ], docScope:[], exclusions:[] }
   ],
 
   /* WORK THAT HAS COME IN BUT IS NOT A JOB YET — added 2 Sep 2026.
@@ -1144,6 +1173,11 @@ function stageColor(k){
   return k==='needs_quoting' ? 'var(--coral)' : k==='pricing' ? 'var(--yellow)'
        : k==='submitted' ? 'var(--blue)' : 'var(--green)';
 }
+/* Text ON a stage colour. Coral, amber and green are light enough that white
+   fails AA at 10px (3.10 / 2.15 / 3.30); ink on them is 6.34 / 9.16 / 5.97.
+   Blue is the one dark fill: white on blue is 5.17, ink on blue only 3.80.
+   So the ink/white choice follows the fill's luminance, not taste. */
+function stageInk(k){ return k==='submitted' ? '#fff' : 'var(--ink)'; }
 
 /* ---------- counts: only ACTIONABLE things, and only what this role may see ---------- */
 function navCounts(){
@@ -1372,7 +1406,7 @@ function renderQuotes(){
     h += '<div class="catrow" onclick="goto(\'quoteDetail\','+q.id+')">'+
          '<div><div class="nm">'+q.num+' — '+q.property+'</div>'+
          '<div class="sub">'+q.scope.slice(0,64)+(q.scope.length>64?'…':'')+'</div>'+
-         '<div class="sub" style="margin-top:4px;"><span class="status" style="background:'+stageColor(q.stage)+'; color:#fff;">'+stageLabel(q.stage)+'</span> · '+(q.estimator||'Unassigned')+' · '+q.daysOld+'d</div></div>'+
+         '<div class="sub" style="margin-top:4px;"><span class="status" style="background:'+stageColor(q.stage)+'; color:'+stageInk(q.stage)+';">'+stageLabel(q.stage)+'</span> · '+(q.estimator||'Unassigned')+' · '+q.daysOld+'d</div></div>'+
          '<div class="pr"><div class="y">'+(t.grand>0?money0(t.grand):'—')+'</div><div class="s">'+(t.grand>0?'priced':'not priced')+'</div></div></div>';
   });
   document.getElementById('pageBody').innerHTML=h;
@@ -1428,7 +1462,7 @@ function renderQuoteDetail(section){
      document page, then back to details to submit — with nothing joining them.
      Now the whole estimate is one page with three sections, section tabs that
      scroll, and a Save/Submit bar that stays put at the bottom. */
-  var h = '<h1 class="dt">'+q.num+' <span class="status" style="background:'+stageColor(q.stage)+'; color:#fff; font-size:11px; vertical-align:middle;">'+stageLabel(q.stage)+'</span></h1>';
+  var h = '<h1 class="dt">'+q.num+' <span class="status" style="background:'+stageColor(q.stage)+'; color:'+stageInk(q.stage)+'; font-size:11px; vertical-align:middle;">'+stageLabel(q.stage)+'</span></h1>';
 
   h += '<div class="stepbar">';
   var si = STAGES.findIndex(function(s){return s.k===q.stage;});
@@ -1876,7 +1910,7 @@ function renderPropertyDetail(){
   qs.forEach(function(q){
     h+='<div class="catrow" onclick="goto(\'quoteDetail\','+q.id+')"><div><div class="nm">'+q.num+'</div>'+
        '<div class="sub">'+q.scope.slice(0,52)+'…</div></div>'+
-       '<div class="pr"><span class="status" style="background:'+stageColor(q.stage)+'; color:#fff;">'+stageLabel(q.stage)+'</span></div></div>';
+       '<div class="pr"><span class="status" style="background:'+stageColor(q.stage)+'; color:'+stageInk(q.stage)+';">'+stageLabel(q.stage)+'</span></div></div>';
   });
   var js=state.jobs.filter(function(j){return j.client===p.name;});
   h+='<div class="sec-title">Jobs</div>';
@@ -2011,7 +2045,7 @@ function renderNewWork(){
        '<div class="pr">'+
        (w.stage==='meeting_set'
          ? '<div class="s"><span class="status" style="background:var(--blue); color:#fff;">meeting '+w.meeting+'</span></div>'
-         : '<div class="s"><span class="status" style="background:'+(late?'var(--coral); color:#fff;':'var(--yellow);')+'">'+
+         : '<div class="s"><span class="status" style="background:'+(late?'var(--coral)':'var(--yellow)')+'; color:var(--ink);">'+
            (late? w.days+' days waiting':'needs pricing')+'</span></div>')+
        '</div></div>';
   });
@@ -2080,12 +2114,12 @@ function renderJobDetail(){
   h+='<div class="sec-title">Where the money went</div>';
   var run=j.ygc;
   h+='<div class="lineitem"><div class="li-top"><div class="li-desc">Quoted price</div>'+
-     '<div class="li-tot" style="color:var(--green);">+'+money(j.ygc)+'</div></div>'+
+     '<div class="li-tot" style="color:var(--green-ink);">+'+money(j.ygc)+'</div></div>'+
      '<div class="sub" style="font-size:11.5px; color:var(--ink-soft);">'+j.desc+'</div></div>';
   d.costs.forEach(function(c){
     run+=c.a;
     h+='<div class="lineitem"><div class="li-top"><div class="li-desc">'+c.w+'</div>'+
-       '<div class="li-tot" style="color:var(--orange);">'+money(c.a)+'</div></div>'+
+       '<div class="li-tot" style="color:var(--orange-ink);">'+money(c.a)+'</div></div>'+
        '<div class="li-grid">'+
        '<div class="li-cell"><div class="k">What</div><div class="v" style="font-size:11.5px;">'+c.d+'</div></div>'+
        '<div class="li-cell"><div class="k">Status</div><div class="v" style="font-size:11.5px;">'+c.s+'</div></div>'+
@@ -2110,7 +2144,7 @@ function renderJobDetail(){
          '<div class="li-cell"><div class="k">Of</div><div class="v" style="font-size:11px;">'+c.basis+'</div></div>'+
          '<div class="li-cell"><div class="k">From</div><div class="v" style="font-size:11px;">'+c.source+'</div></div>'+
          '<div class="li-cell"><div class="k">Status</div><div class="v" style="font-size:11px; color:'+
-            (agreed?'var(--green)':'var(--orange)')+';">'+(agreed?'agreed '+c.when:'waiting — '+c.when)+'</div></div>'+
+            (agreed?'var(--green-ink)':'var(--orange-ink)')+';">'+(agreed?'agreed '+c.when:'waiting — '+c.when)+'</div></div>'+
          '</div>'+
          (c.wouldHaveBeen ? '<div class="sub" style="margin-top:8px;">Their usual rate would have been '+
             money(c.wouldHaveBeen)+' on this job. Reduced by agreement because of the size.</div>' : '')+
@@ -2133,7 +2167,7 @@ function renderJobDetail(){
        '<div><div class="nm">'+u.who+' — '+u.what+'</div>'+
        '<div class="sub">'+(u.note||'Not answered yet')+'</div></div>'+
        '<div class="pr"><div class="s">'+u.when+'</div>'+
-       '<div class="s" style="color:'+(waiting?'var(--orange)':'var(--green)')+'; font-weight:800;">'+
+       '<div class="s" style="color:'+(waiting?'var(--orange-ink)':'var(--green-ink)')+'; font-weight:800;">'+
        (waiting?'waiting':'answered')+'</div></div></div>';
   });
   h+='<div class="lockednote">If nobody answers in time the system asks again, and if they still do not, '+
@@ -2160,7 +2194,7 @@ function renderJobDetail(){
        '<div class="nm">'+f.name+'</div>'+
        '<div class="sub">'+f.from+' · '+f.when+(f.via?' · '+f.via:'')+'</div></div>'+
        '<div class="pr"><div class="s">'+f.size+'</div>'+
-       '<div class="s" style="color:'+(f.inDrive?'var(--green)':'var(--orange)')+'; font-weight:800;">'+
+       '<div class="s" style="color:'+(f.inDrive?'var(--green-ink)':'var(--orange-ink)')+'; font-weight:800;">'+
        (f.inDrive?'in Drive':'uploading…')+'</div></div></div>';
   });
   if(!(d.files||[]).length){
@@ -2178,7 +2212,7 @@ function renderRequests(){
     h+='<div class="catrow" onclick="goto(\'jobDetail\',\''+r.job+'\')"><div><div class="nm">'+r.title+'</div>'+
        '<div class="sub">'+r.type.replace('_',' ')+' · job '+r.job+' · by '+r.by+'</div></div>'+
        '<div class="pr">'+(r.amount?'<div class="y">'+money0(r.amount)+'</div>':'')+
-       '<div class="s"><span class="status" style="background:var(--yellow);">'+r.status+'</span> ›</div></div></div>';
+       '<div class="s"><span class="status" style="background:var(--yellow); color:var(--ink);">'+r.status+'</span> ›</div></div></div>';
   });
   document.getElementById('pageBody').innerHTML=h;
 }
@@ -2186,7 +2220,7 @@ function renderInbox(){
   var h='<h1 class="dt">Team inbox</h1><div class="lockednote keep">Nothing here becomes a record until someone confirms it.</div>';
   state.inbox.forEach(function(i){
     h+='<div class="catrow" onclick="say(\'This is what came in from the field. You pick which job it belongs to, then confirm — and only then does it become a real record on that job. Nothing files itself unless the sender put the job code in the message.\')"><div><div class="nm">'+i.cmd+' — '+i.from+'</div><div class="sub">'+i.note+'</div></div>'+
-       '<div class="pr"><div class="s">'+(i.confirmed?'confirmed':'<span class="status" style="background:var(--coral); color:#fff;">confirm</span>')+'</div></div></div>';
+       '<div class="pr"><div class="s">'+(i.confirmed?'confirmed':'<span class="status" style="background:var(--coral); color:var(--ink);">confirm</span>')+'</div></div></div>';
   });
   document.getElementById('pageBody').innerHTML=h;
 }
@@ -2219,7 +2253,7 @@ function renderMoney(){
        '<div class="hint">Across '+state.invoices.filter(function(i){return i.amount>i.paid;}).length+' invoices</div></div>'+
      '<div class="card"><div class="l">Promised for a date</div><div class="v">'+money0(promised)+'</div>'+
        '<div class="hint">Chased if the date passes</div></div>'+
-     '<div class="card"><div class="l">Past due</div><div class="v" style="color:var(--orange);">'+money0(late)+'</div>'+
+     '<div class="card"><div class="l">Past due</div><div class="v" style="color:var(--orange-ink);">'+money0(late)+'</div>'+
        '<div class="hint">Creekside, 20 days over</div></div>'+
      '</div>';
 
@@ -2229,7 +2263,7 @@ function renderMoney(){
     var label = bal<=0 ? 'paid in full'
               : i.paid>0 ? 'part paid — '+money0(bal)+' still owed'
               : 'nothing received yet';
-    var colour = bal<=0 ? 'var(--green)' : (i.no==='25-3588' ? 'var(--orange)' : 'var(--ink-soft)');
+    var colour = bal<=0 ? 'var(--green-ink)' : (i.no==='25-3588' ? 'var(--orange-ink)' : 'var(--ink-soft)');
     h+='<div class="catrow" onclick="openInvoice(\''+i.no+'\')">'+
        '<div><div class="nm">'+i.no+' — '+i.client+'</div>'+
        '<div class="sub">'+i.stage+' · due '+i.due+' · via '+i.portal+'</div>'+
@@ -2249,13 +2283,13 @@ function renderMoney(){
       h+='<div class="totrow"><span class="lbl">Invoice</span><span class="amt">'+money(inv.amount)+'</span></div>';
       inv.payments.forEach(function(p){
         h+='<div class="totrow"><span class="lbl">'+p.d+' · '+p.ref+' · logged by '+p.by+'</span>'+
-           '<span class="amt" style="color:var(--green);">+'+money(p.a)+'</span></div>';
+           '<span class="amt" style="color:var(--green-ink);">+'+money(p.a)+'</span></div>';
       });
       if(!inv.payments.length){
         h+='<div class="totrow"><span class="lbl">No payments yet</span><span class="amt">—</span></div>';
       }
       h+='<div class="totrow grand"><span class="lbl">Still owed</span>'+
-         '<span class="amt" style="color:'+(bal2>0?'var(--orange)':'var(--green)')+';">'+money(bal2)+'</span></div>';
+         '<span class="amt" style="color:'+(bal2>0?'var(--orange-ink)':'var(--green-ink)')+';">'+money(bal2)+'</span></div>';
       h+='</div>';
 
       if(inv.promise){
@@ -2468,7 +2502,7 @@ function renderTeam(){
        '<div class="sub">“'+c.asks+'”</div>'+
        '<div class="sub" style="margin-top:3px;">'+c.when+' · to '+c.to+' · answer within '+c.answerIn+'</div></div>'+
        '<div class="pr"><span class="pill-btn" style="font-size:11px; padding:6px 12px;'+
-       (c.on?' background:var(--green); color:#fff; border-color:var(--green);':'')+'" '+
+       (c.on?' background:var(--green); color:var(--ink); border-color:var(--green);':'')+'" '+
        'onclick="toggleCheckin('+c.id+')">'+(c.on?'On':'Off')+'</span></div></div>';
   });
 
