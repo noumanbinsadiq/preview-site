@@ -340,6 +340,30 @@ html, body{height: auto; min-height: 0;}
 .li-cell{background:var(--cream-2); border-radius:10px; padding:7px 9px;}
 .li-cell .k{font-size:9.5px; font-weight:800; text-transform:uppercase; color:var(--ink-soft); letter-spacing:.03em;}
 .li-cell .v{font-size:12.5px; font-weight:800; margin-top:1px;}
+/* An INPUT cell is white with a dark border — it looks like something you type
+   into. A RESULT cell keeps the grey tile — it looks like something the system
+   worked out. The difference has to be visible without reading. */
+.li-cell.in{background:#fff; border:2px solid var(--ink);}
+.li-cell.out{opacity:.92;}
+.in-wrap{display:flex; align-items:center; gap:3px; margin-top:2px;}
+.in-wrap input{width:100%; min-width:0; border:none; outline:none; background:transparent;
+  font:inherit; font-size:13.5px; font-weight:800; padding:2px 0;}
+.in-wrap .unit{font-size:11px; font-weight:800; color:var(--ink-soft); flex:0 0 auto;}
+.li-desc-in{flex:1; min-width:0; border:none; border-bottom:2px solid var(--ink); background:transparent;
+  font:inherit; font-weight:800; font-size:13.5px; padding:2px 0; outline:none;}
+.li-del{flex:0 0 auto; width:28px; height:28px; border-radius:50%; border:2px solid var(--line);
+  display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px;
+  color:var(--ink-soft); margin-left:6px;}
+.li-del:hover{border-color:var(--coral); color:var(--coral);}
+.pricing-grid{grid-template-columns:repeat(auto-fit,minmax(110px,1fr));}
+.preset-row{display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:12px;}
+.preset-lbl{font-size:11px; font-weight:800; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.04em;}
+.preset-btn{font-size:11.5px; padding:6px 11px;}
+.preset-btn.on{background:var(--ink); color:var(--cream); border-color:var(--ink);}
+.qp-details summary::-webkit-details-marker{display:none;}
+.qp-details summary::before{content:'▸ '; font-size:11px;}
+.qp-details[open] summary::before{content:'▾ ';}
+@media (hover:none){ .in-wrap input{min-height:40px; font-size:15px;} .li-del{width:44px; height:44px;} }
 .totrow{display:flex; justify-content:space-between; padding:9px 2px; font-size:13px; border-bottom:1px solid var(--line);}
 .totrow:last-child{border-bottom:none;}
 .totrow.grand{font-size:16px; font-weight:900; border-top:2px solid var(--ink); border-bottom:none; padding-top:12px; margin-top:4px;}
@@ -1331,76 +1355,167 @@ function pickUp(id){
 function renderBreakdown(){
   var q=state.quotes.find(function(x){return x.id===state.currentQuoteId;});
   if(!q){ goto('quotes'); return; }
-  // Must read THIS ESTIMATE's pricing, not company defaults — otherwise the
-  // panel shows one number while the maths uses another (caught 1 Sep).
   var d=pricingFor(q), t=quoteTotals(q);
+
+  // Editable while it is still being priced. Once submitted it is read-only —
+  // the "request a change" flow (plan piece B) is what reopens it.
+  var canEdit = (q.stage==='pricing' || q.stage==='needs_quoting');
+
   var h='<div class="back" onclick="goto(\'quoteDetail\','+q.id+')">&larr; Back to '+q.num+'</div>';
   h+='<h1 class="dt">Cost breakdown</h1>';
-  h+='<div class="lockednote">Same maths as your estimate sheet — laid out so it reads on a phone.</div>';
 
-  // Pricing is per-estimate, exactly as in their sheet: "the profit can change
-  // same as the labor rates — give the option to change it."
+  /* ---- THIS JOB'S PRICING — five numbers you type, not a preset you pick ----
+     Alex: "he wants it to be a textbox." The old dropdown bundled profit % and
+     labor rate into five presets, so 38% or $32/hr was impossible. Now each is a
+     plain number box. The preset survives as a shortcut that FILLS the boxes;
+     the boxes are the control. */
   h+='<div class="sec-title">This job\'s pricing</div>';
-  h+='<div class="formcard">'+
-     '<div class="field"><label>Job type — sets the starting profit and labor rate</label><select onchange="setJobType('+q.id+', this.value)">';
-  state.jobTypes.forEach(function(jt){
-    h+='<option value="'+jt.name+'"'+(q.jobType===jt.name?' selected':'')+'>'+jt.name+' — '+(jt.profitPct*100).toFixed(0)+'% profit, $'+jt.laborRate+'/hr</option>';
-  });
-  h+='</select></div>'+
-     '<div class="li-grid">'+
-     '<div class="li-cell"><div class="k">Profit %</div><div class="v">'+(d.profitPct*100).toFixed(0)+'%</div></div>'+
-     '<div class="li-cell"><div class="k">Labor rate</div><div class="v">$'+d.laborRate+'/hr</div></div>'+
-     '<div class="li-cell"><div class="k">Sales tax</div><div class="v">'+(d.salesTax*100).toFixed(1)+'%</div></div>'+
-     '<div class="li-cell"><div class="k">GC\'s %</div><div class="v">'+(d.gcPct*100).toFixed(0)+'%</div></div>'+
-     '<div class="li-cell"><div class="k">Contingency</div><div class="v">'+(d.contingencyPct*100).toFixed(0)+'%</div></div>'+
-     '</div>'+
-     '<div class="lockednote" style="margin:10px 0 0;">Every one of these can be changed on this job without touching any other. Sinkholes 40%, welding 40%, A/C 25% — your numbers, per job.</div>'+
+  h+='<div class="formcard">';
+  h+='<div class="li-grid pricing-grid">'+
+     pcell(q,'profitPct','Profit %',      (d.profitPct*100),      '%',   canEdit, 100)+
+     pcell(q,'laborRate','Labor rate',    d.laborRate,            '$/hr',canEdit, 1)+
+     pcell(q,'salesTax', 'Sales tax %',   (d.salesTax*100),       '%',   canEdit, 100)+
+     pcell(q,'gcPct',    'GC\'s %',       (d.gcPct*100),          '%',   canEdit, 100)+
+     pcell(q,'contingencyPct','Contingency %',(d.contingencyPct*100),'%',canEdit, 100)+
      '</div>';
+  if(canEdit){
+    h+='<div class="preset-row"><span class="preset-lbl">Fill from a preset:</span>';
+    state.jobTypes.forEach(function(jt){
+      h+='<span class="pill-btn preset-btn'+(q.jobType===jt.name?' on':'')+'" onclick="setJobType('+q.id+',\''+jt.name.replace(/'/g,"\\'")+'\')">'+jt.name+'</span>';
+    });
+    h+='</div>';
+  }
+  h+='</div>';
 
+  /* ---- LINE ITEMS — type into the decisions, the results follow ---- */
   h+='<div class="sec-title">Line items</div>';
-  if(!q.items.length){ h+='<div class="empty">No line items yet.</div>'; }
+  if(!q.items.length){ h+='<div class="empty">No line items yet. Add one below.</div>'; }
   q.items.forEach(function(it,i){
     var c=lineCalc(it,d);
-    h+='<div class="lineitem" style="animation-delay:'+(i*0.05)+'s">'+
-       '<div class="li-top"><div class="li-desc">'+(i+1)+'. '+it.desc+'</div><div class="li-tot">'+money(c.subtotal)+'</div></div>'+
+    h+='<div class="lineitem" id="li-'+i+'">'+
+       '<div class="li-top">'+
+       (canEdit
+         ? '<input class="li-desc-in" value="'+esc(it.desc)+'" placeholder="What is this line?" oninput="setLine('+q.id+','+i+',\'desc\',this.value)">'
+         : '<div class="li-desc">'+(i+1)+'. '+esc(it.desc)+'</div>')+
+       '<div class="li-tot" id="li-'+i+'-tot">'+money(c.subtotal)+'</div>'+
+       (canEdit?'<span class="li-del" title="Remove this line" onclick="delLine('+q.id+','+i+')">&times;</span>':'')+
+       '</div>'+
        '<div class="li-grid">'+
-       '<div class="li-cell"><div class="k">Qty</div><div class="v">'+it.qty+'</div></div>'+
-       (c.matsBase?'<div class="li-cell"><div class="k">Materials</div><div class="v">'+money(c.matsBase)+'</div></div>':'')+
-       (c.taxes?'<div class="li-cell"><div class="k">Tax</div><div class="v">'+money(c.taxes)+'</div></div>':'')+
-       (it.laborHrs?'<div class="li-cell"><div class="k">Labor hrs</div><div class="v">'+(it.laborHrs*(it.qty||1))+'</div></div>':'')+
-       (c.laborSubt?'<div class="li-cell"><div class="k">Labor $</div><div class="v">'+money(c.laborSubt)+'</div></div>':'')+
-       (c.subSubt?'<div class="li-cell"><div class="k">Sub</div><div class="v">'+money(c.subSubt)+'</div></div>':'')+
-       (c.equipSubt?'<div class="li-cell"><div class="k">Equipment</div><div class="v">'+money(c.equipSubt)+'</div></div>':'')+
-       '<div class="li-cell"><div class="k">Actual cost</div><div class="v">'+money(c.actual)+'</div></div>'+
-       '<div class="li-cell"><div class="k">Profit</div><div class="v">'+money(c.profit)+'</div></div>'+
-       '<div class="li-cell"><div class="k">Contingency</div><div class="v">'+money(c.conting)+'</div></div>'+
+       lcell(q,i,'qty',      'Qty',            it.qty,       '',  canEdit)+
+       lcell(q,i,'materials','Materials (each)',it.materials, '$', canEdit)+
+       lcell(q,i,'laborHrs', 'Labor hrs (each)',it.laborHrs,  '',  canEdit)+
+       lcell(q,i,'sub',      'Sub cost',       it.sub,       '$', canEdit)+
+       lcell(q,i,'equip',    'Equipment',      it.equip,     '$', canEdit)+
+       ocell('Materials total', money(c.matsBase), 'li-'+i+'-mats')+
+       ocell('Tax',             money(c.taxes),    'li-'+i+'-tax')+
+       ocell('Labor $',         money(c.laborSubt),'li-'+i+'-lab')+
+       ocell('Actual cost',     money(c.actual),   'li-'+i+'-act')+
+       ocell('Profit',          money(c.profit),   'li-'+i+'-prof')+
+       ocell('Contingency',     money(c.conting),  'li-'+i+'-cont')+
        '</div></div>';
   });
-  h+='<div style="display:flex; gap:8px; flex-wrap:wrap; margin:4px 0 16px;">'+
-     '<div class="pill-btn blue" onclick="alert(\'In the real system this opens the line-item form, with your price list ready to pick from.\')">+ Add line item</div>'+
-     '<div class="pill-btn" onclick="goto(\'catalog\')">Open price list</div></div>';
+  if(canEdit){
+    h+='<div style="display:flex; gap:8px; flex-wrap:wrap; margin:4px 0 16px;">'+
+       '<div class="pill-btn solid" onclick="addLine('+q.id+')">+ Add line item</div>'+
+       '<div class="pill-btn" onclick="goto(\'catalog\')">Pick from price list</div></div>';
+  }
 
-  h+='<div class="sec-title">Totals</div><div class="card">'+
-     '<div class="totrow"><span class="lbl">Total materials (inc. tax)</span><span class="amt">'+money(t.mats)+'</span></div>'+
-     '<div class="totrow"><span class="lbl">Total labor — '+t.laborHrs+' hrs</span><span class="amt">'+money(t.labor)+'</span></div>'+
+  /* ---- TOTALS — live ---- */
+  h+='<div class="sec-title">Totals</div><div class="card" id="totals-card">'+totalsRows(t)+'</div>';
+
+  /* ---- QUICK PRICE — tucked away, not a second pricing method on the page ---- */
+  h+='<details class="qp-details"><summary class="sec-title" style="cursor:pointer; margin-top:16px;">Quick price (the short version)</summary>';
+  var qp=quickPrice({materials:t.mats, sub:t.sub, laborHrs:t.laborHrs, laborRate:30, extra:t.equip});
+  h+='<div class="pricecard">'+
+     '<div class="pc"><div class="k">Break-even safe price</div><div class="v">'+money0(qp.breakEven)+'</div></div>'+
+     '<div class="pc rec"><div class="k">Recommended price</div><div class="v">'+money0(qp.recommended)+'</div></div>'+
+     '<div class="pc strong"><div class="k">Strong price</div><div class="v">'+money0(qp.strong)+'</div></div></div></details>';
+
+  h+='<div style="margin-top:16px;"><div class="pill-btn solid" onclick="goto(\'quoteDoc\','+q.id+')">Next: write the quote &rarr;</div></div>';
+  document.getElementById('pageBody').innerHTML=h;
+}
+
+// ---- the cells -------------------------------------------------------------
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+// A pricing input (per-job %, rate). `mult` converts stored fraction <-> shown %.
+function pcell(q, key, label, shown, unit, canEdit, mult){
+  var v = (Math.round(shown*100)/100);
+  if(!canEdit) return '<div class="li-cell out"><div class="k">'+label+'</div><div class="v">'+(unit==='$/hr'?'$'+v+'/hr':v+'%')+'</div></div>';
+  return '<div class="li-cell in"><div class="k">'+label+'</div>'+
+         '<div class="in-wrap">'+(unit==='$/hr'?'<span class="unit">$</span>':'')+
+         '<input type="number" step="any" inputmode="decimal" value="'+v+'" '+
+         'oninput="setPricing('+q.id+',\''+key+'\',this.value,'+mult+')">'+
+         (unit==='$/hr'?'<span class="unit">/hr</span>':'<span class="unit">%</span>')+'</div></div>';
+}
+// A line-item input.
+function lcell(q, i, key, label, val, unit, canEdit){
+  var v = (val==null?'':val);
+  if(!canEdit) return '<div class="li-cell out"><div class="k">'+label+'</div><div class="v">'+(unit==='$'?money(+v||0):v)+'</div></div>';
+  return '<div class="li-cell in"><div class="k">'+label+'</div>'+
+         '<div class="in-wrap">'+(unit==='$'?'<span class="unit">$</span>':'')+
+         '<input type="number" step="any" inputmode="decimal" value="'+v+'" '+
+         'oninput="setLine('+q.id+','+i+',\''+key+'\',this.value)"></div></div>';
+}
+// A computed result. Never an input — editing it would make it wrong the
+// moment anything it depends on changes.
+function ocell(label, text, id){
+  return '<div class="li-cell out" title="Worked out from the numbers you typed"><div class="k">'+label+'</div><div class="v" id="'+id+'">'+text+'</div></div>';
+}
+function totalsRows(t){
+  return '<div class="totrow"><span class="lbl">Total materials (inc. tax)</span><span class="amt">'+money(t.mats)+'</span></div>'+
+     '<div class="totrow"><span class="lbl">Total labor — '+(Math.round(t.laborHrs*100)/100)+' hrs</span><span class="amt">'+money(t.labor)+'</span></div>'+
      '<div class="totrow"><span class="lbl">Total subcontractor</span><span class="amt">'+money(t.sub)+'</span></div>'+
      '<div class="totrow"><span class="lbl">Total equipment</span><span class="amt">'+money(t.equip)+'</span></div>'+
      '<div class="totrow"><span class="lbl">Total cost</span><span class="amt">'+money(t.actual)+'</span></div>'+
      '<div class="totrow"><span class="lbl">Profit</span><span class="amt">'+money(t.profit)+'</span></div>'+
      '<div class="totrow"><span class="lbl">Contingency</span><span class="amt">'+money(t.conting)+'</span></div>'+
-     '<div class="totrow grand"><span>Grand total</span><span>'+money(t.grand)+'</span></div></div>';
+     '<div class="totrow grand"><span>Grand total</span><span>'+money(t.grand)+'</span></div>';
+}
 
-  h+='<div class="sec-title">Quick price — for the small jobs</div>'+
-     '<div class="lockednote">The short version from your workbook: direct cost, then overhead '+(d.qpOverhead*100)+'%, profit '+(d.qpProfit*100)+'%, contingency '+(d.contingencyPct*100)+'%.</div>';
-  var qp=quickPrice({materials:t.mats, sub:t.sub, laborHrs:t.laborHrs, laborRate:30, extra:t.equip});
-  h+='<div class="pricecard">'+
-     '<div class="pc"><div class="k">Break-even safe price</div><div class="v">'+money0(qp.breakEven)+'</div></div>'+
-     '<div class="pc rec"><div class="k">Recommended price</div><div class="v">'+money0(qp.recommended)+'</div></div>'+
-     '<div class="pc strong"><div class="k">Strong price</div><div class="v">'+money0(qp.strong)+'</div></div></div>'+
-     '<div class="lockednote">Your own rule, kept: don\'t go below the safe price; use the strong price on hard jobs.</div>';
-
-  h+='<div style="margin-top:16px;"><div class="pill-btn solid" onclick="goto(\'quoteDoc\','+q.id+')">Next: write the quote &rarr;</div></div>';
-  document.getElementById('pageBody').innerHTML=h;
+// ---- the setters: write state, then update ONLY the computed cells --------
+// A full render() on every keystroke would throw the cursor out of the box the
+// person is typing in. So the inputs stay put and only the results move.
+function setPricing(qid, key, raw, mult){
+  var q=state.quotes.find(function(x){return x.id===qid;}); if(!q) return;
+  var n=parseFloat(raw); if(isNaN(n)) n=0;
+  q.pricing=Object.assign({}, q.pricing||{}); q.pricing[key]= n/mult;
+  q.jobType=null;                                 // typed numbers, no longer "a preset"
+  refreshResults(q);
+}
+function setLine(qid, i, key, raw){
+  var q=state.quotes.find(function(x){return x.id===qid;}); if(!q||!q.items[i]) return;
+  if(key==='desc'){ q.items[i].desc=raw; return; }
+  var n=parseFloat(raw); q.items[i][key]= isNaN(n)?0:n;
+  refreshResults(q);
+}
+function refreshResults(q){
+  var d=pricingFor(q), t=quoteTotals(q);
+  q.items.forEach(function(it,i){
+    var c=lineCalc(it,d);
+    var set=function(id,val){ var el=document.getElementById(id); if(el) el.textContent=val; };
+    set('li-'+i+'-tot',  money(c.subtotal));
+    set('li-'+i+'-mats', money(c.matsBase));
+    set('li-'+i+'-tax',  money(c.taxes));
+    set('li-'+i+'-lab',  money(c.laborSubt));
+    set('li-'+i+'-act',  money(c.actual));
+    set('li-'+i+'-prof', money(c.profit));
+    set('li-'+i+'-cont', money(c.conting));
+  });
+  var tc=document.getElementById('totals-card'); if(tc) tc.innerHTML=totalsRows(t);
+  // the preset pills: none is "on" once a number has been typed by hand
+  document.querySelectorAll('.preset-btn').forEach(function(b){ b.classList.toggle('on', !!q.jobType && b.textContent===q.jobType); });
+}
+function addLine(qid){
+  var q=state.quotes.find(function(x){return x.id===qid;}); if(!q) return;
+  q.items.push({desc:'', qty:1, materials:0, laborHrs:0, sub:0, equip:0});
+  render();
+  var last=document.querySelector('#li-'+(q.items.length-1)+' .li-desc-in'); if(last) last.focus();
+}
+function delLine(qid, i){
+  var q=state.quotes.find(function(x){return x.id===qid;}); if(!q) return;
+  q.items.splice(i,1);
+  render();
 }
 
 /* ---------- QUOTE DOCUMENT — their exact client-facing format ---------- */
@@ -1409,6 +1524,8 @@ function setJobType(id, name){
   var jt=state.jobTypes.find(function(x){return x.name===name;});
   if(!q||!jt) return;
   q.jobType=name;
+  // Fills the profit and labor-rate BOXES. The person can type over either
+  // straight after — the preset is a shortcut, never a lock.
   q.pricing=Object.assign({}, q.pricing||{}, {profitPct:jt.profitPct, laborRate:jt.laborRate});
   render();
 }
