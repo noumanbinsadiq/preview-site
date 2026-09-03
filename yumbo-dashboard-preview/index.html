@@ -270,6 +270,10 @@ input:focus,select:focus,textarea:focus{outline:none; border-color:var(--blue) !
 /* ---- TILE NAV (icon grid launcher, the reference's signature) ---- */
 .navbar{display:grid; grid-template-columns:repeat(auto-fill, minmax(96px,1fr)); gap:10px; border-bottom:none; padding-bottom:6px; margin-bottom:20px;}
 .navbar.navhidden{display:none;}
+/* When the nav is grouped, the headers and rows are blocks, not tiles. Leaving
+   the tile grid on made each header a 96px cell and stacked every tile in one
+   column (Boss's screenshot, 3 Sep). */
+.navbar.grouped{display:block;}
 /* One-screen estimate: section tabs, anchors, and the bar that stays put. */
 .sectabs{display:flex; gap:6px; flex-wrap:wrap; margin:12px 0 4px;}
 .sectab{font-size:12px; font-weight:800; padding:7px 12px; border-radius:999px; border:1.5px solid var(--line); background:#fff; cursor:pointer;}
@@ -294,6 +298,7 @@ input:focus,select:focus,textarea:focus{outline:none; border-color:var(--blue) !
 .navgroup.open{color:var(--ink);}
 .navrow{display:grid; grid-template-columns:repeat(auto-fill,minmax(108px,1fr)); gap:10px; margin-bottom:6px;}
 .navrow .tile{margin:0;}
+@media(max-width:640px){ .navrow{grid-template-columns:repeat(3,1fr); gap:8px;} .navgroup{min-height:44px; padding:8px 4px;} }
 /* reference strip + price picker inside costing */
 .refstrip{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:0 0 12px;}
 .refstrip .k{font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft);}
@@ -1215,10 +1220,14 @@ function buildNav(){
   });
   var groupsShown=NAV_GROUPS.filter(function(g){ return g.tabs.some(function(t){ return mine.indexOf(t)!==-1; }); });
   var flat = groupsShown.length<=1 || mine.length<=7;   // a short list needs no folding
+  nav.classList.toggle('grouped', !flat);
+  // Home shows everything (plan C: the grid expands on Home). Inside a section,
+  // only that section's group is open unless the person opened another.
+  var onHome = state.page==='dashboard';
 
   groupsShown.forEach(function(g){
     var tabs=g.tabs.filter(function(t){ return mine.indexOf(t)!==-1; });
-    var open = flat || state.navOpen[g.k] || tabs.indexOf(state.page)!==-1;
+    var open = flat || onHome || state.navOpen[g.k] || tabs.indexOf(state.page)!==-1;
     var n=0; tabs.forEach(function(t){ n+= (counts[t]||0); });
     if(!flat){
       var head=document.createElement('div');
