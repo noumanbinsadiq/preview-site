@@ -131,8 +131,8 @@ tr.link:hover td{background:rgba(255,90,56,.05);}
 .kv{border:2.5px solid var(--ink); border-radius:16px; padding:14px 18px; background:var(--cream-2); margin-bottom:16px;}
 .kv .row{display:flex; justify-content:space-between; padding:7px 0; border-bottom:1.5px solid rgba(27,23,16,.1); font-size:13px; gap:12px;}
 .kv .row:last-child{border-bottom:none;}
-.kv .row span:first-child{color:var(--ink-soft); font-weight:700; flex-shrink:0;}
-.kv .row span:last-child{font-weight:800; text-align:right;}
+.kv .row > span:first-child{color:var(--ink-soft); font-weight:700; flex-shrink:0;}
+.kv .row > span:last-child{font-weight:800; text-align:right;}
 .field{margin-bottom:12px;}
 .field label{display:block; font-size:11.5px; font-weight:800; color:var(--ink-soft); margin-bottom:4px;}
 .field input,.field select,.field textarea{width:100%; padding:9px 11px; border:2px solid var(--ink); border-radius:10px; font-size:13px; font-family:'Manrope',sans-serif; background:var(--cream);}
@@ -327,8 +327,19 @@ input:focus,select:focus,textarea:focus{outline:none; border-color:var(--blue) !
 .actionbar-spacer{height:74px;}
 @media (hover:none){ .actionbar{padding:12px 14px;} .ab-btns .pill-btn{min-height:44px; display:inline-flex; align-items:center;} .sectab{min-height:40px; display:inline-flex; align-items:center;} }
 /* Grouped nav */
-.navgroup{display:flex; align-items:center; gap:8px; font-size:11px; font-weight:800; text-transform:uppercase;
-  letter-spacing:.07em; color:var(--ink-soft); padding:10px 4px 6px; cursor:pointer; user-select:none;}
+/* It is a <button> now, so reset the browser chrome and opt out of the tile
+   hover-lift that .navbar > button otherwise applies to it. */
+/* Must be .navbar button.navgroup, not .navgroup: `.navbar button` (line 34)
+   carries a pill border and beats a bare class on specificity, so the plain
+   text headers rendered as bordered pills — a look they never had. */
+.navbar button.navgroup{display:flex; align-items:center; gap:8px; width:100%; text-align:left;
+  background:none; border:none; border-radius:0; box-shadow:none;
+  font-family:'Manrope',sans-serif; font-size:11px; font-weight:800;
+  text-transform:uppercase; letter-spacing:.07em; color:var(--ink-soft);
+  padding:10px 4px 6px; cursor:pointer; user-select:none;}
+.navbar > button.navgroup:hover{transform:none; box-shadow:none; color:var(--ink);}
+.navgroup:focus-visible{outline:2px solid var(--blue); outline-offset:2px; border-radius:8px;}
+.navgroup .chev{transition:transform .18s ease;}
 .navgroup .chev{margin-left:auto; font-size:12px;}
 .navgroup.open{color:var(--ink);}
 .navrow{display:grid; grid-template-columns:repeat(auto-fill,minmax(108px,1fr)); gap:10px; margin-bottom:6px;}
@@ -519,6 +530,13 @@ html, body{height: auto; min-height: 0;}
 .rate-eg{font-size:13px; font-weight:800; color:var(--green-ink); margin:-4px 0 10px; background:#f2f9f4; border:1.5px solid #cfe8d6; border-radius:10px; padding:8px 11px;}
 .catrow{display:flex; justify-content:space-between; gap:10px; padding:11px 13px; background:#fff; border:1.5px solid var(--line); border-radius:14px; margin-bottom:8px; box-shadow:var(--shadow); cursor:pointer; transition:transform .15s ease;}
 .catrow:active{transform:scale(.99);}
+/* A row that is a reference line or a setting readout, not a record you can
+   open. It keeps the card look so the page still reads as one family, and drops
+   every affordance that promises a tap: no pointer, no press, no hover lift.
+   3 Sep — 20-odd rows looked identical to openable ones and did nothing. */
+.catrow.static{cursor:default; background:var(--cream-2); box-shadow:none; border-style:dashed;}
+.catrow.static:active{transform:none;}
+.catrow.static:hover{border-color:var(--line);}
 .catrow .nm{font-weight:800; font-size:13px;}
 .catrow .sub{font-size:11.5px; color:var(--ink-soft); margin-top:2px;}
 .catrow .pr{text-align:right; white-space:nowrap;}
@@ -784,8 +802,8 @@ var state = {
   ],
 
   jobs: [
-    {num:'25-3620', code:'3620-K7M', desc:'Timberwood Trace — Sink Hole', client:'Timberwood Trace', ygc:16913, sub:'Alay (Ocana)', status:'in_progress', pm:'Rafa', wtn:'79625855'},
-    {num:'25-3588', code:'3588-M2P', desc:'Drain install bldg 9 garages', client:'Creekside', ygc:7807.65, sub:'Joselino', status:'in_progress', pm:'Rafa', wtn:'—'},
+    {num:'25-3620', code:'3620-K7M', desc:'Timberwood Trace — Sink Hole', client:'Timberwood Trace', ygc:16913, sub:'Alay — Ocana Construction', status:'in_progress', pm:'Rafa', wtn:'79625855'},
+    {num:'25-3588', code:'3588-M2P', desc:'Drain install bldg 9 garages', client:'Creekside', ygc:7807.65, sub:'Joselino — Campone', status:'in_progress', pm:'Rafa', wtn:'—'},
     {num:'25-3595', code:'3595-DHK', desc:'Tournament Plaza — Ponte Vedra', client:'NEFL', ygc:30000, sub:'RD & Sons Paving', status:'waiting', pm:'Rafa', wtn:'—'},
     {num:'25-3559', code:'3559-THD', desc:'Garage repair — G407', client:'Olympus Preserve at Town Center', ygc:1150, sub:'Overhead Doors', status:'done', pm:'Rafa', wtn:'79560204'}
   ],
@@ -834,13 +852,20 @@ var state = {
     {name:'Martin Marietta', what:'Limestone road base', where:'Jacksonville'}
   ],
 
+  /* No stored 'active jobs' count — it is COUNTED from the jobs list by
+     activeJobsFor(). A stored copy went stale and printed "Active jobs 2"
+     directly above "No jobs currently assigned to them". */
   subs: [
-    {name:'Rafa — RMC Solutions', trade:'Welding, concrete, asphalt', active:2},
-    {name:'Joselino — Campone', trade:'Stucco, fascia, general work', active:1},
-    {name:'Alay — Ocana Construction', trade:'Concrete / asphalt', active:1},
-    {name:'Omar — Omar Solutions', trade:'Electrical, garage motors', active:0},
-    {name:'Hector — Ulloa Group', trade:'Roofing', active:0},
-    {name:'Davidson', trade:'Metal fabrication & welding', active:1}
+    {name:'Rafa — RMC Solutions', trade:'Welding, concrete, asphalt'},
+    {name:'Joselino — Campone', trade:'Stucco, fascia, general work'},
+    {name:'Alay — Ocana Construction', trade:'Concrete / asphalt'},
+    {name:'Omar — Omar Solutions', trade:'Electrical, garage motors'},
+    {name:'Hector — Ulloa Group', trade:'Roofing'},
+    {name:'Davidson', trade:'Metal fabrication & welding'},
+    /* 3 Sep: jobs named these two as their subcontractor and neither existed in
+       this list — a broken reference. In the real build that is a foreign key. */
+    {name:'RD & Sons Paving', trade:'Asphalt paving, striping'},
+    {name:'Overhead Doors', trade:'Garage doors, operators'}
   ],
 
   requests: [
@@ -854,7 +879,20 @@ var state = {
     {id:1, cmd:'/update', from:'Rafa', note:'Sink hole dug out, pouring tomorrow', confirmed:false},
     {id:2, cmd:'/payment', from:'Ana M.', note:'Check received — Cape House', confirmed:false}
   ],
-  expenses: [ {what:'Fuel — crew truck', amount:180, approved:false}, {what:'Equipment rental — mini ex', amount:420, approved:false} ],
+  /* Every expense carries WHO it was paid to, WHICH job it belongs to and WHEN.
+     3 Sep: they carried only a description and an amount, so a supplier record
+     had nothing to show and an expense could not be traced to a job — which
+     contradicts the rule the real build follows, that every cost is tagged to
+     the record it belongs to. Material purchases name the supplier, so the
+     Suppliers screen and the Expenses screen read the same ledger. */
+  expenses: [
+    {what:'Fuel — crew truck',          who:'Fuel card',              job:'25-3620', when:'Sep 1',  amount:180, approved:false, note:'Receipt photo sent in by Rafa'},
+    {what:'Equipment rental — mini ex', who:'Coastal Construction Products', job:'25-3620', when:'Aug 30', amount:420, approved:false, note:'Two days, sink hole dig-out'},
+    {what:'Aluminum stock — fence panels', who:'Town & County',       job:'25-3559', when:'Aug 27', amount:1260, approved:true,  note:'Against quote 26-4611'},
+    {what:'Steel clips + precast steps',   who:'Chancy Metals',       job:'25-3588', when:'Aug 26', amount:512,  approved:true,  note:''},
+    {what:'Limestone road base — 4 tons',  who:'Martin Marietta',     job:'25-3595', when:'Aug 25', amount:640,  approved:true,  note:'Extra base, change order pending'},
+    {what:'Sika Crete 211+',               who:'Coastal Construction Products', job:'25-3595', when:'Aug 22', amount:295, approved:true, note:''}
+  ],
 
   /* Team is real data now, not a fixed list. Mailin asked (1 Sep) for the
      ability to add MORE estimators, project managers and sales people — so
@@ -1077,7 +1115,9 @@ var state = {
     'Alay — Ocana Construction':{ein:'87-••••2210',einFull:'87-6612210', w9:true,  payVia:'ACH — ends 8830',    payFull:'ACH · ••••8830'},
     'Omar — Omar Solutions':  {ein:'82-••••5540', einFull:'82-7715540', w9:true,  payVia:'Zelle — ends 7712',  payFull:'Zelle · ••••7712'},
     'Hector — Ulloa Group':   {ein:'91-••••0087', einFull:'91-4450087', w9:true,  payVia:'Check',              payFull:'Check by mail'},
-    'Davidson':               {ein:'59-••••3320', einFull:'59-8813320', w9:true,  payVia:'ACH — ends 1194',    payFull:'ACH · ••••1194'}
+    'Davidson':               {ein:'59-••••3320', einFull:'59-8813320', w9:true,  payVia:'ACH — ends 1194',    payFull:'ACH · ••••1194'},
+    'RD & Sons Paving':       {ein:'—',           einFull:'—',          w9:false, payVia:'Check',              payFull:'Check by mail'},
+    'Overhead Doors':         {ein:'46-••••7702', einFull:'46-3317702', w9:true,  payVia:'Check',              payFull:'Check by mail'}
   },
 
   /* Major issues escalate to the owner. Everything else stays with the
@@ -1207,11 +1247,14 @@ function navCounts(){
 }
 
 function goto(page, id){
-  if(MODULES[state.role].indexOf(page)===-1 && ['quoteDetail','breakdown','quoteDoc','propertyDetail','jobDetail','search'].indexOf(page)===-1) return;
+  if(MODULES[state.role].indexOf(page)===-1 && ['quoteDetail','breakdown','quoteDoc','propertyDetail','jobDetail','search','subDetail','vendorDetail','expenseDetail'].indexOf(page)===-1) return;
   state.page = page;
   if(page==='jobDetail' && id){ state.currentJobNum = id; }
   if(page==='quoteDetail'||page==='breakdown'||page==='quoteDoc'){ if(id) state.currentQuoteId=id; }
   if(page==='propertyDetail' && id){ state.currentPropertyId=id; }
+  if(page==='subDetail'     && id!==undefined){ state.currentSubId=id; }
+  if(page==='vendorDetail'  && id!==undefined){ state.currentVendorId=id; }
+  if(page==='expenseDetail' && id!==undefined){ state.currentExpenseId=id; }
   render();
   // Land on the CONTENT you just asked for, not at the top of the page.
   // scrollTo({top:0}) put you back above the role bar, the search box and the
@@ -1274,31 +1317,51 @@ var NAV_GROUPS=[
   {k:'money',  l:'Money',    tabs:['expenses','money','banking','reports']},
   {k:'setup',  l:'Settings', tabs:['team']}
 ];
-state.navOpen = state.navOpen || {work:true};
-function toggleNavGroup(k){ state.navOpen[k]=!state.navOpen[k]; buildNav(); }
+state.navOpen = state.navOpen || {};   /* undefined = "use the default" */
+/* A group is open by DEFAULT on Home, and when it holds the page you are on.
+   3 Sep: those two conditions were OR-ed straight into the open test, so they
+   overrode the stored state — on Home every chevron did nothing, and the
+   current section's chevron did nothing either. Now the default only applies
+   until you touch that group; after that your choice wins and persists. */
+function groupDefaultOpen(tabs){ return state.page==='dashboard' || tabs.indexOf(state.page)!==-1; }
+function groupIsOpen(k, tabs){ var v=state.navOpen[k]; return v===undefined ? groupDefaultOpen(tabs) : v; }
+function toggleNavGroup(k){
+  var g=NAV_GROUPS.filter(function(x){return x.k===k;})[0]; if(!g) return;
+  var mine=visibleTabs();
+  var tabs=g.tabs.filter(function(t){ return mine.indexOf(t)!==-1; });
+  state.navOpen[k] = !groupIsOpen(k, tabs);
+  buildNav();
+}
+/* The tabs this person can actually see — one definition, used by buildNav and
+   by the toggle, so they can never disagree about what a group contains. */
+function visibleTabs(){
+  var who=(state.team||[]).filter(function(t){ return t.role===state.role && t.active; })[0];
+  return MODULES[state.role].filter(function(p){
+    if(!who || !state.memberTabs || !state.memberTabs[who.id]) return true;
+    return state.memberTabs[who.id].indexOf(p)!==-1;
+  });
+}
 
 function buildNav(){
   var nav=document.getElementById('navbar'); nav.innerHTML='';
   var counts=navCounts();
-  var who=(state.team||[]).filter(function(t){ return t.role===state.role && t.active; })[0];
-  var mine=MODULES[state.role].filter(function(p){
-    if(!who || !state.memberTabs || !state.memberTabs[who.id]) return true;
-    return state.memberTabs[who.id].indexOf(p)!==-1;
-  });
+  var mine=visibleTabs();
   var groupsShown=NAV_GROUPS.filter(function(g){ return g.tabs.some(function(t){ return mine.indexOf(t)!==-1; }); });
   var flat = groupsShown.length<=1 || mine.length<=7;   // a short list needs no folding
   nav.classList.toggle('grouped', !flat);
-  // Home shows everything (plan C: the grid expands on Home). Inside a section,
-  // only that section's group is open unless the person opened another.
-  var onHome = state.page==='dashboard';
 
   groupsShown.forEach(function(g){
     var tabs=g.tabs.filter(function(t){ return mine.indexOf(t)!==-1; });
-    var open = flat || onHome || state.navOpen[g.k] || tabs.indexOf(state.page)!==-1;
+    var open = flat || groupIsOpen(g.k, tabs);
     var n=0; tabs.forEach(function(t){ n+= (counts[t]||0); });
     if(!flat){
-      var head=document.createElement('div');
+      // A real <button> with aria-expanded: it announces its own state, takes
+      // the 44px touch rule, and is keyboard-reachable. It was a <div>.
+      var head=document.createElement('button');
+      head.type='button';
       head.className='navgroup'+(open?' open':'');
+      head.setAttribute('aria-expanded', open ? 'true' : 'false');
+      head.setAttribute('aria-label', (open?'Collapse ':'Expand ')+g.l);
       head.innerHTML='<span>'+g.l+'</span>'+(n>0&&!open?'<span class="navcount">'+n+'</span>':'')+'<span class="chev">'+(open?'▾':'▸')+'</span>';
       head.onclick=function(){ toggleNavGroup(g.k); };
       nav.appendChild(head);
@@ -1513,7 +1576,7 @@ function renderQuoteDetail(section){
   if(q.versions && q.versions.length){
     h += '<div id="sec-history" class="sec-anchor"></div><div class="sec-title">History</div>';
     q.versions.slice().reverse().forEach(function(v){
-      h += '<div class="catrow" style="cursor:default;"><div><div class="nm">Version '+v.v+(v.v===q.versions.length?' — current':'')+'</div>'+
+      h += '<div class="catrow static"><div><div class="nm">Version '+v.v+(v.v===q.versions.length?' — current':'')+'</div>'+
            '<div class="sub">'+v.note+'</div></div>'+
            '<div class="pr"><div class="s">'+v.by+'<br>'+v.when+'</div></div></div>';
     });
@@ -1700,9 +1763,9 @@ function costingSection(q, canEdit){
   h+='<details class="qp-details"><summary class="sec-title" style="cursor:pointer; margin-top:16px;">Quick price (the short version)</summary>';
   var qp=quickPrice({materials:t.mats, sub:t.sub, laborHrs:t.laborHrs, laborRate:30, extra:t.equip});
   h+='<div class="pricecard">'+
-     '<div class="pc"><div class="k">Break-even safe price</div><div class="v">'+money0(qp.breakEven)+'</div></div>'+
-     '<div class="pc rec"><div class="k">Recommended price</div><div class="v">'+money0(qp.recommended)+'</div></div>'+
-     '<div class="pc strong"><div class="k">Strong price</div><div class="v">'+money0(qp.strong)+'</div></div></div></details>';
+     '<div class="pc"><div class="k">Break-even safe price</span><span>'+money0(qp.breakEven)+'</div></div>'+
+     '<div class="pc rec"><div class="k">Recommended price</span><span>'+money0(qp.recommended)+'</div></div>'+
+     '<div class="pc strong"><div class="k">Strong price</span><span>'+money0(qp.strong)+'</div></div></div></details>';
 
   return h;
 }
@@ -1715,7 +1778,7 @@ function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,
 // A pricing input (per-job %, rate). `mult` converts stored fraction <-> shown %.
 function pcell(q, key, label, shown, unit, canEdit, mult){
   var v = (Math.round(shown*100)/100);
-  if(!canEdit) return '<div class="li-cell out"><div class="k">'+label+'</div><div class="v">'+(unit==='$/hr'?'$'+v+'/hr':v+'%')+'</div></div>';
+  if(!canEdit) return '<div class="li-cell out"><div class="k">'+label+'</span><span>'+(unit==='$/hr'?'$'+v+'/hr':v+'%')+'</div></div>';
   return '<div class="li-cell in"><div class="k">'+label+'</div>'+
          '<div class="in-wrap">'+(unit==='$/hr'?'<span class="unit">$</span>':'')+
          '<input type="number" step="any" inputmode="decimal" value="'+v+'" '+
@@ -1725,7 +1788,7 @@ function pcell(q, key, label, shown, unit, canEdit, mult){
 // A line-item input.
 function lcell(q, i, key, label, val, unit, canEdit){
   var v = (val==null?'':val);
-  if(!canEdit) return '<div class="li-cell out"><div class="k">'+label+'</div><div class="v">'+(unit==='$'?money(+v||0):v)+'</div></div>';
+  if(!canEdit) return '<div class="li-cell out"><div class="k">'+label+'</span><span>'+(unit==='$'?money(+v||0):v)+'</div></div>';
   return '<div class="li-cell in"><div class="k">'+label+'</div>'+
          '<div class="in-wrap">'+(unit==='$'?'<span class="unit">$</span>':'')+
          '<input type="number" step="any" inputmode="decimal" value="'+v+'" '+
@@ -1940,7 +2003,7 @@ function renderStepSizes(){
   var list=state.stepSizes.filter(function(x){ return !f || x.property.toLowerCase().indexOf(f)!==-1; });
   if(!list.length) h+='<div class="empty">No property matches that.</div>';
   list.forEach(function(x){
-    h+='<div class="catrow" style="cursor:default;"><div><div class="nm">'+x.property+'</div></div>'+
+    h+='<div class="catrow static"><div><div class="nm">'+x.property+'</div></div>'+
        '<div class="pr"><div class="y">'+x.size+'</div><div class="s">step height</div></div></div>';
   });
   document.getElementById('pageBody').innerHTML=h;
@@ -1950,29 +2013,111 @@ function renderStepSizes(){
 
 function renderVendors(){
   var h='<h1 class="dt">Suppliers</h1><div class="lockednote">Where you buy — from your materials directions sheet.</div>';
-  state.suppliers.forEach(function(s){
-    h+='<div class="catrow" style="cursor:default;"><div><div class="nm">'+s.name+'</div><div class="sub">'+s.what+'</div>'+
-       '<div class="sub" style="margin-top:3px;">'+s.where+'</div></div></div>';
+  state.suppliers.forEach(function(s,i){
+    h+='<div class="catrow" onclick="goto(\'vendorDetail\','+i+')"><div><div class="nm">'+s.name+'</div><div class="sub">'+s.what+'</div>'+
+       '<div class="sub" style="margin-top:3px;">'+s.where+'</div></div>'+
+       '<div class="pr"><div class="s">open ›</div></div></div>';
   });
   document.getElementById('pageBody').innerHTML=h;
+}
+
+/* Supplier record. Same components as every other detail screen — kv rows and
+   catrows — so nothing new appears in the design. What a supplier IS, here, is
+   a place you buy from and the material lines that came from it. */
+function renderVendorDetail(){
+  var s=state.suppliers[state.currentVendorId]; if(!s){ goto('vendors'); return; }
+  var h='<h1 class="dt">'+s.name+'</h1>';
+  h+='<div class="kv">'+
+     '<div class="row"><span>What they supply</span><span>'+s.what+'</span></div>'+
+     '<div class="row"><span>Where</span><span>'+s.where+'</span></div>'+
+     '</div>';
+  var lines=materialLinesFor(s.name);
+  h+='<div class="sec-title">Material bought from them</div>';
+  if(!lines.length){
+    h+='<div class="empty">Nothing recorded against this supplier yet. Material costs tagged to a job will appear here.</div>';
+  } else {
+    var tot=0;
+    lines.forEach(function(l){ tot+=l.amount;
+      h+='<div class="catrow" onclick="goto(\'jobDetail\',\''+l.job+'\')"><div><div class="nm">'+l.what+'</div>'+
+         '<div class="sub">job '+l.job+' · '+l.when+'</div></div>'+
+         '<div class="pr"><div class="y">'+money(l.amount)+'</div><div class="s">open the job ›</div></div></div>';
+    });
+    h+='<div class="kv"><div class="row"><span>Total from this supplier</span><span>'+money(tot)+'</span></div></div>';
+  }
+  document.getElementById('pageBody').innerHTML=h;
+}
+/* Material spend tagged to a supplier. Reads the same expense ledger the
+   Expenses screen reads, so the two can never disagree. */
+function materialLinesFor(name){
+  return (state.expenses||[]).filter(function(e){ return e.who===name; })
+    .map(function(e){ return {what:e.what, job:e.job, when:e.when, amount:Math.abs(e.amount)}; });
 }
 function renderSubs(){
   var h='<h1 class="dt">Subcontractors</h1>';
   h+='<div class="lockednote">'+(isOwner()
       ? 'You can see tax IDs and how each sub gets paid. Nobody else on the team can.'
       : 'Tax IDs and payment details are owner-only — you see who they are and what they do.')+'</div>';
-  state.subs.forEach(function(sb){
+  state.subs.forEach(function(sb,i){
     var sen=state.partySensitive[sb.name]||{};
-    h+='<div class="catrow" style="cursor:default;"><div><div class="nm">'+sb.name+'</div>'+
+    h+='<div class="catrow" onclick="goto(\'subDetail\','+i+')"><div><div class="nm">'+sb.name+'</div>'+
        '<div class="sub">'+sb.trade+'</div>';
     if(isOwner()){
       h+='<div class="sub" style="margin-top:5px;">Tax ID <b>'+(sen.einFull||'—')+'</b> · Paid by <b>'+(sen.payFull||'—')+'</b>'+
-         (sen.w9===false?' · <span style="color:var(--coral); font-weight:800;">no W-9 on file</span>':'')+'</div>';
+         (sen.w9===false?' · <span style="color:var(--orange-ink); font-weight:800;">no W-9 on file</span>':'')+'</div>';
     } else {
       h+='<div class="sub" style="margin-top:5px; color:var(--ink-soft);">Tax ID and payment details — owner only</div>';
     }
-    h+='</div><div class="pr"><div class="y">'+sb.active+'</div><div class="s">active jobs</div></div></div>';
+    h+='</div><div class="pr"><div class="y">'+activeJobsFor(sb.name)+'</div><div class="s">active jobs ›</div></div></div>';
   });
+  document.getElementById('pageBody').innerHTML=h;
+}
+
+/* Subcontractor record. The owner-only gate is enforced FIELD BY FIELD here,
+   not just by hiding the page — a non-owner can reach this screen from a job,
+   and must still not see a tax ID or how somebody gets paid. */
+/* Count it from the jobs, never store it. A stored count goes stale the moment
+   a job is reassigned, and on 3 Sep it said "Active jobs 2" directly above
+   "No jobs currently assigned to them". */
+function activeJobsFor(name){
+  return (state.jobs||[]).filter(function(j){ return j.sub===name && j.status!=='done'; }).length;
+}
+function renderSubDetail(){
+  var sb=state.subs[state.currentSubId]; if(!sb){ goto('subs'); return; }
+  var sen=state.partySensitive[sb.name]||{};
+  var h='<h1 class="dt">'+sb.name+'</h1>';
+  h+='<div class="kv">'+
+     '<div class="row"><span>Trade</span><span>'+sb.trade+'</span></div>'+
+     '<div class="row"><span>Active jobs</span><span>'+activeJobsFor(sb.name)+'</span></div>';
+  if(isOwner()){
+    h+='<div class="row"><span>Tax ID</span><span>'+(sen.einFull||'—')+'</span></div>'+
+       '<div class="row"><span>W-9 on file</span><span>'+(sen.w9===false
+          ? '<span class="status needsattn">not yet</span>' : '<span class="status approved">yes</span>')+'</span></div>'+
+       '<div class="row"><span>Paid by</span><span>'+(sen.payFull||'—')+'</span></div>';
+  } else {
+    h+='<div class="row"><span>Tax ID and payment</span><span>owner only</span></div>';
+  }
+  h+='</div>';
+
+  var jobs=(state.jobs||[]).filter(function(j){ return j.sub===sb.name; });
+  h+='<div class="sec-title">Jobs they are on</div>';
+  if(!jobs.length){ h+='<div class="empty">No jobs currently assigned to them.</div>'; }
+  else jobs.forEach(function(j){
+    h+='<div class="catrow" onclick="goto(\'jobDetail\',\''+j.num+'\')"><div><div class="nm">'+j.num+' — '+j.desc+'</div>'+
+       '<div class="sub">'+j.client+' · '+j.status.replace('_',' ')+'</div></div>'+
+       '<div class="pr"><div class="s">open the job ›</div></div></div>';
+  });
+
+  if(isOwner()){
+    var paid=(state.expenses||[]).filter(function(e){ return e.who===sb.name; });
+    h+='<div class="sec-title">Paid to them this year</div>';
+    if(!paid.length){ h+='<div class="empty">Nothing recorded against them yet this year.</div>'; }
+    else { var t=0; paid.forEach(function(e){ t+=e.amount;
+        h+='<div class="catrow" onclick="goto(\'jobDetail\',\''+e.job+'\')"><div><div class="nm">'+e.what+'</div>'+
+           '<div class="sub">job '+e.job+' · '+e.when+'</div></div>'+
+           '<div class="pr"><div class="y">'+money(e.amount)+'</div><div class="s">open the job ›</div></div></div>'; });
+      h+='<div class="kv"><div class="row"><span>Total</span><span>'+money(t)+'</span></div></div>';
+    }
+  }
   document.getElementById('pageBody').innerHTML=h;
 }
 
@@ -2123,7 +2268,7 @@ function renderJobDetail(){
        '<div class="li-grid">'+
        '<div class="li-cell"><div class="k">What</div><div class="v" style="font-size:11.5px;">'+c.d+'</div></div>'+
        '<div class="li-cell"><div class="k">Status</div><div class="v" style="font-size:11.5px;">'+c.s+'</div></div>'+
-       '<div class="li-cell"><div class="k">Left</div><div class="v">'+money0(run)+'</div></div>'+
+       '<div class="li-cell"><div class="k">Left</span><span>'+money0(run)+'</div></div>'+
        '</div></div>';
   });
   h+='<div class="formcard" style="margin-top:2px;">'+
@@ -2140,7 +2285,7 @@ function renderJobDetail(){
          '<div class="li-top"><div class="li-desc">'+c.who+' <span style="font-weight:600; color:var(--ink-soft);">'+c.role+'</span></div>'+
          '<div class="li-tot">'+money(c.amount)+'</div></div>'+
          '<div class="li-grid">'+
-         '<div class="li-cell"><div class="k">Rate</div><div class="v">'+c.pct+'%</div></div>'+
+         '<div class="li-cell"><div class="k">Rate</span><span>'+c.pct+'%</div></div>'+
          '<div class="li-cell"><div class="k">Of</div><div class="v" style="font-size:11px;">'+c.basis+'</div></div>'+
          '<div class="li-cell"><div class="k">From</div><div class="v" style="font-size:11px;">'+c.source+'</div></div>'+
          '<div class="li-cell"><div class="k">Status</div><div class="v" style="font-size:11px; color:'+
@@ -2163,7 +2308,7 @@ function renderJobDetail(){
   h+='<div class="sec-title">Updates on this job</div>';
   d.updates.forEach(function(u){
     var waiting = u.state==='waiting';
-    h+='<div class="catrow" style="cursor:default;'+(waiting?' border-color:var(--orange);':'')+'">'+
+    h+='<div class="catrow static" style="'+(waiting?' border-color:var(--orange);':'')+'">'+
        '<div><div class="nm">'+u.who+' — '+u.what+'</div>'+
        '<div class="sub">'+(u.note||'Not answered yet')+'</div></div>'+
        '<div class="pr"><div class="s">'+u.when+'</div>'+
@@ -2190,7 +2335,7 @@ function renderJobDetail(){
   h+='<div class="pill-btn" onclick="say(\'Opens this job\\\'s folder in Google Drive. Everything sent with the code is filed in there automatically. Who can open it is decided in Drive — you share the folder with whoever you want.\')">Open this job\'s Google Drive folder ↗</div>';
 
   (d.files||[]).forEach(function(f){
-    h+='<div class="catrow" style="cursor:default;"><div>'+
+    h+='<div class="catrow static"><div>'+
        '<div class="nm">'+f.name+'</div>'+
        '<div class="sub">'+f.from+' · '+f.when+(f.via?' · '+f.via:'')+'</div></div>'+
        '<div class="pr"><div class="s">'+f.size+'</div>'+
@@ -2228,12 +2373,45 @@ function renderExpenses(){
   var h='<h1 class="dt">Expenses</h1>';
   var pend=state.expenses.filter(function(e){return !e.approved;}).reduce(function(s,e){return s+e.amount;},0);
   h+='<div class="summary-grid"><div class="card"><div class="l">Pending approval</div><div class="v">'+money0(pend)+'</div><div class="hint">Fuel, travel, equipment</div></div></div>';
-  state.expenses.forEach(function(e){
-    h+='<div class="catrow" onclick="say(\'Opens the expense: who spent it, on which job, and the receipt photo they sent in.\\n\\nUntil you approve it, it does NOT come off that job\\\'s profit — it sits here so a job never looks better than it is by accident.\')"><div><div class="nm">'+e.what+'</div><div class="sub">'+(e.approved?'approved':'waiting approval')+'</div></div>'+
-       '<div class="pr"><div class="y">'+money0(e.amount)+'</div> <div class="s">›</div></div></div>';
+  state.expenses.forEach(function(e,i){
+    h+='<div class="catrow" onclick="goto(\'expenseDetail\','+i+')"><div><div class="nm">'+e.what+'</div>'+
+       '<div class="sub">'+e.who+' · job '+e.job+' · '+e.when+'</div>'+
+       '<div class="sub" style="margin-top:4px;">'+(e.approved
+          ? '<span class="status approved">approved</span>'
+          : '<span class="status waiting">waiting approval</span>')+'</div></div>'+
+       '<div class="pr"><div class="y">'+money0(e.amount)+'</div><div class="s">open ›</div></div></div>';
   });
   document.getElementById('pageBody').innerHTML=h;
 }
+
+/* One expense. It used to narrate what it WOULD show in a popup; now it shows
+   it. The approve action is real and in-memory, and the note about profit is
+   the one thing here worth keeping on screen rather than behind the ?. */
+function renderExpenseDetail(){
+  var i=state.currentExpenseId, e=state.expenses[i]; if(!e){ goto('expenses'); return; }
+  var h='<h1 class="dt">'+e.what+'</h1>';
+  h+='<div class="kv">'+
+     '<div class="row"><span>Amount</span><span>'+money(e.amount)+'</span></div>'+
+     '<div class="row"><span>Paid to</span><span>'+e.who+'</span></div>'+
+     '<div class="row"><span>Job</span><span>'+e.job+'</span></div>'+
+     '<div class="row"><span>When</span><span>'+e.when+'</span></div>'+
+     '<div class="row"><span>Status</span><span>'+(e.approved
+        ? '<span class="status approved">approved</span>'
+        : '<span class="status waiting">waiting approval</span>')+'</span></div>'+
+     (e.note?'<div class="row"><span>Note</span><span>'+e.note+'</span></div>':'')+
+     '</div>';
+  h+='<div class="lockednote keep">Until it is approved this does <b>not</b> come off the job\'s profit — '+
+     'it sits here so a job never looks better than it is by accident.</div>';
+  h+='<div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">'+
+     (e.approved
+       ? '<button class="pill-btn" onclick="unapproveExpense('+i+')">Put it back to waiting</button>'
+       : '<button class="pill-btn solid" onclick="approveExpense('+i+')">Approve it</button>')+
+     '<button class="pill-btn" onclick="goto(\'jobDetail\',\''+e.job+'\')">Open job '+e.job+'</button>'+
+     '</div>';
+  document.getElementById('pageBody').innerHTML=h;
+}
+function approveExpense(i){ if(state.expenses[i]){ state.expenses[i].approved=true;  render(); } }
+function unapproveExpense(i){ if(state.expenses[i]){ state.expenses[i].approved=false; render(); } }
 /* ---- REBUILT 1 Sep: the three ways money actually arrives ----
    Paid in full and paid in parts already work in the real build. A PROMISE
    to pay on a date was not tracked anywhere — it lived in somebody's memory
@@ -2322,7 +2500,7 @@ function renderMoney(){
    ['Invoice 60+ days','Comes to you directly'],
    ['A job costing more than it was quoted','Comes to you directly'],
    ['A sub over $600 with no W-9','Comes to you directly']].forEach(function(r){
-    h+='<div class="catrow" style="cursor:default;"><div><div class="nm">'+r[0]+'</div>'+
+    h+='<div class="catrow static"><div><div class="nm">'+r[0]+'</div>'+
        '<div class="sub">'+r[1]+'</div></div></div>';
   });
   h+='<div class="lockednote">Every one of these timings is yours to change under the gear.</div>';
@@ -2427,7 +2605,7 @@ function renderTeam(){
       var mine = state.memberTabs[t.id] || MODULES[t.role] || [];
       var mgrId = state.reportsTo[t.id];
       var mgr = mgrId ? (state.team.filter(function(x){return x.id===mgrId;})[0]||{}).name : null;
-      h+='<div class="catrow"'+(t.role==='owner'?' style="cursor:default;"':' onclick="openMember('+t.id+')"')+'>'+
+      h+='<div class="'+(t.role==='owner'?'catrow static"':'catrow" onclick="openMember('+t.id+')"')+'>'+
          '<div><div class="nm">'+t.name+(t.active?'':' <span style="color:var(--ink-soft); font-weight:600;">(removed)</span>')+'</div>'+
          '<div class="sub">'+(t.role==='owner' ? 'sees everything' : mine.length+' of '+ALL_TABS.length+' tiles')+
          (mgr?' · reports to '+mgr:'')+
@@ -2468,7 +2646,7 @@ function renderTeam(){
      'and the old rate stays on record.</div>';
   state.commRates.forEach(function(r){
     var live = r.to==='still in force';
-    h+='<div class="catrow" style="cursor:default;'+(live?'':' opacity:.55;')+'">'+
+    h+='<div class="catrow static" style="'+(live?'':' opacity:.55;')+'">'+
        '<div><div class="nm">'+r.who+' — '+r.pct+'% <span style="font-weight:600; color:var(--ink-soft);">'+r.basis+'</span></div>'+
        '<div class="sub">'+r.scope+' · from '+r.from+' · '+r.why+'</div></div>'+
        '<div class="pr"><div class="s">'+(live?'<b>in force</b>':'until '+r.to)+'</div></div></div>';
@@ -2497,7 +2675,7 @@ function renderTeam(){
      'about every active job — sent to whoever is on that job. New ones start switched OFF so you can '+
      'see what one looks like before it starts messaging your team.</div>';
   state.checkins.forEach(function(c){
-    h+='<div class="catrow" style="cursor:default;">'+
+    h+='<div class="catrow static">'+
        '<div><div class="nm">'+c.name+'</div>'+
        '<div class="sub">“'+c.asks+'”</div>'+
        '<div class="sub" style="margin-top:3px;">'+c.when+' · to '+c.to+' · answer within '+c.answerIn+'</div></div>'+
@@ -2516,7 +2694,7 @@ function renderTeam(){
    ['Call a declined client back after', p.callBackAfter+' days', 'Then every '+p.repeatEvery+' days until you close them out.'],
    ['Deposit required above', money0(p.depositOver), 'At '+p.depositPct+'% — your own quote terms.']
   ].forEach(function(r){
-    h+='<div class="catrow" style="cursor:default;"><div><div class="nm">'+r[0]+'</div>'+
+    h+='<div class="catrow static"><div><div class="nm">'+r[0]+'</div>'+
        '<div class="sub">'+r[2]+'</div></div>'+
        '<div class="pr"><div class="y" style="font-size:12.5px;">'+r[1]+'</div></div></div>';
   });
@@ -2593,7 +2771,7 @@ function renderSearch(){
   }
   if(sc==='all'||sc==='catalog'){
     (state.catalog||[]).filter(function(c){return hit(c.item);}).forEach(function(c){ n++;
-      h+='<div class="catrow" style="cursor:default;"><div><div class="nm">'+c.item+'</div><div class="sub">Price list · per '+c.unit+'</div></div><div class="pr"><div class="y">'+money0(c.yumbo)+'</div><div class="s">sub pays '+money0(c.sub)+'</div></div></div>';
+      h+='<div class="catrow static"><div><div class="nm">'+c.item+'</div><div class="sub">Price list · per '+c.unit+'</div></div><div class="pr"><div class="y">'+money0(c.yumbo)+'</div><div class="s">sub pays '+money0(c.sub)+'</div></div></div>';
     });
   }
   if(!n) h+='<div class="empty">Nothing matches “'+esc(state.searchQ)+'”.</div>';
@@ -2606,7 +2784,8 @@ var RENDER = {
   properties:renderProperties, propertyDetail:renderPropertyDetail, catalog:renderCatalog, stepsizes:renderStepSizes,
   vendors:renderVendors, subs:renderSubs, jobs:renderJobs, requests:renderRequests,
   inbox:renderInbox, expenses:renderExpenses, money:renderMoney, banking:renderBanking, reports:renderReports, team:renderTeam,
-  jobDetail:renderJobDetail, search:renderSearch
+  jobDetail:renderJobDetail, search:renderSearch,
+  subDetail:renderSubDetail, vendorDetail:renderVendorDetail, expenseDetail:renderExpenseDetail
 };
 /* The trail for the current screen. Detail screens name their parent list and
    the record they are inside; list screens are one step off Home. */
@@ -2623,6 +2802,9 @@ function crumbsFor(){
     case 'quoteDoc':    return home.concat([{label:'Quotes',page:'quotes'},{label:q?q.num:'Quote',page:'quoteDetail',id:q&&q.id},{label:'Quote document'}]);
     case 'jobDetail':   return home.concat([{label:'Jobs',page:'jobs'},{label:j?j.num:'Job'}]);
     case 'propertyDetail': return home.concat([{label:'Properties',page:'properties'},{label:pr?pr.name:'Property'}]);
+    case 'subDetail':    return home.concat([{label:'Subs',page:'subs'},{label:(state.subs[state.currentSubId]||{}).name||'Subcontractor'}]);
+    case 'vendorDetail': return home.concat([{label:'Suppliers',page:'vendors'},{label:(state.suppliers[state.currentVendorId]||{}).name||'Supplier'}]);
+    case 'expenseDetail':return home.concat([{label:'Expenses',page:'expenses'},{label:(state.expenses[state.currentExpenseId]||{}).what||'Expense'}]);
     case 'search':  return home.concat([{label:'Search'}]);
     default: return home.concat([{label:navLabels[p]||p}]);
   }
@@ -2648,7 +2830,7 @@ function buildCrumbs(){
 /* Inside a record, the 17-tile grid is noise between you and what you opened.
    It folds away automatically and comes back on Home or any list screen. The
    ☰ still toggles it by hand if somebody wants it. */
-var DETAIL_PAGES=['quoteDetail','breakdown','quoteDoc','jobDetail','propertyDetail'];
+var DETAIL_PAGES=['quoteDetail','breakdown','quoteDoc','jobDetail','propertyDetail','subDetail','vendorDetail','expenseDetail'];
 function autoCollapseNav(){
   var n=document.getElementById('navbar'), t=document.getElementById('navToggle'); if(!n) return;
   var inside = DETAIL_PAGES.indexOf(state.page)!==-1;
