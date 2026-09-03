@@ -270,6 +270,59 @@ input:focus,select:focus,textarea:focus{outline:none; border-color:var(--blue) !
 /* ---- TILE NAV (icon grid launcher, the reference's signature) ---- */
 .navbar{display:grid; grid-template-columns:repeat(auto-fill, minmax(96px,1fr)); gap:10px; border-bottom:none; padding-bottom:6px; margin-bottom:20px;}
 .navbar.navhidden{display:none;}
+/* One-screen estimate: section tabs, anchors, and the bar that stays put. */
+.sectabs{display:flex; gap:6px; flex-wrap:wrap; margin:12px 0 4px;}
+.sectab{font-size:12px; font-weight:800; padding:7px 12px; border-radius:999px; border:1.5px solid var(--line); background:#fff; cursor:pointer;}
+.sectab:hover{border-color:var(--ink);}
+.sec-anchor{scroll-margin-top:8px;}
+.scope-in{width:100%; border:none; border-bottom:2px solid var(--ink); background:transparent; font:inherit; font-weight:800; text-align:right; outline:none;}
+.actionbar{position:fixed; left:0; right:0; bottom:0; z-index:40; display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:10px 16px; background:var(--ink); color:var(--cream); box-shadow:0 -4px 16px rgba(0,0,0,.18);}
+.ab-total .k{display:block; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; opacity:.7;}
+.ab-total .v{font-size:18px; font-weight:800;}
+.ab-btns{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;}
+.ab-btns .pill-btn{background:#fff; color:var(--ink); border-color:#fff;}
+.ab-btns .pill-btn.solid{background:var(--coral); color:#fff; border-color:var(--coral);}
+.ab-btns .pill-btn.green{background:var(--green); color:#fff; border-color:var(--green);}
+.ab-btns .pill-btn.blue{background:var(--blue); color:#fff; border-color:var(--blue);}
+.actionbar-spacer{height:74px;}
+@media (hover:none){ .actionbar{padding:12px 14px;} .ab-btns .pill-btn{min-height:44px; display:inline-flex; align-items:center;} .sectab{min-height:40px; display:inline-flex; align-items:center;} }
+/* Grouped nav */
+.navgroup{display:flex; align-items:center; gap:8px; font-size:11px; font-weight:800; text-transform:uppercase;
+  letter-spacing:.07em; color:var(--ink-soft); padding:10px 4px 6px; cursor:pointer; user-select:none;}
+.navgroup .chev{margin-left:auto; font-size:12px;}
+.navgroup.open{color:var(--ink);}
+.navrow{display:grid; grid-template-columns:repeat(auto-fill,minmax(108px,1fr)); gap:10px; margin-bottom:6px;}
+.navrow .tile{margin:0;}
+/* reference strip + price picker inside costing */
+.refstrip{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:0 0 12px;}
+.refstrip .k{font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft);}
+.refchip{font-size:12px; font-weight:700; background:#fff; border:1.5px solid var(--line); border-radius:999px; padding:5px 10px;}
+.picker{background:#fff; border:2px solid var(--ink); border-radius:14px; padding:10px 12px; margin:-8px 0 16px; max-width:560px;}
+.picker .k{font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin-bottom:6px;}
+.pickrow{display:flex; justify-content:space-between; align-items:center; padding:8px 6px; border-top:1px solid var(--line); cursor:pointer; font-size:13px; font-weight:700;}
+.pickrow:first-of-type{border-top:none;}
+.pickrow:hover{background:var(--cream-2);}
+.pickrow small{font-weight:600; color:var(--ink-soft);}
+@media (hover:none){ .pickrow{min-height:44px;} .navgroup{min-height:40px;} }
+/* Explanations are OFF by default. The seven that prevent a money misread are
+   marked .keep and always show. The rest appear when the ? is on — there for
+   whoever wants them, invisible to whoever just wants to work. 34 boxes of
+   prose is what made a simple tool feel complicated. */
+.lockednote:not(.keep){display:none;}
+body.showhelp .lockednote:not(.keep){display:block;}
+.helpbtn{margin-left:auto; width:30px; height:30px; border-radius:50%; border:2px solid var(--ink); background:#fff;
+  color:var(--ink); font-weight:800; font-size:14px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; flex:0 0 auto;}
+.helpbtn.on{background:var(--ink); color:#fff;}
+@media (hover:none){ .helpbtn{width:44px; height:44px;} }
+.crumbs{display:flex; align-items:center; flex-wrap:wrap; gap:4px; font-size:12.5px; font-weight:800;
+  margin:2px 0 14px; color:var(--ink-soft);}
+.crumb{cursor:pointer; padding:6px 8px; border-radius:8px; transition:background .12s ease;}
+.crumb:hover{background:rgba(27,23,16,.06); color:var(--ink);}
+.crumb.cur{cursor:default; color:var(--ink);}
+.crumb.cur:hover{background:transparent;}
+.crumb-sep{color:var(--ink-soft); opacity:.6; padding:0 2px;}
+@media (hover:none){ .crumb{padding:10px 10px; min-height:40px; display:inline-flex; align-items:center;} }
 .navbar button.tile{position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; background:#fff; border:1.5px solid var(--line); border-radius:18px; padding:14px 6px 12px; min-height:92px; cursor:pointer; box-shadow:var(--shadow); font-family:'Manrope',sans-serif; font-size:11px; font-weight:800; color:var(--ink); transition:transform .16s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease; animation:tileIn .35s ease backwards;}
 .navbar button.tile svg{width:22px; height:22px; stroke:var(--ink); fill:none; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; transition:stroke .2s ease;}
 .navbar button.tile:hover{transform:translateY(-3px); box-shadow:0 8px 22px rgba(16,24,40,.12);}
@@ -441,11 +494,11 @@ html, body{height: auto; min-height: 0;}
 <div class="wrap">
 
   <div class="note-banner">
-    <b>Click-through preview — sample data, nothing here is real yet.</b>
-    Built from the notes and files Alex sent (estimate format, pricing sheet, follow-up tracker,
-    and your Olympus quote). Property and sub names are yours so it feels real; phone numbers and
-    emails are deliberately left out of this preview. Switch roles below to see what each person
-    sees — nothing you click changes anything.
+    <b>Sample data — try everything. Nothing is saved.</b>
+    Type into the numbers, add lines, submit a quote, request a change. It all works while the
+    page is open; reload the page and it resets. Built from the notes and files Alex sent —
+    property and sub names are yours so it feels real; phone numbers and emails are deliberately
+    left out. Switch roles below to see what each person sees.
   </div>
 
   <div class="rolebar" id="roleBar"></div>
@@ -484,11 +537,16 @@ html, body{height: auto; min-height: 0;}
         <option value="jobs">Jobs</option>
         <option value="catalog">Price catalog</option>
       </select>
-      <input type="text" id="searchInput" placeholder="Search by name, job #, description…">
+      <input type="text" id="searchInput" placeholder="Search by name, job #, description…" onkeydown="if(event.key==='Enter') doSearch()">
       <button class="pill-btn solid" onclick="doSearch()">Search</button>
     </div>
 
     <div class="navbar" id="navbar"></div>
+    <!-- Breadcrumbs: where you are, and a click back to anywhere on the way.
+         Alex: "you have to go back and click the tab." Now every screen shows
+         its own trail — Home › Quotes › 26-4611 › Costing — and each piece is a
+         link. Built by render() from what is actually on screen. -->
+    <nav class="crumbs" id="crumbs" aria-label="Where you are"></nav>
     <div id="pageBody"></div>
 
     <div class="legend">
@@ -520,10 +578,15 @@ var ROLES = {
 };
 
 var MODULES = {
-  owner:      ['dashboard','newwork','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses','money','banking','reports','team'],
-  secretary:  ['dashboard','newwork','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses','money','reports','team'],
-  supervisor: ['dashboard','newwork','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses'],
-  estimator:  ['dashboard','newwork','quotes','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses'],
+  /* 3 Sep — fewer doors. An estimator had 12 tabs and needs about 5. Price
+     list and Step sizes are reference data, not places to go: they now live
+     INSIDE the costing screen for everybody, and are gone from the nav. Subs,
+     Suppliers and Properties are lookups the estimator reaches from a quote or
+     a job, not daily destinations. The owner keeps everything, grouped. */
+  owner:      ['dashboard','newwork','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','expenses','money','banking','reports','team'],
+  secretary:  ['dashboard','newwork','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','expenses','money','reports','team'],
+  supervisor: ['dashboard','newwork','quotes','approvals','jobs','requests','inbox','expenses'],
+  estimator:  ['dashboard','newwork','quotes','jobs','requests'],
   pm:         ['dashboard','jobs','requests','inbox','properties','expenses'],  // sees quoted price + sub pay (confirmed 1 Sep)
   sales:      ['dashboard','quotes','jobs','properties','subs']
 };
@@ -755,9 +818,9 @@ var state = {
   reportsTo: {1:null, 2:1, 3:1, 4:3, 5:3, 6:1, 7:3},
   memberTabs: {
     1:null,
-    2:['dashboard','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses','money','reports','team'],
-    3:['dashboard','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses'],
-    4:['dashboard','quotes','jobs','requests','inbox','properties','subs','vendors','catalog','stepsizes','expenses'],
+    2:['dashboard','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','expenses','money','reports','team'],
+    3:['dashboard','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','expenses'],
+    4:['dashboard','quotes','jobs','requests','inbox','properties','subs','vendors','expenses'],
     5:['dashboard','jobs','requests','inbox','properties','expenses'],
     6:['dashboard','quotes','jobs','properties','subs'],
     7:['dashboard','quotes','jobs','properties']
@@ -1055,7 +1118,7 @@ function navCounts(){
     c.quotes = state.quotes.filter(function(q){ return q.stage==='needs_quoting' || q.stage==='pricing'; }).length;
   }
   if(['owner','secretary','supervisor'].indexOf(r)!==-1){
-    c.approvals = state.quotes.filter(function(q){ return q.stage==='submitted'; }).length;
+    c.approvals = state.quotes.filter(function(q){ return q.stage==='submitted' || (q.changeRequest && !q.unlock); }).length;
   }
   if(['owner','secretary','pm','supervisor','estimator'].indexOf(r)!==-1){
     c.requests = state.requests.filter(function(x){ return x.status==='pending'; }).length;
@@ -1072,7 +1135,7 @@ function navCounts(){
 }
 
 function goto(page, id){
-  if(MODULES[state.role].indexOf(page)===-1 && ['quoteDetail','breakdown','quoteDoc','propertyDetail','jobDetail'].indexOf(page)===-1) return;
+  if(MODULES[state.role].indexOf(page)===-1 && ['quoteDetail','breakdown','quoteDoc','propertyDetail','jobDetail','search'].indexOf(page)===-1) return;
   state.page = page;
   if(page==='jobDetail' && id){ state.currentJobNum = id; }
   if(page==='quoteDetail'||page==='breakdown'||page==='quoteDoc'){ if(id) state.currentQuoteId=id; }
@@ -1098,7 +1161,10 @@ function goto(page, id){
    Falls back to the old behaviour if the element is missing, rather than
    throwing inside goto() and leaving the page half-rendered. */
 function scrollToContent(){
-  var pb = document.getElementById('pageBody');
+  // Land on the breadcrumb trail when there is one, so "where am I" is the
+  // first thing on screen; otherwise on the content itself.
+  var c = document.getElementById('crumbs');
+  var pb = (c && c.style.display!=='none' && c.innerHTML) ? c : document.getElementById('pageBody');
   if(!pb){ window.scrollTo({top:0, behavior:'smooth'}); return; }
   var top = pb.getBoundingClientRect().top + window.pageYOffset - 12;
   window.scrollTo({ top: Math.max(0, top), behavior:'smooth' });
@@ -1127,25 +1193,51 @@ function buildRoleBar(){
     'Logged in as ' + who + ' · ' + ROLES[state.role].label.split('—')[0].trim() + extra;
 }
 
+/* The tiles, in groups. A person with five tabs sees one flat row; a person
+   with fifteen sees Work open and People / Money / Settings folded, each a
+   single tap away. Same tiles, same look — just not seventeen at once. */
+var NAV_GROUPS=[
+  {k:'work',   l:'Work',     tabs:['dashboard','newwork','quotes','approvals','jobs','requests','inbox']},
+  {k:'people', l:'People',   tabs:['properties','subs','vendors']},
+  {k:'money',  l:'Money',    tabs:['expenses','money','banking','reports']},
+  {k:'setup',  l:'Settings', tabs:['team']}
+];
+state.navOpen = state.navOpen || {work:true};
+function toggleNavGroup(k){ state.navOpen[k]=!state.navOpen[k]; buildNav(); }
+
 function buildNav(){
   var nav=document.getElementById('navbar'); nav.innerHTML='';
   var counts=navCounts();
-  // Honour the per-person tile list set under the gear, falling back to the
-  // role default. Without this the Settings screen would promise something
-  // the preview did not actually do.
-  MODULES[state.role].filter(function(p){
-    var who=(state.team||[]).filter(function(t){ return t.role===state.role && t.active; })[0];
+  var who=(state.team||[]).filter(function(t){ return t.role===state.role && t.active; })[0];
+  var mine=MODULES[state.role].filter(function(p){
     if(!who || !state.memberTabs || !state.memberTabs[who.id]) return true;
     return state.memberTabs[who.id].indexOf(p)!==-1;
-  }).forEach(function(p){
-    var tile=document.createElement('button');
-    tile.className='tile' + (state.page===p ? ' on' : '');
-    tile.innerHTML='<svg viewBox="0 0 24 24">'+(navIcons[p]||navIcons.dashboard)+'</svg><span>'+navLabels[p]+'</span>';
-    if(counts[p]>0){
-      var b=document.createElement('span'); b.className='navcount'; b.textContent=counts[p]; tile.appendChild(b);
+  });
+  var groupsShown=NAV_GROUPS.filter(function(g){ return g.tabs.some(function(t){ return mine.indexOf(t)!==-1; }); });
+  var flat = groupsShown.length<=1 || mine.length<=7;   // a short list needs no folding
+
+  groupsShown.forEach(function(g){
+    var tabs=g.tabs.filter(function(t){ return mine.indexOf(t)!==-1; });
+    var open = flat || state.navOpen[g.k] || tabs.indexOf(state.page)!==-1;
+    var n=0; tabs.forEach(function(t){ n+= (counts[t]||0); });
+    if(!flat){
+      var head=document.createElement('div');
+      head.className='navgroup'+(open?' open':'');
+      head.innerHTML='<span>'+g.l+'</span>'+(n>0&&!open?'<span class="navcount">'+n+'</span>':'')+'<span class="chev">'+(open?'▾':'▸')+'</span>';
+      head.onclick=function(){ toggleNavGroup(g.k); };
+      nav.appendChild(head);
     }
-    tile.onclick=function(){ goto(p); };
-    nav.appendChild(tile);
+    if(!open) return;
+    var row=document.createElement('div'); row.className='navrow';
+    tabs.forEach(function(p){
+      var tile=document.createElement('button');
+      tile.className='tile' + (state.page===p ? ' on' : '');
+      tile.innerHTML='<svg viewBox="0 0 24 24">'+(navIcons[p]||navIcons.dashboard)+'</svg><span>'+navLabels[p]+'</span>';
+      if(counts[p]>0){ var b=document.createElement('span'); b.className='navcount'; b.textContent=counts[p]; tile.appendChild(b); }
+      tile.onclick=function(){ goto(p); };
+      row.appendChild(tile);
+    });
+    nav.appendChild(row);
   });
 }
 
@@ -1281,12 +1373,20 @@ function reassign(quoteId, name){
   render();
 }
 
-function renderQuoteDetail(){
+function renderQuoteDetail(section){
   var q=state.quotes.find(function(x){return x.id===state.currentQuoteId;});
   if(!q){ goto('quotes'); return; }
   var t=quoteTotals(q), canApprove=['owner','secretary','supervisor'].indexOf(state.role)!==-1;
-  var h='<div class="back" onclick="goto(\'quotes\')">&larr; Back to quotes</div>';
-  h += '<h1 class="dt">'+q.num+' <span class="status" style="background:'+stageColor(q.stage)+'; color:#fff; font-size:11px; vertical-align:middle;">'+stageLabel(q.stage)+'</span></h1>';
+  // Editable while being priced. If it was UNLOCKED after a change request, it
+  // is editable only for the person it was unlocked for — nobody else.
+  var me=ROLES[state.role].person;
+  var canEdit=(q.stage==='pricing'||q.stage==='needs_quoting') && (!q.unlock || q.unlock.for===me || canApprove);
+
+  /* ONE SCREEN. It used to be four — details, then a costing page, then a
+     document page, then back to details to submit — with nothing joining them.
+     Now the whole estimate is one page with three sections, section tabs that
+     scroll, and a Save/Submit bar that stays put at the bottom. */
+  var h = '<h1 class="dt">'+q.num+' <span class="status" style="background:'+stageColor(q.stage)+'; color:#fff; font-size:11px; vertical-align:middle;">'+stageLabel(q.stage)+'</span></h1>';
 
   h += '<div class="stepbar">';
   var si = STAGES.findIndex(function(s){return s.k===q.stage;});
@@ -1296,22 +1396,46 @@ function renderQuoteDetail(){
   });
   h += '</div>';
 
+  // section tabs — scroll within the page, nothing reloads
+  h += '<div class="sectabs">'+
+       '<span class="sectab" onclick="jumpSec(\'sec-details\')">Details</span>'+
+       '<span class="sectab" onclick="jumpSec(\'sec-costing\')">Costing</span>'+
+       '<span class="sectab" onclick="jumpSec(\'sec-doc\')">Quote document</span>'+
+       (q.versions&&q.versions.length?'<span class="sectab" onclick="jumpSec(\'sec-history\')">History</span>':'')+
+       '</div>';
+
+  if(q.changeRequest && !q.unlock){
+    h += '<div class="notif static orange"><div class="l">Change requested by '+q.changeRequest.by+' · '+q.changeRequest.when+'</div>'+
+         '<div class="v">“'+esc(q.changeRequest.why)+'”</div></div>';
+  }
+  if(q.unlock){
+    h += '<div class="notif static blue"><div class="l">Unlocked for '+q.unlock.for+' by '+q.unlock.by+' · '+q.unlock.when+'</div>'+
+         '<div class="v">Editable by '+q.unlock.for+' only. It re-locks when resubmitted, and the change is kept as a new version.</div></div>';
+  }
+
+  // ---- DETAILS ----
+  h += '<div id="sec-details" class="sec-anchor"></div><div class="sec-title">Details</div>';
   h += '<div class="kv">'+
        '<div class="row"><span>Property</span><span>'+q.property+'</span></div>'+
        '<div class="row"><span>Management</span><span>'+q.mgmt+'</span></div>'+
        '<div class="row"><span>Requested by</span><span>'+q.requestedBy+'</span></div>'+
        '<div class="row"><span>Date requested</span><span>'+q.dateRequested+'</span></div>'+
        '<div class="row"><span>Estimator</span><span>'+estimatorControl(q)+'</span></div>'+
-       '<div class="row"><span>Scope of work</span><span>'+q.scope+'</span></div></div>';
+       '<div class="row"><span>Scope of work</span><span>'+
+         (canEdit?'<input class="scope-in" value="'+esc(q.scope)+'" oninput="setQuoteField('+q.id+',\'scope\',this.value)">':esc(q.scope))+
+       '</span></div></div>';
 
-  h += '<div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:14px;">'+
-       '<div class="pill-btn blue" onclick="goto(\'breakdown\','+q.id+')">Cost breakdown</div>'+
-       '<div class="pill-btn" onclick="goto(\'quoteDoc\','+q.id+')">Quote document</div></div>';
+  // ---- COSTING (the worksheet) ----
+  h += '<div id="sec-costing" class="sec-anchor"></div>';
+  h += costingSection(q, canEdit);
 
-  // Every version kept — their words: "so they can be saved in our chain of events."
+  // ---- QUOTE DOCUMENT ----
+  h += '<div id="sec-doc" class="sec-anchor"></div><div class="sec-title">Quote document</div>';
+  h += quoteDocSection(q);
+
+  // ---- HISTORY ----
   if(q.versions && q.versions.length){
-    h += '<div class="sec-title">Version history</div>';
-    h += '<div class="lockednote">Nothing is overwritten. Every version of this quote stays on the record.</div>';
+    h += '<div id="sec-history" class="sec-anchor"></div><div class="sec-title">History</div>';
     q.versions.slice().reverse().forEach(function(v){
       h += '<div class="catrow" style="cursor:default;"><div><div class="nm">Version '+v.v+(v.v===q.versions.length?' — current':'')+'</div>'+
            '<div class="sub">'+v.note+'</div></div>'+
@@ -1319,32 +1443,92 @@ function renderQuoteDetail(){
     });
   }
 
-  if(t.grand>0){
-    h += '<div class="sec-title">Price</div><div class="card">'+
-         '<div class="totrow"><span class="lbl">Actual cost</span><span class="amt">'+money(t.actual)+'</span></div>'+
-         '<div class="totrow"><span class="lbl">Profit ('+(state.defaults.profitPct*100).toFixed(0)+'%)</span><span class="amt">'+money(t.profit)+'</span></div>'+
-         '<div class="totrow"><span class="lbl">Contingency (5%)</span><span class="amt">'+money(t.conting)+'</span></div>'+
-         '<div class="totrow grand"><span>Grand total</span><span>'+money(t.grand)+'</span></div></div>';
-  }
+  // ---- STICKY ACTION BAR — always reachable, says what can happen next ----
+  h += '<div class="actionbar">'+
+       '<div class="ab-total"><span class="k">Grand total</span><span class="v" id="ab-total">'+money(t.grand)+'</span></div>'+
+       '<div class="ab-btns">'+actionButtons(q, canEdit, canApprove)+'</div></div>';
+  h += '<div class="actionbar-spacer"></div>';
 
-  if(q.stage==='submitted' && canApprove){
-    h += '<div class="notif static orange" style="margin-top:14px;"><div class="l">Waiting on your decision</div>'+
-         '<div class="v" style="font-size:13.5px;">Approving sends it to the client. Sending it back returns it to '+(q.estimator||'the estimator')+' with your note.</div>'+
-         '<div style="margin-top:10px;"><span class="pill-btn green" onclick="decide('+q.id+',\'approved\')">Approve</span> '+
-         '<span class="pill-btn" onclick="decide('+q.id+',\'pricing\')">Send back for review</span></div></div>';
-  } else if(q.stage==='pricing' && state.role==='estimator'){
-    h += '<div class="notif static" style="margin-top:14px;"><div class="l">When you\'re done</div>'+
-         '<div class="v" style="font-size:13.5px;">Submit it and Edison (supervisor estimator) reviews it.</div>'+
-         '<div class="pill-btn solid" style="margin-top:10px;" onclick="decide('+q.id+',\'submitted\')">Submit for approval</div></div>';
-  } else if(q.stage==='needs_quoting'){
-    h += '<div class="notif static" style="margin-top:14px;"><div class="l">Not started</div>'+
-         '<div class="v" style="font-size:13.5px;">Pick this up and the cost breakdown opens.</div>'+
-         '<div class="pill-btn blue" style="margin-top:10px;" onclick="pickUp('+q.id+')">Start pricing</div></div>';
-  }
   document.getElementById('pageBody').innerHTML=h;
+  if(section){ setTimeout(function(){ jumpSec('sec-'+section); }, 60); }
 }
+function jumpSec(id){
+  var el=document.getElementById(id); if(!el) return;
+  var top=el.getBoundingClientRect().top+window.pageYOffset-8;
+  window.scrollTo({top:Math.max(0,top), behavior:'smooth'});
+}
+function setQuoteField(qid, key, val){
+  var q=state.quotes.find(function(x){return x.id===qid;}); if(q) q[key]=val;
+}
+/* The buttons depend on the stage AND on who is looking. One place decides. */
+function actionButtons(q, canEdit, canApprove){
+  var b='';
+  // A pending change request comes FIRST, whatever the stage. Otherwise on a
+  // submitted quote the Approve branch won and the owner never saw the unlock —
+  // found by driving the flow, not by reading it.
+  if(q.changeRequest && !q.unlock){
+    if(canApprove){
+      b+='<span class="pill-btn solid" onclick="unlockFor('+q.id+')">Unlock for '+q.changeRequest.by+'</span>'+
+         '<span class="pill-btn" onclick="declineChange('+q.id+')">Decline</span>';
+    } else {
+      b+='<span class="pill-btn" style="opacity:.75; cursor:default;">Change requested — waiting for unlock</span>';
+    }
+    return b;
+  }
+  if(q.stage==='needs_quoting'){
+    b+='<span class="pill-btn blue" onclick="pickUp('+q.id+')">Start pricing</span>';
+  } else if(canEdit){
+    b+='<span class="pill-btn" onclick="say(\'Saved. Nothing goes anywhere until you submit.\')">Save</span>';
+    if(state.role==='estimator' || canApprove)
+      b+='<span class="pill-btn solid" onclick="decide('+q.id+',\'submitted\')">Submit for approval</span>';
+  } else if(q.stage==='submitted' && canApprove){
+    b+='<span class="pill-btn green" onclick="decide('+q.id+',\'approved\')">Approve</span>'+
+       '<span class="pill-btn" onclick="decide('+q.id+',\'pricing\')">Send back</span>';
+  } else {
+    // LOCKED. One button, and it asks rather than edits.
+    b+='<span class="pill-btn" style="opacity:.55; cursor:default;">Locked — '+stageLabel(q.stage)+'</span>'+
+       '<span class="pill-btn" onclick="requestChange('+q.id+')">Request a change</span>';
+  }
+  return b;
+}
+
 function decide(id, stage){
-  var q=state.quotes.find(function(x){return x.id===id;}); q.stage=stage; render();
+  var q=state.quotes.find(function(x){return x.id===id;}); if(!q) return;
+  // Resubmitting after an unlock closes the loop: the change request is done,
+  // the unlock is spent, and a new version is written so the trail shows it.
+  if(stage==='submitted' && q.unlock){
+    q.versions=q.versions||[];
+    q.versions.push({v:q.versions.length+1, note:'Changed after unlock — '+(q.changeRequest?q.changeRequest.why:'requested change'), by:q.unlock.for, when:'today'});
+    q.unlock=null; q.changeRequest=null;
+  }
+  q.stage=stage; render();
+}
+
+/* ---- THE LOCK RULE (Boss, 3 Sep) --------------------------------------------
+   Before submit: the estimator changes anything, no permission needed.
+   After submit / approve / send: read-only, with ONE button — "Request a
+   change". The owner or secretary sees it on Approvals and can "Unlock for
+   [name]", which reopens it for that person only, records who/when/why, and
+   re-locks the moment it is resubmitted. Same shape as the commission lock:
+   one rule about locking in the whole system, not two. */
+function requestChange(id){
+  var q=state.quotes.find(function(x){return x.id===id;}); if(!q) return;
+  var why=prompt('What needs to change, and why?', 'Client negotiated the price down');
+  if(why===null) return;
+  q.changeRequest={by:ROLES[state.role].person, why:why||'(no reason given)', when:'today'};
+  say('Sent to the owner and secretary. Nothing changes until one of them unlocks it for you.');
+  render();
+}
+function unlockFor(id){
+  var q=state.quotes.find(function(x){return x.id===id;}); if(!q||!q.changeRequest) return;
+  q.unlock={for:q.changeRequest.by, by:ROLES[state.role].person, when:'today', from:q.stage};
+  q.stage='pricing';
+  say('Unlocked for '+q.unlock.for+' only. It re-locks the moment they resubmit, and the change is kept as a new version.');
+  render();
+}
+function declineChange(id){
+  var q=state.quotes.find(function(x){return x.id===id;}); if(!q) return;
+  q.changeRequest=null; say('Declined. The estimate stays exactly as it was.'); render();
 }
 function pickUp(id){
   var q=state.quotes.find(function(x){return x.id===id;});
@@ -1352,17 +1536,14 @@ function pickUp(id){
 }
 
 /* ---------- COST BREAKDOWN — their spreadsheet, rebuilt as cards ---------- */
-function renderBreakdown(){
-  var q=state.quotes.find(function(x){return x.id===state.currentQuoteId;});
-  if(!q){ goto('quotes'); return; }
+// canEdit is DECIDED ONCE, by the screen, and passed in. This section used to
+// work it out again from the stage alone — and so knew nothing about the
+// unlock rule, which let a sales person type into an estimate that had been
+// unlocked for somebody else. Two definitions of "can edit" is one too many.
+function costingSection(q, canEdit){
   var d=pricingFor(q), t=quoteTotals(q);
 
-  // Editable while it is still being priced. Once submitted it is read-only —
-  // the "request a change" flow (plan piece B) is what reopens it.
-  var canEdit = (q.stage==='pricing' || q.stage==='needs_quoting');
-
-  var h='<div class="back" onclick="goto(\'quoteDetail\','+q.id+')">&larr; Back to '+q.num+'</div>';
-  h+='<h1 class="dt">Cost breakdown</h1>';
+  var h='';
 
   /* ---- THIS JOB'S PRICING — five numbers you type, not a preset you pick ----
      Alex: "he wants it to be a textbox." The old dropdown bundled profit % and
@@ -1388,6 +1569,15 @@ function renderBreakdown(){
   h+='</div>';
 
   /* ---- LINE ITEMS — type into the decisions, the results follow ---- */
+  // Step sizes for THIS property, right where the estimator is pricing stairs.
+  // This used to be its own tab; nobody prices stairs from a tab.
+  var steps=(state.stepSizes||[]).filter(function(x){ return q.property && (q.property.toLowerCase().indexOf(x.property.toLowerCase())!==-1 || x.property.toLowerCase().indexOf(q.property.toLowerCase().split(' ')[0])!==-1); });
+  if(steps.length){
+    h+='<div class="refstrip"><span class="k">Step sizes on record for this property</span>';
+    steps.forEach(function(x){ h+='<span class="refchip">'+x.property+' <b>'+x.size+'</b></span>'; });
+    h+='</div>';
+  }
+
   h+='<div class="sec-title">Line items</div>';
   if(!q.items.length){ h+='<div class="empty">No line items yet. Add one below.</div>'; }
   q.items.forEach(function(it,i){
@@ -1417,7 +1607,14 @@ function renderBreakdown(){
   if(canEdit){
     h+='<div style="display:flex; gap:8px; flex-wrap:wrap; margin:4px 0 16px;">'+
        '<div class="pill-btn solid" onclick="addLine('+q.id+')">+ Add line item</div>'+
-       '<div class="pill-btn" onclick="goto(\'catalog\')">Pick from price list</div></div>';
+       '<div class="pill-btn" onclick="togglePicker('+q.id+')">Pick from price list</div></div>'+
+       '<div id="pricepicker" class="picker" style="display:none;">'+
+         '<div class="k">Tap an item to add it as a line — then change anything you like</div>'+
+         (state.catalog||[]).map(function(c){
+           return '<div class="pickrow" onclick="addFromCatalog('+q.id+',\''+c.item.replace(/'/g,"\\'")+'\','+c.yumbo+')">'+
+                  '<span>'+c.item+' <small>per '+c.unit+'</small></span><b>'+money0(c.yumbo)+'</b></div>';
+         }).join('')+
+       '</div>';
   }
 
   /* ---- TOTALS — live ---- */
@@ -1431,9 +1628,10 @@ function renderBreakdown(){
      '<div class="pc rec"><div class="k">Recommended price</div><div class="v">'+money0(qp.recommended)+'</div></div>'+
      '<div class="pc strong"><div class="k">Strong price</div><div class="v">'+money0(qp.strong)+'</div></div></div></details>';
 
-  h+='<div style="margin-top:16px;"><div class="pill-btn solid" onclick="goto(\'quoteDoc\','+q.id+')">Next: write the quote &rarr;</div></div>';
-  document.getElementById('pageBody').innerHTML=h;
+  return h;
 }
+// The old three routes now all land on the one screen and jump to a section.
+function renderBreakdown(){ renderQuoteDetail('costing'); }
 
 // ---- the cells -------------------------------------------------------------
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
@@ -1503,8 +1701,16 @@ function refreshResults(q){
     set('li-'+i+'-cont', money(c.conting));
   });
   var tc=document.getElementById('totals-card'); if(tc) tc.innerHTML=totalsRows(t);
+  var ab=document.getElementById('ab-total'); if(ab) ab.textContent=money(t.grand);
   // the preset pills: none is "on" once a number has been typed by hand
   document.querySelectorAll('.preset-btn').forEach(function(b){ b.classList.toggle('on', !!q.jobType && b.textContent===q.jobType); });
+}
+function togglePicker(qid){ var el=document.getElementById('pricepicker'); if(el) el.style.display = el.style.display==='none'?'':'none'; }
+function addFromCatalog(qid, item, price){
+  var q=state.quotes.find(function(x){return x.id===qid;}); if(!q) return;
+  q.items.push({desc:item, qty:1, materials:price, laborHrs:0, sub:0, equip:0});
+  render();
+  var i=q.items.length-1; var qty=document.querySelector('#li-'+i+' input[oninput*="\'qty\'"]'); if(qty){ qty.focus(); qty.select(); }
 }
 function addLine(qid){
   var q=state.quotes.find(function(x){return x.id===qid;}); if(!q) return;
@@ -1530,13 +1736,9 @@ function setJobType(id, name){
   render();
 }
 
-function renderQuoteDoc(){
-  var q=state.quotes.find(function(x){return x.id===state.currentQuoteId;});
-  if(!q){ goto('quotes'); return; }
+function quoteDocSection(q){
   var t=quoteTotals(q);
-  var h='<div class="back" onclick="goto(\'quoteDetail\','+q.id+')">&larr; Back to '+q.num+'</div>';
-  h+='<h1 class="dt">Quote document</h1>';
-  h+='<div class="lockednote">This is what the property receives — the same layout you send today. The estimator writes the scope and exclusions here; everything else fills itself in.</div>';
+  var h='';
 
   h+='<div class="doc">';
   h+='<h2>ESTIMATE #'+q.num+'</h2>';
@@ -1574,16 +1776,27 @@ function renderQuoteDoc(){
   h+='</div>';
 
   h+='<div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:14px;">'+
-     '<div class="pill-btn" onclick="alert(\'In the real system: saves a PDF into this property\\u2019s folder in your Google Drive.\')">Save as PDF</div>'+
+     '<div class="pill-btn" onclick="say(\'Saves this as a PDF into the property\\u2019s Drive folder. (PDF output is part of the next phase.)\')">Save as PDF</div>'+
      (q.stage==='pricing'?'<div class="pill-btn solid" onclick="decide('+q.id+',\'submitted\')">Submit for approval</div>':'')+
      '</div>';
-  document.getElementById('pageBody').innerHTML=h;
+  return h;
 }
-
+function renderQuoteDoc(){ renderQuoteDetail('doc'); }
 function renderApprovals(){
   var list=state.quotes.filter(function(q){return q.stage==='submitted';});
-  var h='<h1 class="dt">Approvals</h1><div class="lockednote">Estimates submitted to you. Approve sends it to the client; sending back returns it to the estimator with your note.</div>';
-  if(!list.length){ h+='<div class="empty">Nothing waiting on you.</div>'; }
+  var asks=state.quotes.filter(function(q){return !!q.changeRequest && !q.unlock;});
+  var h='<h1 class="dt">Approvals</h1>';
+  if(asks.length){
+    h+='<div class="sec-title" style="margin-top:8px;">Asking to change a locked estimate</div>';
+    asks.forEach(function(q){
+      h+='<div class="catrow" style="border-color:var(--orange);" onclick="goto(\'quoteDetail\','+q.id+')">'+
+         '<div><div class="nm">'+q.num+' — '+q.property+'</div>'+
+         '<div class="sub">'+q.changeRequest.by+': “'+esc(q.changeRequest.why)+'”</div></div>'+
+         '<div class="pr"><div class="s">decide &rarr;</div></div></div>';
+    });
+    h+='<div class="sec-title">Waiting for approval</div>';
+  }
+  if(!list.length && !asks.length){ h+='<div class="empty">Nothing waiting on you.</div>'; }
   list.forEach(function(q){
     var t=quoteTotals(q);
     h+='<div class="catrow" onclick="goto(\'quoteDetail\','+q.id+')">'+
@@ -1637,7 +1850,7 @@ function renderCatalog(){
   var h='<h1 class="dt">Price list</h1>';
   h+='<div class="lockednote">Your pricing sheet, in the system. The estimator picks from here so line items are priced the same way every time.</div>';
   state.catalog.forEach(function(c){
-    h+='<div class="catrow" onclick="alert(\'In the real system this drops the item straight into the estimate you are pricing.\')">'+
+    h+='<div class="catrow" onclick="say(\'To add this to a quote, open the quote and tap Pick from price list.\')">'+
        '<div><div class="nm">'+c.item+'</div><div class="sub">per '+c.unit+'</div></div>'+
        '<div class="pr"><div class="y">'+money0(c.yumbo)+'</div><div class="s">sub pays '+money0(c.sub)+'</div></div></div>';
   });
@@ -1662,9 +1875,8 @@ function renderStepSizes(){
 function renderVendors(){
   var h='<h1 class="dt">Suppliers</h1><div class="lockednote">Where you buy — from your materials directions sheet.</div>';
   state.suppliers.forEach(function(s){
-    h+='<div class="catrow" onclick="say(\''+s.name.replace(/'/g,"\\'")+' — '+s.what.replace(/'/g,"\\'")+', '+s.where.replace(/'/g,"\\'")+'.\\n\\nIn the real system this opens the supplier: their contact, what you have bought from them, and every material cost tagged back to the job it went on.\')"><div><div class="nm">'+s.name+'</div><div class="sub">'+s.what+'</div>'+
-       '<div class="sub" style="margin-top:3px;">'+s.where+'</div></div>'+
-       '<div class="pr"><div class="s">contact in system ›</div></div></div>';
+    h+='<div class="catrow" style="cursor:default;"><div><div class="nm">'+s.name+'</div><div class="sub">'+s.what+'</div>'+
+       '<div class="sub" style="margin-top:3px;">'+s.where+'</div></div></div>';
   });
   document.getElementById('pageBody').innerHTML=h;
 }
@@ -1696,13 +1908,13 @@ function renderBanking(){
   }
   var b=state.bank;
   var h='<h1 class="dt">Banking</h1>';
-  h+='<div class="lockednote">Only you can open this screen. Nobody else on the team — not the secretary, not the estimators — can see the account numbers or the balance.</div>';
+  h+='<div class="lockednote keep">Only you can open this screen — nobody else on the team can.</div>';
   h+='<div class="summary-grid"><div class="card"><div class="l">Balance right now</div><div class="v">'+money(b.balance)+'</div><div class="hint">'+b.bankName+' · synced '+b.lastSync+'</div></div></div>';
   h+='<div class="kv">'+
      '<div class="row"><span>Account</span><span>'+b.label+'</span></div>'+
      '<div class="row"><span>Account number</span><span>'+b.accountFull+'</span></div>'+
      '<div class="row"><span>Routing number</span><span>'+b.routingFull+'</span></div></div>';
-  h+='<div class="lockednote" style="margin-top:12px;">Read-only. The system can show you what you have and match payments against invoices — it can never move money. Any transfer is still you, in your own bank app.</div>';
+  h+='<div class="lockednote keep" style="margin-top:12px;">Read-only — the system can never move money. Any transfer is you, in your own bank app.</div>';
 
   h+='<div class="sec-title">Things you should know about</div>';
   var open=state.alerts.filter(function(a){return !a.ack;});
@@ -1820,8 +2032,7 @@ function renderJobDetail(){
      '</div>';
 
   if(pending<0){
-    h+='<div class="lockednote">'+money0(-pending)+' of expenses on this job are waiting to be approved. '+
-       'They are <b>not</b> in the figures above yet.</div>';
+    h+='<div class="lockednote keep">'+money0(-pending)+' of expenses are waiting for approval and are <b>not</b> in these figures yet.</div>';
   }
 
   h+='<div class="sec-title">Where the money went</div>';
@@ -1870,9 +2081,7 @@ function renderJobDetail(){
              '<span class="pill-btn" onclick="say(\'Not yet agreed, so it can still be changed.\')">Change the rate</span>')+
          '</div></div>';
     });
-    h+='<div class="lockednote">An offer nobody has agreed to yet still counts against this job\'s '+
-       'profit — leaving it out would make the job look better than it is. It is shown separately '+
-       'so it is never mistaken for agreed.</div>';
+    h+='<div class="lockednote keep">An offer not yet agreed still counts against this job\'s profit — otherwise the job would look better than it is.</div>';
   }
 
   h+='<div class="sec-title">Updates on this job</div>';
@@ -1915,9 +2124,7 @@ function renderJobDetail(){
   if(!(d.files||[]).length){
     h+='<div class="empty">Nothing sent to this job yet.</div>';
   }
-  h+='<div class="lockednote">A photo sent with the <b>wrong</b> code does not get filed anywhere — '+
-     'the bot writes back to say it did not recognise it. That is on purpose: a photo waiting an hour '+
-     'in the office inbox is a small problem, a photo on the wrong job is one nobody finds for months.</div>';
+  h+='<div class="lockednote keep">A photo with the <b>wrong</b> code is not filed — the bot writes back so it can be resent.</div>';
 
   document.getElementById('pageBody').innerHTML=h;
 }
@@ -1934,7 +2141,7 @@ function renderRequests(){
   document.getElementById('pageBody').innerHTML=h;
 }
 function renderInbox(){
-  var h='<h1 class="dt">Team inbox</h1><div class="lockednote">Photos and updates the crew sends in. Nothing becomes a record until someone confirms it.</div>';
+  var h='<h1 class="dt">Team inbox</h1><div class="lockednote keep">Nothing here becomes a record until someone confirms it.</div>';
   state.inbox.forEach(function(i){
     h+='<div class="catrow" onclick="say(\'This is what came in from the field. You pick which job it belongs to, then confirm — and only then does it become a real record on that job. Nothing files itself unless the sender put the job code in the message.\')"><div><div class="nm">'+i.cmd+' — '+i.from+'</div><div class="sub">'+i.note+'</div></div>'+
        '<div class="pr"><div class="s">'+(i.confirmed?'confirmed':'<span class="status" style="background:var(--coral); color:#fff;">confirm</span>')+'</div></div></div>';
@@ -2010,7 +2217,7 @@ function renderMoney(){
       h+='</div>';
 
       if(inv.promise){
-        h+='<div class="lockednote" style="border-color:var(--orange);">'+
+        h+='<div class="lockednote keep" style="border-color:var(--orange);">'+
            '<b>They promised '+inv.promise.date+'.</b> '+inv.promise.who+' said: “'+inv.promise.said+'” '+
            'If that date passes with nothing received, this lands on the call list that morning.</div>';
       }
@@ -2047,7 +2254,9 @@ function renderMoney(){
   document.getElementById('pageBody').innerHTML=h;
 }
 function openInvoice(no){ state.currentInvoice = (state.currentInvoice===no ? null : no); render(); }
-function say(msg){ alert('Preview\n\n'+msg+'\n\nNothing was actually saved or sent.'); }
+// The one popup. Things DO change on screen now (in memory), so the footer no
+// longer claims nothing happened — it says what is true: reload resets it.
+function say(msg){ alert(msg+'\n\n(Preview — reload the page to reset.)'); }
 function renderReports(){
   document.getElementById('pageBody').innerHTML='<h1 class="dt">Reports</h1>'+
     '<div class="card"><div class="l">Weekly company report</div><div class="v" style="font-size:14px;">5 quotes out · 2 approved · 4 jobs running · $24,350 invoiced · close rate 62%</div>'+
@@ -2063,7 +2272,7 @@ function countInRole(r){ return state.team.filter(function(t){ return t.role===r
    choosing HOW MANY TILES each one can open. All of that lives here, on the
    page that was already called Team. */
 var ALL_TABS = ['dashboard','newwork','quotes','approvals','jobs','requests','inbox','properties',
-                'subs','vendors','catalog','stepsizes','expenses','money','banking','reports','team'];
+                'subs','vendors','expenses','money','banking','reports','team'];
 var ALWAYS_ON = ['dashboard'];
 var OWNER_ONLY = ['banking'];
 
@@ -2236,11 +2445,9 @@ function renderTeam(){
        '<div class="pr"><div class="y" style="font-size:12.5px;">'+r[1]+'</div></div></div>';
   });
 
-  h+='<div class="lockednote" style="border-color:var(--orange);">'+
-     '<b>One thing we still need from you.</b> You said a percentage of newly approved jobs is '+
-     'commissioned. A percentage of the <b>job price</b> and a percentage of the <b>job profit</b> are '+
-     'very different numbers — on an $8,300 job at 5% that is $415 against about $194. '+
-     'Tell us which and every job will work it out the same way.</div>';
+  // (The GC price-vs-profit question used to sit here. It is asked in the message
+  //  to Mailin now — a settings box nobody reads is the wrong place for a blocker.)
+
 
   document.getElementById('pageBody').innerHTML=h;
 }
@@ -2256,7 +2463,7 @@ function showRateExample(val){
 
 function addMember(){
   var n=(state.newMember.name||'').trim();
-  if(!n){ alert('Type their name first.'); return; }
+  if(!n){ say('Type their name first.'); return; }
   var r=state.newMember.role;
   if(!MULTI_SEAT[r] && countInRole(r)>0){ alert(roleLabel(r)+' is a single-person role.'); return; }
   var id=Math.max.apply(null, state.team.map(function(t){return t.id;}))+1;
@@ -2264,7 +2471,7 @@ function addMember(){
   // from zero — so it is stored as null rather than 0.
   var c=(state.newMember.comm||'').toString().trim();
   var pct=(c==='')?null:parseFloat(c);
-  if(pct!==null && (isNaN(pct)||pct<0||pct>100)){ alert('Commission must be a number between 0 and 100, or blank.'); return; }
+  if(pct!==null && (isNaN(pct)||pct<0||pct>100)){ say('Commission must be a number between 0 and 100, or blank.'); return; }
   state.team.push({id:id, name:n, role:r, active:true, added:'Just now', comm:pct});
   state.newMember={name:'', role:r, comm:''};
   render();
@@ -2277,10 +2484,44 @@ function toggleMember(id){
   render();
 }
 
+/* Search that searches. It used to be an alert() saying what it WOULD do,
+   which to somebody trying the system is the same as broken. */
 function doSearch(){
   var q=(document.getElementById('searchInput').value||'').trim();
   if(!q){ return; }
-  alert('In the real system this searches '+document.getElementById('searchScope').selectedOptions[0].text.toLowerCase()+' for "'+q+'".');
+  state.searchQ=q; state.searchScope=document.getElementById('searchScope').value;
+  goto('search');
+}
+function renderSearch(){
+  var q=(state.searchQ||'').toLowerCase(), sc=state.searchScope||'all';
+  var hit=function(s){ return String(s||'').toLowerCase().indexOf(q)!==-1; };
+  var h='<h1 class="dt">Results for “'+esc(state.searchQ)+'”</h1>';
+  var n=0;
+  if(sc==='all'||sc==='jobs'){
+    (state.jobs||[]).filter(function(j){return hit(j.num)||hit(j.desc)||hit(j.client);}).forEach(function(j){ n++;
+      h+='<div class="catrow" onclick="goto(\'jobDetail\',\''+j.num+'\')"><div><div class="nm">'+j.num+' — '+j.desc+'</div><div class="sub">Job · '+j.client+'</div></div><div class="pr"><div class="s">open ›</div></div></div>';
+    });
+  }
+  if(sc==='all'||sc==='quotes'){
+    (state.quotes||[]).filter(function(x){return hit(x.num)||hit(x.property)||hit(x.scope);}).forEach(function(x){ n++;
+      h+='<div class="catrow" onclick="goto(\'quoteDetail\','+x.id+')"><div><div class="nm">'+x.num+' — '+x.property+'</div><div class="sub">Quote · '+stageLabel(x.stage)+'</div></div><div class="pr"><div class="s">open ›</div></div></div>';
+    });
+  }
+  if(sc==='all'||sc==='properties'){
+    (state.properties||[]).filter(function(x){return hit(x.name)||hit(x.mgmt);}).forEach(function(x){ n++;
+      h+='<div class="catrow" onclick="goto(\'propertyDetail\','+x.id+')"><div><div class="nm">'+x.name+'</div><div class="sub">Property · '+(x.mgmt||'')+'</div></div><div class="pr"><div class="s">open ›</div></div></div>';
+    });
+    (state.subs||[]).filter(function(x){return hit(x.name)||hit(x.trade);}).forEach(function(x){ n++;
+      h+='<div class="catrow" onclick="goto(\'subs\')"><div><div class="nm">'+x.name+'</div><div class="sub">Subcontractor · '+(x.trade||'')+'</div></div><div class="pr"><div class="s">open ›</div></div></div>';
+    });
+  }
+  if(sc==='all'||sc==='catalog'){
+    (state.catalog||[]).filter(function(c){return hit(c.item);}).forEach(function(c){ n++;
+      h+='<div class="catrow" style="cursor:default;"><div><div class="nm">'+c.item+'</div><div class="sub">Price list · per '+c.unit+'</div></div><div class="pr"><div class="y">'+money0(c.yumbo)+'</div><div class="s">sub pays '+money0(c.sub)+'</div></div></div>';
+    });
+  }
+  if(!n) h+='<div class="empty">Nothing matches “'+esc(state.searchQ)+'”.</div>';
+  document.getElementById('pageBody').innerHTML=h;
 }
 
 var RENDER = {
@@ -2289,10 +2530,58 @@ var RENDER = {
   properties:renderProperties, propertyDetail:renderPropertyDetail, catalog:renderCatalog, stepsizes:renderStepSizes,
   vendors:renderVendors, subs:renderSubs, jobs:renderJobs, requests:renderRequests,
   inbox:renderInbox, expenses:renderExpenses, money:renderMoney, banking:renderBanking, reports:renderReports, team:renderTeam,
-  jobDetail:renderJobDetail
+  jobDetail:renderJobDetail, search:renderSearch
 };
+/* The trail for the current screen. Detail screens name their parent list and
+   the record they are inside; list screens are one step off Home. */
+function crumbsFor(){
+  var p=state.page;
+  var q=state.quotes.find(function(x){return x.id===state.currentQuoteId;});
+  var j=state.jobs.filter(function(x){return x.num===state.currentJobNum;})[0];
+  var pr=(state.properties||[]).find(function(x){return x.id===state.currentPropertyId;});
+  var home=[{label:'Home', page:'dashboard'}];
+  switch(p){
+    case 'dashboard': return [];
+    case 'quoteDetail': return home.concat([{label:'Quotes',page:'quotes'},{label:q?q.num:'Quote'}]);
+    case 'breakdown':   return home.concat([{label:'Quotes',page:'quotes'},{label:q?q.num:'Quote',page:'quoteDetail',id:q&&q.id},{label:'Cost breakdown'}]);
+    case 'quoteDoc':    return home.concat([{label:'Quotes',page:'quotes'},{label:q?q.num:'Quote',page:'quoteDetail',id:q&&q.id},{label:'Quote document'}]);
+    case 'jobDetail':   return home.concat([{label:'Jobs',page:'jobs'},{label:j?j.num:'Job'}]);
+    case 'propertyDetail': return home.concat([{label:'Properties',page:'properties'},{label:pr?pr.name:'Property'}]);
+    case 'search':  return home.concat([{label:'Search'}]);
+    default: return home.concat([{label:navLabels[p]||p}]);
+  }
+}
+function toggleHelp(){ document.body.classList.toggle('showhelp'); buildCrumbs(); }
+function helpBtn(){
+  var on=document.body.classList.contains('showhelp');
+  return '<button class="helpbtn'+(on?' on':'')+'" onclick="toggleHelp()" title="'+(on?'Hide explanations':'Explain this screen')+'" aria-label="Explain this screen">?</button>';
+}
+function buildCrumbs(){
+  var el=document.getElementById('crumbs'); if(!el) return;
+  var trail=crumbsFor();
+  el.style.display='';
+  if(!trail.length){ el.innerHTML='<span class="crumb cur" style="opacity:.6;">Home</span>'+helpBtn(); return; }
+  el.innerHTML=trail.map(function(c,i){
+    var last=(i===trail.length-1);
+    var inner=last?'<span class="crumb cur">'+c.label+'</span>'
+                  :'<span class="crumb" onclick="goto(\''+c.page+'\''+(c.id?','+c.id:'')+')">'+c.label+'</span>';
+    return inner+(last?'':'<span class="crumb-sep">›</span>');
+  }).join('')+helpBtn();
+}
+
+/* Inside a record, the 17-tile grid is noise between you and what you opened.
+   It folds away automatically and comes back on Home or any list screen. The
+   ☰ still toggles it by hand if somebody wants it. */
+var DETAIL_PAGES=['quoteDetail','breakdown','quoteDoc','jobDetail','propertyDetail'];
+function autoCollapseNav(){
+  var n=document.getElementById('navbar'), t=document.getElementById('navToggle'); if(!n) return;
+  var inside = DETAIL_PAGES.indexOf(state.page)!==-1;
+  n.classList.toggle('navhidden', inside);
+  if(t) t.style.transform = inside ? 'rotate(90deg)' : '';
+}
+
 function render(){
-  buildRoleBar(); buildNav();
+  buildRoleBar(); buildNav(); buildCrumbs(); autoCollapseNav();
   // Settings is owner-only, so the gear only exists for the owner. Showing
   // it to everybody and refusing the click would be worse than not showing it.
   var g=document.getElementById('gearBtn');
