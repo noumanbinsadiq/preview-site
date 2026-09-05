@@ -678,6 +678,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold) !important; box
 .rolenote{background:rgba(91,140,255,.10); border:1px solid rgba(91,140,255,.35); color:#BFD2FF;}
 .rate-eg{background:rgba(52,208,138,.10); border:1px solid rgba(52,208,138,.30); color:var(--green-ink);}
 .lockednote{color:var(--ink-soft);}
+.crumbs{color:var(--ink-soft);} .crumb.cur{color:var(--txt);} .crumb-sep{color:var(--ink-soft);}
 .crumb:hover{background:rgba(255,255,255,.06); color:var(--txt);}
 .back{color:var(--gold-2);}
 .actionbar{background:#05060A; border-top:1px solid #23262F;}
@@ -711,7 +712,12 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold) !important; box
   border-radius:20px; border:1px solid #23262F; box-shadow:var(--shadow);
   background:radial-gradient(120% 140% at 20% 0%, #1C2130 0%, #0C0D12 60%), #0C0D12;
   display:flex; align-items:flex-end; padding:18px;}
-.demo-video .dv-glow{position:absolute; inset:0; background:radial-gradient(60% 80% at 78% 22%, rgba(216,180,92,.22), transparent 70%); pointer-events:none;}
+.dv-vid{display:none; width:100%; border-radius:20px; background:#0C0D12;}
+.demo-video.playing{min-height:0; padding:0; cursor:default; background:#000; align-items:stretch;}
+.demo-video.playing .dv-glow,.demo-video.playing .dv-play,.demo-video.playing .dv-meta{display:none;}
+.demo-video.playing .dv-vid{display:block; height:auto; object-fit:contain;}
+.demo-video .dv-glow{position:absolute; inset:0; background:radial-gradient(60% 80% at 78% 22%, rgba(216,180,92,.22), transparent 70%); pointer-events:none; z-index:1;}
+.demo-video .dv-play,.demo-video .dv-meta{z-index:2;}
 .demo-video:hover{border-color:var(--gold);}
 .dv-play{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:64px; height:64px;
   border-radius:50%; border:none; cursor:pointer; color:#141007;
@@ -774,6 +780,10 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold) !important; box
          share link) in the script block near the top of the app. When it is
          empty the card acts as a guided nudge to the 3 steps below. -->
     <div class="demo-video" id="demoVideo" onclick="playWalkthrough()">
+      <video id="wtVideo" class="dv-vid" playsinline preload="none">
+        <source src="walkthrough.mp4" type="video/mp4">
+        <source src="walkthrough.webm" type="video/webm">
+      </video>
       <div class="dv-glow"></div>
       <button class="dv-play" aria-label="Play walkthrough"><svg viewBox="0 0 24 24" width="26" height="26"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></button>
       <div class="dv-meta">
@@ -885,6 +895,9 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold) !important; box
 var WALKTHROUGH_URL = '';   // e.g. 'https://www.loom.com/share/xxxxxxxx'
 function playWalkthrough(){
   if(WALKTHROUGH_URL){ window.open(WALKTHROUGH_URL, '_blank', 'noopener'); return; }
+  var card=document.getElementById('demoVideo'), v=document.getElementById('wtVideo');
+  if(v){ card.classList.add('playing'); v.setAttribute('controls','controls');
+    var p=v.play(); if(p&&p.catch) p.catch(function(){}); return; }
   var s=document.querySelector('.demo-steps');
   if(s){ s.scrollIntoView({behavior:'smooth', block:'center'});
     s.classList.remove('nudge'); void s.offsetWidth; s.classList.add('nudge'); }
@@ -959,7 +972,7 @@ var navIcons = {
    not ours to publish.
    ============================================================ */
 var state = {
-  role: 'estimator',
+  role: 'owner',
   page: 'dashboard',
   quoteFilter: 'all',
   currentQuoteId: 1,
