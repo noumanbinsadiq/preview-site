@@ -3167,22 +3167,38 @@ function renderPortal(){
 
 /* ---- 4. ADD-ONS (productised upgrade menu — doubles as the upsell sheet) ---- */
 var ADDONS = [
-  {name:'Client Portal', on:true,  price:49, desc:'Clients approve quotes &amp; e-sign online — approvals land back in BuildLedger.'},
-  {name:'Online Payments (Stripe)', on:true, price:39, desc:'Card &amp; ACH checkout on every invoice, auto-reconciled to the job.'},
-  {name:'Field Bot (SMS / Telegram)', on:true, price:29, desc:'Crews text a job code + photo; it files to the right job automatically.'},
-  {name:'QuickBooks Sync', on:false, price:45, desc:'Two-way sync of invoices, payments &amp; expenses with QuickBooks Online.'},
-  {name:'Advanced Analytics', on:false, price:35, desc:'Margin-by-type, A/R aging, per-estimator performance &amp; trends.'},
-  {name:'E-Signature on Quotes', on:false, price:19, desc:'Legally-binding signature capture built into the quote document.'},
-  {name:'Crew Scheduling Board', on:false, price:29, desc:'Drag-and-drop week board for crews, subs &amp; site visits.'},
-  {name:'Automated Payment Reminders', on:false, price:15, desc:'Polite, escalating reminders that chase the oldest A/R first.'},
-  {name:'Time Tracking', on:false, price:25, desc:'Crew hours by job, feeding straight into labor cost &amp; margin.'},
-  {name:'Extra Team Seats (5)', on:false, price:40, desc:'Add estimators, PMs &amp; sales — each with their own role &amp; login.'}
+  {name:'Client Portal', on:true,  price:79, desc:'Clients approve quotes &amp; e-sign online — approvals land back in BuildLedger.'},
+  {name:'Online Payments (Stripe)', on:true, price:59, desc:'Card &amp; ACH checkout on every invoice, auto-reconciled to the job.'},
+  {name:'WhatsApp Business Hub', on:true, price:89, desc:'Quote, approve &amp; chat with clients right inside WhatsApp — every message auto-logged to the job. No app for them to learn.'},
+  {name:'Telegram Field &amp; Remote Control', on:true, price:79, desc:'Crews send photos &amp; updates by job code; you approve quotes, requests &amp; payments straight from Telegram — run the whole business from your phone.'},
+  {name:'Email Sync', on:false, price:49, desc:'Connect your business inbox — quotes, invoices &amp; client replies sync to the right job automatically.'},
+  {name:'Google Drive Sync — Job Folders', on:false, price:59, desc:'Every job gets its own Google Drive folder; photos, receipts &amp; documents file themselves into it, named and dated.'},
+  {name:'Google Calendar Sync', on:false, price:39, desc:'Jobs, site visits &amp; crew schedules pushed to your Google Calendar and kept in sync.'},
+  {name:'QuickBooks Sync', on:false, price:79, desc:'Two-way sync of invoices, payments &amp; expenses with QuickBooks Online.'},
+  {name:'AI Office Assistant', on:false, price:99, desc:'Ask it anything — “what’s owed?”, “draft this quote”, “who hasn’t paid?” — and it answers from your live data, day or night.'},
+  {name:'Advanced Analytics', on:false, price:69, desc:'Margin-by-type, A/R aging, per-estimator performance &amp; trends.'},
+  {name:'Crew Scheduling Board', on:false, price:59, desc:'Drag-and-drop week board for crews, subs &amp; site visits.'},
+  {name:'Bank Feed &amp; Reconciliation', on:false, price:59, desc:'Live bank feed; deposits matched to invoices and expenses matched to jobs automatically.'},
+  {name:'Automated Payment Reminders', on:false, price:45, desc:'Polite, escalating reminders that chase the oldest A/R first — without you lifting a finger.'},
+  {name:'E-Signature on Quotes', on:false, price:39, desc:'Legally-binding signature capture built into the quote document.'},
+  {name:'Time Tracking', on:false, price:49, desc:'Crew hours by job, feeding straight into labor cost &amp; margin.'},
+  {name:'Extra Team Seats (5)', on:false, price:79, desc:'Add estimators, PMs &amp; sales — each with their own role &amp; login.'}
 ];
 function toggleAddon(i){ if(ADDONS[i]) ADDONS[i].on=!ADDONS[i].on; render(); }
 function renderAddons(){
-  var base=149, total=base;
+  var base=349, total=base;
   var h='<h1 class="dt">Add-ons &amp; modules</h1>'+
-    '<div class="rolenote">BuildLedger starts complete. Switch on only the modules you need — each one turns on instantly, no new software to learn.</div>'+
+    '<div class="rolenote">BuildLedger starts complete. Switch on only the modules you need — each turns on instantly, nothing new for your team to learn.</div>'+
+    // VALUE FRAME — priced against what a hire costs, not against other software
+    '<div class="card" style="border-color:var(--gold);background:linear-gradient(180deg,rgba(216,180,92,.07),transparent);">'+
+      '<div class="l" style="color:var(--gold-2);letter-spacing:.08em;">WHAT IT REPLACES — THE REAL MATH</div>'+
+      '<div style="font-size:13.5px;color:var(--txt);margin-top:8px;line-height:1.7;">'+
+        'A part-time office admin running quotes, follow-ups &amp; filing &nbsp;·&nbsp; <b style="color:var(--gold-2);">$2,800–4,200/mo</b><br>'+
+        'Someone chasing invoices &amp; keeping the books straight &nbsp;·&nbsp; <b style="color:var(--gold-2);">$400–900/mo</b><br>'+
+        '10–15 hours of <i>your</i> week lost to admin &nbsp;·&nbsp; <b style="color:var(--gold-2);">back in your pocket</b>'+
+      '</div>'+
+      '<div class="v" style="margin-top:10px;font-size:14.5px;color:var(--gold-2);line-height:1.5;">BuildLedger does the same work from <b>$349/mo</b> — a fraction of one hire, running every day, and it never quits.</div>'+
+    '</div>'+
     '<div class="pricecard"><div class="pc strong"><div class="k">Core platform</div><div class="v">$'+base+'<span style="font-size:12px;font-weight:700;opacity:.7;">/mo</span></div></div>'+
     '<div class="pc rec"><div class="k">Your selected plan</div><div class="v" id="addonTotal">—</div></div></div>';
   ADDONS.forEach(function(a,i){ if(a.on) total+=a.price;
@@ -3191,7 +3207,7 @@ function renderAddons(){
       '<div class="pr" style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">'+
       '<div class="y">$'+a.price+'<span style="font-size:10px;font-weight:700;color:var(--ink-soft);">/mo</span></div>'+
       '<span class="status '+(a.on?'approved':'')+'" style="'+(a.on?'':'opacity:.7;')+'">'+(a.on?'✓ On':'Add')+'</span></div></div>'; });
-  h+='<div class="lockednote keep">Tap a module to add or remove it — the plan total updates live. This is a sample menu; final pricing is set with you.</div>';
+  h+='<div class="lockednote keep">Tap a module to add or remove it — the plan total updates live. This is the monthly care plan; the one-time build to make it yours is quoted separately.</div>';
   document.getElementById('pageBody').innerHTML=h;
   var t=document.getElementById('addonTotal'); if(t) t.innerHTML='$'+total+'<span style="font-size:12px;font-weight:700;opacity:.75;">/mo</span>';
 }
