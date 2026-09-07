@@ -163,15 +163,16 @@
     tbody, table > tr, tbody > tr{display:block}
     table tr{display:block; border:1px solid var(--line); border-radius:var(--r);
       padding:6px 14px; margin:0 0 10px}
-    /* flex-wrap + overflow-wrap: when a label and a long value cannot share one
-       line (measured: "How the invoice reaches them" beside "OpsMerchant
-       (RealPage)" overflowed by 8px), the value drops to its own line instead
-       of being clipped. Nothing is ever cut off, at any string length. */
-    table td{display:flex; flex-wrap:wrap; justify-content:space-between;
-      align-items:baseline; gap:4px 14px; overflow-wrap:anywhere;
-      border:0; border-bottom:1px solid var(--line-2); padding:9px 0; text-align:left}
+    /* Label ABOVE the value, not beside it. A flex row was tried first and
+       looked right until a screenshot showed the real cost: flex makes every
+       child its own flex item, so each <strong> inside a sentence jumped to a
+       new line and the remaining text began with a stray comma. Block layout
+       keeps a cell's inline markup intact at any length, and nothing can be
+       clipped or reflowed mid-sentence. */
+    table td{display:block; overflow-wrap:anywhere;
+      border:0; border-bottom:1px solid var(--line-2); padding:10px 0; text-align:left}
     table tr td:last-child{border-bottom:0}
-    table td::before{content:attr(data-label); flex:0 1 auto; max-width:100%;
+    table td::before{content:attr(data-label); display:block; margin-bottom:3px;
       font-family:var(--font-data); font-size:10.5px; letter-spacing:.12em;
       text-transform:uppercase; color:var(--ink-faint); line-height:1.5}
     table td:not([data-label])::before{content:none}
@@ -535,40 +536,66 @@ and ask me about anything that is not clear.</p>
     a quote anyone has given you. I am not claiming someone would definitely charge you $40,000 —
     I am showing you the shelf this sits on.</p>
 
-  <h3 style="margin:30px 0 10px">2 · Renting a general-purpose system instead</h3>
+  <h3 style="margin:30px 0 10px">2 · What the serious platforms cost a business your size</h3>
+  <p>These are the systems that actually try to do what yours does — job costing, subcontractors,
+    financials, roles. <strong>Not one of them publishes a price.</strong> The company links below
+    go to their own pages, where you can confirm that for yourself; the dollar figures come from
+    published industry analyses of what buyers actually pay, sourced underneath the table.</p>
   <table>
-    <tr><th>Product</th><th>What it costs</th><th class="r">Per year, your size</th></tr>
+    <tr><th>System</th><th>What it costs</th><th class="r">A year, your size</th></tr>
     <tr>
-      <td data-label="Product"><a href="https://www.getjobber.com/pricing/" target="_blank" rel="noopener noreferrer">Jobber</a></td>
-      <td data-label="What it costs">Plus $399/mo up to 5 users · $449 for 6–10</td>
-      <td class="r" data-label="Per year, your size">~$5,400</td>
+      <td data-label="System"><a href="https://www.servicetitan.com/" target="_blank" rel="noopener noreferrer">ServiceTitan</a></td>
+      <td data-label="What it costs"><strong>$245–$398 per person, per month</strong>, reported. 12-month minimum with early-termination fees, plus <strong>$5,000–$50,000+ to set up</strong></td>
+      <td class="r" data-label="A year, your size">~$25,000<br><span style="color:var(--ink-faint)">+ setup</span></td>
     </tr>
     <tr>
-      <td data-label="Product"><a href="https://knowify.com/pricing/" target="_blank" rel="noopener noreferrer">Knowify</a></td>
-      <td data-label="What it costs">Advanced $329/mo yearly, $399 monthly (10 users)</td>
-      <td class="r" data-label="Per year, your size">~$3,950</td>
+      <td data-label="System"><a href="https://www.procore.com/" target="_blank" rel="noopener noreferrer">Procore</a></td>
+      <td data-label="What it costs">Priced on your construction volume. Smaller contractors report <strong>$15,000–$30,000 a year</strong>, with the first year 2–2.5× that once setup is counted</td>
+      <td class="r" data-label="A year, your size">~$15,000+</td>
     </tr>
     <tr>
-      <td data-label="Product"><a href="https://buildertrend.com/pricing/" target="_blank" rel="noopener noreferrer">Buildertrend</a></td>
-      <td data-label="What it costs"><strong>Publishes no price.</strong> Their page asks your annual construction volume, then books a call</td>
-      <td class="r" data-label="Per year, your size">—</td>
+      <td data-label="System"><a href="https://buildertrend.com/pricing/" target="_blank" rel="noopener noreferrer">Buildertrend</a></td>
+      <td data-label="What it costs">Their pricing page asks your <strong>annual construction volume</strong> before it will show you anything, then books a call</td>
+      <td class="r" data-label="A year, your size">unpublished</td>
     </tr>
-    <tr>
-      <td data-label="Product"><a href="https://www.procore.com/" target="_blank" rel="noopener noreferrer">Procore</a></td>
-      <td data-label="What it costs"><strong>Publishes no price.</strong> Priced on your construction volume</td>
-      <td class="r" data-label="Per year, your size">—</td>
+    <tr class="total">
+      <td data-label="System"><strong>Your system</strong></td>
+      <td data-label="What it costs"><strong>$6,500 once</strong> — you own it — then $450/month to keep it running</td>
+      <td class="r" data-label="A year, your size"><strong>$5,400</strong></td>
     </tr>
   </table>
-  <p style="font-size:14.5px"><strong>The honest version, and I would rather you heard it from me:</strong>
-    over three years a subscription is <em>cheaper</em> than building your own — roughly $12,000–$16,000
-    against $6,500 plus Care. On price alone, renting wins.</p>
-  <p style="font-size:14.5px">What renting does not do is your actual work. None of them carry
-    <strong>your portal and PO rules</strong>, your commission agreements, your subcontractor
-    payouts against job profit, or your update loop. And two things worth noticing on their own
-    pricing pages: Knowify counts users and charges <strong>$29 a month for each one past the
-    plan</strong>, and the ability to <strong>hide money from staff who should not see it</strong>
-    is on its top tier only — for you that is not a feature, it is the reason six roles exist.
-    Buildertrend and Procore will not tell you a price until they know how much you turn over.</p>
+  <p style="font-size:13px; color:var(--ink-faint); margin-top:-6px">Sources for the figures:
+    <a href="https://procured.us/articles/servicetitan-pricing" target="_blank" rel="noopener noreferrer">ServiceTitan
+    pricing analysis</a> · <a href="https://projul.com/blog/procore-pricing-analysis-2026/"
+    target="_blank" rel="noopener noreferrer">Procore pricing analysis</a>. Both are third-party
+    estimates, because neither company will state a number publicly. Treat them as the right order
+    of magnitude, not a quote. ServiceTitan is priced per person in the field; the figure above
+    assumes a team the size of yours.</p>
+  <div class="found">
+    <p style="margin:0; color:var(--ink)"><strong>Read the last column, because it is the whole
+      argument.</strong> A platform like ServiceTitan would cost you in the region of
+      <strong>$25,000 every year, forever</strong>, and at the end of it you would own nothing.
+      Your system is <strong>$6,500 once</strong> — and the $450 a month after that is roughly what
+      <em>one seat</em> costs on one of those platforms.</p>
+  </div>
+
+  <h3 style="margin:30px 0 10px">3 · And the cheap tools, so you have the full picture</h3>
+  <p style="font-size:14.5px">There are cheaper ones — <a href="https://www.getjobber.com/pricing/"
+    target="_blank" rel="noopener noreferrer">Jobber</a> from $399/month and
+    <a href="https://knowify.com/pricing/" target="_blank" rel="noopener noreferrer">Knowify</a>
+    from $329. I would rather you heard about them from me than found them later and wondered why
+    I did not mention them. <strong>They are cheaper because they do less</strong>, and the gaps are
+    exactly where your business lives: none of them holds <strong>your portal and PO rules</strong>
+    (VendorCafé, OpsMerchant, AvidXchange, which PO is needed first), your commission agreements,
+    your subcontractor payouts against job profit, or your update loop. Knowify charges
+    <strong>$29 a month for every person past the plan</strong>, and the ability to
+    <strong>hide money from staff who should not see it</strong> sits on its top tier only — for
+    you that is not a feature, it is the reason six roles exist.</p>
+  <p style="font-size:14.5px"><strong>And the difference that outlasts all of it:</strong> a
+    subscription is rent. Stop paying any of them and you lose the system and your access to the
+    data inside it. <strong>Stop paying me and you keep the system, the data and the code.</strong>
+    That is the difference between renting and owning, and it is why the two columns above are not
+    really comparable at all.</p>
 </section>
 
 <!-- ============================================================= -->
