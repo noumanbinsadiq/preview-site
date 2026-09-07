@@ -80,6 +80,13 @@
     font-size:38px; color:var(--gold); letter-spacing:-.02em; line-height:.92}
 
   .card{border:1px solid var(--line); border-radius:var(--r); padding:20px 22px; margin:14px 0}
+  /* The one-screen summary. Not gold-bordered: gold marks a measured finding,
+     and a table of contents is not a finding. */
+  .tldr{border:1px solid var(--line); border-left:3px solid var(--ink-faint);
+    border-radius:var(--r); padding:20px 22px; margin:26px 0 8px;
+    background:var(--canvas-raise)}
+  .tldr ul{margin:0 0 14px 18px}
+  .tldr li{margin:9px 0; line-height:1.55}
   .grid{display:grid; gap:14px}
   @media(min-width:700px){ .grid.two{grid-template-columns:1fr 1fr} .grid.three{grid-template-columns:repeat(3,1fr)} }
 
@@ -142,7 +149,41 @@
   /* A five-column table is 449px wide and the phone is 390. Let the TABLE
      scroll, never the page — a document that slides sideways reads as broken. */
   @media(max-width:640px){
-    table{display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap}
+    /* ── TABLES BECOME CARDS ────────────────────────────────────────────
+       The old rule was `overflow-x:auto; white-space:nowrap`, which meant the
+       page did not scroll sideways but every TABLE did — measured at 390px,
+       five tables were hiding 80–534px of themselves, and what was hidden was
+       the right-hand column. In this document the right-hand column is the
+       PRICE. A proposal that makes someone swipe sideways to find the number
+       is not mobile-friendly, whatever the overflow figure says.
+       Each row is now its own block and each cell carries its column name from
+       data-label, so nothing is off-screen and nothing needs a horizontal swipe. */
+    table{display:block; width:100%}
+    thead, table tr:first-child{display:none}          /* header row is redundant once labelled */
+    tbody, table > tr, tbody > tr{display:block}
+    table tr{display:block; border:1px solid var(--line); border-radius:var(--r);
+      padding:6px 14px; margin:0 0 10px}
+    /* flex-wrap + overflow-wrap: when a label and a long value cannot share one
+       line (measured: "How the invoice reaches them" beside "OpsMerchant
+       (RealPage)" overflowed by 8px), the value drops to its own line instead
+       of being clipped. Nothing is ever cut off, at any string length. */
+    table td{display:flex; flex-wrap:wrap; justify-content:space-between;
+      align-items:baseline; gap:4px 14px; overflow-wrap:anywhere;
+      border:0; border-bottom:1px solid var(--line-2); padding:9px 0; text-align:left}
+    table tr td:last-child{border-bottom:0}
+    table td::before{content:attr(data-label); flex:0 1 auto; max-width:100%;
+      font-family:var(--font-data); font-size:10.5px; letter-spacing:.12em;
+      text-transform:uppercase; color:var(--ink-faint); line-height:1.5}
+    table td:not([data-label])::before{content:none}
+    table td.r{text-align:right}
+    table td[colspan]{display:block}
+    tr.total{border-color:var(--gold)}
+    tr.total td{border-top:0; padding-top:9px}
+
+    /* Nothing under 12px on a phone. 39 elements were at 10–10.5px. */
+    th, .kicker, .meta, .pill, .mono, table td::before{font-size:11.5px}
+    .choice-n{font-size:26px}
+
     /* No h1 override any more. The clamp floor (34px) fits 390px with the
        condensed 125% width axis, and it was measured, not assumed. */
   }
@@ -177,6 +218,26 @@ your business, what is still to come, and every number. Nothing here is a surpri
 exactly what is due, when, and what happens if a payment is late. Take your time with it —
 and ask me about anything that is not clear.</p>
 
+<!-- The page is long because it holds every number. On a phone that is a lot of
+     scrolling before anything useful, so the whole thing is summarised here first. -->
+<div class="tldr">
+  <div class="kicker" style="margin-bottom:10px">The short version</div>
+  <ul>
+    <li><strong>$7,799</strong> is recorded as paid on two of your invoices above what those
+      invoices are worth. Details and invoice numbers below.</li>
+    <li><strong>The system is built and running your back office</strong> — jobs, invoices,
+      subcontractors, money in and out — with your own records already in it.</li>
+    <li><strong>Not built yet:</strong> pricing a job inside the system, sending an estimate out
+      of it, alerts on your phone, and QuickBooks.</li>
+    <li><strong>$2,500 now</strong> for what you can already use. <strong>$3,250</strong> after
+      that finishes the build — <strong>$6,500 in total</strong>, or <strong>$6,000</strong> if
+      you settle the rest in one payment.</li>
+    <li><strong>$450 a month</strong> afterwards to keep it running. First three months included.
+      Not a lock-in.</li>
+  </ul>
+  <p style="margin:0"><a href="#decide">Skip to the end and tell me what you think →</a></p>
+</div>
+
 <!-- ============================================================= -->
 <section>
   <div class="kicker">First — what we found in your own records</div>
@@ -192,8 +253,8 @@ and ask me about anything that is not clear.</p>
 
   <table>
     <tr><th>Invoice</th><th>Job</th><th class="r">Worth</th><th class="r">Recorded paid</th><th class="r">Difference</th></tr>
-    <tr><td class="num">26-3717</td><td class="num">26-4251</td><td class="r">$350.00</td><td class="r">$1,600.00</td><td class="r" style="color:var(--bad)">+$1,250.00</td></tr>
-    <tr><td class="num">26-3756</td><td class="num">26-4327</td><td class="r">$9,287.02</td><td class="r">$15,836.16</td><td class="r" style="color:var(--bad)">+$6,549.14</td></tr>
+    <tr><td class="num" data-label="Invoice">26-3717</td><td class="num" data-label="Job">26-4251</td><td class="r" data-label="Worth">$350.00</td><td class="r" data-label="Recorded paid">$1,600.00</td><td class="r" style="color:var(--bad)" data-label="Difference">+$1,250.00</td></tr>
+    <tr><td class="num" data-label="Invoice">26-3756</td><td class="num" data-label="Job">26-4327</td><td class="r" data-label="Worth">$9,287.02</td><td class="r" data-label="Recorded paid">$15,836.16</td><td class="r" style="color:var(--bad)" data-label="Difference">+$6,549.14</td></tr>
   </table>
   <p>Both currently show a <strong>negative balance</strong> — meaning the records say
     <em>you owe the client money</em>. Most likely a payment logged against the wrong invoice.</p>
@@ -278,11 +339,11 @@ and ask me about anything that is not clear.</p>
     Weighed against what each is worth:</p>
   <table>
     <tr><th>How the invoice reaches them</th><th class="r">Share of the work</th></tr>
-    <tr><td>VendorCafé <span style="color:var(--ink-faint)">(Yardi)</span></td><td class="r">27%</td></tr>
-    <tr><td>OpsMerchant <span style="color:var(--ink-faint)">(RealPage)</span></td><td class="r">19%</td></tr>
-    <tr><td>AvidXchange</td><td class="r">14%</td></tr>
-    <tr><td>By cheque</td><td class="r">28%</td></tr>
-    <tr><td>Emailed to their accounts department</td><td class="r">9%</td></tr>
+    <tr><td data-label="How the invoice reaches them">VendorCafé <span style="color:var(--ink-faint)">(Yardi)</span></td><td class="r" data-label="Share of the work">27%</td></tr>
+    <tr><td data-label="How the invoice reaches them">OpsMerchant <span style="color:var(--ink-faint)">(RealPage)</span></td><td class="r" data-label="Share of the work">19%</td></tr>
+    <tr><td data-label="How the invoice reaches them">AvidXchange</td><td class="r" data-label="Share of the work">14%</td></tr>
+    <tr><td data-label="How the invoice reaches them">By cheque</td><td class="r" data-label="Share of the work">28%</td></tr>
+    <tr><td data-label="How the invoice reaches them">Emailed to their accounts department</td><td class="r" data-label="Share of the work">9%</td></tr>
   </table>
   <p>And <strong>13 of your 45 properties will not accept an invoice without a purchase order
     first</strong>. Ninety-four of your jobs already carry a PO or work-ticket number.</p>
@@ -358,11 +419,11 @@ and ask me about anything that is not clear.</p>
   <div id="v-stages">
     <table>
       <tr><th>When</th><th>What</th><th class="r">Amount</th><th class="r">Total paid</th></tr>
-      <tr><td>July</td><td>Stage 1</td><td class="r">$750</td><td class="r">$750</td></tr>
-      <tr><td>On Stage 2 delivery</td><td>Stage 2</td><td class="r">$2,500</td><td class="r"><strong>$3,250</strong></td></tr>
-      <tr><td>To begin Stage 3</td><td>Stage 3, first half</td><td class="r">$1,625</td><td class="r">$4,875</td></tr>
-      <tr><td>On Stage 3 delivery</td><td>Stage 3, second half</td><td class="r">$1,625</td><td class="r">$6,500</td></tr>
-      <tr class="total"><td colspan="2">Build, complete</td><td class="r">$6,500</td><td class="r">$6,500</td></tr>
+      <tr><td data-label="When">July</td><td data-label="What">Stage 1</td><td class="r" data-label="Amount">$750</td><td class="r" data-label="Total paid">$750</td></tr>
+      <tr><td data-label="When">On Stage 2 delivery</td><td data-label="What">Stage 2</td><td class="r" data-label="Amount">$2,500</td><td class="r" data-label="Total paid"><strong>$3,250</strong></td></tr>
+      <tr><td data-label="When">To begin Stage 3</td><td data-label="What">Stage 3, first half</td><td class="r" data-label="Amount">$1,625</td><td class="r" data-label="Total paid">$4,875</td></tr>
+      <tr><td data-label="When">On Stage 3 delivery</td><td data-label="What">Stage 3, second half</td><td class="r" data-label="Amount">$1,625</td><td class="r" data-label="Total paid">$6,500</td></tr>
+      <tr class="total"><td colspan="2">Build, complete</td><td class="r" data-label="Amount">$6,500</td><td class="r" data-label="Total paid">$6,500</td></tr>
     </table>
     <p><strong>You are exactly halfway when Stage 2 is delivered.</strong> Three months of Care
       are included from that day.</p>
@@ -382,9 +443,9 @@ and ask me about anything that is not clear.</p>
   <div id="v-once" hidden>
     <table>
       <tr><th>When</th><th>What</th><th class="r">Amount</th><th class="r">Total paid</th></tr>
-      <tr><td>July</td><td>Stage 1</td><td class="r">$750</td><td class="r">$750</td></tr>
-      <tr><td>Now</td><td>Stages 2 and 3, together</td><td class="r">$5,250</td><td class="r">$6,000</td></tr>
-      <tr class="total"><td colspan="2">Build, complete</td><td class="r">$6,000</td><td class="r">$6,000</td></tr>
+      <tr><td data-label="When">July</td><td data-label="What">Stage 1</td><td class="r" data-label="Amount">$750</td><td class="r" data-label="Total paid">$750</td></tr>
+      <tr><td data-label="When">Now</td><td data-label="What">Stages 2 and 3, together</td><td class="r" data-label="Amount">$5,250</td><td class="r" data-label="Total paid">$6,000</td></tr>
+      <tr class="total"><td colspan="2">Build, complete</td><td class="r" data-label="Amount">$6,000</td><td class="r" data-label="Total paid">$6,000</td></tr>
     </table>
     <div class="found">
       <div class="big num">$500 less</div>
@@ -478,24 +539,24 @@ and ask me about anything that is not clear.</p>
   <table>
     <tr><th>Product</th><th>What it costs</th><th class="r">Per year, your size</th></tr>
     <tr>
-      <td><a href="https://www.getjobber.com/pricing/" target="_blank" rel="noopener noreferrer">Jobber</a></td>
-      <td>Plus $399/mo up to 5 users · $449 for 6–10</td>
-      <td class="r">~$5,400</td>
+      <td data-label="Product"><a href="https://www.getjobber.com/pricing/" target="_blank" rel="noopener noreferrer">Jobber</a></td>
+      <td data-label="What it costs">Plus $399/mo up to 5 users · $449 for 6–10</td>
+      <td class="r" data-label="Per year, your size">~$5,400</td>
     </tr>
     <tr>
-      <td><a href="https://knowify.com/pricing/" target="_blank" rel="noopener noreferrer">Knowify</a></td>
-      <td>Advanced $329/mo yearly, $399 monthly (10 users)</td>
-      <td class="r">~$3,950</td>
+      <td data-label="Product"><a href="https://knowify.com/pricing/" target="_blank" rel="noopener noreferrer">Knowify</a></td>
+      <td data-label="What it costs">Advanced $329/mo yearly, $399 monthly (10 users)</td>
+      <td class="r" data-label="Per year, your size">~$3,950</td>
     </tr>
     <tr>
-      <td><a href="https://buildertrend.com/pricing/" target="_blank" rel="noopener noreferrer">Buildertrend</a></td>
-      <td><strong>Publishes no price.</strong> Their page asks your annual construction volume, then books a call</td>
-      <td class="r">—</td>
+      <td data-label="Product"><a href="https://buildertrend.com/pricing/" target="_blank" rel="noopener noreferrer">Buildertrend</a></td>
+      <td data-label="What it costs"><strong>Publishes no price.</strong> Their page asks your annual construction volume, then books a call</td>
+      <td class="r" data-label="Per year, your size">—</td>
     </tr>
     <tr>
-      <td><a href="https://www.procore.com/" target="_blank" rel="noopener noreferrer">Procore</a></td>
-      <td><strong>Publishes no price.</strong> Priced on your construction volume</td>
-      <td class="r">—</td>
+      <td data-label="Product"><a href="https://www.procore.com/" target="_blank" rel="noopener noreferrer">Procore</a></td>
+      <td data-label="What it costs"><strong>Publishes no price.</strong> Priced on your construction volume</td>
+      <td class="r" data-label="Per year, your size">—</td>
     </tr>
   </table>
   <p style="font-size:14.5px"><strong>The honest version, and I would rather you heard it from me:</strong>
@@ -562,9 +623,9 @@ and ask me about anything that is not clear.</p>
     quietly.</p>
   <table>
     <tr><th>Stage</th><th>Starts when</th><th class="r">Working days</th></tr>
-    <tr><td>Stage 2 delivery</td><td>Your latest files arrive</td><td class="r">5</td></tr>
-    <tr><td>You use it</td><td>From delivery</td><td class="r">10</td></tr>
-    <tr><td>Stage 3 build</td><td>First half of Stage 3 received</td><td class="r">15</td></tr>
+    <tr><td data-label="Stage">Stage 2 delivery</td><td data-label="Starts when">Your latest files arrive</td><td class="r" data-label="Working days">5</td></tr>
+    <tr><td data-label="Stage">You use it</td><td data-label="Starts when">From delivery</td><td class="r" data-label="Working days">10</td></tr>
+    <tr><td data-label="Stage">Stage 3 build</td><td data-label="Starts when">First half of Stage 3 received</td><td class="r" data-label="Working days">15</td></tr>
   </table>
   <p><strong>Two honest notes.</strong> The clock starts when your files arrive, not when you pay
     — if the files come later, the date moves with them. And every date assumes you are reachable
