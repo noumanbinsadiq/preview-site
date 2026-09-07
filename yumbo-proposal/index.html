@@ -1,0 +1,748 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Yumbo General Construction — your system, and what it costs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Archivo MUST carry the wdth axis. The site sets font-stretch:125% on every
+     heading; without the axis the browser silently ignores it and the headings
+     come out as ordinary bold — which is exactly how this document drifted off
+     brand the first time. -->
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Sans:wght@400..700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* Brand tokens — noumansadiq.com */
+  :root{
+    --canvas:#0b0b09; --canvas-raise:#131311; --canvas-line:#f2efe91f;
+    --ink:#f2efe9; --ink-dim:#8f8c84; --ink-faint:#7e7a72;
+    --gold:#c9a84c; --gold-hot:#f0c36a;
+    --font-display:"Archivo",sans-serif;
+    --font-text:"Instrument Sans",sans-serif;
+    --font-data:"Space Mono",monospace;
+    --radius:2px; --ease-out:cubic-bezier(.16,1,.3,1);
+    /* document-only additions, kept off the brand palette's one accent */
+    --ink-soft:#a8a49b; --line:var(--canvas-line); --line-2:rgba(242,239,233,.07);
+    --good:#6FA36B; --warn:#D89A3C; --bad:#C4634F;
+    --r:var(--radius);
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html{color-scheme:dark; scroll-behavior:smooth}
+  body{background:var(--canvas); color:var(--ink);
+    font-family:var(--font-text),system-ui,sans-serif; font-size:16px; line-height:1.62;
+    -webkit-font-smoothing:antialiased; padding:0 20px 100px}
+  .wrap{max-width:880px; margin:0 auto}
+
+  /* ---------- the site's own logo lockup, class-for-class ----------
+     .logo-mark / .n-stroke / .n-dot / .logo-word are the site's names. The mark
+     is a stroked N with a GOLD DOT at its top right and NO box around it. An
+     earlier version of this file drew a different letterform inside a gold
+     rectangle — it was not the logo. */
+  header.top{display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding:26px 0 22px; border-bottom:1px solid var(--canvas-line); flex-wrap:wrap}
+  a.logo-mark{display:inline-flex; align-items:center; gap:.6rem; flex-shrink:0;
+    text-decoration:none; color:inherit; border-radius:var(--r);
+    padding:9px; margin:-9px}                    /* ≥44px tap target, no layout shift */
+  a.logo-mark svg{flex-shrink:0; width:32px; height:32px; pointer-events:none}
+  a.logo-mark .n-stroke{stroke:var(--ink); transition:stroke .3s var(--ease-out)}
+  a.logo-mark .n-dot{fill:var(--gold)}
+  a.logo-mark:hover .n-stroke{stroke:var(--gold)}
+  a.logo-mark:hover .logo-word{color:var(--gold)}
+  a.logo-mark:focus-visible{outline:2px solid var(--gold); outline-offset:4px}
+  .logo-word{font-family:var(--font-data); text-transform:uppercase; letter-spacing:.14em;
+    color:var(--ink); white-space:nowrap; font-size:.6875rem; font-weight:700;
+    transition:color .3s var(--ease-out)}
+  .meta{font-family:var(--font-data); font-size:10.5px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--ink-faint); text-align:right}
+
+  /* ---------- type: the site's heading rule, exactly ----------
+     :where(h1,h2,h3,.display){font-family:Archivo; text-transform:uppercase;
+     letter-spacing:-.02em; font-weight:850; font-stretch:125%; line-height:.92} */
+  h1,h2,h3{font-family:var(--font-display); text-transform:uppercase;
+    letter-spacing:-.02em; font-weight:850; font-stretch:125%; line-height:.92}
+  h1{font-size:clamp(34px,6vw,58px); margin:52px 0 20px}
+  h2{font-size:clamp(24px,3.6vw,34px); margin:0 0 16px}
+  h3{font-size:15px; letter-spacing:.01em; margin:0 0 9px}
+  p{margin:0 0 14px; color:var(--ink-soft)}
+  p.lede{font-size:18.5px; color:var(--ink); line-height:1.55}
+  strong{color:var(--ink); font-weight:600}
+  .kicker{font-family:var(--font-data); font-size:10.5px; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--gold); margin-bottom:14px}
+  section{padding:52px 0; border-top:1px solid var(--line-2)}
+  section:first-of-type{border-top:none}
+  .num{font-family:var(--font-data); font-variant-numeric:tabular-nums}
+
+  /* ---------- the one gold thing per view: a measured finding ---------- */
+  .found{border:1px solid var(--gold); border-left-width:3px; padding:20px 22px; margin:20px 0;
+    background:rgba(201,168,76,.05); border-radius:var(--r)}
+  .found .big{font-family:var(--font-display); font-weight:850; font-stretch:125%;
+    font-size:38px; color:var(--gold); letter-spacing:-.02em; line-height:.92}
+
+  .card{border:1px solid var(--line); border-radius:var(--r); padding:20px 22px; margin:14px 0}
+  .grid{display:grid; gap:14px}
+  @media(min-width:700px){ .grid.two{grid-template-columns:1fr 1fr} .grid.three{grid-template-columns:repeat(3,1fr)} }
+
+  table{width:100%; border-collapse:collapse; margin:18px 0; font-size:15px}
+  th,td{text-align:left; padding:13px 10px; border-bottom:1px solid var(--line-2); vertical-align:top}
+  th{font-family:var(--font-data); font-size:10px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--ink-faint); font-weight:400}
+  td.r,th.r{text-align:right; font-family:var(--font-data); font-variant-numeric:tabular-nums}
+  tr.total td{border-top:1px solid var(--gold); border-bottom:none; padding-top:16px;
+    color:var(--ink); font-weight:600}
+
+  /* No collapsible disclosure controls in this document — content hidden behind
+     one, in a page read once, is content that does not exist. Everything is
+     inline. To shorten the page, shorten the writing. */
+
+  /* ---------- the closing decision block ---------- */
+  .choose{display:grid; gap:12px; margin:22px 0 18px}
+  a.choice{display:block; text-decoration:none; color:inherit;
+    border:1px solid var(--line); border-radius:var(--r); padding:18px 20px;
+    transition:border-color .18s var(--ease-out), background .18s var(--ease-out)}
+  a.choice:hover, a.choice:focus-visible{border-color:var(--gold);
+    background:rgba(201,168,76,.05); color:inherit}
+  a.choice:focus-visible{outline:2px solid var(--gold); outline-offset:3px}
+  a.choice.go{border-left:3px solid var(--gold)}
+  .choice-h{display:block; font-family:var(--font-display); text-transform:uppercase;
+    font-weight:850; font-stretch:125%; letter-spacing:-.01em; font-size:17px;
+    line-height:1.05; color:var(--ink)}
+  .choice-n{display:block; font-size:23px; color:var(--gold); margin:9px 0 4px}
+  .choice-p{display:block; font-size:14.5px; color:var(--ink-soft); line-height:1.5}
+
+  ul{margin:0 0 14px 20px; color:var(--ink-soft)} li{margin:7px 0}
+  a{color:var(--ink); text-decoration:underline; text-underline-offset:3px;
+    text-decoration-color:var(--gold)}
+  a:hover{color:var(--gold)}
+
+  .pill{display:inline-block; font-family:var(--font-data); font-size:10px;
+    letter-spacing:.1em; text-transform:uppercase; padding:4px 9px; border-radius:var(--r);
+    border:1px solid var(--line)}
+  .pill.done{color:var(--good); border-color:rgba(111,163,107,.5)}
+  .pill.now{color:var(--gold); border-color:rgba(201,168,76,.6)}
+  .pill.next{color:var(--ink-faint)}
+
+  /* the one interactive control */
+  .switch{display:flex; gap:0; border:1px solid var(--line); border-radius:var(--r);
+    overflow:hidden; margin:22px 0 8px; flex-wrap:wrap}
+  .switch button{flex:1 1 200px; min-height:52px; background:transparent; border:0;
+    color:var(--ink-soft); font-family:var(--font-text); font-size:14.5px;
+    font-weight:600; cursor:pointer; padding:14px; transition:background .15s, color .15s}
+  .switch button + button{border-left:1px solid var(--line)}
+  .switch button[aria-pressed="true"]{background:var(--gold); color:#0B0B09}
+  .switch button:focus-visible{outline:2px solid var(--gold); outline-offset:-4px}
+
+  .payslot{border:1px dashed var(--gold); border-radius:var(--r); padding:18px 20px; margin:16px 0;
+    background:rgba(201,168,76,.04)}
+  .mono{font-family:var(--font-data); font-size:13px}
+
+  footer{border-top:1px solid var(--line); margin-top:60px; padding:28px 0 0;
+    font-size:13.5px; color:var(--ink-faint)}
+
+  /* A five-column table is 449px wide and the phone is 390. Let the TABLE
+     scroll, never the page — a document that slides sideways reads as broken. */
+  @media(max-width:640px){
+    table{display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap}
+    /* No h1 override any more. The clamp floor (34px) fits 390px with the
+       condensed 125% width axis, and it was measured, not assumed. */
+  }
+  /* Standalone actions get a real tap target. Links inside a sentence stay
+     inline — that is correct, and boxing them would break the prose. */
+  .payslot a, footer a{display:inline-block; min-height:44px; line-height:44px; padding:0 2px}
+  a.logo-mark, a.logo-mark:hover{text-decoration:none}
+  footer a.logo-mark{line-height:normal; min-height:0}
+  @media print{ body{background:#fff; color:#111} details{page-break-inside:avoid} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <a class="logo-mark" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer"
+     aria-label="Nouman Sadiq — noumansadiq.com (opens in a new tab)">
+    <svg viewBox="14 11 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path class="n-stroke" d="M20 46 V18 L44 46 V18" fill="none" stroke-width="6"
+            stroke-linecap="round" stroke-linejoin="round"></path>
+      <circle class="n-dot" cx="47" cy="17" r="4"></circle>
+    </svg>
+    <span class="logo-word">Nouman Sadiq</span>
+  </a>
+  <div class="meta">Prepared for<br>Mailin Quintana · Yumbo General Construction<br>7 September 2026</div>
+</header>
+
+<h1>Your system — where it stands, and what it costs.</h1>
+<p class="lede">This is the whole picture in one place: what has been built, what it does for
+your business, what is still to come, and every number. Nothing here is a surprise later.</p>
+<p>You have not been asked for money since the first payment in July, so this also sets out
+exactly what is due, when, and what happens if a payment is late. Take your time with it —
+and ask me about anything that is not clear.</p>
+
+<!-- ============================================================= -->
+<section>
+  <div class="kicker">First — what we found in your own records</div>
+  <h2>Before anything else, six things in your books do not add up.</h2>
+  <p>Your July records were loaded and checked, line by line. These came out of
+    <strong>your own numbers</strong> — you can check every one against your files.</p>
+
+  <div class="found">
+    <div class="big num">$7,799.14</div>
+    <p style="margin:8px 0 0; color:var(--ink)">recorded as paid on two invoices
+      <strong>beyond what those invoices are worth</strong>.</p>
+  </div>
+
+  <table>
+    <tr><th>Invoice</th><th>Job</th><th class="r">Worth</th><th class="r">Recorded paid</th><th class="r">Difference</th></tr>
+    <tr><td class="num">26-3717</td><td class="num">26-4251</td><td class="r">$350.00</td><td class="r">$1,600.00</td><td class="r" style="color:var(--bad)">+$1,250.00</td></tr>
+    <tr><td class="num">26-3756</td><td class="num">26-4327</td><td class="r">$9,287.02</td><td class="r">$15,836.16</td><td class="r" style="color:var(--bad)">+$6,549.14</td></tr>
+  </table>
+  <p>Both currently show a <strong>negative balance</strong> — meaning the records say
+    <em>you owe the client money</em>. Most likely a payment logged against the wrong invoice.</p>
+
+  <h3 style="margin:26px 0 10px; color:var(--bad)">And four more</h3>
+  <div class="card" style="border-color:var(--bad); border-left-width:3px">
+    <ul style="margin-bottom:0">
+      <li><strong>Invoice 26-3582 appears twice on the same job</strong> (26-3921) — once at
+        <span class="num">$26,870.20</span> and once at <span class="num">$11,515.80</span>.
+        Until it is resolved, that job's revenue is overstated by one of them.</li>
+      <li><strong>Invoice 26-3756 is used on two different jobs</strong> (26-4140 and 26-4327),
+        both at <span class="num">$9,287.02</span> — so the same money is counted twice.</li>
+      <li><strong>"ZELLE" is used as an invoice number</strong> on jobs 25-3498 and 25-3349 —
+        a payment method in the number field.</li>
+      <li><strong>Two invoices have no number at all</strong> — jobs 26-4166 and 4208.</li>
+    </ul>
+    <p style="margin:0"><strong>None of these are your fault.</strong> They are what happens to
+      every business that runs on spreadsheets for six years. The point is that the system finds
+      them automatically, every time, from now on.</p>
+  </div>
+
+  <div class="card">
+    <h3>And thirty customers are in your list more than once</h3>
+    <p style="margin:0"><span class="mono">ERIC</span> · <span class="mono">ERIC - ROSCUE</span> ·
+      <span class="mono">ERIC ROSCUE</span> · <span class="mono">Eric Rosco</span> — four records,
+      one customer, four partial histories. Thirty pairs like it. Fifteen minutes together on a call
+      and they become one full history each.</p>
+  </div>
+</section>
+
+<!-- ============================================================= -->
+<section>
+  <div class="kicker">What is built</div>
+  <h2>The system already runs the back office.</h2>
+  <p>Not a demonstration — a working system, with your 386 jobs, 557 invoices and your
+    subcontractors already in it.</p>
+
+  <div class="grid three">
+    <div class="card"><div class="num" style="font-size:26px; color:var(--gold)">38</div>
+      <p style="margin:4px 0 0; font-size:14px">tables holding your business</p></div>
+    <div class="card"><div class="num" style="font-size:26px; color:var(--gold)">60</div>
+      <p style="margin:4px 0 0; font-size:14px">working screens</p></div>
+    <div class="card"><div class="num" style="font-size:26px; color:var(--gold)">16</div>
+      <p style="margin:4px 0 0; font-size:14px">rounds of database work</p></div>
+  </div>
+
+  <h3 style="margin:26px 0 10px">What you and your team can do today</h3>
+  <div class="card">
+    <ul style="margin-bottom:0">
+      <li><strong>Jobs</strong> — every job, its subcontractor, its status, its profit</li>
+      <li><strong>Money in and money out</strong> — what each client owes you, what you owe each sub and supplier, and the balance on every one</li>
+      <li><strong>Invoices</strong> — raised, approved before they go out, printed</li>
+      <li><strong>Subcontractors</strong> — payouts, balances, tax details, W-9 tracking</li>
+      <li><strong>Requests and change orders</strong> from the field, with approve or decline</li>
+      <li><strong>Expenses</strong> — logged against the job they belong to, approved before they touch profit</li>
+      <li><strong>Commissions</strong> — offered, agreed, and recorded</li>
+      <li><strong>Company financials, payroll, overhead and reports</strong></li>
+      <li><strong>Six roles with separate access</strong> — your estimators cannot see your money</li>
+      <li><strong>Your crew's photos</strong> sent straight to the right job</li>
+    </ul>
+  </div>
+
+  <h3 style="margin:26px 0 10px; color:var(--warn)">What is honestly not built yet</h3>
+  <p>So there are no surprises later — these are real gaps, and they are what Stage 3 is:</p>
+  <div class="card" style="border-color:var(--warn)">
+    <ul style="margin-bottom:0">
+      <li><strong>Pricing a job inside the system.</strong> Alex reviewed the design and it is
+        agreed, but the working version is not built.</li>
+      <li><strong>Sending an estimate out of the system</strong> to a property manager.</li>
+      <li><strong>Being told about something without opening the system</strong> — the alerts
+        exist inside it, but they do not reach your phone yet.</li>
+      <li><strong>QuickBooks</strong> — your books and this system do not talk to each other yet.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================= -->
+<section>
+  <div class="kicker">Something we only found by asking</div>
+  <h2>Half your invoices go through your clients' own systems.</h2>
+  <p>Your client sheet shows how each of your <strong>45 properties</strong> is invoiced.
+    Weighed against what each is worth:</p>
+  <table>
+    <tr><th>How the invoice reaches them</th><th class="r">Share of the work</th></tr>
+    <tr><td>VendorCafé <span style="color:var(--ink-faint)">(Yardi)</span></td><td class="r">27%</td></tr>
+    <tr><td>OpsMerchant <span style="color:var(--ink-faint)">(RealPage)</span></td><td class="r">19%</td></tr>
+    <tr><td>AvidXchange</td><td class="r">14%</td></tr>
+    <tr><td>By cheque</td><td class="r">28%</td></tr>
+    <tr><td>Emailed to their accounts department</td><td class="r">9%</td></tr>
+  </table>
+  <p>And <strong>13 of your 45 properties will not accept an invoice without a purchase order
+    first</strong>. Ninety-four of your jobs already carry a PO or work-ticket number.</p>
+
+  <div class="found">
+    <p style="margin:0; color:var(--ink)"><strong>This changed what gets built — and it saved you
+      money.</strong> The obvious thing to add was a "pay now" button on your invoices. Your own
+      sheet shows it would have reached fewer than one invoice in ten. <strong>So it is not being
+      built.</strong> Instead, every property will carry its own route and whether a PO is needed,
+      and the system will not let an invoice go out without one.</p>
+  </div>
+</section>
+
+<!-- ============================================================= -->
+<section>
+  <div class="kicker">The three stages</div>
+  <h2>What each stage is, and what it costs.</h2>
+
+  <div class="card" style="border-color:rgba(111,163,107,.45)">
+    <span class="pill done">Stage 1 · paid</span>
+    <h3 style="margin-top:12px">Understanding the business, and building the core</h3>
+    <p style="margin:0">Your process mapped, the database designed, your six years of history
+      imported, and the core of the system built.</p>
+    <p style="margin:10px 0 0" class="num" style="color:var(--ink)"><strong>$750 — paid in July</strong></p>
+  </div>
+
+  <div class="card" style="border-color:var(--gold); border-left-width:3px">
+    <span class="pill now">Stage 2 · ready to deliver</span>
+    <h3 style="margin-top:12px">Your business, in one place — live, and yours to use</h3>
+    <ul style="margin-top:10px">
+      <li>The system live, with your <strong>latest</strong> figures loaded</li>
+      <li>Your 45 properties, 18 management companies and their contacts imported</li>
+      <li><strong>The portal and PO tracker</strong> — every property carries how it is invoiced
+        and whether a PO is needed first</li>
+      <li>The six record problems above, corrected the way you tell me</li>
+      <li>Your Google and Telegram connected, with me, on a call</li>
+      <li>You and Daniela trained, with a written walkthrough to keep</li>
+    </ul>
+    <p style="margin:0"><strong>Then you use it for two weeks before Stage 3 begins.</strong></p>
+    <p style="margin:10px 0 0"><strong class="num" style="font-size:22px">$2,500</strong>
+      <span style="color:var(--ink-faint)"> · due on delivery</span></p>
+  </div>
+
+  <div class="card">
+    <span class="pill next">Stage 3 · after Stage 2</span>
+    <h3 style="margin-top:12px">Estimating, sending, and your books</h3>
+    <ul style="margin-top:10px">
+      <li><strong>The estimating worksheet</strong> — type any number, totals as you go, add and
+        remove line items, your price list built in. The design Alex has already reviewed.</li>
+      <li><strong>Estimates that go out of the system</strong> as a proper document</li>
+      <li><strong>Alerts that reach your phone</strong>, not just the screen</li>
+      <li><strong>QuickBooks</strong> — invoices raised here, your books stay there</li>
+      <li><strong>Returning customers</strong> — a repeat customer joins their own history
+        instead of becoming a second record</li>
+    </ul>
+    <p style="margin:10px 0 0"><strong class="num" style="font-size:22px">$3,250</strong>
+      <span style="color:var(--ink-faint)"> · $1,625 to begin, $1,625 on delivery</span></p>
+  </div>
+</section>
+
+<!-- ============================================================= -->
+<section>
+  <div class="kicker">The money</div>
+  <h2>Everything, added up.</h2>
+
+  <div class="switch" role="group" aria-label="Payment options">
+    <button id="b-stages" aria-pressed="true">Pay stage by stage</button>
+    <button id="b-once" aria-pressed="false">Settle the rest in one payment</button>
+  </div>
+  <p style="font-size:14px; color:var(--ink-faint); margin-top:6px">Same system either way. The
+    second costs $500 less.</p>
+
+  <div id="v-stages">
+    <table>
+      <tr><th>When</th><th>What</th><th class="r">Amount</th><th class="r">Total paid</th></tr>
+      <tr><td>July</td><td>Stage 1</td><td class="r">$750</td><td class="r">$750</td></tr>
+      <tr><td>On Stage 2 delivery</td><td>Stage 2</td><td class="r">$2,500</td><td class="r"><strong>$3,250</strong></td></tr>
+      <tr><td>To begin Stage 3</td><td>Stage 3, first half</td><td class="r">$1,625</td><td class="r">$4,875</td></tr>
+      <tr><td>On Stage 3 delivery</td><td>Stage 3, second half</td><td class="r">$1,625</td><td class="r">$6,500</td></tr>
+      <tr class="total"><td colspan="2">Build, complete</td><td class="r">$6,500</td><td class="r">$6,500</td></tr>
+    </table>
+    <p><strong>You are exactly halfway when Stage 2 is delivered.</strong> Three months of Care
+      are included from that day.</p>
+  </div>
+
+  <div class="card" style="border-color:var(--gold)">
+    <h3 style="color:var(--gold)">Why $6,500, when the market says more</h3>
+    <p style="margin:0">A build of this size is quoted elsewhere at several times this — the
+      published ranges are in the next section, with links. <strong>I priced it at $6,500 on
+      purpose.</strong> The scope was worked out alongside Alex and you over months of real
+      conversation instead of a paid discovery contract, so I was not paying for the most expensive
+      part of a project like this: finding out what it needed to do. That saving is passed to you
+      rather than kept. <strong>I would rather this system was running your business every day than
+      priced at what it could have been.</strong></p>
+  </div>
+
+  <div id="v-once" hidden>
+    <table>
+      <tr><th>When</th><th>What</th><th class="r">Amount</th><th class="r">Total paid</th></tr>
+      <tr><td>July</td><td>Stage 1</td><td class="r">$750</td><td class="r">$750</td></tr>
+      <tr><td>Now</td><td>Stages 2 and 3, together</td><td class="r">$5,250</td><td class="r">$6,000</td></tr>
+      <tr class="total"><td colspan="2">Build, complete</td><td class="r">$6,000</td><td class="r">$6,000</td></tr>
+    </table>
+    <div class="found">
+      <div class="big num">$500 less</div>
+      <p style="margin:8px 0 0; color:var(--ink)">Settling the remaining balance in one payment
+        brings the build to <strong class="num">$6,000</strong> instead of
+        <strong class="num">$6,500</strong>, and it is the last invoice you get from me until
+        Care begins.</p>
+    </div>
+    <p style="font-size:14.5px"><strong>Why it is cheaper, honestly:</strong> one payment instead of
+      three is one transfer fee instead of three, and it lets me run the rest of the build straight
+      through rather than stopping and restarting between stages. That is worth $500 to me, so it
+      is yours. Three months of Care are included either way.</p>
+    <p style="font-size:14.5px; color:var(--ink-faint)">If you would rather keep the payments tied
+      to deliveries, take the first option — it is the safer one for you and I have priced it to be
+      a fair choice, not a punishment.</p>
+  </div>
+</section>
+
+<!-- ============================================================= -->
+<section>
+  <div class="kicker">Keeping it running</div>
+  <h2>After the first three months — $450 a month.</h2>
+  <p>This is new, so here it is plainly rather than buried at the end — including
+    <strong>where it stops</strong>, because a service with no edges turns into an argument later.</p>
+  <div class="grid two">
+    <div class="card" style="border-color:var(--good)">
+      <h3 style="color:var(--good)">Included, every month</h3>
+      <ul style="margin-bottom:0">
+        <li>The server, and <strong>backups every night</strong></li>
+        <li>Security updates and monitoring</li>
+        <li><strong>Anything that breaks, fixed free.</strong> If something worked and stops
+          working, that is mine to fix — always, with no limit and no argument</li>
+        <li><strong>Up to two hours of small changes</strong> — a new field, a column on a report,
+          wording, a new user, a permission change</li>
+        <li>New team members added, and shown how to use it</li>
+        <li>An answer from me within one working day</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color:var(--warn)">
+      <h3 style="color:var(--warn)">Quoted separately, before any work</h3>
+      <ul style="margin-bottom:0">
+        <li>A <strong>new part of the system</strong> — a new screen, a new module</li>
+        <li>A <strong>new connection</strong> — QuickBooks, your bank, another portal</li>
+        <li>Anything needing <strong>new tables</strong> in your database</li>
+        <li>Importing a <strong>new source of data</strong></li>
+      </ul>
+    </div>
+  </div>
+  <div class="found">
+    <p style="margin:0; color:var(--ink)"><strong>So you always know where you stand:</strong> Care
+      keeps your system healthy, safe and current — it is not an open cheque for new development.
+      When you want something genuinely new, <strong>I price it first, you approve the price in
+      writing, and only then do I build it.</strong> You will never receive a bill you did not
+      agree to, and I will never quietly refuse a request because it was "too much" — I will just
+      tell you what it costs.</p>
+  </div>
+  <p style="font-size:14.5px">And it is <strong>not a lock-in</strong> — one month's notice, any
+    time. If you stop, you keep your system, your data and the code. Nothing is switched off.</p>
+</section>
+
+<!-- ============================================================= -->
+<section>
+  <div class="kicker">What this is worth — checkable, not claimed</div>
+  <h2>What the same thing costs elsewhere.</h2>
+  <p class="lede">Every figure below comes from the company's own pricing page or a published
+    industry guide. The links are there so you can check them yourself rather than take my word.</p>
+
+  <h3 style="margin:26px 0 10px">1 · Built for you, by somebody else</h3>
+  <p>This is the honest comparison, because it is the same kind of thing: software written for one
+    business, owned by that business. Published guides for 2026 put a custom internal system for a
+    small business at
+    <a href="https://ortemtech.com/blog/custom-software-development-cost-small-business/"
+       target="_blank" rel="noopener noreferrer">$20,000–$60,000</a>, and a first working version
+    built by a US team at
+    <a href="https://www.theninjastudio.com/blog/custom-web-app-cost-what-startups-actually-pay"
+       target="_blank" rel="noopener noreferrer">$40,000–$85,000</a>. Industry guides written for
+    construction specifically put a construction-management build at
+    <a href="https://bostoninstituteofanalytics.org/blog/cost-to-build-a-construction-management-software-in-2026/"
+       target="_blank" rel="noopener noreferrer">$40,000–$80,000 for a basic version</a>.</p>
+  <div class="found">
+    <div class="big num">$6,500</div>
+    <p style="margin:8px 0 0; color:var(--ink)">And what you have is not a "basic version" — it is
+      <strong>38 tables, 60 screens and 16 rounds of database work</strong>, with your own 386 jobs
+      and 557 invoices already in it.</p>
+  </div>
+  <p style="font-size:14.5px; color:var(--ink-faint)">Those ranges are what the market charges, not
+    a quote anyone has given you. I am not claiming someone would definitely charge you $40,000 —
+    I am showing you the shelf this sits on.</p>
+
+  <h3 style="margin:30px 0 10px">2 · Renting a general-purpose system instead</h3>
+  <table>
+    <tr><th>Product</th><th>What it costs</th><th class="r">Per year, your size</th></tr>
+    <tr>
+      <td><a href="https://www.getjobber.com/pricing/" target="_blank" rel="noopener noreferrer">Jobber</a></td>
+      <td>Plus $399/mo up to 5 users · $449 for 6–10</td>
+      <td class="r">~$5,400</td>
+    </tr>
+    <tr>
+      <td><a href="https://knowify.com/pricing/" target="_blank" rel="noopener noreferrer">Knowify</a></td>
+      <td>Advanced $329/mo yearly, $399 monthly (10 users)</td>
+      <td class="r">~$3,950</td>
+    </tr>
+    <tr>
+      <td><a href="https://buildertrend.com/pricing/" target="_blank" rel="noopener noreferrer">Buildertrend</a></td>
+      <td><strong>Publishes no price.</strong> Their page asks your annual construction volume, then books a call</td>
+      <td class="r">—</td>
+    </tr>
+    <tr>
+      <td><a href="https://www.procore.com/" target="_blank" rel="noopener noreferrer">Procore</a></td>
+      <td><strong>Publishes no price.</strong> Priced on your construction volume</td>
+      <td class="r">—</td>
+    </tr>
+  </table>
+  <p style="font-size:14.5px"><strong>The honest version, and I would rather you heard it from me:</strong>
+    over three years a subscription is <em>cheaper</em> than building your own — roughly $12,000–$16,000
+    against $6,500 plus Care. On price alone, renting wins.</p>
+  <p style="font-size:14.5px">What renting does not do is your actual work. None of them carry
+    <strong>your portal and PO rules</strong>, your commission agreements, your subcontractor
+    payouts against job profit, or your update loop. And two things worth noticing on their own
+    pricing pages: Knowify counts users and charges <strong>$29 a month for each one past the
+    plan</strong>, and the ability to <strong>hide money from staff who should not see it</strong>
+    is on its top tier only — for you that is not a feature, it is the reason six roles exist.
+    Buildertrend and Procore will not tell you a price until they know how much you turn over.</p>
+</section>
+
+<!-- ============================================================= -->
+<section>
+  <div class="kicker">Where this goes</div>
+  <h2>What happens as Yumbo grows.</h2>
+  <p class="lede">You should know the shape of the whole thing before you pay for part of it —
+    including that it has an end, and that nothing beyond it happens without a price you agreed
+    first.</p>
+
+  <div class="grid three">
+    <div class="card">
+      <h3 style="color:var(--good)">Now — Stages 1 to 3</h3>
+      <p style="margin:0; font-size:14.5px">The back office, then estimating, sending, alerts and
+        QuickBooks. <strong>$6,500 total.</strong> When Stage 3 lands, the system runs your
+        business end to end and the build is finished.</p>
+    </div>
+    <div class="card">
+      <h3>Later — only if you want them</h3>
+      <p style="margin:0 0 8px; font-size:14.5px">Each one is a separate, quoted piece of work,
+        typically <strong>$1,500–$4,000</strong>:</p>
+      <ul style="margin-bottom:0; font-size:14.5px">
+        <li>A phone app for the crews</li>
+        <li>A portal your property managers log into</li>
+        <li>Scheduling and dispatch</li>
+        <li>Payroll calculation</li>
+        <li>More reports, as you ask for them</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Growth that costs you nothing</h3>
+      <p style="margin:0; font-size:14.5px">More jobs, more properties, more management companies,
+        more subcontractors, more staff — <strong>the system does not charge you per user or per
+        job.</strong> Doubling the business does not double the bill. That is the part renting
+        never gives you.</p>
+    </div>
+  </div>
+
+  <p><strong>How I would expect it to actually go.</strong> Stage 3 finishes the build. Then you use
+    it for a season and the real requests appear — they always do, and they are never the ones
+    anyone predicted. Some are ten-minute changes and are covered by Care. A few are genuinely new,
+    and those get a price before they get built. <strong>I am not going to disappear, and I am also
+    not promising to build anything you think of, forever, for $450 a month.</strong> Both of those
+    would be untrue, and the second one is how these arrangements sour.</p>
+</section>
+
+<!-- ============================================================= -->
+<section>
+  <div class="kicker">Timing</div>
+  <h2>When each stage lands.</h2>
+  <p>Dates run from the day things start, not from the calendar — so nothing here can slip
+    quietly.</p>
+  <table>
+    <tr><th>Stage</th><th>Starts when</th><th class="r">Working days</th></tr>
+    <tr><td>Stage 2 delivery</td><td>Your latest files arrive</td><td class="r">5</td></tr>
+    <tr><td>You use it</td><td>From delivery</td><td class="r">10</td></tr>
+    <tr><td>Stage 3 build</td><td>First half of Stage 3 received</td><td class="r">15</td></tr>
+  </table>
+  <p><strong>Two honest notes.</strong> The clock starts when your files arrive, not when you pay
+    — if the files come later, the date moves with them. And every date assumes you are reachable
+    for the two things only you can do: connecting your Google and Telegram, and confirming the six
+    record corrections.</p>
+</section>
+
+<!-- ============================================================= -->
+<section>
+  <div class="kicker">Terms, in plain words</div>
+  <h2>What happens if a payment is late: nothing bad.</h2>
+  <div class="card" style="border-color:var(--gold)">
+    <p style="margin:0; color:var(--ink); font-size:17px"><strong>No late fees. No interest. No
+      penalty.</strong> I do not charge them. Work on the next stage simply waits until the payment
+      arrives, and picks up again the same day it does. <strong>Your system keeps running the whole
+      time, and your data is always yours.</strong></p>
+  </div>
+  <div class="grid two">
+    <div class="card">
+      <h3>What you own</h3>
+      <p style="margin:0">Your data is yours and can be exported at any time, in full, on request.
+        The system is hosted on my server so I can fix things without needing your passwords — and
+        the code is yours.</p>
+    </div>
+    <div class="card">
+      <h3>Stopping</h3>
+      <p style="margin:0">You can stop after any stage. You keep everything delivered up to that
+        point, including access. There is no termination fee and nothing is switched off.</p>
+    </div>
+  </div>
+  <p style="font-size:14.5px; color:var(--ink-faint)">Anything not yet built is described here as
+    not built. Nothing has been finished and held back.</p>
+</section>
+
+<!-- ============================================================= -->
+<section>
+  <div class="kicker">Paying</div>
+  <h2>The same way you paid in July.</h2>
+
+  <p>A payment request arrives in your inbox, you open it and pay — <strong>exactly the process
+    you used for the first payment</strong>. Nothing new to set up, no account to create, no
+    details to copy anywhere.</p>
+
+  <div class="payslot">
+    <h3 style="color:var(--gold)">How it works</h3>
+    <ol style="margin:10px 0 0 20px; color:var(--ink-soft)">
+      <li>You tell me which option you want — the buttons at the end of this page do it in one tap</li>
+      <li>A payment request lands in your inbox, for that exact amount</li>
+      <li>You open it and pay by bank or card</li>
+    </ol>
+    <p style="margin:12px 0 0; font-size:14.5px; color:var(--ink)">There is deliberately no payment
+      button on this page. <strong>A request is for one amount, and you have not chosen yet</strong>
+      — I would rather send the right one than have you paying the wrong figure from a web page.</p>
+  </div>
+
+  <p style="font-size:14.5px"><strong>Bank debit is the one I would suggest</strong> — it is the
+    same rail your property managers already pay you on, and it costs less to process than a card.</p>
+  <p style="font-size:14.5px">If your accountant needs a <strong>W-8BEN</strong> on file before
+    releasing payment, say the word and it comes the same day.</p>
+</section>
+
+<!-- ============================================================= -->
+<section>
+  <div class="kicker">Where this came from</div>
+  <h2>How your system was built.</h2>
+  <p>Since July: your process mapped from your own sheets, your history imported, and the
+    system rebuilt around what your team actually said. <strong>Five rounds of design revision
+    with Alex and with you</strong> — the estimating screens alone were redrawn after Alex said
+    they were too complicated and that he could not type into anything. Both are fixed in the
+    agreed design.</p>
+  <h3 style="margin:26px 0 10px">How it is built, and why that matters to you</h3>
+  <p>You are not buying a website with a login on it. The parts you cannot see are the parts that
+    decide whether you can still trust it in three years:</p>
+  <div class="card">
+    <ul style="margin-bottom:0">
+      <li><strong>Every screen is opened and clicked by a machine before it reaches you</strong> —
+        every button, every row in every list, on a desktop and on a phone. If something is
+        clickable and does nothing, the build fails and does not ship.</li>
+      <li><strong>Your records are checked for contradictions on every single run.</strong> That is
+        how the six problems above were found — not by anyone noticing, but automatically.</li>
+      <li><strong>Every change to your database is a numbered, repeatable step</strong> — sixteen so
+        far — rehearsed on a copy of your data before it ever touches the real thing.</li>
+      <li><strong>Backups are proven by restoring them</strong>, not by trusting that they ran.</li>
+      <li><strong>Money is calculated in exactly one place in the code.</strong> Job profit,
+        commission, subcontractor payouts and your balances all come from the same calculation, so
+        two screens can never quietly disagree about what you are owed.</li>
+      <li><strong>Nobody sees a figure they should not.</strong> Access is checked at the screen
+        <em>and</em> at each individual number — hiding a page is not the same as hiding the money
+        on it.</li>
+    </ul>
+  </div>
+  <p style="font-size:14.5px; color:var(--ink-faint)">Built and maintained by one person who holds
+    a bachelor's degree in computer programming — which is why you talk to the person who writes
+    the code, rather than to an account manager.</p>
+</section>
+
+<!-- ============================================================= -->
+<section>
+  <h2>What I need from you next.</h2>
+  <ul style="font-size:16.5px">
+    <li><strong>Your latest files</strong> — jobs, invoices, clients, however they come.</li>
+    <li><strong>The six record questions</strong>, answered when you have a moment.</li>
+    <li><strong>A short call</strong> to connect Google and Telegram and go through the duplicate
+      names.</li>
+    <li><strong>A yes to Stage 2</strong>, and it goes live within five working days of your files
+      landing.</li>
+  </ul>
+  <p>If anything here reads wrong, or you want it structured differently, tell me and I will
+    change it. This is a proposal, not a contract.</p>
+</section>
+
+<!-- ============================================================= -->
+<section id="decide">
+  <div class="kicker">One last thing</div>
+  <h2>Tell me you've read it.</h2>
+  <p class="lede">Pick whichever line is true. Each one opens WhatsApp with the message already
+    written — you only have to press send.</p>
+
+  <div class="choose">
+    <a class="choice go" href="https://wa.me/19299394060?text=Hi%20Nouman%20%E2%80%94%20I%27ve%20read%20the%20proposal.%20Please%20send%20me%20the%20payment%20request%20for%20Stage%202%2C%20%242%2C500."
+       target="_blank" rel="noopener noreferrer">
+      <span class="choice-h">I've read it — send the Stage 2 request</span>
+      <span class="choice-n num">$2,500</span>
+      <span class="choice-p">Paid on delivery. You are exactly halfway when it lands.</span>
+    </a>
+
+    <a class="choice go" href="https://wa.me/19299394060?text=Hi%20Nouman%20%E2%80%94%20I%27ve%20read%20the%20proposal.%20I%27d%20like%20to%20settle%20the%20rest%20of%20the%20build%20in%20one%20payment%20at%20%245%2C250."
+       target="_blank" rel="noopener noreferrer">
+      <span class="choice-h">I've read it — I'll settle the rest at once</span>
+      <span class="choice-n num">$5,250</span>
+      <span class="choice-p">The whole build, $500 less. No further invoices until Care begins.</span>
+    </a>
+
+    <a class="choice" href="https://wa.me/19299394060?text=Hi%20Nouman%20%E2%80%94%20I%27ve%20read%20the%20proposal.%20I%27ve%20got%20some%20questions%20before%20I%20decide%3A"
+       target="_blank" rel="noopener noreferrer">
+      <span class="choice-h">I've read it — but I have questions first</span>
+      <span class="choice-p" style="margin-top:6px">Ask me anything in it. Nothing moves until you
+        are comfortable.</span>
+    </a>
+  </div>
+
+  <p style="font-size:14px; color:var(--ink-faint)">Prefer email? <a
+    href="mailto:info@noumansadiq.com?subject=Yumbo%20%E2%80%94%20I%27ve%20read%20the%20proposal">info@noumansadiq.com</a>.
+    This page does not track you — I only know you have read it if you tell me.</p>
+</section>
+
+<footer>
+  <a class="logo-mark" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer"
+     aria-label="Nouman Sadiq — noumansadiq.com (opens in a new tab)">
+    <svg viewBox="14 11 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path class="n-stroke" d="M20 46 V18 L44 46 V18" fill="none" stroke-width="6"
+            stroke-linecap="round" stroke-linejoin="round"></path>
+      <circle class="n-dot" cx="47" cy="17" r="4"></circle>
+    </svg>
+    <span class="logo-word">Nouman Sadiq</span>
+  </a>
+  <p style="margin:10px 0 0">
+    <a href="mailto:info@noumansadiq.com">info@noumansadiq.com</a> ·
+    <a href="tel:+19299394060">+1 (929) 939-4060</a> ·
+    <a href="https://wa.me/19299394060" target="_blank" rel="noopener noreferrer">WhatsApp</a> ·
+    <a href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer">noumansadiq.com</a>
+  </p>
+  <p style="margin:8px 0 0; font-size:12.5px">1209 Mountain Road PL NE #6302, Albuquerque, NM 87110</p>
+</footer>
+
+</div>
+<script>
+  (function(){
+    var bs=document.getElementById('b-stages'), bo=document.getElementById('b-once'),
+        vs=document.getElementById('v-stages'), vo=document.getElementById('v-once');
+    function show(once){
+      vo.hidden = !once; vs.hidden = once;
+      bo.setAttribute('aria-pressed', once ? 'true' : 'false');
+      bs.setAttribute('aria-pressed', once ? 'false' : 'true');
+    }
+    bs.addEventListener('click', function(){ show(false); });
+    bo.addEventListener('click', function(){ show(true); });
+  })();
+</script>
+</body>
+</html>
