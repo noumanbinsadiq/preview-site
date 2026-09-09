@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Yumbo General Construction — the complete system</title>
+<meta name="description" content="Everything your team asked for, what it does, what it costs, and what it costs to run. Every figure stated, every source linked.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Sans:wght@400..700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* Brand tokens — noumansadiq.com */
+  :root{
+    --canvas:#0b0b09; --canvas-raise:#131311; --canvas-line:#f2efe91f;
+    --ink:#f2efe9; --ink-dim:#8f8c84; --ink-faint:#7e7a72;
+    --gold:#c9a84c; --gold-hot:#f0c36a;
+    --font-display:"Archivo",sans-serif;
+    --font-text:"Instrument Sans",sans-serif;
+    --font-data:"Space Mono",monospace;
+    --radius:2px; --ease-out:cubic-bezier(.16,1,.3,1);
+    --ink-soft:#a8a49b; --line:var(--canvas-line); --line-2:rgba(242,239,233,.07);
+    --good:#6FA36B; --warn:#D89A3C; --bad:#C4634F;
+    --r:var(--radius);
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html{color-scheme:dark; scroll-behavior:smooth}
+  body{background:var(--canvas); color:var(--ink);
+    font-family:var(--font-text),system-ui,sans-serif; font-size:16px; line-height:1.62;
+    -webkit-font-smoothing:antialiased; padding:0 20px 100px}
+  .wrap{max-width:880px; margin:0 auto}
+
+  header.top{display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding:26px 0 22px; border-bottom:1px solid var(--canvas-line); flex-wrap:wrap}
+  a.logo-mark{display:inline-flex; align-items:center; gap:.6rem; flex-shrink:0;
+    text-decoration:none; color:inherit; border-radius:var(--r); padding:9px; margin:-9px}
+  a.logo-mark svg{flex-shrink:0; width:32px; height:32px; pointer-events:none}
+  a.logo-mark .n-stroke{stroke:var(--ink); transition:stroke .3s var(--ease-out)}
+  a.logo-mark .n-dot{fill:var(--gold)}
+  a.logo-mark:hover .n-stroke{stroke:var(--gold)}
+  a.logo-mark:hover .logo-word{color:var(--gold)}
+  a.logo-mark:focus-visible{outline:2px solid var(--gold); outline-offset:4px}
+  .logo-word{font-family:var(--font-data); text-transform:uppercase; letter-spacing:.14em;
+    color:var(--ink); white-space:nowrap; font-size:.6875rem; font-weight:700;
+    transition:color .3s var(--ease-out)}
+  .meta{font-family:var(--font-data); font-size:10.5px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--ink-faint); text-align:right}
+
+  h1,h2,h3{font-family:var(--font-display); text-transform:uppercase;
+    letter-spacing:-.02em; font-weight:850; font-stretch:125%; line-height:.92}
+  h1{font-size:clamp(34px,6vw,58px); margin:52px 0 20px}
+  h2{font-size:clamp(24px,3.6vw,34px); margin:0 0 16px}
+  h3{font-size:15px; letter-spacing:.01em; margin:0 0 9px}
+  p{margin:0 0 14px; color:var(--ink-soft)}
+  p.lede{font-size:18.5px; color:var(--ink); line-height:1.55}
+  strong{color:var(--ink); font-weight:600}
+  em{color:var(--ink); font-style:italic}
+  .kicker{font-family:var(--font-data); font-size:10.5px; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--gold); margin-bottom:14px}
+  section{padding:52px 0; border-top:1px solid var(--line-2)}
+  section:first-of-type{border-top:none}
+  .num{font-family:var(--font-data); font-variant-numeric:tabular-nums}
+
+  .found{border:1px solid var(--gold); border-left-width:3px; padding:20px 22px; margin:20px 0;
+    background:rgba(201,168,76,.05); border-radius:var(--r)}
+  .found .big{font-family:var(--font-display); font-weight:850; font-stretch:125%;
+    font-size:38px; color:var(--gold); letter-spacing:-.02em; line-height:.92}
+
+  .card{border:1px solid var(--line); border-radius:var(--r); padding:20px 22px; margin:14px 0}
+  .grid{display:grid; gap:14px}
+  @media(min-width:700px){ .grid.two{grid-template-columns:1fr 1fr} .grid.three{grid-template-columns:repeat(3,1fr)} }
+
+  .tldr{border:1px solid var(--line); border-left:3px solid var(--ink-faint);
+    border-radius:var(--r); padding:20px 22px; margin:26px 0 8px; background:var(--canvas-raise)}
+  .tldr ul{margin:0 0 14px 18px}
+  .tldr li{margin:9px 0; line-height:1.55}
+
+  table{width:100%; border-collapse:collapse; margin:18px 0; font-size:15px}
+  th,td{text-align:left; padding:13px 10px; border-bottom:1px solid var(--line-2); vertical-align:top}
+  th{font-family:var(--font-data); font-size:10px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--ink-faint); font-weight:400}
+  td.r,th.r{text-align:right; font-family:var(--font-data); font-variant-numeric:tabular-nums}
+  tr.total td{border-top:1px solid var(--gold); border-bottom:none; padding-top:16px;
+    color:var(--ink); font-weight:600}
+
+  ul{margin:0 0 14px 20px; color:var(--ink-soft)} li{margin:7px 0}
+  ol{margin:0 0 14px 20px; color:var(--ink-soft)}
+  a{color:var(--ink); text-decoration:underline; text-underline-offset:3px;
+    text-decoration-color:var(--gold)}
+  a:hover{color:var(--gold)}
+
+  /* ── the stage selector: the one interactive control ── */
+  .stages{display:grid; gap:0; border:1px solid var(--line); border-radius:var(--r);
+    overflow:hidden; margin:22px 0 6px}
+  @media(min-width:760px){ .stages{grid-template-columns:repeat(4,1fr)} }
+  .stages button{min-height:64px; background:transparent; border:0; cursor:pointer;
+    color:var(--ink-soft); font-family:var(--font-text); font-size:14px; font-weight:600;
+    padding:14px 12px; text-align:left; transition:background .18s var(--ease-out), color .18s;
+    border-bottom:1px solid var(--line)}
+  @media(min-width:760px){ .stages button{border-bottom:0; border-right:1px solid var(--line)}
+    .stages button:last-child{border-right:0} }
+  .stages button:last-child{border-bottom:0}
+  .stages button b{display:block; font-family:var(--font-data); font-size:10px;
+    letter-spacing:.14em; color:var(--ink-faint); margin-bottom:5px; font-weight:400}
+  .stages button[aria-pressed="true"]{background:var(--gold); color:#0b0b09}
+  .stages button[aria-pressed="true"] b{color:rgba(11,11,9,.7)}
+  .stages button:focus-visible{outline:2px solid var(--gold); outline-offset:-4px}
+  .stagebody{border:1px solid var(--line); border-top:0; border-radius:var(--r);
+    padding:20px 22px; background:var(--canvas-raise)}
+  .stagebody[hidden]{display:none}
+
+  /* ── the honest ledger: what is true / what is not ── */
+  .ledger{border:1px solid var(--line); border-radius:var(--r); overflow:hidden; margin:18px 0}
+  .ledger .row{display:grid; gap:0; border-bottom:1px solid var(--line-2)}
+  @media(min-width:700px){ .ledger .row{grid-template-columns:190px 1fr} }
+  .ledger .row:last-child{border-bottom:0}
+  .ledger .k{padding:14px 18px; font-family:var(--font-data); font-size:10.5px;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint);
+    background:rgba(242,239,233,.03)}
+  .ledger .v{padding:14px 18px; color:var(--ink-soft); font-size:14.5px; line-height:1.55}
+
+  /* ── the closing decision block ── */
+  .choose{display:grid; gap:12px; margin:22px 0 18px}
+  a.choice{display:block; text-decoration:none; color:inherit;
+    border:1px solid var(--line); border-radius:var(--r); padding:18px 20px;
+    transition:border-color .18s var(--ease-out), background .18s var(--ease-out)}
+  a.choice:hover, a.choice:focus-visible{border-color:var(--gold);
+    background:rgba(201,168,76,.05); color:inherit}
+  a.choice:focus-visible{outline:2px solid var(--gold); outline-offset:3px}
+  a.choice.go{border-left:3px solid var(--gold)}
+  .choice-h{display:block; font-family:var(--font-display); text-transform:uppercase;
+    font-weight:850; font-stretch:125%; letter-spacing:-.01em; font-size:17px;
+    line-height:1.05; color:var(--ink)}
+  .choice-n{display:block; font-size:23px; color:var(--gold); margin:9px 0 4px}
+  .choice-p{display:block; font-size:14.5px; color:var(--ink-soft); line-height:1.5}
+
+  footer{border-top:1px solid var(--line); margin-top:60px; padding:28px 0 0;
+    font-size:13.5px; color:var(--ink-faint)}
+
+  /* ── reveal on scroll. Motion is a courtesy, never a dependency:
+        every section is fully visible with JS off or motion reduced. ── */
+  .rv{opacity:0; transform:translateY(14px);
+    transition:opacity .7s var(--ease-out), transform .7s var(--ease-out)}
+  .rv.in{opacity:1; transform:none}
+  @media(prefers-reduced-motion:reduce){ .rv{opacity:1; transform:none; transition:none} }
+  html.nojs .rv{opacity:1; transform:none}
+
+  @media(max-width:640px){
+    /* Table rows become cards; each cell carries its column name. Nothing is
+       ever off-screen, and the right-hand column here is the price. */
+    table{display:block; width:100%}
+    thead, table tr:first-child{display:none}
+    tbody, table > tr, tbody > tr{display:block}
+    table tr{display:block; border:1px solid var(--line); border-radius:var(--r);
+      padding:6px 14px; margin:0 0 10px}
+    table td{display:block; overflow-wrap:anywhere;
+      border:0; border-bottom:1px solid var(--line-2); padding:10px 0; text-align:left}
+    table tr td:last-child{border-bottom:0}
+    table td::before{content:attr(data-label); display:block; margin-bottom:3px;
+      font-family:var(--font-data); font-size:10.5px; letter-spacing:.12em;
+      text-transform:uppercase; color:var(--ink-faint); line-height:1.5}
+    table td:not([data-label])::before{content:none}
+    table td.r{text-align:left}
+    tr.total{border-color:var(--gold)}
+    tr.total td{border-top:0}
+    th, .kicker, .meta, .mono, table td::before{font-size:11.5px}
+    .choice-n{font-size:26px}
+  }
+  @media print{ body{background:#fff; color:#111} .rv{opacity:1; transform:none} }
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.remove('nojs')</script>
+<div class="wrap">
+
+<header class="top">
+  <a class="logo-mark" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer"
+     aria-label="Nouman Sadiq — noumansadiq.com (opens in a new tab)">
+    <svg viewBox="14 11 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path class="n-stroke" d="M20 46 V18 L44 46 V18" fill="none" stroke-width="6"
+            stroke-linecap="round" stroke-linejoin="round"></path>
+      <circle class="n-dot" cx="47" cy="17" r="4"></circle>
+    </svg>
+    <span class="logo-word">Nouman Sadiq</span>
+  </a>
+  <div class="meta">Prepared for<br>Mailin Quintana · Yumbo General Construction<br>9 September 2026</div>
+</header>
+
+<h1>The complete system — everything your team asked for.</h1>
+<p class="lede">You said you want it done properly the first time rather than in pieces.
+  This is what that looks like: the whole thing, what each part does, what it costs to build,
+  and what it costs to run.</p>
+<p>Every figure here is stated in full, including the total. Every outside number links to its
+  source so you can check it. Where something is a limitation, an assumption or a risk, it is
+  written down in its own section rather than left out.</p>
+
+<div class="tldr">
+  <div class="kicker" style="margin-bottom:10px">The short version</div>
+  <ul>
+    <li>Your team asked for <strong>18 sections of improvements</strong>. We worked through
+      every one together and settled the open questions.</li>
+    <li>A good part of it <strong>already exists</strong> and costs nothing. Some is already
+      inside the estimating work you are paying for.</li>
+    <li>What is genuinely new is <strong>twelve pieces of work</strong>, grouped into four
+      stages: <strong class="num">$28,200</strong> to build all of it.</li>
+    <li>Comparable systems are quoted at <strong class="num">$40,000–$80,000</strong>, linked
+      below. This is lower for two specific reasons, and neither of them is a discount.</li>
+    <li>Nothing starts without a written scope and your agreement. <strong>You can stop after
+      any stage and keep everything delivered.</strong></li>
+  </ul>
+  <p style="margin:0"><a href="#decide">Skip to the end →</a></p>
+</div>
+
+<!-- ============================================================= -->
+<section class="rv">
+  <div class="kicker">What this is really about</div>
+  <h2>The point is not the software. It is what you get to stop doing.</h2>
+  <p class="lede">Right now the business runs because you and your team hold it together by
+    hand. Every price is worked out by someone. Every follow-up is remembered by someone.
+    Every figure that matters is assembled by someone, when it is asked for.</p>
+  <p>That works. It is also the ceiling. A business that depends on its owner checking things
+    can only grow to the size of what its owner can check.</p>
+  <p><strong>What a system like this changes is not speed. It is where your attention goes.</strong>
+    When pricing, follow-up, approvals and the numbers all run themselves, the work left for you
+    is the work only you can do — deciding what the company takes on, what it charges, who it
+    hires, and which relationships are worth building.</p>
+  <div class="found">
+    <p style="margin:0; color:var(--ink)">Published research puts the average contractor at
+      <strong>35–40% of working hours on administration</strong> — forms, reports, invoices,
+      change orders, chasing.
+      <a href="https://planuppro.com/ai-construction-paperwork" target="_blank" rel="noopener noreferrer">Source</a>.
+      <strong>We are not going to claim a number for what you would get back</strong> — that
+      depends entirely on how your team works. But that is the size of the thing being talked
+      about.</p>
+  </div>
+</section>
+
+<!-- ============================================================= -->
+<section class="rv">
+  <div class="kicker">Why we can say that with any confidence</div>
+  <h2>What we already found in your own records.</h2>
+  <p>Not projections. These came out of your July data, and every one is checkable against
+    your own files.</p>
+  <table>
+    <tr><th>What</th><th class="r">Amount</th></tr>
+    <tr><td data-label="What">Recorded as paid on two invoices, above what those invoices are worth</td>
+        <td class="r" data-label="Amount"><strong>$7,799.14</strong></td></tr>
+    <tr><td data-label="What">Profit invisible on a single $8,300 job — and job profit was wrong on every job checked</td>
+        <td class="r" data-label="Amount">$721</td></tr>
+    <tr><td data-label="What">Billed to Olympus Property across 11 properties — invisible today, because every sheet files by property</td>
+        <td class="r" data-label="Amount">$225,795</td></tr>
+    <tr><td data-label="What">Client records that duplicate another client</td>
+        <td class="r" data-label="Amount">30</td></tr>
+    <tr><td data-label="What">Jobs that cannot be invoiced until the client's own system issues a PO</td>
+        <td class="r" data-label="Amount">94 of 388</td></tr>
+    <tr class="total"><td data-label="What">Already loaded and running in your system</td>
+        <td class="r" data-label="Amount">490 invoices · $1,497,896</td></tr>
+  </table>
+  <p style="font-size:14.5px">None of that was found by anyone noticing. It was found because
+    the system checks for contradictions on every single run. <strong>That is the difference
+    between software that stores your work and software that reads it.</strong></p>
+</section>
+
+<!-- ============================================================= -->
+<section class="rv">
+  <div class="kicker">The build</div>
+  <h2>Twelve pieces, four stages.</h2>
+  <p class="lede">Built in this order because each stage depends on the one before it. Pricing
+    first, because every other number in the business is derived from it.</p>
+
+  <div class="stages" role="group" aria-label="Choose a stage to read">
+    <button id="s1" aria-pressed="true" aria-controls="b1"><b>Stage 1 · $7,500</b>Pricing, done properly</button>
+    <button id="s2" aria-pressed="false" aria-controls="b2"><b>Stage 2 · $6,900</b>The business, visible</button>
+    <button id="s3" aria-pressed="false" aria-controls="b3"><b>Stage 3 · $6,200</b>People and payments</button>
+    <button id="s4" aria-pressed="false" aria-controls="b4"><b>Stage 4 · $7,600</b>Sales intelligence</button>
+  </div>
+
+  <div class="stagebody" id="b1">
+    <h3>Stage 1 · Pricing, done properly · <span class="num">$7,500</span></h3>
+    <table>
+      <tr><th>What</th><th class="r">Price</th></tr>
+      <tr><td data-label="What"><strong>Pricing engine and price book.</strong> Every category — labour, materials, subcontractor, GC, profit, contingency — set as a percentage or an amount you control in Settings. Change any of them yourself, without asking anyone.</td><td class="r" data-label="Price">$3,800</td></tr>
+      <tr><td data-label="What"><strong>Floor, Recommended and Strong price</strong>, each computed from the full job cost, with the workings shown so anyone can see how the number was reached.</td><td class="r" data-label="Price">$1,200</td></tr>
+      <tr><td data-label="What"><strong>Three levels of price visibility.</strong> Everyone sees the final price. Only the estimator sees the breakdown behind it. Only you and the secretary see company money.</td><td class="r" data-label="Price">$900</td></tr>
+      <tr><td data-label="What"><strong>Expenses rebuilt.</strong> Anyone submits against a job they are on and sees only their own. You and the secretary see all of them, filtered by person, date, type and status.</td><td class="r" data-label="Price">$1,600</td></tr>
+      <tr class="total"><td data-label="What">Stage 1</td><td class="r" data-label="Price">$7,500</td></tr>
+    </table>
+  </div>
+
+  <div class="stagebody" id="b2" hidden>
+    <h3>Stage 2 · The business, visible · <span class="num">$6,900</span></h3>
+    <table>
+      <tr><th>What</th><th class="r">Price</th></tr>
+      <tr><td data-label="What"><strong>Owner and per-property analytics.</strong> Revenue, profit, trends, what is owed to you and by whom — and the same for every property, so Olympus stops being eleven separate rows.</td><td class="r" data-label="Price">$3,400</td></tr>
+      <tr><td data-label="What"><strong>Dashboard graphics.</strong> Progress against the monthly company goal, and each person's projected commission for the month.</td><td class="r" data-label="Price">$1,800</td></tr>
+      <tr><td data-label="What"><strong>Secretary follow-up.</strong> Five days after a quote is sent, it appears on Daniela's list automatically. Contact, record what was said, mark it done.</td><td class="r" data-label="Price">$1,700</td></tr>
+      <tr class="total"><td data-label="What">Stage 2</td><td class="r" data-label="Price">$6,900</td></tr>
+    </table>
+  </div>
+
+  <div class="stagebody" id="b3" hidden>
+    <h3>Stage 3 · People and payments · <span class="num">$6,200</span></h3>
+    <table>
+      <tr><th>What</th><th class="r">Price</th></tr>
+      <tr><td data-label="What"><strong>Payroll records and paystubs.</strong> Employees and subcontractors, what is owed against what is paid, upcoming payments and commissions, shown as a trend over time.</td><td class="r" data-label="Price">$3,200</td></tr>
+      <tr><td data-label="What"><strong>Team inbox as real messaging.</strong> Threaded conversations tied to the job, property or quote they are about, so a decision is never lost in somebody's phone.</td><td class="r" data-label="Price">$3,000</td></tr>
+      <tr class="total"><td data-label="What">Stage 3</td><td class="r" data-label="Price">$6,200</td></tr>
+    </table>
+    <p style="font-size:14px; margin:10px 0 0; color:var(--ink-faint)">Payroll here means
+      <em>recording</em> what was paid and producing a statement. It does not calculate or file
+      taxes — that is a regulated activity and belongs with a payroll provider.</p>
+  </div>
+
+  <div class="stagebody" id="b4" hidden>
+    <h3>Stage 4 · Sales intelligence · <span class="num">$7,600</span></h3>
+    <table>
+      <tr><th>What</th><th class="r">Price</th></tr>
+      <tr><td data-label="What"><strong>Engagement capture.</strong> Every response, question, revision request and sign of interest recorded against the quote. This has to exist before anything can be scored.</td><td class="r" data-label="Price">$1,600</td></tr>
+      <tr><td data-label="What"><strong>Follow-up priority engine.</strong> Expected profit × probability of approval, adjusted for engagement, the property's long-term value and anything you mark as strategically important — and it shows the reason for every ranking.</td><td class="r" data-label="Price">$3,600</td></tr>
+      <tr><td data-label="What"><strong>Salesperson section.</strong> Urgent and regular follow-up, a calendar for property meetings, and wins and losses with the reasons recorded.</td><td class="r" data-label="Price">$2,400</td></tr>
+      <tr class="total"><td data-label="What">Stage 4</td><td class="r" data-label="Price">$7,600</td></tr>
+    </table>
+    <p style="font-size:14px; margin:10px 0 0; color:var(--ink-faint)">The priority engine gets
+      better the longer it runs, because it learns from the engagement data captured above. In
+      its first weeks it will be working from your job history alone.</p>
+  </div>
+</section>
+
+<!-- ============================================================= -->
+<section class="rv">
+  <div class="kicker">The cost</div>
+  <h2>What it comes to, in full.</h2>
+  <table>
+    <tr><th>Stage</th><th>What it covers</th><th class="r">Price</th></tr>
+    <tr><td data-label="Stage">Stage 1</td><td data-label="What it covers">Pricing, done properly</td><td class="r" data-label="Price">$7,500</td></tr>
+    <tr><td data-label="Stage">Stage 2</td><td data-label="What it covers">The business, visible</td><td class="r" data-label="Price">$6,900</td></tr>
+    <tr><td data-label="Stage">Stage 3</td><td data-label="What it covers">People and payments</td><td class="r" data-label="Price">$6,200</td></tr>
+    <tr><td data-label="Stage">Stage 4</td><td data-label="What it covers">Sales intelligence</td><td class="r" data-label="Price">$7,600</td></tr>
+    <tr class="total"><td data-label="Stage">Total</td><td data-label="What it covers">Twelve pieces of work</td><td class="r" data-label="Price">$28,200</td></tr>
+  </table>
+
+  <h3 style="margin:26px 0 10px">How it is paid</h3>
+  <p>Four equal payments of <strong class="num">$7,050</strong>. The first starts the work; each
+    of the others falls due when a stage is delivered and you have seen it running.</p>
+  <table>
+    <tr><th>When</th><th class="r">Amount</th><th class="r">Paid so far</th></tr>
+    <tr><td data-label="When">To begin</td><td class="r" data-label="Amount">$7,050</td><td class="r" data-label="Paid so far">$7,050</td></tr>
+    <tr><td data-label="When">Stage 1 delivered</td><td class="r" data-label="Amount">$7,050</td><td class="r" data-label="Paid so far">$14,100</td></tr>
+    <tr><td data-label="When">Stage 2 delivered</td><td class="r" data-label="Amount">$7,050</td><td class="r" data-label="Paid so far">$21,150</td></tr>
+    <tr><td data-label="When">Stage 3 delivered</td><td class="r" data-label="Amount">$7,050</td><td class="r" data-label="Paid so far">$28,200</td></tr>
+    <tr class="total"><td data-label="When">Stage 4 delivered</td><td class="r" data-label="Amount">—</td><td class="r" data-label="Paid so far">$28,200</td></tr>
+  </table>
+  <p style="font-size:14.5px"><strong>You can stop after any stage.</strong> You keep everything
+    delivered up to that point — the system, the data and the code. There is no termination fee
+    and nothing gets switched off.</p>
+</section>
+
+<!-- ============================================================= -->
+<section class="rv">
+  <div class="kicker">Checkable, not claimed</div>
+  <h2>What this costs elsewhere — and why it is less here.</h2>
+  <p>Published guides for 2026 put a custom construction-management build at
+    <a href="https://bostoninstituteofanalytics.org/blog/cost-to-build-a-construction-management-software-in-2026/" target="_blank" rel="noopener noreferrer">$40,000–$80,000 for a basic version</a>,
+    and a small-business custom system at
+    <a href="https://ortemtech.com/blog/custom-software-development-cost-small-business/" target="_blank" rel="noopener noreferrer">$20,000–$60,000</a>.
+    US agencies bill
+    <a href="https://www.theninjastudio.com/blog/custom-web-app-cost-what-startups-actually-pay" target="_blank" rel="noopener noreferrer">$125–$250 an hour</a>
+    for a full team.</p>
+  <div class="found">
+    <div class="big num">$28,200</div>
+    <p style="margin:8px 0 0; color:var(--ink)">Roughly a third to two-thirds of the market
+      range — <strong>and it is not a discount.</strong> There are two specific reasons it costs
+      less from here, and both are checkable.</p>
+  </div>
+  <div class="grid two">
+    <div class="card">
+      <h3>The foundation already exists</h3>
+      <p style="margin:0">38 tables, 60 screens, 16 rounds of database work, and your own 386
+        jobs and 557 invoices already inside it. <strong>Another firm starts from an empty
+        database.</strong> That is not a small head start — it is most of a year's difference.</p>
+    </div>
+    <div class="card">
+      <h3>The discovery is already done</h3>
+      <p style="margin:0">Nobody has to be paid to learn what a WTN number is, why 13 of your
+        properties need a PO before an invoice, or that Olympus is eleven properties rather than
+        eleven clients. <strong>Working that out is the most expensive part of a build like
+        this, and it is behind us.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================= -->
+<section class="rv">
+  <div class="kicker">Running it</div>
+  <h2>What it costs to keep going.</h2>
+  <p>Care today is <strong>$450 a month</strong> — the server, nightly backups, security
+    updates, anything broken fixed free, up to two hours of small changes, and an answer within
+    one working day.</p>
+  <p><strong>A bigger system costs more to look after, so Care rises with it</strong> — about
+    <strong class="num">$150 a month per stage</strong>. That is arithmetic rather than a price
+    rise, and you only pay for what has actually been built.</p>
+  <table>
+    <tr><th>After</th><th class="r">Care, per month</th></tr>
+    <tr><td data-label="After">Today</td><td class="r" data-label="Care, per month">$450</td></tr>
+    <tr><td data-label="After">Stage 1</td><td class="r" data-label="Care, per month">$600</td></tr>
+    <tr><td data-label="After">Stage 2</td><td class="r" data-label="Care, per month">$750</td></tr>
+    <tr><td data-label="After">Stage 3</td><td class="r" data-label="Care, per month">$900</td></tr>
+    <tr class="total"><td data-label="After">Stage 4 — everything built</td><td class="r" data-label="Care, per month">$1,050</td></tr>
+  </table>
+  <p style="font-size:14.5px">For comparison, and you can check both:
+    <a href="https://www.servicetitan.com/" target="_blank" rel="noopener noreferrer">ServiceTitan</a>
+    is reported at $245–$398 per person per month with a 12-month minimum and $5,000–$50,000 to
+    set up (<a href="https://procured.us/articles/servicetitan-pricing" target="_blank" rel="noopener noreferrer">source</a>);
+    <a href="https://www.procore.com/" target="_blank" rel="noopener noreferrer">Procore</a>
+    is reported at $15,000–$30,000 a year for contractors your size
+    (<a href="https://projul.com/blog/procore-pricing-analysis-2026/" target="_blank" rel="noopener noreferrer">source</a>).
+    Neither publishes a price. <strong>And with either of them, you are renting — stop paying and
+    the system is gone. Here, stop paying and you keep the system, the data and the code.</strong></p>
+</section>
+
+<!-- ============================================================= -->
+<section class="rv">
+  <div class="kicker">The other way, if you prefer it</div>
+  <h2>One piece at a time.</h2>
+  <p>You have said you would rather have it done properly the first time, and the plan above is
+    built for that. <strong>But the pieces are genuinely separate, so there is no reason you have
+    to take them together.</strong></p>
+  <p>Any of the twelve can be bought on its own, at the price shown against it, in whatever
+    order suits you. Each one is delivered, paid for, and running before the next is started.</p>
+  <div class="card">
+    <h3>The difference between the two, honestly</h3>
+    <ul style="margin-bottom:0">
+      <li><strong>All four stages:</strong> one decision, one agreed scope, one finish line, and
+        the pieces are designed to fit together from the start.</li>
+      <li><strong>One at a time:</strong> nothing is committed beyond the piece in front of you.
+        It costs the same in total, but it takes longer, and two or three of the later pieces
+        need earlier ones to exist first — the priority engine cannot rank on data nobody is
+        collecting yet.</li>
+    </ul>
+  </div>
+  <p style="font-size:14.5px">There is no discount for taking all four, and no penalty for
+    not. <strong>It is a pacing decision, not a price one.</strong></p>
+</section>
+
+<!-- ============================================================= -->
+<section class="rv">
+  <div class="kicker">So there are no surprises</div>
+  <h2>What is true, and what this will not do.</h2>
+  <p class="lede">Every proposal has these. Most leave them out. They are more useful written
+    down, so you can weigh them before deciding rather than discover them afterwards.</p>
+  <div class="ledger">
+    <div class="row"><div class="k">Not included</div><div class="v">Running payroll — calculating, withholding or filing taxes. That is regulated and belongs with a payroll provider the system can talk to.</div></div>
+    <div class="row"><div class="k">Not included</div><div class="v">A "pay now" button on invoices. About 60% of your work is invoiced through your clients' own portals, where a payment link cannot reach. It would be roughly seven days of work aimed at under one invoice in ten.</div></div>
+    <div class="row"><div class="k">Not advice</div><div class="v">Tax figures. The system can hold a set-aside percentage you choose and show the number. It will not calculate what you owe — that is your accountant's job.</div></div>
+    <div class="row"><div class="k">Needs time</div><div class="v">The follow-up priority engine improves as engagement data accumulates. In its first weeks it works from job history alone and its rankings will be rougher.</div></div>
+    <div class="row"><div class="k">Needs you</div><div class="v">Dates assume you and your team are reachable for the things only you can decide — confirming record corrections, connecting Google and Telegram, and answering questions during a build.</div></div>
+    <div class="row"><div class="k">Honest comparison</div><div class="v">A general-purpose subscription is cheaper per month than building your own. It will not carry your portal and PO rules, your commission structure or your subcontractor payouts — but on price alone, renting is less.</div></div>
+    <div class="row"><div class="k">Estimates</div><div class="v">The $40,000–$80,000 market figures are published industry ranges, not quotes anyone has given you. The ServiceTitan and Procore figures come from third-party analyses, because neither company publishes a price. Treat all of them as the right order of magnitude.</div></div>
+    <div class="row"><div class="k">Yours either way</div><div class="v">Your data is yours and exportable in full, at any time, on request. The code is yours. Stopping costs nothing and switches nothing off.</div></div>
+  </div>
+</section>
+
+<!-- ============================================================= -->
+<section class="rv">
+  <div class="kicker">How we work from here</div>
+  <h2>Four rules, so this never has to be done twice.</h2>
+  <p>Your team asked for this to be right the first time. That is the same thing I want, and
+    here is the mechanism that gets us both there.</p>
+  <table>
+    <tr><th>Rule</th><th>How it works</th></tr>
+    <tr><td data-label="Rule"><strong>One list</strong></td><td data-label="How it works">A single document says what is being built. This page becomes it. If something is not on the list it is not being built — and if it should be, it goes on the list rather than into a message.</td></tr>
+    <tr><td data-label="Rule"><strong>Nothing is lost</strong></td><td data-label="How it works">Every idea gets written down, even if it is for much later. Nobody has to keep repeating a request to be sure it is remembered.</td></tr>
+    <tr><td data-label="Rule"><strong>One review before each stage</strong></td><td data-label="How it works">Ideas are collected as they come and we go through them together once, before a stage starts. Then that stage is settled and I build it.</td></tr>
+    <tr><td data-label="Rule"><strong>Changes are priced first</strong></td><td data-label="How it works">If something changes mid-stage that is fine — it gets a price and a date before I touch it, and you decide. You will never see an invoice you did not agree to.</td></tr>
+  </table>
+  <div class="found">
+    <p style="margin:0; color:var(--ink)"><strong>The exception, and it matters:</strong> if
+      something is broken, wrong, or does not do what we agreed it would, that is not a change.
+      That is my mistake and I fix it immediately, free, however many times it takes.
+      <strong>This only ever applies to new things.</strong></p>
+  </div>
+</section>
+
+<!-- ============================================================= -->
+<section class="rv" id="decide">
+  <div class="kicker">When you are ready</div>
+  <h2>Tell me which way you want it.</h2>
+  <p class="lede">Each one opens WhatsApp with the message already written. Nothing happens
+    automatically — you press send, and we talk.</p>
+
+  <div class="choose">
+    <a class="choice go" href="https://wa.me/19299394060?text=Hi%20Nouman%20%E2%80%94%20we%27ve%20read%20the%20roadmap.%20We%27d%20like%20to%20do%20the%20complete%20build%2C%20all%20four%20stages.%20Please%20send%20the%20scope%20and%20the%20first%20payment%20request."
+       target="_blank" rel="noopener noreferrer">
+      <span class="choice-h">The complete build — all four stages</span>
+      <span class="choice-n num">$28,200</span>
+      <span class="choice-p">Four payments of $7,050. One scope, agreed once, finished properly.</span>
+    </a>
+    <a class="choice go" href="https://wa.me/19299394060?text=Hi%20Nouman%20%E2%80%94%20we%27ve%20read%20the%20roadmap.%20We%27d%20like%20to%20start%20with%20Stage%201%2C%20the%20pricing%20work%2C%20and%20decide%20on%20the%20rest%20afterwards."
+       target="_blank" rel="noopener noreferrer">
+      <span class="choice-h">Start with Stage 1 and see how it goes</span>
+      <span class="choice-n num">$7,500</span>
+      <span class="choice-p">Pricing, the three price levels, and expenses. Decide the rest later.</span>
+    </a>
+    <a class="choice" href="https://wa.me/19299394060?text=Hi%20Nouman%20%E2%80%94%20we%27ve%20read%20the%20roadmap%20and%20we%27ve%20got%20some%20questions%20before%20we%20decide%3A"
+       target="_blank" rel="noopener noreferrer">
+      <span class="choice-h">We have questions first</span>
+      <span class="choice-p" style="margin-top:6px">Ask about anything on this page. Nothing moves until you are comfortable.</span>
+    </a>
+  </div>
+  <p style="font-size:14px; color:var(--ink-faint)">Prefer email?
+    <a href="mailto:info@noumansadiq.com?subject=Yumbo%20%E2%80%94%20the%20roadmap">info@noumansadiq.com</a>.
+    This page does not track you — I only know you have read it if you tell me.</p>
+</section>
+
+<footer>
+  <a class="logo-mark" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer"
+     aria-label="Nouman Sadiq — noumansadiq.com (opens in a new tab)">
+    <svg viewBox="14 11 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path class="n-stroke" d="M20 46 V18 L44 46 V18" fill="none" stroke-width="6"
+            stroke-linecap="round" stroke-linejoin="round"></path>
+      <circle class="n-dot" cx="47" cy="17" r="4"></circle>
+    </svg>
+    <span class="logo-word">Nouman Sadiq</span>
+  </a>
+  <p style="margin:10px 0 0">
+    <a href="mailto:info@noumansadiq.com">info@noumansadiq.com</a> ·
+    <a href="tel:+19299394060">+1 (929) 939-4060</a> ·
+    <a href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer">noumansadiq.com</a><br>
+    1209 Mountain Road PL NE # 6302, Albuquerque, NM 87110
+  </p>
+</footer>
+
+</div>
+<script>
+(function(){
+  // The stage selector.
+  var ids = ['1','2','3','4'];
+  function show(n){
+    ids.forEach(function(i){
+      var btn = document.getElementById('s'+i), body = document.getElementById('b'+i);
+      var on = (i === n);
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      body.hidden = !on;
+    });
+  }
+  ids.forEach(function(i){
+    document.getElementById('s'+i).addEventListener('click', function(){ show(i); });
+  });
+
+  // Reveal on scroll. If IntersectionObserver is missing, everything is shown.
+  var els = [].slice.call(document.querySelectorAll('.rv'));
+  if (!('IntersectionObserver' in window)) { els.forEach(function(e){ e.classList.add('in'); }); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, {rootMargin:'0px 0px -8% 0px', threshold:0.04});
+  els.forEach(function(e){ io.observe(e); });
+})();
+</script>
+</body>
+</html>
