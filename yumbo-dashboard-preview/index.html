@@ -432,10 +432,16 @@ html, body{height: auto; min-height: 0;}
 
 <style id="v8-extra">
 /* ===== v8 additions: role-based platform + estimator module ===== */
-.rolebar{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;}
-.rolebar button{font-family:'Manrope',sans-serif; font-weight:800; font-size:12px; padding:9px 14px; border:1.5px solid var(--line); border-radius:14px; background:#fff; cursor:pointer; box-shadow:var(--shadow); transition:transform .15s ease, background .2s ease;}
-.rolebar button:active{transform:scale(.96);}
-.rolebar button.on{background:var(--ink); color:#fff; border-color:var(--ink);}
+.rolebar{display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap;}
+.role-lab{font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-soft); flex:0 0 auto;}
+.role-select{flex:1 1 220px; min-width:0; min-height:46px; font-family:'Manrope',sans-serif;
+  font-weight:800; font-size:14px; color:var(--ink); background:#fff;
+  border:1.5px solid var(--line); border-radius:14px; box-shadow:var(--shadow);
+  padding:11px 40px 11px 14px; cursor:pointer; appearance:none; -webkit-appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' fill='none' stroke='%231B1710' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat:no-repeat; background-position:right 14px center;}
+.role-select:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
 .stepbar{display:flex; gap:0; align-items:stretch; margin:14px 0 18px; flex-wrap:wrap; border:1.5px solid var(--line); border-radius:16px; overflow:hidden; background:#fff; box-shadow:var(--shadow);}
 .stepbar .stp{flex:1 1 120px; padding:11px 12px; font-size:11px; font-weight:800; color:var(--ink-soft); border-right:1.5px solid var(--line); display:flex; align-items:center; gap:7px;}
 .stepbar .stp:last-child{border-right:none;}
@@ -552,6 +558,78 @@ html, body{height: auto; min-height: 0;}
 .permtile.on{background:var(--blue); border-color:var(--blue); color:#fff;}
 .permtile.lock{opacity:.55;}
 .permtile:not(.lock){cursor:pointer;}
+
+/* ── What's next: the plan screen. 10 Sep 2026. ──────────────────────────
+   Built for a low-attention reader on a phone: one line of text per item, a
+   price on the right, a tick box on the left, and a total that moves. No
+   paragraphs. Nothing that has to be read twice. */
+.plan-have{border:2.5px solid var(--ink); border-radius:16px; overflow:hidden; margin:0 0 14px;}
+.ph-row{display:flex; align-items:center; gap:12px; padding:13px 15px; background:var(--cream);
+  border-bottom:2px solid rgba(27,23,16,.10);}
+.ph-row:last-child{border-bottom:0;}
+.ph-tick{flex:0 0 auto; width:24px; height:24px; border-radius:50%; background:var(--green,#137A38);
+  color:#fff; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:13px;}
+.ph-row b{font-size:14px;}
+.ph-sub{font-size:12px; color:var(--ink-soft); line-height:1.4; margin-top:2px;}
+.ph-amt{margin-left:auto; flex:0 0 auto; font-weight:900; font-size:13px; color:var(--ink-soft); white-space:nowrap;}
+.ph-amt.due{color:var(--coral); background:rgba(255,90,56,.12); border:2px solid var(--coral);
+  border-radius:99px; padding:5px 11px;}
+
+.plan-bulk{display:flex; gap:8px; margin:0 0 14px;}
+.plan-bulk button{font-family:'Manrope',sans-serif; font-weight:800; font-size:12px; padding:12px 18px;
+  border:2.5px solid var(--ink); border-radius:99px; background:var(--cream); cursor:pointer; min-height:44px;}
+
+.plan-stage{border:2.5px solid var(--ink); border-radius:18px; overflow:hidden; margin:0 0 14px; background:var(--cream);}
+.plan-stage.off{opacity:.55;}
+.ps-head{display:flex; align-items:flex-start; gap:12px; padding:14px 16px; background:var(--cream-2);
+  border-bottom:2.5px solid var(--ink);}
+.ps-n{font-size:10.5px; font-weight:900; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft);}
+.ps-t{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:16px; line-height:1.15; margin-top:2px;}
+.ps-d{font-size:12px; color:var(--ink-soft); margin-top:3px; line-height:1.4;}
+.ps-amt{margin-left:auto; font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:18px; white-space:nowrap;}
+
+.plan-item{display:flex; align-items:flex-start; gap:12px; padding:13px 15px; cursor:pointer;
+  border-bottom:2px solid rgba(27,23,16,.08); min-height:56px; transition:background .12s;}
+.plan-item:last-child{border-bottom:0;}
+.plan-item:active{transform:scale(.995);}
+.plan-item .pi-box{flex:0 0 auto; width:26px; height:26px; border:2.5px solid var(--ink); border-radius:8px;
+  display:flex; align-items:center; justify-content:center; font-weight:900; font-size:14px; background:#fff; margin-top:1px;}
+.plan-item.on .pi-box{background:var(--ink); color:var(--cream);}
+.plan-item.on{background:rgba(19,122,56,.05);}
+.pi-mid{flex:1 1 auto; min-width:0;}
+.pi-n{font-weight:800; font-size:14px; line-height:1.25;}
+.pi-d{font-size:12px; color:var(--ink-soft); line-height:1.42; margin-top:3px;}
+.pi-who{font-size:10.5px; color:var(--ink-soft); opacity:.75; margin-top:4px; font-weight:700;}
+.pi-amt{flex:0 0 auto; font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:15px;
+  white-space:nowrap; margin-top:1px;}
+.plan-item:not(.on) .pi-amt, .plan-item:not(.on) .pi-n{opacity:.45;}
+
+.plan-foot{position:sticky; bottom:10px; z-index:5; border:3px solid var(--ink); border-radius:18px;
+  background:var(--yellow,#FFD84D); padding:14px 16px; margin:16px 0 12px;
+  box-shadow:0 6px 0 rgba(27,23,16,.18);}
+.pf-line{display:flex; align-items:baseline; justify-content:space-between; gap:14px; font-weight:800; font-size:15px;}
+.pf-line b{font-family:'Bricolage Grotesque',sans-serif; font-size:20px; white-space:nowrap;}
+.pf-line.sm{font-size:12.5px; font-weight:700; color:var(--ink-soft); margin-top:6px;}
+.pf-line.sm b{font-size:14px; color:var(--ink);}
+
+.plan-cta{display:grid; gap:9px; margin:0 0 12px;}
+.plan-cta a{display:block; text-align:center; text-decoration:none; font-weight:900; font-size:14px;
+  padding:15px 16px; border:2.5px solid var(--ink); border-radius:99px; min-height:52px;}
+.pc-go{background:var(--ink); color:var(--cream);}
+.pc-ask{background:var(--cream); color:var(--ink);}
+.plan-fine{font-size:11.5px; color:var(--ink-soft); line-height:1.5; padding:0 2px 6px;}
+
+@media(max-width:520px){
+  .ps-amt{font-size:16px;}
+  .pi-d{font-size:11.5px;}
+  .pf-line b{font-size:18px;}
+}
+
+
+/* 10 Sep — three controls sat at 40–42px, just under the 44px minimum. They
+   pre-date the role dropdown; fixed while the file was open. */
+.searchbar select, .searchbar input, .pill-btn{min-height:44px;}
+.navmenu, .gearbtn{min-height:44px; min-width:44px;}
 </style>
 </head>
 <body>
@@ -647,18 +725,18 @@ var MODULES = {
      INSIDE the costing screen for everybody, and are gone from the nav. Subs,
      Suppliers and Properties are lookups the estimator reaches from a quote or
      a job, not daily destinations. The owner keeps everything, grouped. */
-  owner:      ['dashboard','newwork','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','expenses','money','banking','reports','team'],
-  secretary:  ['dashboard','newwork','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','expenses','money','reports','team'],
-  supervisor: ['dashboard','newwork','quotes','approvals','jobs','requests','inbox','expenses'],
-  estimator:  ['dashboard','newwork','quotes','jobs','requests'],
-  pm:         ['dashboard','jobs','requests','inbox','properties','expenses'],  // sees quoted price + sub pay (confirmed 1 Sep)
-  sales:      ['dashboard','quotes','jobs','properties','subs']
+  owner:      ['dashboard','newwork','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','expenses','money','banking','reports','team','plan'],
+  secretary:  ['dashboard','newwork','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','expenses','money','reports','team','plan'],
+  supervisor: ['dashboard','newwork','quotes','approvals','jobs','requests','inbox','expenses','plan'],
+  estimator:  ['dashboard','newwork','quotes','jobs','requests','plan'],
+  pm:         ['dashboard','jobs','requests','inbox','properties','expenses','plan'],  // sees quoted price + sub pay (confirmed 1 Sep)
+  sales:      ['dashboard','quotes','jobs','properties','subs','plan']
 };
 
 var navLabels = {
   dashboard:'Home', newwork:'New work', quotes:'Quotes', approvals:'Approvals', jobs:'Jobs', requests:'Requests',
   inbox:'Team inbox', properties:'Properties', subs:'Subs', vendors:'Suppliers',
-  catalog:'Price list', stepsizes:'Step sizes', expenses:'Expenses', money:'Money', banking:'Banking', reports:'Reports', team:'Settings'
+  catalog:'Price list', stepsizes:'Step sizes', expenses:'Expenses', money:'Money', banking:'Banking', reports:'Reports', team:'Settings', plan:'What\u2019s next'
 };
 
 var navIcons = {
@@ -923,11 +1001,11 @@ var state = {
        intake tile was silently missing for Daniela, Edison and Carlos while the
        owner saw it. A new tab has three homes — MODULES, ALL_TABS, and these
        per-person lists. Miss one and it disappears for the person who needs it. */
-    2:['dashboard','newwork','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','expenses','money','reports','team'],
-    3:['dashboard','newwork','quotes','approvals','jobs','requests','inbox','expenses'],
-    4:['dashboard','newwork','quotes','jobs','requests'],
-    5:['dashboard','jobs','requests','inbox','properties','expenses'],
-    6:['dashboard','quotes','jobs','properties','subs'],
+    2:['dashboard','newwork','quotes','approvals','jobs','requests','inbox','properties','subs','vendors','expenses','money','reports','team','plan'],
+    3:['dashboard','newwork','quotes','approvals','jobs','requests','inbox','expenses','plan'],
+    4:['dashboard','newwork','quotes','jobs','requests','plan'],
+    5:['dashboard','jobs','requests','inbox','properties','expenses','plan'],
+    6:['dashboard','quotes','jobs','properties','subs','plan'],
     7:['dashboard','quotes','jobs','properties']
   },
   currentMemberId: null,
@@ -1290,14 +1368,31 @@ function scrollToContent(){
 function setRole(r){ state.role=r; state.page='dashboard'; render(); window.scrollTo({top:0, behavior:'smooth'}); }
 
 function buildRoleBar(){
+  /* 10 Sep 2026 — six pills became one dropdown, on Boss's instruction. At
+     390px the pills wrapped onto three rows and pushed the actual product
+     below the fold before anyone had seen it. A select is one row at every
+     width, and it reads as "sign in as", which is what it always meant. */
   var bar = document.getElementById('roleBar'); bar.innerHTML='';
+  var lab=document.createElement('label');
+  lab.className='role-lab'; lab.setAttribute('for','roleSelect');
+  lab.textContent='Signed in as';
+  var sel=document.createElement('select');
+  sel.id='roleSelect'; sel.className='role-select';
+  sel.setAttribute('aria-label','Choose which person to view the system as');
   Object.keys(ROLES).forEach(function(r){
-    var b=document.createElement('button');
-    b.textContent=ROLES[r].label;
-    if(state.role===r) b.classList.add('on');
-    b.onclick=function(){ setRole(r); };
-    bar.appendChild(b);
+    var o=document.createElement('option');
+    o.value=r;
+    /* Some ROLES labels already carry the person ("Owner — Mailin"), so
+       appending the team name blindly produced "Owner — Mailin — Mailin".
+       Only add the name when it is not already in the label. */
+    var inRole=(state.team||[]).filter(function(t){ return t.role===r && t.active; });
+    var lbl=ROLES[r].label, nm=inRole.length ? inRole[0].name : '';
+    o.textContent = (nm && lbl.indexOf(nm)===-1) ? lbl + ' — ' + nm : lbl;
+    if(state.role===r) o.selected=true;
+    sel.appendChild(o);
   });
+  sel.onchange=function(){ setRole(this.value); };
+  bar.appendChild(lab); bar.appendChild(sel);
   document.getElementById('roleNote').textContent = ROLES[state.role].note;
   // Who is "logged in" reflects the real team list, so adding a second
   // estimator visibly changes who can be signed in as.
@@ -1315,7 +1410,10 @@ var NAV_GROUPS=[
   {k:'work',   l:'Work',     tabs:['dashboard','newwork','quotes','approvals','jobs','requests','inbox']},
   {k:'people', l:'People',   tabs:['properties','subs','vendors']},
   {k:'money',  l:'Money',    tabs:['expenses','money','banking','reports']},
-  {k:'setup',  l:'Settings', tabs:['team']}
+  /* 10 Sep — the Settings GROUP was removed from the nav. The gear in the top
+     bar already opens it, and two doors to one room is clutter on a phone.
+     'team' stays in MODULES so the gear and the route still work. */
+  {k:'plan',   l:'What\u2019s next', tabs:['plan']}
 ];
 state.navOpen = state.navOpen || {};   /* undefined = "use the default" */
 /* A group is open by DEFAULT on Home, and when it holds the page you are on.
@@ -2526,7 +2624,7 @@ function countInRole(r){ return state.team.filter(function(t){ return t.role===r
    choosing HOW MANY TILES each one can open. All of that lives here, on the
    page that was already called Team. */
 var ALL_TABS = ['dashboard','newwork','quotes','approvals','jobs','requests','inbox','properties',
-                'subs','vendors','expenses','money','banking','reports','team'];
+                'subs','vendors','expenses','money','banking','reports','team','plan'];
 var ALWAYS_ON = ['dashboard'];
 var OWNER_ONLY = ['banking'];
 
@@ -2778,6 +2876,144 @@ function renderSearch(){
   document.getElementById('pageBody').innerHTML=h;
 }
 
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   WHAT'S NEXT — the plan screen. Added 10 Sep 2026.
+
+   Boss, 10 Sep: "they are not into reading things. They only want to
+   visualize." He is right and the evidence is in front of us — Alex's review
+   of the MOCKUP drove the entire v8 rebuild, while a $28,200 figure in a
+   written proposal produced no reaction at all.
+
+   So the price lives where they already look: inside the app they click.
+
+   Two design decisions worth defending:
+
+   1 · EVERYTHING STARTS SELECTED. They said they want it all, so the default
+       reflects what they asked for rather than an empty basket we upsell from.
+       Removing is one tap and clearly labelled. A default that matches the
+       client's own stated wish is honest; one that does not would not be.
+
+   2 · EVERY ITEM NAMES WHO ASKED FOR IT. These are their own eighteen
+       sections, not our catalogue. That is true, it is the reason the list
+       exists, and research on self-designed products (Norton/Mochon/Ariely,
+       "The IKEA Effect", J. Consumer Psych 2012) is clear that people value
+       what they had a hand in making far more highly. We are not manufacturing
+       that feeling — they genuinely specified this.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+var PLAN_ITEMS = [
+  /* stage, id, name, one line, price, who asked, section */
+  ['1','pe',  'Pricing engine and price list',   'Every percentage — labour, materials, sub, GC, profit, contingency — set by you in Settings, not by me in code.', 3800, 'Alex', '2B'],
+  ['1','tiers','Floor, Recommended and Strong',  'Three prices on every quote, worked out from the real job cost, with the sums shown.',                            1200, 'Alex', '3'],
+  ['1','vis', 'Who sees which numbers',          'Everyone sees the final price. Only the estimator sees the breakdown. Only you see company money.',                  900, 'Alex', '17'],
+  ['1','exp', 'Expenses, rebuilt',               'Anyone adds an expense to their own job. You and Daniela see all of them, filtered and approved.',                  1600, 'Alex', '10'],
+
+  ['2','anal','Owner and property analytics',    'Revenue, profit and trends — for the company and for every property. Olympus stops being eleven rows.',            3400, 'Alex', '12'],
+  ['2','goal','Monthly goal and commission',     'How far through the month’s target you are, and what each person is on track to earn.',                        1800, 'Alex', '8'],
+  ['2','fu',  'Secretary follow-up',             'Five days after a quote goes out it appears on Daniela’s list. Contact, record, done.',                        1700, 'Alex', '11'],
+
+  ['3','pay', 'Payroll records and paystubs',    'Employees and subs, owed against paid, what is coming — as a trend, not a spreadsheet.',                           3200, 'Alex', '13'],
+  ['3','inbx','Team inbox, properly',            'Threaded messages tied to the job or quote they are about, so a decision is never lost in a phone.',                3000, 'Alex', '7'],
+
+  ['4','eng', 'Engagement capture',              'Every reply, question and revision recorded against the quote. Needed before anything can be scored.',              1600, 'Alex', '16'],
+  ['4','prio','Follow-up priority',              'Ranks quotes by likely profit × chance of winning, and shows why each one is where it is.',                    3600, 'Alex', '16'],
+  ['4','sales','Salesperson section',            'Urgent and normal follow-up, a calendar, and wins and losses with the reason recorded.',                            2400, 'Alex', '16']
+];
+var PLAN_STAGES = {
+  '1':['Pricing, done properly','What your estimators touch every single day.'],
+  '2':['The business, visible','Where the money actually is, without asking anyone.'],
+  '3':['People and payments','Who is owed what, and everyone talking in one place.'],
+  '4':['Sales intelligence','Which quote to chase this morning, and why.']
+};
+var CARE_PER_STAGE = 150, CARE_NOW = 450;
+
+/* everything on by default — see the note above */
+state.plan = state.plan || (function(){ var o={}; PLAN_ITEMS.forEach(function(r){o[r[1]]=true;}); return o; })();
+function planToggle(id){ state.plan[id] = !state.plan[id]; renderPlan(); }
+function planAll(on){ PLAN_ITEMS.forEach(function(r){ state.plan[r[1]] = on; }); renderPlan(); }
+function planTotals(){
+  var t=0, n=0, stages={};
+  PLAN_ITEMS.forEach(function(r){
+    if(!state.plan[r[1]]) return;
+    t+=r[4]; n++; stages[r[0]]=true;
+  });
+  var sc=Object.keys(stages).length;
+  /* One payment per stage; the first one starts the work. The rest are equal,
+     and the FIRST absorbs the rounding so the payments always add back to the
+     total exactly. An earlier version did deposit + remainder/stages, which
+     produced five payments and came out $2 short. Anyone checking this with a
+     calculator would have found it, and someone will. */
+  var per = sc ? Math.round(t/sc) : 0;
+  var first = sc ? t - per*(sc-1) : 0;
+  return {total:t, count:n, stages:sc, first:first, per:per, care:CARE_NOW+CARE_PER_STAGE*sc};
+}
+
+function renderPlan(){
+  var T=planTotals(), all=PLAN_ITEMS.length;
+  var h='<h1 class="dt">What’s next</h1>';
+
+  h+='<div class="lockednote keep">Everything on this page came from your own list. '+
+     'Tap anything to take it out — the numbers update as you go.</div>';
+
+  /* what already exists, and the one number that is outstanding */
+  h+='<div class="plan-have">'+
+       '<div class="ph-row"><span class="ph-tick">✓</span><div><b>Your system today</b>'+
+         '<div class="ph-sub">Jobs, quotes, invoices, subs, suppliers, money. 386 jobs and 557 invoices already in it.</div></div>'+
+         '<div class="ph-amt">paid</div></div>'+
+       '<div class="ph-row"><span class="ph-tick">✓</span><div><b>Stage 2 — delivered</b>'+
+         '<div class="ph-sub">Live, your data loaded, your team trained.</div></div>'+
+         '<div class="ph-amt due">$2,500 due</div></div>'+
+     '</div>';
+
+  h+='<div class="plan-bulk"><button onclick="planAll(true)">Select all '+all+'</button>'+
+     '<button onclick="planAll(false)">Clear all</button></div>';
+
+  ['1','2','3','4'].forEach(function(sg){
+    var items=PLAN_ITEMS.filter(function(r){return r[0]===sg;});
+    var on=items.filter(function(r){return state.plan[r[1]];});
+    var sub=on.reduce(function(a,r){return a+r[4];},0);
+    h+='<div class="plan-stage'+(on.length?'':' off')+'">'+
+         '<div class="ps-head"><div><div class="ps-n">Stage '+sg+'</div>'+
+           '<div class="ps-t">'+PLAN_STAGES[sg][0]+'</div>'+
+           '<div class="ps-d">'+PLAN_STAGES[sg][1]+'</div></div>'+
+           '<div class="ps-amt">'+(on.length? money0(sub) : '—')+'</div></div>';
+    items.forEach(function(r){
+      var on2=!!state.plan[r[1]];
+      h+='<div class="plan-item'+(on2?' on':'')+'" onclick="planToggle(\''+r[1]+'\')">'+
+           '<div class="pi-box">'+(on2?'✓':'')+'</div>'+
+           '<div class="pi-mid"><div class="pi-n">'+r[2]+'</div>'+
+             '<div class="pi-d">'+r[3]+'</div>'+
+             '<div class="pi-who">'+r[5]+' asked for this · section '+r[6]+'</div></div>'+
+           '<div class="pi-amt">'+money0(r[4])+'</div>'+
+         '</div>';
+    });
+    h+='</div>';
+  });
+
+  h+='<div class="plan-foot">'+
+       '<div class="pf-line"><span>'+T.count+' of '+all+' selected</span><b>'+money0(T.total)+'</b></div>'+
+       '<div class="pf-line sm"><span>To start the work</span><b>'+(T.stages? money0(T.first) : '—')+'</b></div>'+
+       '<div class="pf-line sm"><span>'+(T.stages>1? (T.stages-1)+' more, as each stage lands' : 'nothing further')+'</span>'+
+         '<b>'+(T.stages>1? money0(T.per)+' each' : '—')+'</b></div>'+
+       '<div class="pf-line sm"><span>Care once it is all running</span><b>'+money0(T.care)+'/mo</b></div>'+
+     '</div>';
+
+  h+='<div class="plan-cta">'+
+       '<a class="pc-go" target="_blank" rel="noopener noreferrer" href="https://wa.me/19299394060?text='+
+         encodeURIComponent('Hi Nouman — we went through What’s next in the app. We picked '+T.count+' of '+all+
+         ' ('+money0(T.total)+'). Please send the scope and the first payment request.')+'">'+
+         'This is what we want — send the scope</a>'+
+       '<a class="pc-ask" target="_blank" rel="noopener noreferrer" href="https://wa.me/19299394060?text='+
+         encodeURIComponent('Hi Nouman — a question about What’s next in the app:')+'">Ask a question</a>'+
+     '</div>';
+
+  h+='<div class="plan-fine">Nothing here is charged automatically and nothing starts without a written scope you agree first. '+
+     'Anything broken is always fixed free — this page is only about new work.</div>';
+
+  document.getElementById('pageBody').innerHTML=h;
+}
+
 var RENDER = {
   dashboard:renderDashboard, newwork:renderNewWork, quotes:renderQuotes, quoteDetail:renderQuoteDetail,
   breakdown:renderBreakdown, quoteDoc:renderQuoteDoc, approvals:renderApprovals,
@@ -2785,7 +3021,8 @@ var RENDER = {
   vendors:renderVendors, subs:renderSubs, jobs:renderJobs, requests:renderRequests,
   inbox:renderInbox, expenses:renderExpenses, money:renderMoney, banking:renderBanking, reports:renderReports, team:renderTeam,
   jobDetail:renderJobDetail, search:renderSearch,
-  subDetail:renderSubDetail, vendorDetail:renderVendorDetail, expenseDetail:renderExpenseDetail
+  subDetail:renderSubDetail, vendorDetail:renderVendorDetail, expenseDetail:renderExpenseDetail,
+  plan:renderPlan
 };
 /* The trail for the current screen. Detail screens name their parent list and
    the record they are inside; list screens are one step off Home. */
