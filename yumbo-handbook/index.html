@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+<title>Your Yumbo Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: a full illustrated guide to her system. A sticky contents bar on top,
+   then chapters in the order work flows through the company. Each "how to" pairs
+   plain steps with a real screen from the system. Single light look on purpose:
+   it matches the Yumbo system she uses every day. */
+:root{
+  --paper:#FBF6EA; --paper-2:#F4ECD9; --card:#FFFFFF;
+  --ink:#1B1710; --soft:#4B4438; --line:#E4E7EC;
+  --coral:#FF5A38; --green:#16A34A; --green-ink:#137A38; --amber:#F59E0B; --amber-ink:#8A5A06; --blue:#2563EB;
+  --head:"Bricolage Grotesque","Arial Black",Arial,sans-serif;
+  --body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--paper-2);color:var(--ink);font:16px/1.6 var(--body)}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:18px;padding-block:24px 90px;display:grid;gap:64px}
+h1,h2,h3{font-family:var(--head);font-weight:800;letter-spacing:-.02em;margin:0;line-height:1.05;text-wrap:balance}
+h1{font-size:clamp(2.2rem,6.5vw,4rem)}
+h2{font-size:clamp(1.7rem,4.4vw,2.5rem)}
+h3{font-size:1.3rem}
+p{margin:0}
+.num{font-variant-numeric:tabular-nums}
+a{color:inherit}
+
+/* contents bar */
+.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--ink);color:var(--paper)}
+.toc-in{max-width:1040px;margin:0 auto;padding:10px 18px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.toc-in::-webkit-scrollbar{display:none}
+.toc a{flex:none;text-decoration:none;font-weight:800;font-size:.78rem;padding:6px 12px;border-radius:99px;border:1.5px solid #FFFFFF33;color:var(--paper);white-space:nowrap}
+.toc a:hover,.toc a.on{background:var(--coral);border-color:var(--coral);color:var(--ink)}
+.toc a:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+
+/* hero */
+.hero{background:var(--paper);border:3px solid var(--ink);border-radius:24px;box-shadow:6px 6px 0 var(--ink);padding:clamp(22px,5vw,46px);display:grid;gap:18px;position:relative;overflow:hidden}
+.hi{font-weight:800;color:var(--coral);text-transform:uppercase;letter-spacing:.06em;font-size:.8rem}
+.lead{font-size:1.12rem;max-width:62ch;color:var(--soft)}
+.hero h1 mark{background:var(--coral);color:var(--ink);padding:0 .15em;border-radius:6px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{display:inline-block;font-weight:800;font-size:.8rem;padding:6px 14px;border:2.5px solid var(--ink);border-radius:99px;background:var(--card)}
+.pill.on{background:var(--ink);color:var(--paper)}
+.sticker{position:absolute;right:-8px;top:18px;transform:rotate(8deg);background:var(--amber);border:2.5px solid var(--ink);border-radius:12px;padding:8px 14px;font-weight:800;font-size:.85rem;box-shadow:3px 3px 0 var(--ink)}
+@media (max-width:700px){.sticker{position:static;transform:rotate(-2deg);justify-self:start}}
+.howuse{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.howuse div{background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:12px 14px;font-size:.92rem}
+.howuse b{display:block;font-family:var(--head);font-size:1rem}
+.sample{font-size:.85rem;color:var(--soft);border-left:3px solid var(--coral);padding-left:12px}
+
+/* chapter */
+.ch{display:grid;gap:26px;scroll-margin-top:70px}
+.ch-head{display:grid;gap:10px;max-width:68ch}
+.ch-head .k{font-weight:800;color:var(--coral);text-transform:uppercase;letter-spacing:.06em;font-size:.8rem}
+.ch-head p{color:var(--soft);font-size:1.05rem}
+
+/* flow strip */
+.flow{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.flow a{display:grid;gap:4px;align-content:start;text-decoration:none;background:var(--card);border:2.5px solid var(--ink);border-radius:14px;padding:12px;box-shadow:3px 3px 0 var(--ink);transition:transform .15s}
+.flow a:hover{transform:translate(-2px,-2px)}
+.flow .n{font-family:var(--head);font-size:1.3rem;color:var(--coral)}
+.flow b{font-size:.9rem;line-height:1.2}
+.flow small{color:var(--soft);font-size:.75rem;line-height:1.3}
+@media (max-width:860px){.flow{grid-template-columns:repeat(2,1fr)}.flow a:last-child{grid-column:1/-1}}
+
+/* how-to block */
+.how{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:26px;align-items:start;scroll-margin-top:70px}
+.how.solo{grid-template-columns:1fr}
+.how .txt{display:grid;gap:12px;position:sticky;top:76px}
+.how.solo .txt{position:static;max-width:68ch}
+.tag{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em}
+.tag i{width:12px;height:12px;border-radius:99px;border:2px solid var(--ink);background:var(--paper)}
+.tag.out i{background:var(--coral)} .tag.in i{background:var(--green)} .tag.team i{background:var(--blue)}
+.where{display:inline-block;font-weight:800;font-size:.82rem;background:var(--paper);border:2px solid var(--ink);border-radius:8px;padding:0 7px;white-space:nowrap}
+.btn{display:inline-block;font-weight:800;font-size:.8rem;border:2px solid var(--ink);border-radius:99px;padding:0 9px;white-space:nowrap;background:var(--card)}
+.btn.o{background:var(--amber);border-color:var(--amber);color:#fff}
+.btn.g{background:var(--green);border-color:var(--green);color:#fff}
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:grid;gap:8px}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:28px 1fr;gap:8px;align-items:start}
+ol.steps li::before{content:counter(s);width:26px;height:26px;border-radius:99px;border:2px solid var(--ink);display:grid;place-items:center;font-weight:800;font-size:.78rem;background:var(--card)}
+.tip{background:var(--card);border:2px dashed var(--coral);border-radius:14px;padding:12px 14px;font-size:.93rem}
+.tip b{color:var(--coral)}
+.note{font-size:.9rem;color:var(--soft)}
+@media (max-width:820px){.how{grid-template-columns:1fr;gap:14px}.how .txt{position:static}}
+
+/* screen frame */
+.shot{margin:0;display:grid;gap:8px;min-width:0}
+.shot button{all:unset;cursor:zoom-in;display:block;background:#F1F3F6;border:3px solid var(--ink);border-radius:16px;box-shadow:6px 6px 0 var(--ink);overflow:hidden;max-height:620px;position:relative}
+.shot button:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+.shot button::after{content:"Tap to enlarge";position:absolute;right:10px;bottom:10px;background:var(--ink);color:#fff;font-weight:800;font-size:.7rem;padding:4px 9px;border-radius:99px}
+.shot button.tall::before{content:"";position:absolute;inset:auto 0 0 0;height:70px;background:linear-gradient(transparent,#F1F3F6)}
+.shot img{display:block;width:100%;height:auto}
+.shot figcaption{font-size:.82rem;color:var(--soft);font-weight:600}
+.shots2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
+.phones{display:flex;gap:22px;overflow-x:auto;padding:4px 4px 16px}
+.phones .shot{flex:none;width:230px}
+.phones .shot button{border-radius:26px;border-width:6px;max-height:470px}
+
+/* money loop */
+.loop{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.loop div{background:var(--card);border:2.5px solid var(--ink);border-radius:16px;padding:14px;display:grid;gap:4px;align-content:start;box-shadow:3px 3px 0 var(--ink)}
+.loop .n{width:30px;height:30px;border-radius:99px;display:grid;place-items:center;font-weight:800;border:2.5px solid var(--ink);font-size:.85rem;background:var(--paper)}
+.loop .n.out{background:var(--coral)} .loop .n.in{background:var(--green);color:#fff}
+.loop b{font-size:.92rem;line-height:1.25}
+.loop small{color:var(--soft);font-size:.78rem}
+@media (max-width:760px){.loop{grid-template-columns:1fr 1fr}.loop div:last-child{grid-column:1/-1}}
+
+/* boxes explained */
+.boxes{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.boxes div{background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:12px 14px;display:grid;gap:4px;align-content:start}
+.boxes b{font-family:var(--head);font-size:1rem}
+.boxes span{font-size:.88rem;color:var(--soft)}
+@media (max-width:760px){.boxes{grid-template-columns:1fr 1fr}}
+
+/* faq */
+.faq{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.faq div{background:var(--card);border:2.5px solid var(--ink);border-radius:16px;padding:16px;display:grid;gap:6px;align-content:start}
+.faq b{font-family:var(--head);font-size:1.02rem}
+.faq p{color:var(--soft);font-size:.94rem}
+
+/* who sees what */
+.roles{overflow-x:auto;border:2.5px solid var(--ink);border-radius:16px;background:var(--card)}
+.roles table{border-collapse:collapse;width:100%;min-width:640px;font-size:.88rem}
+.roles th,.roles td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:center}
+.roles th{background:var(--ink);color:#fff;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em}
+.roles td:first-child,.roles th:first-child{text-align:left}
+.roles .y{color:var(--green-ink);font-weight:800}
+.roles .x{color:#B7B0A2}
+
+/* end */
+.thu{background:var(--ink);color:var(--paper);border-radius:24px;padding:clamp(22px,5vw,40px);display:grid;gap:16px}
+.thu h2{color:var(--paper)}
+.thu ol{margin:0;padding-left:22px;display:grid;gap:8px;max-width:62ch}
+.thu li::marker{color:var(--coral);font-weight:800}
+.thu .c{color:var(--coral);font-weight:800}
+.sign{display:flex;align-items:center;gap:10px;font-size:.85rem;color:var(--soft);justify-content:center;flex-wrap:wrap;text-align:center}
+.sign svg{width:26px;height:26px;flex:none}
+
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:50;background:rgba(27,23,16,.94);display:none;flex-direction:column}
+.lb.open{display:flex}
+.lb-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;color:#fff;padding-top:calc(10px + env(safe-area-inset-top,0px))}
+.lb-bar b{flex:1;min-width:0;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-bar button{background:var(--coral);color:var(--ink);border:0;border-radius:99px;font-weight:800;padding:8px 16px;min-height:40px;cursor:pointer;font-family:var(--body)}
+.lb-body{flex:1;overflow:auto;padding:10px 14px 40px;text-align:center}
+.lb-body img{max-width:min(100%,1100px);height:auto;border-radius:10px;background:#fff}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<nav class="toc" aria-label="Chapters"><div class="toc-in" id="toc">
+  <a href="#start">Start</a><a href="#around">Getting around</a><a href="#flow">A job, start to finish</a><a href="#newwork">New work</a><a href="#quotes">Quotes</a><a href="#jobpage">The job page</a><a href="#subs">Paying subs</a><a href="#invoices">Invoices</a><a href="#spending">Spending</a><a href="#team">Your team</a><a href="#company">Company numbers</a><a href="#lists">Subs, suppliers, clients</a><a href="#clean">Keeping it clean</a><a href="#connect">Connections</a><a href="#faq">Quick answers</a>
+</div></nav>
+
+<div class="wrap">
+
+  <header class="hero" id="start">
+    <span class="hi">Hi Mailin</span>
+    <h1>Your Yumbo system, <mark>start to finish</mark>.</h1>
+    <p class="lead">Everything your system does, in the order work moves through your company. From the first phone call, to the quote, the job, paying your subs, invoicing the property, and seeing what you kept. Keep this link. Open it whenever you need a reminder.</p>
+    <div class="pills"><span class="pill on">Every screen, with pictures</span><span class="pill">Works on your phone</span></div>
+    <span class="sticker">The system does the remembering</span>
+    <div class="howuse">
+      <div><b>Jump around</b>Use the black bar at the top to go straight to a chapter.</div>
+      <div><b>Tap any picture</b>It opens full size so you can read every word.</div>
+      <div><b>Follow the steps</b>Grey boxes like <span class="where">Money › You owe</span> tell you where to tap.</div>
+    </div>
+    <p class="sample">The pictures are your real system, filled with <b>sample names and numbers</b> so nothing private is on this page. Your screens show your own jobs.</p>
+  </header>
+
+  <!-- ===================== GETTING AROUND ===================== -->
+  <section class="ch" id="around">
+    <div class="ch-head"><span class="k">Chapter 1</span><h2>Getting around</h2><p>Sign in, find your way, and see what needs you today.</p></div>
+
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>Sign in</span>
+        <h3>Sign in</h3>
+        <ol class="steps">
+          <li><span>Open <b>yumbo.noumansadiq.com</b> on your computer or phone.</span></li>
+          <li><span>Type your email and password. Press <span class="btn">Sign in</span>.</span></li>
+        </ol>
+        <div class="tip"><b>On your phone:</b> after you sign in, use "Add to Home Screen" in your browser. It then opens like an app.</div>
+        <p class="note">Want a new password? Tap <span class="where">Change password</span> at the bottom of the menu.</p>
+      </div>
+      <figure class="shot"><button data-full="img/signin.jpg" aria-label="Enlarge: sign in screen"><img src="img/signin.jpg" alt="Sign in screen" loading="lazy"></button></figure>
+    </div>
+
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>The menu</span>
+        <h3>The menu, in three groups</h3>
+        <p><b>Work</b> is everything about jobs and quotes. <b>People</b> is your subs, suppliers and team. <b>Money</b> is who owes you, who you owe, and your company numbers.</p>
+        <p>A red number on a button means something is waiting there.</p>
+        <p>The search box at the top finds any job, client, quote or invoice. Type a name or a job number.</p>
+        <div class="tip"><b>Too busy?</b> The ☰ button hides the menu. The ⚙ button opens Settings.</div>
+      </div>
+      <figure class="shot"><button data-full="img/menu.jpg" aria-label="Enlarge: the menu"><img src="img/menu.jpg" alt="The menu with Work, People and Money groups" loading="lazy"></button></figure>
+    </div>
+
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>Home</span>
+        <h3>Home: what needs you today</h3>
+        <p>Start every day here. Three boxes at the top:</p>
+        <ol class="steps">
+          <li><span><b>Owed to you:</b> money your clients still have to pay.</span></li>
+          <li><span><b>You owe subs:</b> what you still have to pay your subs.</span></li>
+          <li><span><b>Kept this month:</b> your share after subs and costs.</span></li>
+        </ol>
+        <p>Under <b>Needs you</b>, every card is something waiting for your yes: quotes, requests, invoices, late payments, and new work nobody has quoted. Tap the underlined words to go straight there.</p>
+      </div>
+      <figure class="shot"><button class="tall" data-full="img/dashboard.jpg" aria-label="Enlarge: home screen"><img src="img/dashboard.jpg" alt="Home screen with money boxes and Needs you cards" loading="lazy"></button></figure>
+    </div>
+
+    <div class="how solo">
+      <div class="txt">
+        <span class="tag"><i></i>On your phone</span>
+        <h3>The same system on your phone</h3>
+        <p>Nothing to install. Every page fits your phone. Tables turn into cards you scroll down. Here is Home, a job, and the You owe page on a phone.</p>
+      </div>
+    </div>
+    <div class="phones">
+      <figure class="shot"><button data-full="img/phone-dashboard.jpg" aria-label="Enlarge: home on a phone"><img src="img/phone-dashboard.jpg" alt="Home on a phone" loading="lazy"></button><figcaption>Home</figcaption></figure>
+      <figure class="shot"><button data-full="img/phone-job.jpg" aria-label="Enlarge: a job on a phone"><img src="img/phone-job.jpg" alt="A job on a phone" loading="lazy"></button><figcaption>A job</figcaption></figure>
+      <figure class="shot"><button data-full="img/phone-ap.jpg" aria-label="Enlarge: You owe on a phone"><img src="img/phone-ap.jpg" alt="You owe on a phone" loading="lazy"></button><figcaption>You owe</figcaption></figure>
+      <figure class="shot"><button data-full="img/phone-jobs.jpg" aria-label="Enlarge: jobs on a phone"><img src="img/phone-jobs.jpg" alt="Jobs list on a phone" loading="lazy"></button><figcaption>Jobs</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- ===================== THE FLOW ===================== -->
+  <section class="ch" id="flow">
+    <div class="ch-head"><span class="k">Chapter 2</span><h2>A job, from the first call to the last dollar</h2><p>This is the road every job takes. Each step has its own chapter below. Tap a step to jump to it.</p></div>
+    <nav class="flow" aria-label="The road a job takes">
+      <a href="#newwork"><span class="n">1</span><b>Someone calls</b><small>Write it in New work</small></a>
+      <a href="#quotes"><span class="n">2</span><b>Price it</b><small>A quote</small></a>
+      <a href="#approve"><span class="n">3</span><b>You say yes</b><small>It becomes a job</small></a>
+      <a href="#jobpage"><span class="n">4</span><b>Do the work</b><small>The job page</small></a>
+      <a href="#subs"><span class="n">5</span><b>Pay the subs</b><small>Deposit, then the rest</small></a>
+      <a href="#invoices"><span class="n">6</span><b>Invoice</b><small>Nothing goes out unchecked</small></a>
+      <a href="#getpaid"><span class="n">7</span><b>Get paid</b><small>Record it, job closes</small></a>
+    </nav>
+  </section>
+
+  <!-- ===================== NEW WORK ===================== -->
+  <section class="ch" id="newwork">
+    <div class="ch-head"><span class="k">Chapter 3</span><h2>New work: nothing gets forgotten</h2><p>Every time a property calls or emails asking for work, write it here. It stays on the list until somebody quotes it.</p></div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>Work › New work</span>
+        <h3>Write down a new request</h3>
+        <ol class="steps">
+          <li><span>Go to <span class="where">Work › New work</span>, or press <span class="btn">+ Log a bid</span> on Home.</span></li>
+          <li><span>Type the property, who asked, their phone or email, and what they need.</span></li>
+          <li><span>Press <span class="btn o">+ Add this work</span>.</span></li>
+        </ol>
+        <div class="tip"><b>The 4-day rule.</b> Anything nobody touches for 4 days turns red on your Home screen, so no request sits forgotten.</div>
+        <p class="note">The age badge (2d, 7d) shows how long each one has waited. Tabs at the top show the ones with a meeting set, the ones already quoted, and the ones you dropped.</p>
+      </div>
+      <figure class="shot"><button data-full="img/bids.jpg" aria-label="Enlarge: New work"><img src="img/bids.jpg" alt="New work page" loading="lazy"></button></figure>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <h3>Open one to move it forward</h3>
+        <p>Tap a request. Pick a date and press <span class="btn">Log site-visit meeting</span>, press <span class="btn o">Ready, build estimate</span> to price it, or <span class="btn">Drop this bid</span> if the client changed their mind. Dropped ones are kept, never deleted.</p>
+      </div>
+      <figure class="shot"><button data-full="img/bid.jpg" aria-label="Enlarge: one request"><img src="img/bid.jpg" alt="One request for work" loading="lazy"></button></figure>
+    </div>
+  </section>
+
+  <!-- ===================== QUOTES ===================== -->
+  <section class="ch" id="quotes">
+    <div class="ch-head"><span class="k">Chapter 4</span><h2>Quotes, priced the way you price</h2><p>Labour, materials and the sub's price, then your profit and contingency on top. The total to the client works itself out as you type.</p></div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>Work › Quotes</span>
+        <h3>Make a quote</h3>
+        <ol class="steps">
+          <li><span>Press <span class="btn o">+ New estimate</span> on Home or on Quotes.</span></li>
+          <li><span>Type what the work is, pick the client and the estimator.</span></li>
+          <li><span>Type labour, materials and the sub's price.</span></li>
+          <li><span>Check profit % and contingency %. They start from your own defaults.</span></li>
+          <li><span>Add up to 8 site photos if you have them. Press <span class="btn o">Create estimate</span>.</span></li>
+        </ol>
+        <div class="tip"><b>The tick box.</b> Leave "The sub's price already covers the materials" ticked for a normal job. Untick it only when you buy the materials yourself.</div>
+      </div>
+      <figure class="shot"><button class="tall" data-full="img/estimate-new.jpg" aria-label="Enlarge: new quote"><img src="img/estimate-new.jpg" alt="New quote form" loading="lazy"></button></figure>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <h3>The quotes list</h3>
+        <p>See every quote waiting, approved or lost, and your close rate at the top.</p>
+        <p>Press <span class="btn">Remind</span> each time you follow up with a client. The count shows how many times you have chased.</p>
+      </div>
+      <figure class="shot"><button data-full="img/estimates.jpg" aria-label="Enlarge: quotes list"><img src="img/estimates.jpg" alt="Quotes list" loading="lazy"></button></figure>
+    </div>
+    <div class="how" id="approve">
+      <div class="txt">
+        <span class="tag"><i></i>Your yes</span>
+        <h3>Say yes, and it becomes a job</h3>
+        <ol class="steps">
+          <li><span>Press <span class="btn o">Review &amp; decide</span> on a quote.</span></li>
+          <li><span>Check the costs and what the client pays.</span></li>
+          <li><span>Press <span class="btn g">Approve, create the job</span>, or <span class="btn">Mark lost</span>.</span></li>
+        </ol>
+        <div class="tip"><b>The client sees one number.</b> Your costs and percentages stay inside. Only the total goes on what you send them.</div>
+        <p class="note">Lost quotes are kept, never deleted.</p>
+      </div>
+      <figure class="shot"><button data-full="img/estimate.jpg" aria-label="Enlarge: one quote"><img src="img/estimate.jpg" alt="One quote with Approve and Mark lost" loading="lazy"></button></figure>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>Work › Call back</span>
+        <h3>Call back: clients who said no</h3>
+        <p>When a client turns a quote down, the system brings them back to ring again after 14 days, with what they said last time and the number you quoted.</p>
+        <p class="note">Nothing is sent to them by itself. It is a list for you or your secretary to call.</p>
+      </div>
+      <figure class="shot"><button data-full="img/revival.jpg" aria-label="Enlarge: call back"><img src="img/revival.jpg" alt="Call back list" loading="lazy"></button></figure>
+    </div>
+  </section>
+
+  <!-- ===================== JOB PAGE ===================== -->
+  <section class="ch" id="jobpage">
+    <div class="ch-head"><span class="k">Chapter 5</span><h2>The job page: everything about one job</h2><p>Every job has one page. Client, price, dates, money, subs, materials, requests, photos and invoices, all in one place.</p></div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>Work › Jobs</span>
+        <h3>Find a job</h3>
+        <p>The Jobs list shows every job and its stage. Tap a stage (In progress, Invoiced, Paid) to see only those. Type in the search box to find one fast.</p>
+      </div>
+      <figure class="shot"><button class="tall" data-full="img/jobs.jpg" aria-label="Enlarge: jobs list"><img src="img/jobs.jpg" alt="Jobs list" loading="lazy"></button></figure>
+    </div>
+    <div class="how solo">
+      <div class="txt">
+        <h3>The four boxes at the top tell the money story</h3>
+      </div>
+    </div>
+    <div class="boxes">
+      <div><b>Quoted</b><span>The price the client agreed.</span></div>
+      <div><b>Costs committed</b><span>Subs you agreed + materials + approved spending.</span></div>
+      <div><b>Yours when it finishes</b><span>What you keep when everyone is paid.</span></div>
+      <div><b>In your hand today</b><span>Money in minus money out so far. Often below zero early on. That is normal.</span></div>
+    </div>
+    <figure class="shot"><button data-full="img/job-top.jpg" aria-label="Enlarge: top of a job page"><img src="img/job-top.jpg" alt="Top of a job page with the four money boxes" loading="lazy"></button><figcaption>Press "Show every dollar" on the job to see the full working behind these numbers.</figcaption></figure>
+  </section>
+
+  <!-- ===================== SUBS ===================== -->
+  <section class="ch" id="subs">
+    <div class="ch-head"><span class="k">Chapter 6</span><h2>Paying subs, without remembering a thing</h2><p>You pay a sub to start, you ask the property for money, and at the end you pay the sub the rest. The system keeps track of every dollar, for every sub, on every job.</p></div>
+    <div class="loop">
+      <div><span class="n">1</span><b>Add the sub to the job</b><small>Type what you agreed, once</small></div>
+      <div><span class="n out">2</span><b>Pay his start money</b><small>Press Pay</small></div>
+      <div><span class="n">3</span><b>Invoice the property</b><small>Chapter 7</small></div>
+      <div><span class="n in">4</span><b>Property pays you</b><small>Press Record</small></div>
+      <div><span class="n out">5</span><b>Pay him the rest</b><small>The balance is already there</small></div>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>Step 1 · on the job page</span>
+        <h3>Add the sub to the job</h3>
+        <ol class="steps">
+          <li><span>Open the job. Scroll to <b>Subcontractors</b>.</span></li>
+          <li><span>Pick the sub and type the amount you agreed with him.</span></li>
+          <li><span>Press <span class="btn o">Add sub</span>. Need two subs on one job? Add another the same way.</span></li>
+        </ol>
+        <div class="tip"><b>From now on</b> the job shows three numbers for him: Agreed payout, Paid so far, and Balance.</div>
+      </div>
+      <figure class="shot"><button data-full="img/job-subs.jpg" aria-label="Enlarge: subs on a job"><img src="img/job-subs.jpg" alt="Subcontractors section on a job page" loading="lazy"></button></figure>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag out"><i></i>Steps 2 and 5 · Money › You owe</span>
+        <h3>Pay a sub: deposit, part, or the rest</h3>
+        <ol class="steps">
+          <li><span>Go to <span class="where">Money › You owe</span>.</span></li>
+          <li><span>Find the sub on that job. Type the amount you are paying him, and a note if you want ("Zelle", "check 1042").</span></li>
+          <li><span>Press <span class="btn g">Pay</span>.</span></li>
+        </ol>
+        <div class="tip"><b>Paying in three or four parts?</b> Press Pay each time. The system adds them up. When his balance reaches zero, he drops off this list.</div>
+        <p class="note">This list is your answer to "who do I still owe?" Every sub, every job, one screen. The orange "40d" badge means the job finished 40 days ago and he is still waiting.</p>
+      </div>
+      <figure class="shot"><button class="tall" data-full="img/ap.jpg" aria-label="Enlarge: You owe"><img src="img/ap.jpg" alt="You owe page with Pay buttons" loading="lazy"></button></figure>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>People › Subcontractors</span>
+        <h3>Everything about one sub</h3>
+        <p>Open a sub to see what you agreed with him on each job, what you paid, what you still owe, and every payment with its date and note.</p>
+        <div class="tip"><b>If he calls asking for money,</b> open his page. The answer is right there.</div>
+      </div>
+      <figure class="shot"><button class="tall" data-full="img/sub.jpg" aria-label="Enlarge: one sub"><img src="img/sub.jpg" alt="One subcontractor with agreed, paid and still owed" loading="lazy"></button></figure>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>Your old sheet</span>
+        <h3>"From your sheet, please confirm"</h3>
+        <p>Your old sheet said what you agreed with each sub, but not what you paid. Those jobs wait at the bottom of <span class="where">You owe</span> for one tap each:</p>
+        <ol class="steps">
+          <li><span><b>Already paid:</b> nothing owed.</span></li>
+          <li><span><b>Still owed:</b> it moves into your list above.</span></li>
+          <li><span><b>Not a sub cost:</b> it was never a sub payment.</span></li>
+        </ol>
+        <p class="note">Until you answer, these are not counted in what you owe, so your totals never include a guess.</p>
+      </div>
+      <figure class="shot"><button class="tall" data-full="img/ap.jpg" aria-label="Enlarge: from your sheet"><img src="img/ap.jpg" alt="From your sheet, please confirm box" loading="lazy"></button></figure>
+    </div>
+  </section>
+
+  <!-- ===================== INVOICES ===================== -->
+  <section class="ch" id="invoices">
+    <div class="ch-head"><span class="k">Chapter 7</span><h2>Invoices that can't go out by accident</h2><p>Ask a property for money, check it, send it, and record it when they pay.</p></div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>On the job page</span>
+        <h3>Make an invoice</h3>
+        <ol class="steps">
+          <li><span>Open the job. Scroll to <b>Invoices for this job</b> and press <span class="btn o">+ New invoice</span>.</span></li>
+          <li><span>Type the invoice number and the amount. For a deposit, type just the deposit amount.</span></li>
+          <li><span>Press <span class="btn o">Create invoice</span>.</span></li>
+        </ol>
+        <div class="tip"><b>Nothing is sent yet.</b> A new invoice waits for your approval first.</div>
+      </div>
+      <figure class="shot"><button data-full="img/invoice-new.jpg" aria-label="Enlarge: new invoice"><img src="img/invoice-new.jpg" alt="New invoice form" loading="lazy"></button></figure>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>Money › Invoice approvals</span>
+        <h3>Check it and send it</h3>
+        <ol class="steps">
+          <li><span>Go to <span class="where">Money › Invoice approvals</span>.</span></li>
+          <li><span>Press <span class="btn">Preview</span> to see exactly what the client will get.</span></li>
+          <li><span>Pick how you are sending it (email, check, bank transfer, their portal).</span></li>
+          <li><span>Press <span class="btn o">Approve &amp; mark sent</span>.</span></li>
+        </ol>
+        <div class="tip"><b>Alex can prepare invoices.</b> You still have the final say before anything reaches a client.</div>
+      </div>
+      <figure class="shot"><button data-full="img/invoice-queue.jpg" aria-label="Enlarge: invoice approvals"><img src="img/invoice-queue.jpg" alt="Invoice approvals" loading="lazy"></button></figure>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <h3>What the client receives</h3>
+        <p>A clean invoice with your company name, the job, the total and the balance due. From the preview you can print it or save it as a PDF to email.</p>
+      </div>
+      <figure class="shot"><button data-full="img/invoice-print.jpg" aria-label="Enlarge: invoice preview"><img src="img/invoice-print.jpg" alt="Invoice preview" loading="lazy"></button></figure>
+    </div>
+    <div class="how" id="getpaid">
+      <div class="txt">
+        <span class="tag in"><i></i>Money › Who owes you</span>
+        <h3>When a property pays you</h3>
+        <ol class="steps">
+          <li><span>Go to <span class="where">Money › Who owes you</span>.</span></li>
+          <li><span>Find the invoice. Type the amount that came in, and the check number in the note.</span></li>
+          <li><span>Press <span class="btn g">Record</span>.</span></li>
+        </ol>
+        <div class="tip"><b>Part payments work.</b> The invoice stays on the list until it is paid in full. When the final invoice on a job is paid in full, the job closes by itself.</div>
+        <p class="note">The boxes at the top split what you are owed by how late it is: 0 to 30 days, 31 to 60, and over 60.</p>
+      </div>
+      <figure class="shot"><button data-full="img/ar.jpg" aria-label="Enlarge: who owes you"><img src="img/ar.jpg" alt="Who owes you with Record buttons" loading="lazy"></button></figure>
+    </div>
+  </section>
+
+  <!-- ===================== SPENDING ===================== -->
+  <section class="ch" id="spending">
+    <div class="ch-head"><span class="k">Chapter 8</span><h2>Spending, always against the right job</h2><p>Materials, fuel, dump fees and requests from the field all land on the job they were for. So each job's profit is real.</p></div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>On the job page</span>
+        <h3>Materials and receipts</h3>
+        <p>On the job, under <b>Materials / receipts</b>, type the date, supplier, cost and a note. Press <span class="btn">Add</span>.</p>
+        <p class="note">Below it, <b>Transaction history</b> lists every payment on the job: money in from the client and money out to subs.</p>
+      </div>
+      <figure class="shot"><button data-full="img/job-materials.jpg" aria-label="Enlarge: materials"><img src="img/job-materials.jpg" alt="Materials and transaction history on a job" loading="lazy"></button></figure>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>On the job page</span>
+        <h3>Spent on site: fuel, dump fees, tool hire</h3>
+        <ol class="steps">
+          <li><span>On the job, press <span class="btn">Log something spent</span>.</span></li>
+          <li><span>Type what it was, the amount, who paid, and how.</span></li>
+          <li><span>It waits for <span class="btn g">Approve</span> before it counts against the job.</span></li>
+        </ol>
+        <div class="tip"><b>Paid with their own card?</b> It shows "owed back", so you know who to pay back.</div>
+      </div>
+      <figure class="shot"><button data-full="img/job-spent.jpg" aria-label="Enlarge: spent on site"><img src="img/job-spent.jpg" alt="Spent on site with Approve button" loading="lazy"></button></figure>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag team"><i></i>Work › Requests</span>
+        <h3>Requests from the field</h3>
+        <p>Your team asks here instead of calling you: more materials, a change order the client wants, an incident on site.</p>
+        <ol class="steps">
+          <li><span>Open a request from <span class="where">Work › Requests</span> or from Home.</span></li>
+          <li><span>Write a note if you want. It goes back to whoever asked.</span></li>
+          <li><span>Press <span class="btn g">Approve</span> or <span class="btn">Decline</span>.</span></li>
+        </ol>
+        <p class="note">Approving does not send any money. You still pay from your bank or Zelle as always. The system keeps the record.</p>
+      </div>
+      <figure class="shot"><button data-full="img/request.jpg" aria-label="Enlarge: a request"><img src="img/request.jpg" alt="A change order request with Approve and Decline" loading="lazy"></button></figure>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <h3>Making a request</h3>
+        <p>Anyone on your team presses <span class="btn o">+ New request</span>, picks the type and the job, and writes what they need.</p>
+      </div>
+      <figure class="shot"><button data-full="img/request-new.jpg" aria-label="Enlarge: new request"><img src="img/request-new.jpg" alt="New request form" loading="lazy"></button></figure>
+    </div>
+  </section>
+
+  <!-- ===================== TEAM ===================== -->
+  <section class="ch" id="team">
+    <div class="ch-head"><span class="k">Chapter 9</span><h2>Your team: everyone sees only what you allow</h2><p>Add your people, decide what each person can see, and get answers without chasing.</p></div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>People › Settings</span>
+        <h3>Add a person</h3>
+        <ol class="steps">
+          <li><span>Go to <span class="where">Settings › People</span> and scroll to <b>Add someone</b>.</span></li>
+          <li><span>Type their name and email (their login), pick their post (secretary, estimator, project manager, sales).</span></li>
+          <li><span>The post ticks the usual boxes. Change any tick for this one person.</span></li>
+          <li><span>Save. A one-time password appears on the next screen. Give it to them. They choose their own the first time they sign in.</span></li>
+        </ol>
+        <div class="tip"><b>Money stays yours.</b> Without "See money figures", a person sees the work but not the dollar amounts. Switch anyone off at any time. What they did is kept.</div>
+      </div>
+      <figure class="shot"><button class="tall" data-full="img/admin.jpg" aria-label="Enlarge: people"><img src="img/admin.jpg" alt="Settings, people and add someone" loading="lazy"></button></figure>
+    </div>
+    <div class="how solo"><div class="txt"><h3>Who sees what, out of the box</h3><p>This is where each post starts. You can change any of it for any one person.</p></div></div>
+    <div class="roles">
+      <table>
+        <tr><th>Can open</th><th>Secretary</th><th>Senior estimator</th><th>Estimator</th><th>Project manager</th><th>Sales</th></tr>
+        <tr><td>Jobs and clients</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td></tr>
+        <tr><td>New work and quotes</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td><td class="x">No</td><td class="y">Yes</td></tr>
+        <tr><td>Approve quotes</td><td class="y">Yes</td><td class="y">Yes</td><td class="x">No</td><td class="x">No</td><td class="x">No</td></tr>
+        <tr><td>Requests and team inbox</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td><td class="x">No</td></tr>
+        <tr><td>Subs and suppliers</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Subs</td><td class="x">No</td></tr>
+        <tr><td>Who owes you, You owe, Invoices</td><td class="y">Yes</td><td class="x">No</td><td class="x">No</td><td class="x">No</td><td class="x">No</td></tr>
+        <tr><td>Company and Reports</td><td class="y">Yes</td><td class="x">No</td><td class="x">No</td><td class="x">No</td><td class="x">No</td></tr>
+        <tr><td>Add and edit people</td><td class="x">No</td><td class="x">No</td><td class="x">No</td><td class="x">No</td><td class="x">No</td></tr>
+      </table>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag team"><i></i>Work › Updates</span>
+        <h3>Ask for an update, and let the system chase</h3>
+        <ol class="steps">
+          <li><span>On any job, press <span class="btn">Ask someone for an update</span>.</span></li>
+          <li><span>Pick who, what about, how they should answer, and how soon. Type your question.</span></li>
+          <li><span>They answer in the system. Anything not answered in time moves to <b>Late</b> on your Updates page, so nothing is forgotten.</span></li>
+        </ol>
+        <div class="tip"><b>Everyone can answer.</b> Whoever you ask sees the question waiting for them, even if they can't open anything else.</div>
+      </div>
+      <figure class="shot"><button data-full="img/updates.jpg" aria-label="Enlarge: updates"><img src="img/updates.jpg" alt="Updates with late and waiting questions" loading="lazy"></button></figure>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>Settings › Commission</span>
+        <h3>Commission, agreed upfront</h3>
+        <p>Set a rate for everyone, for a post, or for one person. When a job is assigned, the person sees what they will earn and agrees to it. After that it can't change for that job without their yes.</p>
+        <p class="note">Old rates are kept, so a commission paid in August still makes sense in November.</p>
+      </div>
+      <figure class="shot"><button class="tall" data-full="img/commission.jpg" aria-label="Enlarge: commission"><img src="img/commission.jpg" alt="Commission rates" loading="lazy"></button></figure>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>Settings › Preferences</span>
+        <h3>Your rules, in plain words</h3>
+        <p>Deposit percentage, the job size that needs a deposit, your default profit, contingency, labour rate and sales tax, and when to call back a client who said no. Change them any time.</p>
+      </div>
+      <figure class="shot"><button class="tall" data-full="img/settings.jpg" aria-label="Enlarge: preferences"><img src="img/settings.jpg" alt="Settings preferences" loading="lazy"></button></figure>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>Alerts</span>
+        <h3>Alerts</h3>
+        <p>The bell at the top. Each person sees only their own, like a request waiting for you or an answer that came back. Tap one to go straight to it.</p>
+      </div>
+      <figure class="shot"><button data-full="img/notifications.jpg" aria-label="Enlarge: alerts"><img src="img/notifications.jpg" alt="Alerts" loading="lazy"></button></figure>
+    </div>
+  </section>
+
+  <!-- ===================== COMPANY ===================== -->
+  <section class="ch" id="company">
+    <div class="ch-head"><span class="k">Chapter 10</span><h2>Your company, in one number</h2><p>Not just each job. The whole business: what came in, what went out, and whether it is safe to pay yourself.</p></div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>Money › Company</span>
+        <h3>The owner pay check</h3>
+        <p>The top line answers one question: is it safe to pay yourself today? Under it: invoiced this year, profit from jobs this month, payroll, monthly overhead, and what the company kept this month.</p>
+        <p class="note">Early in a month it often says "Hold off", because rent and payroll come before job money lands. It turns green as invoices get paid.</p>
+        <p>Jobs earning under 30% show in a watchlist underneath.</p>
+      </div>
+      <figure class="shot"><button data-full="img/company.jpg" aria-label="Enlarge: company"><img src="img/company.jpg" alt="Company page with owner pay check" loading="lazy"></button></figure>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <h3>Overhead, payroll and company expenses</h3>
+        <p>From Company, open <span class="btn">Overhead</span> for monthly fixed costs (rent, insurance, truck lease), <span class="btn">Payroll</span> for what you paid your staff, and <span class="btn">Company expenses</span> for spending that isn't for one job.</p>
+        <p class="note">Type each one once. Overhead counts every month until you give it an end date.</p>
+      </div>
+      <figure class="shot"><button data-full="img/overhead.jpg" aria-label="Enlarge: overhead"><img src="img/overhead.jpg" alt="Recurring overhead" loading="lazy"></button></figure>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>Money › Reports</span>
+        <h3>Reports</h3>
+        <p>Jobs won and lost, your close rate, what you are owed and what you owe, month by month what you invoiced and kept, and each estimator's record.</p>
+      </div>
+      <figure class="shot"><button data-full="img/reports.jpg" aria-label="Enlarge: reports"><img src="img/reports.jpg" alt="Reports" loading="lazy"></button></figure>
+    </div>
+  </section>
+
+  <!-- ===================== LISTS ===================== -->
+  <section class="ch" id="lists">
+    <div class="ch-head"><span class="k">Chapter 11</span><h2>Subs, suppliers and clients</h2><p>Type each one once. Every job, quote and payment links back to them.</p></div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>People › Subcontractors</span>
+        <h3>Add a sub, with his 1099 details</h3>
+        <ol class="steps">
+          <li><span>Go to <span class="where">People › Subcontractors</span>.</span></li>
+          <li><span>Type his legal name, trade, language and phone. Only the name is required.</span></li>
+          <li><span>If you have them: tax ID, address, and tick "I already have their signed W-9".</span></li>
+          <li><span>Press <span class="btn o">Add subcontractor</span>.</span></li>
+        </ol>
+        <div class="tip"><b>Ready for January.</b> Once you pay a sub over $2,000 in a year, the system reminds you if his 1099 details are missing. Never type a bank account number. Only a Zelle name or last four digits.</div>
+      </div>
+      <figure class="shot"><button class="tall" data-full="img/subs.jpg" aria-label="Enlarge: subcontractors"><img src="img/subs.jpg" alt="Subcontractors list and add form" loading="lazy"></button></figure>
+    </div>
+    <div class="shots2">
+      <figure class="shot"><button class="tall" data-full="img/vendors.jpg" aria-label="Enlarge: suppliers"><img src="img/vendors.jpg" alt="Suppliers" loading="lazy"></button><figcaption><b>Suppliers</b> work the same way, kept apart from subs, with what you owe each one.</figcaption></figure>
+      <figure class="shot"><button class="tall" data-full="img/client.jpg" aria-label="Enlarge: a client"><img src="img/client.jpg" alt="One client" loading="lazy"></button><figcaption><b>Clients:</b> each property has one page with their contact, jobs, quotes and invoices.</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- ===================== CLEAN ===================== -->
+  <section class="ch" id="clean">
+    <div class="ch-head"><span class="k">Chapter 12</span><h2>Keeping your records clean</h2></div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>Money › Needs a look</span>
+        <h3>Things that look wrong, for you to decide</h3>
+        <p>The system spots records that look doubled ("Rivera Drywall" and "Rivera Drywall LLC") or that don't add up. Each one is a question for you.</p>
+        <ol class="steps">
+          <li><span><b>Merge into one</b> if they are the same.</span></li>
+          <li><span><b>Rename</b> if the name is wrong.</span></li>
+          <li><span><b>Leave them</b> if they really are different.</span></li>
+        </ol>
+        <p class="note">Nothing changes until you answer. Answer once and it won't ask again.</p>
+      </div>
+      <figure class="shot"><button class="tall" data-full="img/data-review.jpg" aria-label="Enlarge: needs a look"><img src="img/data-review.jpg" alt="Needs a look" loading="lazy"></button></figure>
+    </div>
+  </section>
+
+  <!-- ===================== CONNECTIONS ===================== -->
+  <section class="ch" id="connect">
+    <div class="ch-head"><span class="k">Chapter 13</span><h2>Connections</h2><p>Link your own accounts when you are ready. Nothing starts running the moment you connect. You switch on each feature yourself.</p></div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>People › Connections</span>
+        <h3>Telegram and Google</h3>
+        <ol class="steps">
+          <li><span><b>Telegram:</b> your crew sends a photo with the job's code (it is on every job page, like 4312-BV) and it lands on that job. Photos without a code wait in <span class="where">Work › Team inbox</span> for someone to confirm.</span></li>
+          <li><span><b>Google:</b> a folder for each job in your Drive, and invoices sent from your own email. We switch this on with you when you are ready.</span></li>
+        </ol>
+        <p class="note">Google can only see files the system made. It can't read the rest of your Drive or your inbox.</p>
+      </div>
+      <figure class="shot"><button data-full="img/integrations.jpg" aria-label="Enlarge: connections"><img src="img/integrations.jpg" alt="Connections page" loading="lazy"></button></figure>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag team"><i></i>Work › Team inbox</span>
+        <h3>Team inbox</h3>
+        <p>Photos and messages from the field, sorted by what they are (a payment, a job update, new work). Pick the job and press <span class="btn g">Confirm &amp; link</span>, or <span class="btn">Dismiss</span>.</p>
+      </div>
+      <figure class="shot"><button data-full="img/inbox.jpg" aria-label="Enlarge: team inbox"><img src="img/inbox.jpg" alt="Team inbox" loading="lazy"></button></figure>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <section class="ch" id="faq">
+    <div class="ch-head"><span class="k">Quick answers</span><h2>You might be wondering</h2></div>
+    <div class="faq">
+      <div><b>I typed the wrong amount.</b><p>Send me the job number and what it should be. I'll correct it the same day.</p></div>
+      <div><b>Who can see the money pages?</b><p>Only you, unless you tick "See money figures" or a money tab for someone in Settings.</p></div>
+      <div><b>Can Alex make quotes and invoices?</b><p>Yes. You still approve every quote before it becomes a job, and every invoice before it goes out.</p></div>
+      <div><b>Is my data safe?</b><p>A full copy is made every night. Your data is yours: ask any time and you get all of it.</p></div>
+      <div><b>Does approving something send money?</b><p>No. Nothing in the system moves money. You pay the way you always do. The system keeps the record.</p></div>
+      <div><b>Where do I start?</b><p>With your subs. Add each one to their jobs, record what you've paid, and you'll always know what's left.</p></div>
+    </div>
+  </section>
+
+  <section class="thu">
+    <span class="hi">Our call</span>
+    <h2>What we'll do together</h2>
+    <ol>
+      <li>Open <b>one of your real jobs</b> and go through it with this guide.</li>
+      <li><b>You press the buttons</b> and I guide you, so it feels easy after the call too.</li>
+      <li>Answer a few "From your sheet" questions together.</li>
+      <li>Anything that feels wrong or missing, we write down.</li>
+    </ol>
+    <p>After the call, use it on your jobs for a few days and send me one list of anything to fix <span class="c">by Friday</span>. I'll go through all of it.</p>
+  </section>
+
+  <footer class="sign">
+    <svg viewBox="14 11 40 40" aria-hidden="true"><path d="M20 46 V18 L44 46 V18" stroke="#1B1710" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="47" cy="17" r="4" fill="#C9A84C"/></svg>
+    <span>Prepared for Yumbo General Construction by Nouman Sadiq · info@noumansadiq.com</span>
+  </footer>
+</div>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Screen, full size">
+  <div class="lb-bar"><b id="lbT"></b><button type="button" id="lbX">Close</button></div>
+  <div class="lb-body" id="lbB"><img id="lbI" alt=""></div>
+</div>
+
+<script>
+(function(){
+  var lb=document.getElementById('lb'), img=document.getElementById('lbI'), t=document.getElementById('lbT'), last=null;
+  document.querySelectorAll('.shot button').forEach(function(b){
+    b.addEventListener('click',function(){
+      last=b; img.src=b.getAttribute('data-full'); var i=b.querySelector('img'); img.alt=i?i.alt:''; t.textContent=img.alt;
+      lb.classList.add('open'); document.getElementById('lbB').scrollTop=0; document.getElementById('lbX').focus();
+    });
+  });
+  function close(){lb.classList.remove('open'); if(last) last.focus();}
+  document.getElementById('lbX').addEventListener('click',close);
+  lb.addEventListener('click',function(e){ if(e.target===lb||e.target.id==='lbB') close(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&lb.classList.contains('open')) close(); });
+
+  // highlight the chapter in view
+  var links=[].slice.call(document.querySelectorAll('#toc a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));}).filter(Boolean);
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){
+        links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id);});
+        var on=document.querySelector('#toc a.on'), bar=document.getElementById('toc'); if(on&&bar){ bar.scrollLeft = on.offsetLeft - bar.clientWidth/2 + on.clientWidth/2; }
+      }});
+    },{rootMargin:'-30% 0px -65% 0px'});
+    secs.forEach(function(s){io.observe(s);});
+  }
+})();
+</script>
+</body>
+</html>
