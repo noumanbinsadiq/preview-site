@@ -200,11 +200,21 @@ ol.steps li::before{content:counter(s);width:26px;height:26px;border-radius:99px
         <span class="tag"><i></i>The menu</span>
         <h3>The menu, in three groups</h3>
         <p><b>Work</b> is everything about jobs and quotes. <b>People</b> is your subs, suppliers and team. <b>Money</b> is who owes you, who you owe, and your company numbers.</p>
-        <p>A red number on a button means something is waiting there.</p>
+        <p>On Home the menu is open. On every other screen it is folded away, so each page starts at the top. Press ☰ to open it.</p>
         <p>The search box at the top finds any job, client, quote or invoice. Type a name or a job number.</p>
-        <div class="tip"><b>Too busy?</b> The ☰ button hides the menu. The ⚙ button opens Settings.</div>
+        <div class="tip"><b>The ⚙ button</b> opens Settings.</div>
       </div>
       <figure class="shot"><button data-full="img/menu.jpg" aria-label="Enlarge: the menu"><img src="img/menu.jpg" alt="The menu with Work, People and Money groups" loading="lazy"></button></figure>
+    </div>
+
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>Every screen</span>
+        <h3>The bell: what is waiting for you</h3>
+        <p>The bell at the top is on every screen, for every person. Its number is how many alerts are waiting for you. Tap it to read them.</p>
+        <p>A red dot on ☰ means something in the menu is waiting too.</p>
+      </div>
+      <figure class="shot"><button data-full="img/topbar.jpg" aria-label="Enlarge: the top bar"><img src="img/topbar.jpg" alt="The top bar with the menu, the bell and settings" loading="lazy"></button></figure>
     </div>
 
     <div class="how">
@@ -243,7 +253,7 @@ ol.steps li::before{content:counter(s);width:26px;height:26px;border-radius:99px
     <nav class="flow" aria-label="The road a job takes">
       <a href="#newwork"><span class="n">1</span><b>Someone calls</b><small>Write it in New work</small></a>
       <a href="#quotes"><span class="n">2</span><b>Price it</b><small>A quote</small></a>
-      <a href="#approve"><span class="n">3</span><b>You say yes</b><small>It becomes a job</small></a>
+      <a href="#approve"><span class="n">3</span><b>The property says yes</b><small>It becomes a job</small></a>
       <a href="#jobpage"><span class="n">4</span><b>Do the work</b><small>The job page</small></a>
       <a href="#subs"><span class="n">5</span><b>Pay the subs</b><small>Deposit, then the rest</small></a>
       <a href="#invoices"><span class="n">6</span><b>Invoice</b><small>Nothing goes out unchecked</small></a>
@@ -306,16 +316,30 @@ ol.steps li::before{content:counter(s);width:26px;height:26px;border-radius:99px
     <div class="how" id="approve">
       <div class="txt">
         <span class="tag"><i></i>Your yes</span>
-        <h3>Say yes, and it becomes a job</h3>
+        <h3>Checked, sent, then the property's yes</h3>
         <ol class="steps">
-          <li><span>Press <span class="btn o">Review &amp; decide</span> on a quote.</span></li>
-          <li><span>Check the costs and what the client pays.</span></li>
-          <li><span>Press <span class="btn g">Approve, create the job</span>, or <span class="btn">Mark lost</span>.</span></li>
+          <li><span>Open the quote. Someone who approves quotes checks the costs and what the client pays, then presses <span class="btn">Checked — ready to send</span>.</span></li>
+          <li><span>Send it to the property, then press <span class="btn">Mark as sent to the property</span>.</span></li>
+          <li><span>When the property answers, press <span class="btn g">Approved by property — create the job</span>, or open <span class="btn">The property said no</span>.</span></li>
         </ol>
         <div class="tip"><b>The client sees one number.</b> Your costs and percentages stay inside. Only the total goes on what you send them.</div>
-        <p class="note">Lost quotes are kept, never deleted.</p>
+        <p class="note">The new job keeps the quote's number, total and photos, and stays linked to the quote. Quotes that were already waiting start as checked: press Mark as sent for the ones the property already has. Lost quotes are kept, never deleted.</p>
       </div>
-      <figure class="shot"><button data-full="img/estimate.jpg" aria-label="Enlarge: one quote"><img src="img/estimate.jpg" alt="One quote with Approve and Mark lost" loading="lazy"></button></figure>
+      <figure class="shot"><button data-full="img/estimate.jpg" aria-label="Enlarge: one quote"><img src="img/estimate.jpg" alt="One quote with its three steps" loading="lazy"></button></figure>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>On the quote</span>
+        <h3>Your quote, on your own page</h3>
+        <ol class="steps">
+          <li><span>On the quote, press <span class="btn">Open the quote (print or save as PDF)</span>.</span></li>
+          <li><span>It shows Attn, Ref, the Scope of Work, the Exclusions, one total, and the name and phone of the person who prepared it.</span></li>
+          <li><span>Press <span class="btn">Print or save as PDF</span> to send it.</span></li>
+        </ol>
+        <div class="tip"><b>Not checked yet?</b> It prints with DRAFT across the top, so an unchecked quote can never go out by mistake.</div>
+        <p class="note">To change the fixed words once for every quote (for example "Total Investment" for the price line), press Change the fixed wording. Each person's phone number goes on their page under People.</p>
+      </div>
+      <figure class="shot"><button class="tall" data-full="img/quote-draft.jpg" aria-label="Enlarge: the quote page"><img src="img/quote-draft.jpg" alt="The quote on your template, marked DRAFT" loading="lazy"></button></figure>
     </div>
     <div class="how">
       <div class="txt">
@@ -335,9 +359,22 @@ ol.steps li::before{content:counter(s);width:26px;height:26px;border-radius:99px
       <div class="txt">
         <span class="tag"><i></i>Work › Jobs</span>
         <h3>Find a job</h3>
-        <p>The Jobs list shows every job and its stage. Tap a stage (In progress, Invoiced, Paid) to see only those. Type in the search box to find one fast.</p>
+        <p>The Jobs list shows every job and its stage. Tap a stage (Approved, In progress, Completed, Invoiced, Paid) to see only those. Type in the search box to find one fast.</p>
       </div>
       <figure class="shot"><button class="tall" data-full="img/jobs.jpg" aria-label="Enlarge: jobs list"><img src="img/jobs.jpg" alt="Jobs list" loading="lazy"></button></figure>
+    </div>
+    <div class="how">
+      <div class="txt">
+        <span class="tag"><i></i>On the job page</span>
+        <h3>Start work, then Mark completed</h3>
+        <ol class="steps">
+          <li><span>The day the crew starts, open the job and press <span class="btn">Start work</span>. It moves to In progress.</span></li>
+          <li><span>When the work is done, press <span class="btn">Mark completed</span>.</span></li>
+          <li><span>Finished too early? <span class="btn">Reopen</span> puts it back in progress.</span></li>
+        </ol>
+        <p class="note">These buttons never touch invoices or payments.</p>
+      </div>
+      <figure class="shot"><button data-full="img/job-progress.jpg" aria-label="Enlarge: start work"><img src="img/job-progress.jpg" alt="A job with Start work and Mark completed" loading="lazy"></button></figure>
     </div>
     <div class="how solo">
       <div class="txt">
@@ -490,6 +527,7 @@ ol.steps li::before{content:counter(s);width:26px;height:26px;border-radius:99px
           <li><span>It waits for <span class="btn g">Approve</span> before it counts against the job.</span></li>
         </ol>
         <div class="tip"><b>Paid with their own card?</b> It shows "owed back", so you know who to pay back.</div>
+        <p class="note">Only you, your Secretary and Project Managers see Approve. To let someone else approve, tick Approve expenses on their page under People.</p>
       </div>
       <figure class="shot"><button data-full="img/job-spent.jpg" aria-label="Enlarge: spent on site"><img src="img/job-spent.jpg" alt="Spent on site with Approve button" loading="lazy"></button></figure>
     </div>
@@ -540,6 +578,7 @@ ol.steps li::before{content:counter(s);width:26px;height:26px;border-radius:99px
         <tr><td>Jobs and clients</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td></tr>
         <tr><td>New work and quotes</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td><td class="x">No</td><td class="y">Yes</td></tr>
         <tr><td>Approve quotes</td><td class="y">Yes</td><td class="y">Yes</td><td class="x">No</td><td class="x">No</td><td class="x">No</td></tr>
+        <tr><td>Approve expenses</td><td class="y">Yes</td><td class="x">No</td><td class="x">No</td><td class="y">Yes</td><td class="x">No</td></tr>
         <tr><td>Requests and team inbox</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td><td class="x">No</td></tr>
         <tr><td>Subs and suppliers</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Subs</td><td class="x">No</td></tr>
         <tr><td>Who owes you, You owe, Invoices</td><td class="y">Yes</td><td class="x">No</td><td class="x">No</td><td class="x">No</td><td class="x">No</td></tr>
@@ -691,7 +730,7 @@ ol.steps li::before{content:counter(s);width:26px;height:26px;border-radius:99px
     <div class="faq">
       <div><b>I typed the wrong amount.</b><p>Send me the job number and what it should be. I'll correct it the same day.</p></div>
       <div><b>Who can see the money pages?</b><p>Only you, unless you tick "See money figures" or a money tab for someone in Settings.</p></div>
-      <div><b>Can Alex make quotes and invoices?</b><p>Yes. You still approve every quote before it becomes a job, and every invoice before it goes out.</p></div>
+      <div><b>Can Alex make quotes and invoices?</b><p>Yes. Every quote is checked before it goes to the property, and every invoice before it goes out.</p></div>
       <div><b>Is my data safe?</b><p>A full copy is made every night. Your data is yours: ask any time and you get all of it.</p></div>
       <div><b>Does approving something send money?</b><p>No. Nothing in the system moves money. You pay the way you always do. The system keeps the record.</p></div>
       <div><b>Where do I start?</b><p>With your subs. Add each one to their jobs, record what you've paid, and you'll always know what's left.</p></div>
