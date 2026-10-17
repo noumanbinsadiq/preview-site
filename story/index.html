@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>How It Started · Nouman Sadiq</title>
+<meta name="description" content="How Nouman Sadiq's back office for general contractors began: one contractor, one colour-coded spreadsheet, four or five group chats, and every rule held in one person's head.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="https://noumansadiq.com/assets/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="https://noumansadiq.com/assets/favicon-180.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Sans:wght@400..700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --canvas:#0b0b09; --canvas-raise:#131311; --canvas-high:#1a1a17; --canvas-line:#f2efe91f;
+  --ink:#f2efe9; --ink-dim:#8f8c84; --ink-faint:#7e7a72;
+  --gold:#c9a84c; --gold-hot:#f0c36a; --gold-dark:#a88835;
+  --critical:#c4634f; --warning:#d89a3c; --ok:#6fa36b;
+  --font-display:"Archivo", sans-serif; --font-text:"Instrument Sans", sans-serif; --font-data:"Space Mono", monospace;
+  --radius:2px; --ease-out:cubic-bezier(.16, 1, .3, 1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--font-text);font-size:17px;line-height:1.65;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.16;
+  background-image:linear-gradient(var(--canvas-line) 1px,transparent 1px),linear-gradient(90deg,var(--canvas-line) 1px,transparent 1px);
+  background-size:40px 40px}
+:where(h1,h2,h3,.display){font-family:var(--font-display);text-transform:uppercase;letter-spacing:-.02em;font-weight:850;font-stretch:125%;line-height:.92;margin:0}
+h1{font-size:clamp(2.2rem,7vw,4.4rem)} h2{font-size:clamp(1.4rem,3.8vw,2.2rem);margin:0 0 20px} h3{font-size:1.02rem;margin:0 0 8px;line-height:1.05}
+p{margin:0 0 16px} a{color:var(--gold)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px}
+a.logo-link{display:inline-flex;align-items:center;gap:11px;border:0;text-decoration:none;color:inherit;border-radius:var(--radius);transition:opacity .18s ease;padding:9px;margin:-9px}
+a.logo-link:hover{opacity:.78}
+a.logo-link:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+a.logo-link svg{pointer-events:none;width:32px;height:32px;display:block}
+.n-stroke{stroke:var(--ink)} .n-dot{fill:var(--gold)}
+a.logo-link:hover .n-stroke{stroke:var(--gold)}
+.logo-word{font-family:var(--font-data);text-transform:uppercase;font-weight:700;font-size:.6875rem;letter-spacing:.14em}
+header.top{border-bottom:1px solid var(--canvas-line);background:var(--canvas)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px}
+.label{font-family:var(--font-data);text-transform:uppercase;letter-spacing:.14em;font-size:.7rem;color:var(--ink-dim)}
+.hero{padding:64px 0 40px}
+.hero .label{display:block;margin-bottom:18px}
+.lede{font-size:1.2rem;max-width:680px;margin-top:24px;color:var(--ink)}
+.dim{color:var(--ink-dim)}
+section.ch{padding:44px 0;border-top:1px solid var(--canvas-line)}
+.chno{display:block;font-family:var(--font-data);font-size:.72rem;letter-spacing:.16em;color:var(--gold);margin-bottom:12px;text-transform:uppercase}
+.gold-line{border-left:2px solid var(--gold);padding:16px 20px;background:var(--canvas-raise);border-radius:var(--radius);margin:22px 0}
+.gold-line p{margin:0;font-size:1.12rem}
+.gold-line .display{font-size:clamp(1.05rem,3vw,1.5rem);line-height:1.05}
+.card{background:var(--canvas-raise);border:1px solid var(--canvas-line);border-radius:var(--radius);padding:20px}
+.grid{display:grid;gap:14px}
+@media(min-width:720px){.grid.two{grid-template-columns:1fr 1fr}.grid.three{grid-template-columns:repeat(3,1fr)}}
+
+/* The screen share — a drawn re-creation, sample labels only */
+.screen{border:1px solid var(--canvas-line);border-radius:var(--radius);background:var(--canvas-raise);overflow:hidden;margin:24px 0}
+.screen-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--canvas-line);background:var(--canvas-high)}
+.screen-bar i{width:9px;height:9px;border-radius:50%;background:var(--ink-faint);display:block}
+.screen-bar span{margin-left:auto}
+.screen-body{display:grid;gap:0}
+@media(min-width:720px){.screen-body{grid-template-columns:1.35fr 1fr}}
+.sheet{padding:14px;border-bottom:1px solid var(--canvas-line)}
+@media(min-width:720px){.sheet{border-bottom:0;border-right:1px solid var(--canvas-line)}}
+.row{display:grid;grid-template-columns:2.2em 1fr auto;gap:10px;align-items:center;font-family:var(--font-data);font-size:.72rem;padding:7px 8px;border-radius:var(--radius);margin-bottom:5px;opacity:0;transform:translateX(-8px);transition:opacity .5s var(--ease-out),transform .5s var(--ease-out)}
+.row b{font-weight:700}
+.row.g{background:rgba(111,163,107,.16);border-left:3px solid var(--ok)}
+.row.y{background:rgba(216,154,60,.15);border-left:3px solid var(--warning)}
+.row.w{background:rgba(242,239,233,.06);border-left:3px solid var(--ink)}
+.chats{padding:14px;display:flex;flex-direction:column;gap:7px}
+.bubble{font-size:.82rem;line-height:1.35;padding:8px 11px;border-radius:10px 10px 10px 2px;background:var(--canvas-high);border:1px solid var(--canvas-line);max-width:92%;opacity:0;transform:translateY(8px);transition:opacity .45s var(--ease-out),transform .45s var(--ease-out)}
+.bubble small{display:block;font-family:var(--font-data);font-size:.6rem;letter-spacing:.1em;color:var(--ink-dim);text-transform:uppercase;margin-bottom:2px}
+.bubble.alert{border-color:rgba(196,99,79,.6)}
+.screen.on .row,.screen.on .bubble{opacity:1;transform:none}
+.screen-foot{padding:10px 14px;border-top:1px solid var(--canvas-line)}
+
+/* Head → rules */
+.shift{display:grid;gap:14px;align-items:stretch;margin:26px 0}
+@media(min-width:720px){.shift{grid-template-columns:1fr auto 1fr}}
+.shift .arrow{display:flex;align-items:center;justify-content:center;font-family:var(--font-data);color:var(--gold);font-size:1.4rem}
+@media(max-width:719px){.shift .arrow{transform:rotate(90deg)}}
+.list{list-style:none;padding:0;margin:0}
+.list li{padding:8px 0;border-bottom:1px solid var(--canvas-line);font-size:.95rem}
+.list li:last-child{border-bottom:0}
+.list.rules li::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gold);margin-right:10px;vertical-align:middle}
+.list.head li::before{content:"?";font-family:var(--font-data);color:var(--critical);margin-right:10px}
+
+/* Lessons */
+.lessons{counter-reset:l;display:grid;gap:12px}
+@media(min-width:720px){.lessons{grid-template-columns:1fr 1fr}}
+.lesson{counter-increment:l;position:relative;padding:20px 20px 18px 20px}
+.lesson::before{content:counter(l,decimal-leading-zero);font-family:var(--font-data);font-size:.7rem;letter-spacing:.14em;color:var(--gold);display:block;margin-bottom:10px}
+.lesson p{margin:0;font-size:.95rem}
+.lesson .now{display:block;margin-top:12px;font-family:var(--font-data);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ok)}
+
+.belief{padding:56px 0;border-top:1px solid var(--canvas-line)}
+.belief p.display{font-size:clamp(1.4rem,4.6vw,2.6rem);line-height:1}
+.limit{margin-top:22px;font-size:1.05rem}
+
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 18px;border-radius:var(--radius);font-family:var(--font-data);font-weight:700;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border:1px solid var(--gold);transition:background .2s ease,color .2s ease}
+.btn.primary{background:var(--gold);color:var(--canvas)}
+.btn.primary:hover{background:var(--gold-hot)}
+.btn.ghost{color:var(--gold);background:transparent}
+.btn.ghost:hover{background:rgba(201,168,76,.1)}
+
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .7s var(--ease-out),transform .7s var(--ease-out)}
+.reveal.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .reveal,.row,.bubble{opacity:1!important;transform:none!important;transition:none!important}
+}
+.partner-note{margin-top:30px;padding:18px 20px;border:1px dashed var(--canvas-line);border-radius:var(--radius)}
+footer{border-top:1px solid var(--canvas-line);padding:28px 0 44px;margin-top:10px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+.contact{font-family:var(--font-data);font-size:.75rem;letter-spacing:.06em;color:var(--ink-dim);margin:0}
+.contact a{color:var(--ink-dim)}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="logo-link" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer" aria-label="Nouman Sadiq - noumansadiq.com (opens in a new tab)">
+    <svg viewBox="14 11 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path class="n-stroke" d="M20 46 V18 L44 46 V18" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+      <circle class="n-dot" cx="47" cy="17" r="4"></circle>
+    </svg>
+    <span class="logo-word">Nouman Sadiq</span>
+  </a>
+  <span class="label">How it started</span>
+</div></header>
+
+<main><div class="wrap">
+  <div class="hero">
+    <span class="label">The back office for general contractors · the story</span>
+    <h1>It started with one company's spreadsheet.</h1>
+    <p class="lede">A contractor Nouman Sadiq had done business with for years asked him for help running the office. He asked to see how the company really ran first. What was on that screen is why this system exists.</p>
+  </div>
+
+  <section class="ch reveal">
+    <span class="chno">Chapter 1 · Where he comes from</span>
+    <h2>A systems guy first.</h2>
+    <p>Nouman Sadiq is a systems architect and software engineer. For more than six years he built and ran e-commerce brands for the partners who funded them, on Amazon, Shopify, Walmart and TikTok Shop: sourcing from factories, getting products through compliance, launching on several marketplaces at once.</p>
+    <p>Customers see the storefront. Nouman's part was always the machinery behind it: the orders, the stock, the money, and the rules that stop a business from depending on someone remembering.</p>
+  </section>
+
+  <section class="ch reveal">
+    <span class="chno">Chapter 2 · The call</span>
+    <h2>A call for help with the office.</h2>
+    <p>A contractor Nouman had done business with for years asked him for help with the company's office.</p>
+    <p>Nouman's rule is to study the business before building anything. So the first session was a screen share: <em>show me how it runs today, all of it.</em></p>
+  </section>
+
+  <section class="ch reveal">
+    <span class="chno">Chapter 3 · What was on the screen</span>
+    <h2>One sheet. A stack of chats. One memory.</h2>
+
+    <div class="screen" id="screen" aria-label="A drawn re-creation of the kind of setup Nouman found. Labels are samples, not the company's data.">
+      <div class="screen-bar"><i></i><i></i><i></i><span class="label">Re-created · sample labels</span></div>
+      <div class="screen-body">
+        <div class="sheet">
+          <div class="label" style="margin-bottom:10px">The jobs sheet</div>
+          <div class="row g"><b>G</b><span>Kitchen remodel · approved</span><span>invoiced</span></div>
+          <div class="row y"><b>Y</b><span>Stair rail · sub assigned</span><span>no start date</span></div>
+          <div class="row w"><b>W</b><span>Unit turn · approved</span><span>order not sent</span></div>
+          <div class="row g"><b>G</b><span>Deck repair · approved</span><span>invoiced</span></div>
+          <div class="row y"><b>Y</b><span>Roof patch · sub assigned</span><span>waiting</span></div>
+          <div class="row w"><b>W</b><span>Paint, 3 units · approved</span><span>order not sent</span></div>
+          <p class="dim" style="font-size:.8rem;margin:10px 0 0">Green, yellow, white: built so one person could read it at a glance.</p>
+        </div>
+        <div class="chats">
+          <div class="label" style="margin-bottom:4px">The group chats</div>
+          <div class="bubble"><small>Bids needed</small>[screenshot of a client's text] can someone price this?</div>
+          <div class="bubble"><small>Receipts</small>gas + materials, job on 4th st 📷</div>
+          <div class="bubble"><small>Follow-ups</small>did anyone chase that quote from last week?</div>
+          <div class="bubble"><small>Balances</small>who still owes us from last month?</div>
+          <div class="bubble alert"><small>Profit sheet</small>the totals aren't adding up again</div>
+        </div>
+      </div>
+      <div class="screen-foot label">Every deadline, every follow-up, every balance: in one person's head</div>
+    </div>
+
+    <p>Quote requests arrived by text and email, were screenshotted and dropped into a group chat for the team. Four or five more chats carried follow-ups, balances, estimates and receipts, with one person answering most of them. Receipts were typed by hand into a profit sheet whose numbers had quietly stopped working. Follow-ups ran on a reminder plugin. And accounting software had been bought the week before, with no time to learn it.</p>
+    <p>The owner's own word for it was "a disaster". It wasn't a failing company, though. It was a company doing well and growing fast, and the owner still answered every client within half an hour, personally. That was the one thing no system was allowed to take away.</p>
+  </section>
+
+  <section class="ch reveal">
+    <span class="chno">Chapter 4 · What Nouman realized</span>
+    <h2>Contractors aren't short of programs.</h2>
+    <p>There is plenty of it, and most of it asks the company to change how it works to fit the program. Only about a third of GCs use an estimating program at all <span class="dim">(Houzz, 2025)</span>.</p>
+    <p>What was missing was simpler and harder: <strong>the owner's rules, written down where the team can carry them out.</strong></p>
+    <div class="shift">
+      <div class="card">
+        <div class="label" style="margin-bottom:8px">Held in one head</div>
+        <ul class="list head">
+          <li>What's our markup on this one?</li>
+          <li>Can this quote go out, or does it need my yes?</li>
+          <li>When do we chase it?</li>
+          <li>Is the extra work signed before we start?</li>
+          <li>Who's allowed to see the money?</li>
+        </ul>
+      </div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="card">
+        <div class="label" style="margin-bottom:8px">Written once, carried out</div>
+        <ul class="list rules">
+          <li>Quotes priced on the owner's markup</li><li>Nothing goes out without the owner's yes</li>
+          <li>Followed up on the days the owner picks</li>
+          <li>Extra work priced and signed before the crew starts</li>
+          <li>Receipts and photos land on the right job</li>
+          <li>The team sees the work, never the money</li>
+        </ul>
+      </div>
+    </div>
+    <div class="gold-line"><p class="display">Your company, run on your rules. You make the calls; the system carries them out.</p></div>
+  </section>
+
+  <section class="ch reveal">
+    <span class="chno">Chapter 5 · What building it taught us</span>
+    <h2>Six lessons. Six rules in every system.</h2>
+    <p>It was not a smooth build. Contractors are busy, requirements move, and money is never abstract. Every hard lesson became a rule that now ships with every system.</p>
+    <div class="lessons">
+      <div class="lesson card"><h3>Use the company's own words</h3><p>"Margin" was correct English and wrong for them. Their screen says "Profit %", because that's what they call it.</p><span class="now">Now: your words on your screens, and your crew's language</span></div>
+      <div class="lesson card"><h3>Money gets a worked example first</h3><p>A pricing formula agreed in writing was built exactly as written, and on a real quote it priced the job far too high. Their own estimator caught it, not us.</p><span class="now">Now: nothing that touches money goes on until it matches your own paperwork, to the cent</span></div>
+      <div class="lesson card"><h3>Check for the data, not the file</h3><p>A backup can pass every check and still be empty.</p><span class="now">Now: every backup is proved by restoring it and finding your own records, with a nightly copy in your own Google Drive</span></div>
+      <div class="lesson card"><h3>Every promise lives in writing</h3><p>When a term was once restated from memory, it was wrong.</p><span class="now">Now: every price, stage and change is written first, and the record wins over anyone's memory, ours included</span></div>
+      <div class="lesson card"><h3>A moving target protects nobody</h3><p>When requirements kept moving, both sides lost.</p><span class="now">Now: a one-page agreement, four fixed stages, and changes priced and signed before work starts</span></div>
+      <div class="lesson card"><h3>The team sees the work, never the money</h3><p>The crew needs tomorrow's job, not the owner's numbers.</p><span class="now">Now: every person sees exactly their part, and the owner sees what every job left</span></div>
+    </div>
+  </section>
+
+  <section class="ch reveal">
+    <span class="chno">Chapter 6 · From one company to every GC who runs on rules</span>
+    <h2>Built and tested first. Then yours.</h2>
+    <p>Once the first system was built, Nouman rebuilt every part so the next contractor wouldn't be anyone's experiment: ten core parts, from quotes and jobs to job profit, invoices and the crew's phone, plus a shelf of extras built and tested before anyone asks for them.</p>
+    <p>Every company gets its own system, its own database and its own backups, and nobody else's data is ever in it. If we ever stop, the company gets its code and its data. It's set up with your jobs, your limits and your people, and it's live in about three weeks.</p>
+  </section>
+
+  <section class="belief reveal">
+    <span class="chno">What we believe</span>
+    <p class="display">You built this company your way. We're not here to change how you run it. We're here to help you grow it the way you already run it.</p>
+    <p class="limit dim">Everything it runs on, in one system that's yours. It won't make decisions for you — it only carries out yours.</p>
+  </section>
+
+  <section class="ch reveal">
+    <span class="chno">Who it's for</span>
+    <h2>The company that outgrew one head.</h2>
+    <p>General contractors, residential and light commercial, with roughly 5 to 49 people, where the work is real and the demand is there, but too much of the company runs out of one head, three tools and a group chat. If the real problem is not enough work, a system won't fix it, and we'll say so on the first call.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://noumansadiq.com/gc/demo/" target="_blank" rel="noopener noreferrer">Put your company's name on the demo →</a>
+      <a class="btn ghost" href="https://noumansadiq.com/book" target="_blank" rel="noopener noreferrer">Book a free 30-minute call</a>
+    </div>
+    <p class="dim" style="margin-top:16px;font-size:.88rem">The demo runs on clearly marked sample data. The company in this story stays private, and so will yours.</p>
+    <div class="partner-note">
+      <span class="label">For people who sell to contractors</span>
+      <p style="margin:8px 0 0">This started through trust, and it grows the same way: through someone a contractor already knows. If you sell to GCs every week, <a href="https://sales.noumansadiq.com/join" target="_blank" rel="noopener noreferrer">become a sales partner</a>.</p>
+    </div>
+  </section>
+</div></main>
+
+<footer><div class="wrap">
+  <a class="logo-link" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer" aria-label="Nouman Sadiq - noumansadiq.com (opens in a new tab)">
+    <svg viewBox="14 11 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path class="n-stroke" d="M20 46 V18 L44 46 V18" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+      <circle class="n-dot" cx="47" cy="17" r="4"></circle>
+    </svg>
+    <span class="logo-word">Nouman Sadiq</span>
+  </a>
+  <p class="contact"><a href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer">noumansadiq.com</a> · <a href="mailto:info@noumansadiq.com">info@noumansadiq.com</a> · <a href="https://wa.me/19299394060" target="_blank" rel="noopener noreferrer">+1 (929) 939-4060</a></p>
+</div></footer>
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = [].slice.call(document.querySelectorAll('.reveal'));
+  var screen = document.getElementById('screen');
+  function stagger(){
+    var items = [].slice.call(screen.querySelectorAll('.row,.bubble'));
+    items.forEach(function(el,i){ el.style.transitionDelay = (i*110)+'ms'; });
+    screen.classList.add('on');
+  }
+  if (reduce || !('IntersectionObserver' in window)) {
+    els.forEach(function(e){ e.classList.add('on'); }); screen.classList.add('on'); return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      en.target.classList.add('on');
+      if (en.target.contains(screen)) stagger();
+      io.unobserve(en.target);
+    });
+  }, {threshold:.12});
+  els.forEach(function(e){ io.observe(e); });
+})();
+</script>
+</body>
+</html>
