@@ -289,6 +289,27 @@ footer{max-width:1320px;margin:0 auto;padding:30px 16px 60px;color:var(--faint);
 .co.hl b{color:var(--gold);font-size:36px}
 .cost-note{margin:12px 0 0;font-size:14px;color:var(--ink)}
 @media (max-width:760px){.ba{grid-template-columns:1fr}.ba .arrow{transform:rotate(90deg);justify-self:center}.cost{grid-template-columns:1fr}.cost-in label{grid-template-columns:1fr 96px}}
+
+.sub-lede{color:var(--dim);max-width:680px;margin:-6px 0 16px}
+.cash{margin:0;background:var(--raise);border:1px solid var(--line);border-radius:2px;padding:16px;overflow-x:auto}
+.cash svg{display:block;width:100%;min-width:640px;height:auto}
+.cash figcaption{color:var(--dim);font-size:14px;margin-top:10px;max-width:760px}
+.probs{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+.pc{background:var(--raise);border:1px solid var(--line);border-radius:2px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.pc h4{margin:0;font:800 17px/1.15 Archivo,sans-serif;font-stretch:112%;text-transform:uppercase}
+.pc .says{font-style:italic;color:var(--ink);font-size:15px}
+.pc dl{margin:0;display:grid;gap:6px}
+.pc dt{font:700 10px "Space Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.pc dd{margin:0;color:var(--dim);font-size:14px}
+.pc .lnk{margin-top:auto}
+.who-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.who-grid div{background:var(--canvas);padding:14px 16px}
+.who-grid b{display:block;font-weight:600;margin-bottom:4px}
+.who-grid span{color:var(--dim);font-size:14px}
+.gloss{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px 24px}
+.gloss div{border-top:1px solid var(--line);padding:10px 0}
+.gloss b{display:block;font:700 13px "Space Mono",monospace;letter-spacing:.04em;color:var(--gold)}
+.gloss span{color:var(--dim);font-size:14px}
 </style></head><body>
 
 <header class="top">
@@ -305,7 +326,7 @@ footer{max-width:1320px;margin:0 auto;padding:30px 16px 60px;color:var(--faint);
     <button class="tbtn" id="theme" aria-label="Switch light or dark">Theme</button>
   </div>
   <nav class="nav" id="nav">
-    <a href="#top">Start</a><a href="#why">Why</a><a href="#map">The company map</a><a href="#core">10 core parts</a><a href="#base">In every system</a><a href="#extras">Extras</a><a href="#people">Who sees what</a><a href="#outside">Outside the office</a><a href="#safe">Safe and yours</a><a href="#price">What it costs</a><a href="#how">How you get it</a><a href="#faq">Questions</a><a href="#screens">Every screen</a>
+    <a href="#top">Start</a><a href="#why">Why</a><a href="#world">Their world</a><a href="#map">The company map</a><a href="#core">10 core parts</a><a href="#base">In every system</a><a href="#extras">Extras</a><a href="#people">Who sees what</a><a href="#outside">Outside the office</a><a href="#safe">Safe and yours</a><a href="#price">What it costs</a><a href="#how">How you get it</a><a href="#faq">Questions</a><a href="#screens">Every screen</a>
   </nav>
 </header>
 
@@ -425,6 +446,54 @@ footer{max-width:1320px;margin:0 auto;padding:30px 16px 60px;color:var(--faint);
         <p class="cost-note" id="o_note"></p>
       </div>
     </div>
+  </section>
+
+  <section id="world">
+    <div class="sec-h"><div><div class="num">·</div><h2>Inside a GC's company</h2><p>Where the money goes, where the time goes, and why the office side is where good contractors lose. Read this once and you'll know what a GC means when he says "the office is killing me".</p></div></div>
+
+    <h3 class="subh" style="margin-top:0">How the money moves on one job</h3>
+    <figure class="cash">
+      <svg viewBox="0 0 960 300" role="img" aria-label="A GC pays out every week but gets paid weeks later, minus retainage">
+        <g filter="url(#rough)" class="ln">
+          <path d="M40 150 L920 150" />
+          <path d="M910 142 L922 150 L910 158" />
+          <circle cx="70" cy="150" r="7" class="glf"/>
+          <text x="70" y="128" text-anchor="middle" class="tx">WIN THE JOB</text>
+          <text x="70" y="182" text-anchor="middle" class="tx sm">a price you can't change</text>
+
+          <path d="M180 150 L180 214 M250 150 L250 214 M320 150 L320 214 M390 150 L390 214 M450 150 L450 214" class="cr"/>
+          <text x="315" y="238" text-anchor="middle" class="tx">YOU PAY OUT, EVERY WEEK</text>
+          <text x="315" y="258" text-anchor="middle" class="tx sm">crew Friday · materials · subs on their terms</text>
+
+          <path d="M500 150 L500 96" class="gl"/>
+          <text x="500" y="84" text-anchor="middle" class="tx">BILL THE MONTH</text>
+          <text x="500" y="66" text-anchor="middle" class="tx sm">pay application / invoice</text>
+
+          <path d="M180 112 L760 112" style="stroke-dasharray:5 6"/>
+          <text x="330" y="134" text-anchor="middle" class="tx sm gl">THE CASH GAP: your money is out, theirs isn't in</text>
+
+          <path d="M760 150 L760 96" class="gl"/>
+          <text x="760" y="84" text-anchor="middle" class="tx">GET PAID</text>
+          <text x="760" y="66" text-anchor="middle" class="tx sm">weeks or months later, minus retainage</text>
+
+          <path d="M880 150 L880 214" class="gl"/>
+          <text x="880" y="238" text-anchor="middle" class="tx">RETAINAGE</text>
+          <text x="880" y="258" text-anchor="middle" class="tx sm">held back until closeout</text>
+        </g>
+      </svg>
+      <figcaption>A GC funds the job out of his own pocket between "you pay out" and "get paid". Every late invoice, unbilled change order and forgotten retainage makes that gap wider. Running out of cash, not running out of work, is the classic way a busy contractor goes under.</figcaption>
+    </figure>
+
+    <h3 class="subh">The eleven problems every GC knows by heart</h3>
+    <p class="sub-lede">Each one in the words he'd use, what it really costs, why what he has today doesn't fix it, and what does. Click "See the fix" to open that part.</p>
+    <div class="probs" id="probs"></div>
+
+    <h3 class="subh">Who's who in a GC's company</h3>
+    <div class="who-grid" id="whogrid"></div>
+
+    <h3 class="subh">Words of the trade</h3>
+    <p class="sub-lede">Use them the way they do and the conversation changes.</p>
+    <div class="gloss" id="gloss"></div>
   </section>
 
   <section id="map">
@@ -896,7 +965,7 @@ document.addEventListener("click",e=>{
 /* nav highlight */
 const secs=[...document.querySelectorAll("main section, .hero")];
 const navA=[...document.querySelectorAll("#nav a")];
-const io=new IntersectionObserver(es=>{ es.forEach(en=>{ if(en.isIntersecting){ const id=en.target.id||"top"; navA.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+id)); const on=navA.find(a=>a.classList.contains("on")); if(on) on.scrollIntoView({block:"nearest",inline:"center"}); } }); },{rootMargin:"-40% 0px -55% 0px"});
+const io=new IntersectionObserver(es=>{ es.forEach(en=>{ if(en.isIntersecting){ const id=en.target.id||"top"; navA.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+id)); const on=navA.find(a=>a.classList.contains("on")); if(on){ const nv=document.getElementById("nav"); nv.scrollTo({left: on.offsetLeft - nv.clientWidth/2 + on.offsetWidth/2}); } } }); },{rootMargin:"-40% 0px -55% 0px"});
 document.querySelectorAll("main section").forEach(s=>io.observe(s));
 
 
@@ -913,5 +982,103 @@ document.getElementById("faqs").innerHTML = FAQ.map(f=>`<details><summary>${esc(
   document.getElementById("o_note").textContent = all>=11900 ? "On your own numbers, the mess costs more each year than the full system's first year, and from year two it's $5,400 a year on Care." : "On these two things alone it doesn't pay for itself in year one. Start smaller: tick only the parts that hurt.";
  }
  ["w_h","w_r","w_q","w_j","w_m","w_w"].forEach(id=>document.getElementById(id).addEventListener("input",upd)); upd(); })();
+
+/* ---------- inside a GC's company ---------- */
+const PROBS = [
+ {t:"Quotes built from memory", says:"\"I price it in my head, then my estimator does it his way.\"",
+  looks:"Every estimator has his own spreadsheet. Labour rates, markup and contingency change from quote to quote. The owner rechecks every number at night.",
+  costs:"Jobs won too cheap, which lose money from day one, and jobs lost because the price was padded. Nobody can say which.",
+  why:"A spreadsheet doesn't enforce your markup or keep your price book. It also doesn't stop a quote going out before you've looked at it.",
+  fix:"c2", fixName:"Part 2 · Quotes built the way you price"},
+ {t:"The owner is the bottleneck", says:"\"Everything comes through my phone.\"",
+  looks:"Quotes, invoices, purchases and change requests all wait for one person. He's on a site, so they wait, or they go out without him.",
+  costs:"Slow answers lose jobs; fast answers without him lose money. He can't take a week off.",
+  why:"Texts and email have no queue and no rule about who may approve what.",
+  fix:"c3", fixName:"Part 3 · Nothing goes out without your yes"},
+ {t:"Leads and bids slip away", says:"\"Someone called about a job… who took that message?\"",
+  looks:"Requests sit in a notebook or a voicemail. A bid that wasn't won is never called again, even when the client's other contractor falls through.",
+  costs:"Work you already paid to attract, lost for want of a reminder.",
+  why:"Nothing tracks how old a request is or brings a lost client back up.",
+  fix:"c4", fixName:"Part 4 · Nothing quoted twice, no \"no\" forgotten"},
+ {t:"Change orders on a handshake", says:"\"He said 'just do it', and now he won't pay for it.\"",
+  looks:"Extra work is agreed on site, out loud. Nobody writes it down until the final invoice, when the client disputes it.",
+  costs:"Real work, done and never paid for, and arguments at the worst moment of the job.",
+  why:"A phone call leaves no signature and no change to the contract price.",
+  fix:"e3", fixName:"Extra · Change orders the client signs"},
+ {t:"Getting paid late", says:"\"I've got $80k out there and payroll is Friday.\"",
+  looks:"Invoices go out late or not at all. Nobody knows which client is 60 days behind until the owner goes looking.",
+  costs:"The cash gap widens; the owner covers payroll from his own pocket or a credit line.",
+  why:"An accounting program records the payment after it happens; it doesn't put the late ones in front of you every morning.",
+  fix:"c5", fixName:"Part 5 · Who owes you, and how long"},
+ {t:"Retainage and lien dates forgotten", says:"\"Wait, they still owe us retainage on the school job?\"",
+  looks:"The percentage held back is billed months late, or never. A lien deadline passes while everyone is busy.",
+  costs:"Money that was earned and then simply not collected; lost leverage when a client won't pay.",
+  why:"Retainage and lien dates live on paper contracts, not on a screen that reminds anyone.",
+  fix:"e2", fixName:"Extra · Progress billing, retainage and lien dates"},
+ {t:"Subs and suppliers: who's owed what", says:"\"Did we already pay the drywall guy for phase two?\"",
+  looks:"Sub agreements in email, payments by check, balances in someone's head. Year end means chasing W-9s for 1099s.",
+  costs:"Paying twice, paying late and losing good subs, or a tax-season scramble.",
+  why:"Bills get paid, but nothing ties what each sub was promised on each job to what's been paid.",
+  fix:"c6", fixName:"Part 6 · Who owes what to which sub and supplier"},
+ {t:"Receipts in the truck", says:"\"Somebody bought that at Home Depot… for which job?\"",
+  looks:"Receipts fade in trucks and wallets. Materials and fuel land in a general expense account, not on the job.",
+  costs:"Every job looks more profitable than it was, so the next quote is priced wrong too.",
+  why:"Job costing only works if every cost reaches the job, and the crew has no easy way to send it.",
+  fix:"c7", fixName:"Part 7 · What was bought, against which job"},
+ {t:"Profit known too late", says:"\"We were busy all year. Where did the money go?\"",
+  looks:"The real profit of a job is found out months later, when the accountant closes the year, if at all.",
+  costs:"The same losing kind of job gets bid again and again.",
+  why:"Nobody puts quote, costs, subs and billing for one job side by side while it is still running.",
+  fix:"c8", fixName:"Part 8 · What each job actually left you"},
+ {t:"The field calls all day", says:"\"My phone rings from 6 am: where's the material, can we do the extra?\"",
+  looks:"Every request and every update is a phone call. Answers live in someone's head; the office repeats itself.",
+  costs:"Hours a day of the owner's and PM's time, and decisions nobody can trace later.",
+  why:"Calls and group chats have no record, no approval and no reminder.",
+  fix:"c9", fixName:"Part 9 · The crew asks in the system"},
+ {t:"Bonding, the bank, and 'can I pay myself?'", says:"\"The surety wants a WIP schedule by Friday.\"",
+  looks:"To grow, a GC needs bonds and credit, and both ask for a work-in-progress schedule: earned, billed, over- or under-billed on every open job. It's built by hand, late, in a spreadsheet.",
+  costs:"A smaller bond line than the company could carry, bids he can't take, and an owner who doesn't know if it's safe to pay himself.",
+  why:"The WIP needs every job's costs and billing up to date, which is exactly what the other ten problems prevent.",
+  fix:"c10", fixName:"Part 10 · The whole company in one number"}
+];
+const WHO = [
+ ["Owner","Prices, approves, chases money, and still runs jobs. The person you're talking to, and the bottleneck."],
+ ["Office manager / secretary","Invoices, bills, phones, paperwork. Knows where everything is, in her head and in folders."],
+ ["Estimator","Measures the plans (the take-off) and builds the price. In small firms, often the owner."],
+ ["Project manager","Runs jobs once they're won: subs, materials, schedule, the client's questions."],
+ ["Superintendent / foreman","On site every day. Runs the crew. Calls the office all day."],
+ ["Crew","Does the work. Hours on paper or a text, photos on their phone."],
+ ["Subcontractors","Electricians, plumbers, drywall, roofing. Paid per job, each with his own price and terms."],
+ ["Suppliers","Lumber yards and supply houses, usually on a monthly account."],
+ ["The client","Homeowner, property manager, developer or public body. Pays by invoice or by monthly draw."],
+ ["Bond agent (surety)","Gets the GC the bonds he needs to bid bigger jobs. Asks for financials and a WIP schedule."],
+ ["Accountant / bookkeeper","Does the books and the taxes, often months behind the jobs."]
+];
+const GLOSS = [
+ ["GC","General contractor: holds the contract with the client and hires the subs."],
+ ["Sub","Subcontractor: a trade the GC hires for part of the job."],
+ ["Bid / quote / estimate","The price offered for a job. GCs use all three words."],
+ ["Take-off","Measuring quantities from the plans to price a job."],
+ ["Markup and margin","Markup is added on top of cost; margin is the share of the price that's profit. 20% markup is about 17% margin."],
+ ["Contingency","A cushion in the price for the unknown."],
+ ["Change order","A written change to the work and the price after the contract is signed."],
+ ["Draw / pay application","A bill for the work done so far, on a schedule of values (often on AIA forms G702/G703)."],
+ ["Schedule of values","The contract broken into lines of work, each with a value, used to bill progress."],
+ ["Retainage","A percentage of each bill the client holds back until the job is finished."],
+ ["Lien / lien waiver","A claim on the property for unpaid work; a waiver gives up that claim when paid. Deadlines are strict and vary by state."],
+ ["Job costing","Tracking every cost against the job it was for."],
+ ["WIP schedule","Work in progress: for each open job, earned vs billed. Sureties and banks ask for it."],
+ ["Over- / under-billing","Billed more (or less) than the work earned so far. Big over-billing worries a surety; under-billing hides cash you could have."],
+ ["Bond / surety","A guarantee from an insurer that the GC will finish the job and pay subs. Public and larger jobs require it."],
+ ["Bonding capacity","How much work a surety will bond at once. It grows with clean financials and a good WIP."],
+ ["Punch list","The final list of small fixes before the job is closed."],
+ ["Closeout","Finishing a job: punch list done, final bill, retainage released."],
+ ["1099","The tax form a GC files for each sub he paid over the year's threshold ($2,000 from 2026; $600 before)."],
+ ["Overhead","The company's fixed monthly costs: office, trucks, insurance, salaries."]
+];
+
+document.getElementById("probs").innerHTML = PROBS.map(p=>`<article class="pc"><h4>${esc(p.t)}</h4><div class="says">${esc(p.says)}</div><dl><dt>What it looks like</dt><dd>${esc(p.looks)}</dd><dt>What it costs</dt><dd>${esc(p.costs)}</dd><dt>Why today's tools don't fix it</dt><dd>${esc(p.why)}</dd></dl><button type="button" class="lnk" data-open="${p.fix}">See the fix: ${esc(p.fixName)} →</button></article>`).join("");
+document.getElementById("whogrid").innerHTML = WHO.map(w=>`<div><b>${esc(w[0])}</b><span>${esc(w[1])}</span></div>`).join("");
+document.getElementById("gloss").innerHTML = GLOSS.map(g=>`<div><b>${esc(g[0])}</b><span>${esc(g[1])}</span></div>`).join("");
 </script>
 </body></html>
