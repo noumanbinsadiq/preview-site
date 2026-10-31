@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<title>Your proposal · Nouman Sadiq</title>
+<!-- Three-option GC proposal. Built from kit/brand/doc-template.html. Prices are COMPUTED from kit/RATE-CARD.md's formula below; never type a price into DATA. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="https://noumansadiq.com/assets/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="https://noumansadiq.com/assets/favicon-180.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Sans:wght@400..700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --canvas:#0b0b09; --canvas-raise:#131311; --canvas-high:#1a1a17; --canvas-line:#f2efe91f;
+  --ink:#f2efe9; --ink-dim:#8f8c84; --ink-faint:#7e7a72;
+  --gold:#c9a84c; --gold-hot:#f0c36a; --gold-dark:#a88835;
+  --critical:#c4634f; --warning:#d89a3c; --ok:#6fa36b;
+  --font-display:"Archivo", sans-serif; --font-text:"Instrument Sans", sans-serif; --font-data:"Space Mono", monospace;
+  --radius:2px; --ease-out:cubic-bezier(.16, 1, .3, 1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--font-text);font-size:16px;line-height:1.6}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.16;
+  background-image:linear-gradient(var(--canvas-line) 1px,transparent 1px),linear-gradient(90deg,var(--canvas-line) 1px,transparent 1px);
+  background-size:40px 40px}
+:where(h1,h2,h3,.display){font-family:var(--font-display);text-transform:uppercase;letter-spacing:-.02em;font-weight:850;font-stretch:125%;line-height:.92;margin:0}
+h1{font-size:clamp(2.1rem,6.5vw,4rem)} h2{font-size:clamp(1.35rem,3.6vw,2rem);margin:0 0 22px} h3{font-size:1.05rem;margin:0 0 8px;line-height:1.05}
+p{margin:0 0 14px} a{color:var(--gold)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+a.logo-link{display:inline-flex;align-items:center;gap:11px;border:0;text-decoration:none;color:inherit;border-radius:var(--radius);transition:opacity .18s ease;padding:9px;margin:-9px}
+a.logo-link:hover{opacity:.78}
+a.logo-link svg{pointer-events:none;width:32px;height:32px;display:block}
+.n-stroke{stroke:var(--ink)} .n-dot{fill:var(--gold)}
+a.logo-link:hover .n-stroke{stroke:var(--gold)}
+.logo-word{font-family:var(--font-data);text-transform:uppercase;font-weight:700;font-size:.6875rem;letter-spacing:.14em}
+header.top{border-bottom:1px solid var(--canvas-line);background:var(--canvas)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px}
+.label{font-family:var(--font-data);text-transform:uppercase;letter-spacing:.14em;font-size:.7rem;color:var(--ink-dim)}
+.hero{padding:56px 0 40px} .hero .label{display:block;margin-bottom:16px}
+.lede{font-size:1.15rem;max-width:640px;margin-top:22px;color:var(--ink)}
+section{padding:44px 0;border-top:1px solid var(--canvas-line)}
+.dim{color:var(--ink-dim)}
+.sample{font-family:var(--font-data);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--canvas);background:var(--warning);padding:6px 10px;text-align:center}
+/* cost tiles */
+.tiles{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.tile{background:var(--canvas-raise);border:1px solid var(--canvas-line);border-radius:var(--radius);padding:22px 20px;display:grid;gap:6px}
+.tile .big{font-family:var(--font-display);font-weight:850;font-stretch:125%;font-size:clamp(2.2rem,6vw,3.2rem);line-height:.9;color:var(--gold-hot);font-variant-numeric:tabular-nums}
+.tile .what{font-size:.98rem}
+.tile .src{font-family:var(--font-data);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+/* moments */
+.moments{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.moment{border-left:2px solid var(--gold);background:var(--canvas-raise);padding:18px 18px 16px;border-radius:var(--radius);display:grid;gap:8px}
+.moment .num{font-family:var(--font-data);color:var(--gold);font-size:.75rem;letter-spacing:.14em}
+.moment b{font-size:1.05rem}
+.moment span{color:var(--ink-dim);font-size:.95rem}
+/* options */
+.options{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));align-items:stretch}
+.opt{background:var(--canvas-raise);border:1px solid var(--canvas-line);border-radius:var(--radius);padding:24px 20px;display:grid;gap:14px;align-content:start;position:relative}
+.opt.pick{border:2px solid var(--gold);background:linear-gradient(180deg,rgba(201,168,76,.10),var(--canvas-raise) 60%)}
+.opt .flag{position:absolute;top:-12px;left:18px;font-family:var(--font-data);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;background:var(--gold);color:var(--canvas);padding:4px 9px;border-radius:var(--radius)}
+.opt h3{font-size:1.25rem}
+.opt .gets{color:var(--ink-dim);font-size:.95rem;min-height:3em}
+.price{display:grid;gap:2px}
+.price .setup{font-family:var(--font-display);font-weight:850;font-stretch:125%;font-size:2.4rem;line-height:.95;font-variant-numeric:tabular-nums}
+.price .care{font-family:var(--font-data);font-size:.85rem;color:var(--ink)}
+.price .care em{font-style:normal;color:var(--ink-dim)}
+.parts{list-style:none;margin:0;padding:0;display:grid;gap:7px;font-size:.92rem}
+.parts li{display:grid;grid-template-columns:18px 1fr;gap:9px;align-items:start}
+.parts li svg{margin-top:4px}
+.parts li.off{color:var(--ink-faint)}
+.parts li.extra b{color:var(--gold-hot);font-weight:600}
+.deposit{font-family:var(--font-data);font-size:.75rem;letter-spacing:.06em;color:var(--ink-dim);border-top:1px solid var(--canvas-line);padding-top:12px}
+.choose{display:block;text-align:center;text-decoration:none;font-weight:600;padding:12px 14px;border:1px solid var(--gold);color:var(--gold);border-radius:var(--radius);transition:background .18s var(--ease-out),color .18s var(--ease-out)}
+.choose:hover,.opt.pick .choose{background:var(--gold);color:var(--canvas)}
+.yearnote{margin-top:16px;color:var(--ink-dim);font-size:.92rem}
+/* phases */
+.phases{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.phase{padding:0 14px 0 0;display:grid;gap:8px;align-content:start}
+.phase .bar{height:6px;background:var(--canvas-high);position:relative;margin-bottom:10px}
+.phase .bar::after{content:"";position:absolute;right:-6px;top:-5px;width:16px;height:16px;border-radius:50%;background:var(--canvas);border:2px solid var(--gold)}
+.phase:first-child .bar{background:var(--gold)}
+.phase .pay{font-family:var(--font-data);font-size:.8rem;color:var(--gold-hot)}
+.phase b{font-size:1rem}
+.phase span{color:var(--ink-dim);font-size:.9rem}
+.carebar{margin-top:22px;display:flex;align-items:center;gap:12px;font-size:.95rem}
+.carebar i{flex:1;height:2px;background:repeating-linear-gradient(90deg,var(--gold) 0 10px,transparent 10px 16px)}
+@media(max-width:720px){.phases{grid-template-columns:1fr 1fr;row-gap:26px}}
+/* shields */
+.shields{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+.shield{display:grid;gap:8px;padding:18px;border:1px solid var(--canvas-line);border-radius:var(--radius);background:var(--canvas-raise)}
+.shield svg{width:26px;height:26px}
+.shield b{font-size:.98rem}
+.shield span{color:var(--ink-dim);font-size:.88rem}
+/* start */
+.starts{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
+.start{flex:1 1 220px;text-decoration:none;color:var(--ink);border:1px solid var(--gold);border-radius:var(--radius);padding:18px;display:grid;gap:4px;transition:background .18s var(--ease-out)}
+.start:hover{background:rgba(201,168,76,.12)}
+.start .k{font-family:var(--font-data);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.start b{font-family:var(--font-display);font-weight:850;font-stretch:125%;text-transform:uppercase;font-size:1.4rem;line-height:1}
+.valid{margin-top:18px;font-family:var(--font-data);font-size:.75rem;letter-spacing:.08em;color:var(--ink-dim)}
+footer{border-top:1px solid var(--canvas-line);padding:28px 0 44px;margin-top:10px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+.contact{font-family:var(--font-data);font-size:.75rem;letter-spacing:.06em;color:var(--ink-dim);margin:0}
+.contact a{color:var(--ink-dim)}
+@media print{body::before{display:none} .choose,.start{border-color:var(--gold)} section{break-inside:avoid}}
+</style>
+</head>
+<body>
+<!-- ═══ DATA: the only part edited per GC. Every number in "now" must be HIS OWN, said by him or read from his records. ═══ -->
+<script id="data" type="application/json">
+{
+  "sample": true,
+  "company": "Sample Builders Co.",
+  "owner": "Mike",
+  "prepared": "2026-11-01",
+  "valid_days": 30,
+  "lede": "Your jobs, your quotes and who owes you, in one place, set up the way you already run your company. Your QuickBooks stays yours.",
+  "now": [
+    {
+      "big": "11",
+      "what": "quotes went out last month with no follow-up call",
+      "src": "You, on our call"
+    },
+    {
+      "big": "$42k",
+      "what": "your average job, so each one forgotten is real money",
+      "src": "You, on our call"
+    },
+    {
+      "big": "6 days",
+      "what": "until one of your open permits runs out, a date the county site doesn't show",
+      "src": "County permit record"
+    }
+  ],
+  "moments": [
+    {
+      "b": "Quotes built the way you price",
+      "s": "Your labour, materials, subs and markup. Your client sees one number."
+    },
+    {
+      "b": "Who owes you, and how long",
+      "s": "Current, 30, 60 and 90 days, on one screen."
+    },
+    {
+      "b": "Nothing quoted twice, no \"no\" forgotten",
+      "s": "Every lost quote kept with its reason and a day to call back."
+    }
+  ],
+  "options": [
+    {
+      "key": "A",
+      "name": "Office in One Place",
+      "gets": "The five parts that hurt most, now. Add the rest any time at the same price per part.",
+      "parts": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "extras": [],
+      "plan": "care"
+    },
+    {
+      "key": "B",
+      "name": "The Whole Company in One Number",
+      "gets": "All ten parts: every job, every dollar in and out, and what each job actually left you.",
+      "parts": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "extras": [],
+      "plan": "care",
+      "pick": true
+    },
+    {
+      "key": "C",
+      "name": "Whole Company + Money Connected",
+      "gets": "All ten, plus QuickBooks kept clean both ways and your progress billing, retainage and lien dates.",
+      "parts": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "extras": [
+        "qb",
+        "progress"
+      ],
+      "plan": "grow"
+    }
+  ],
+  "starts": [
+    "Monday, November 9",
+    "Wednesday, November 11"
+  ],
+  "contact_email": "info@noumansadiq.com"
+}
+</script>
+
+<div class="sample" id="samplebar" hidden>Sample proposal · not a real company · every number here is an example</div>
+<header class="top"><div class="wrap">
+  <a class="logo-link" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer" aria-label="Nouman Sadiq - noumansadiq.com (opens in a new tab)">
+    <svg viewBox="14 11 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path class="n-stroke" d="M20 46 V18 L44 46 V18" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path><circle class="n-dot" cx="47" cy="17" r="4"></circle></svg>
+    <span class="logo-word">Nouman Sadiq</span>
+  </a>
+  <span class="label" id="hdrdate"></span>
+</div></header>
+
+<main><div class="wrap">
+  <div class="hero">
+    <span class="label" id="kicker"></span>
+    <h1 id="title"></h1>
+    <p class="lede" id="lede"></p>
+  </div>
+
+  <section id="s-now">
+    <span class="label">01 · Where it stands today</span>
+    <h2>What it's costing you now</h2>
+    <div class="tiles" id="tiles"></div>
+  </section>
+
+  <section id="s-saw">
+    <span class="label">02 · What you saw on your own company</span>
+    <h2>Three things you'll use every day</h2>
+    <div class="moments" id="moments"></div>
+  </section>
+
+  <section id="s-options">
+    <span class="label">03 · Choose one</span>
+    <h2>Three ways to start</h2>
+    <div class="options" id="options"></div>
+    <p class="yearnote">Pay the monthly plan a year ahead and get two months free. Prices are per company, never per person: your whole team is on it.</p>
+  </section>
+
+  <section id="s-phases">
+    <span class="label">04 · How it starts</span>
+    <h2>Four steps. You pay for each one before it starts, and see it first.</h2>
+    <div class="phases" id="phases"></div>
+    <div class="carebar"><span class="label">Then</span><i></i><span id="carefrom"></span></div>
+  </section>
+
+  <section id="s-safe">
+    <span class="label">05 · What protects you</span>
+    <h2>A monthly plan you can walk away from with everything</h2>
+    <div class="shields">
+      <div class="shield"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/></svg><b>Your own database</b><span>Nobody else's data is ever in your system.</span></div>
+      <div class="shield"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7M21 4v5h-5"/></svg><b>Backed up every night</b><span>And the backup checked for your own records, then restored every Sunday to prove it works.</span></div>
+      <div class="shield"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" aria-hidden="true"><circle cx="8" cy="12" r="4"/><path d="M12 12h9M18 12v3M21 12v2"/></svg><b>The Spare Key</b><span>A nightly copy in your own Google Drive. If we ever stop, you get the code and the data.</span></div>
+      <div class="shield"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg><b>Your data out, any day</b><span>A full export, plus a QuickBooks-ready file. Your data is always yours.</span></div>
+    </div>
+  </section>
+
+  <section id="s-start">
+    <span class="label">06 · Your start date</span>
+    <h2>Pick a day, and we begin with your Blueprint</h2>
+    <div class="starts" id="starts"></div>
+    <p class="valid" id="valid"></p>
+  </section>
+</div></main>
+
+<footer><div class="wrap">
+  <a class="logo-link" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer" aria-label="Nouman Sadiq - noumansadiq.com (opens in a new tab)">
+    <svg viewBox="14 11 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path class="n-stroke" d="M20 46 V18 L44 46 V18" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path><circle class="n-dot" cx="47" cy="17" r="4"></circle></svg>
+    <span class="logo-word">Nouman Sadiq</span>
+  </a>
+  <p class="contact"><a href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer">noumansadiq.com</a> · <a href="mailto:info@noumansadiq.com">info@noumansadiq.com</a> · <a href="https://wa.me/19299394060" target="_blank" rel="noopener noreferrer">+1 (929) 939-4060</a></p>
+</div></footer>
+
+<script>
+(function(){
+/* ── RATE CARD (kit/RATE-CARD.md, GC core list approved 5 Oct 2026; shelf extras 7 Oct 2026). Change prices THERE first. ── */
+var RC = {base:1500, part:500, extra:500, careBase:250, carePer:20, growAdd:400};
+var PARTS = {1:"Every job and every client, start to finish",2:"Quotes built the way you price",3:"Nothing goes out without your yes",4:"Nothing quoted twice, and no “no” forgotten",5:"Who owes you, and how long",6:"Who owes what to which sub and supplier",7:"What was bought, against which job",8:"What each job actually left you",9:"The crew asks in the system, and nobody has to chase",10:"The whole company in one number"};
+var NEEDS = {2:[1],3:[2],4:[1],5:[1],6:[1],7:[1],8:[1,6,7],9:[1],10:[8]};
+var EXTRAS = {pay:"Online payments on every invoice",progress:"Progress billing, retainage and lien dates",co:"Change orders your client signs",bank:"Your bank, without logging in",qb:"QuickBooks, kept clean (two-way)",leads:"Leads land as records",chase:"Which quote to chase first",crew:"Crew app: hours and photos",sched:"Who is where today",portal:"Client portal",payroll:"Friday payroll figures",wip:"Work-in-progress pack for your accountant"};
+
+var D = JSON.parse(document.getElementById('data').textContent);
+var $ = function(id){return document.getElementById(id)};
+var esc = function(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+var money = function(n){return '$'+n.toLocaleString('en-US')};
+var MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+var fmt = function(iso){var p=iso.split('-').map(Number);return MONTHS[p[1]-1]+' '+p[2]+', '+p[0]};
+var addDays = function(iso,n){var t=Date.parse(iso+'T12:00:00Z')+n*864e5;return new Date(t).toISOString().slice(0,10)};
+
+function price(o){
+  o.parts.forEach(function(p){(NEEDS[p]||[]).forEach(function(n){if(o.parts.indexOf(n)<0)throw new Error('Option '+o.key+': part '+p+' needs part '+n)})});
+  if(o.parts.indexOf(1)<0) throw new Error('Option '+o.key+': part 1 is never sold without');
+  o.extras.forEach(function(e){if(!EXTRAS[e])throw new Error('Unknown extra '+e)});
+  var setup = RC.base + RC.part*o.parts.length + RC.extra*o.extras.length;
+  var care = RC.careBase + RC.carePer*(o.parts.length + o.extras.length);
+  var monthly = o.plan==='grow' ? care + RC.growAdd : care;
+  return {setup:setup, monthly:monthly, plan:o.plan==='grow'?'Grow':'Care', phase:setup/4};
+}
+
+if(D.sample) $('samplebar').hidden=false;
+document.title = (D.sample?'Sample · ':'') + D.company + ' · Your proposal';
+$('hdrdate').textContent = 'Prepared ' + fmt(D.prepared);
+$('kicker').textContent = 'Prepared for ' + D.owner + ' · ' + D.company;
+$('title').textContent = 'Your office, in one place';
+$('lede').textContent = D.lede;
+
+if(D.now && D.now.length){$('tiles').innerHTML = D.now.map(function(t){return '<div class="tile"><span class="big">'+esc(t.big)+'</span><span class="what">'+esc(t.what)+'</span><span class="src">'+esc(t.src)+'</span></div>'}).join('')} else {$('s-now').hidden=true}
+if(D.moments && D.moments.length){$('moments').innerHTML = D.moments.map(function(m,i){return '<div class="moment"><span class="num">0'+(i+1)+'</span><b>'+esc(m.b)+'</b><span>'+esc(m.s)+'</span></div>'}).join('')} else {$('s-saw').hidden=true}
+
+var tick='<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5l3 3 7-7" fill="none" stroke="var(--gold)" stroke-width="2"/></svg>';
+var dash='<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7h8" stroke="var(--ink-faint)" stroke-width="1.5"/></svg>';
+var plus='<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2v10M2 7h10" stroke="var(--gold-hot)" stroke-width="2"/></svg>';
+var picked=null;
+$('options').innerHTML = D.options.map(function(o){
+  var p=price(o); if(o.pick) picked={o:o,p:p};
+  var list=[1,2,3,4,5,6,7,8,9,10].map(function(n){var on=o.parts.indexOf(n)>=0;return '<li class="'+(on?'':'off')+'">'+(on?tick:dash)+'<span>'+esc(PARTS[n])+'</span></li>'}).join('')
+    + o.extras.map(function(e){return '<li class="extra">'+plus+'<span><b>'+esc(EXTRAS[e])+'</b></span></li>'}).join('');
+  var subj=encodeURIComponent(D.company+': Option '+o.key+', '+o.name);
+  return '<article class="opt'+(o.pick?' pick':'')+'">'+(o.pick?'<span class="flag">Our pick for you</span>':'')
+    +'<span class="label">Option '+o.key+'</span><h3>'+esc(o.name)+'</h3><p class="gets">'+esc(o.gets)+'</p>'
+    +'<div class="price"><span class="setup">'+money(p.setup)+'</span><span class="care">+ '+money(p.monthly)+' / month <em>'+p.plan+', from go-live</em></span></div>'
+    +'<ul class="parts">'+list+'</ul>'
+    +'<p class="deposit">To start: '+money(p.phase)+' with the signed agreement. Three more payments of '+money(p.phase)+', each before its step.</p>'
+    +'<a class="choose" href="mailto:'+D.contact_email+'?subject='+subj+'">Choose Option '+o.key+'</a></article>';
+}).join('');
+if(!picked) picked={o:D.options[0],p:price(D.options[0])};
+
+var ph=[["Blueprint","The clickable version of your own system, from your requirements. Two rounds of changes."],["Build","Your system built on a private link, with your data inside."],["Your team on it","Your records loaded and matched to your own sheet to the cent. Your team set up and trained."],["Go-live","Switched to your address. 30 days of free fixes. Your handover pack."]];
+$('phases').innerHTML = ph.map(function(x,i){return '<div class="phase"><div class="bar"></div><span class="pay">'+money(picked.p.phase)+(i===0?' · with the agreement':' · before it starts')+'</span><b>'+(i+1)+' · '+x[0]+'</b><span>'+x[1]+'</span></div>'}).join('');
+$('carefrom').innerHTML = esc(picked.p.plan)+' at <b>'+money(picked.p.monthly)+' / month</b> starts the day you go live. About three weeks of build time.';
+
+var subj=encodeURIComponent(D.company+': start on ');
+$('starts').innerHTML = D.starts.map(function(s){return '<a class="start" href="mailto:'+D.contact_email+'?subject='+subj+encodeURIComponent(s)+'"><span class="k">Start on</span><b>'+esc(s)+'</b><span class="dim">Reply and the agreement comes the same day</span></a>'}).join('');
+$('valid').textContent = 'These prices hold until ' + fmt(addDays(D.prepared, D.valid_days)) + '.';
+})();
+</script>
+</body>
+</html>
