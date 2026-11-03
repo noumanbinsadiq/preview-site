@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Permit Check · Miami-Dade</title>
+<meta name="description" content="See every open Miami-Dade permit and the day it runs out, from the county's own record.">
+<!-- kit/brand/doc-template.html — start every client-facing or internal document here. Copy the file; never retype the brand. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="https://noumansadiq.com/assets/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="https://noumansadiq.com/assets/favicon-180.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Sans:wght@400..700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* ── tokens: identical to kit/brand/tokens.css ── */
+:root{
+  --canvas:#0b0b09; --canvas-raise:#131311; --canvas-high:#1a1a17; --canvas-line:#f2efe91f;
+  --ink:#f2efe9; --ink-dim:#8f8c84; --ink-faint:#7e7a72;
+  --gold:#c9a84c; --gold-hot:#f0c36a; --gold-dark:#a88835;
+  --critical:#c4634f; --warning:#d89a3c; --ok:#6fa36b;
+  --font-display:"Archivo", sans-serif; --font-text:"Instrument Sans", sans-serif; --font-data:"Space Mono", monospace;
+  --radius:2px; --ease-out:cubic-bezier(.16, 1, .3, 1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--font-text);font-size:16px;line-height:1.6}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.16;
+  background-image:linear-gradient(var(--canvas-line) 1px,transparent 1px),linear-gradient(90deg,var(--canvas-line) 1px,transparent 1px);
+  background-size:40px 40px}
+:where(h1,h2,h3,.display){font-family:var(--font-display);text-transform:uppercase;letter-spacing:-.02em;font-weight:850;font-stretch:125%;line-height:.92;margin:0}
+h1{font-size:clamp(2.1rem,6.5vw,4rem)} h2{font-size:clamp(1.35rem,3.6vw,2rem);margin:0 0 18px} h3{font-size:1.05rem;margin:0 0 8px;line-height:1.05}
+p{margin:0 0 14px} a{color:var(--gold)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+/* ── lockup: identical to kit/brand/lockup.html ── */
+a.logo-link{display:inline-flex;align-items:center;gap:11px;border:0;text-decoration:none;color:inherit;border-radius:var(--radius);transition:opacity .18s ease;padding:9px;margin:-9px}
+a.logo-link:hover{opacity:.78}
+a.logo-link:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+a.logo-link svg{pointer-events:none;width:32px;height:32px;display:block}
+.n-stroke{stroke:var(--ink)} .n-dot{fill:var(--gold)}
+a.logo-link:hover .n-stroke{stroke:var(--gold)}
+.logo-word{font-family:var(--font-data);text-transform:uppercase;font-weight:700;font-size:.6875rem;letter-spacing:.14em}
+/* ── document parts ── */
+header.top{border-bottom:1px solid var(--canvas-line);background:var(--canvas)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px}
+.label{font-family:var(--font-data);text-transform:uppercase;letter-spacing:.14em;font-size:.7rem;color:var(--ink-dim)}
+.hero{padding:56px 0 34px} .hero .label{display:block;margin-bottom:16px}
+.lede{font-size:1.15rem;max-width:720px;margin-top:22px}
+section{padding:34px 0;border-top:1px solid var(--canvas-line)}
+.card{background:var(--canvas-raise);border:1px solid var(--canvas-line);border-radius:var(--radius);padding:20px}
+.grid{display:grid;gap:14px}
+@media(min-width:720px){.grid.two{grid-template-columns:1fr 1fr}.grid.three{grid-template-columns:repeat(3,1fr)}}
+.gold-line{border-left:2px solid var(--gold);padding:14px 18px;background:var(--canvas-raise);border-radius:var(--radius);margin:18px 0}
+.dim{color:var(--ink-dim)}
+.table-wrap{border:1px solid var(--canvas-line);border-radius:var(--radius);background:var(--canvas-raise)}
+table{width:100%;border-collapse:collapse;font-size:.93rem}
+th,td{text-align:left;vertical-align:top;padding:11px 14px;border-bottom:1px solid var(--canvas-line)}
+th{font-family:var(--font-data);font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:.68rem;color:var(--ink-dim)}
+tr:last-child td{border-bottom:0}
+.tag{display:inline-block;font-family:var(--font-data);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:var(--radius);border:1px solid currentColor;white-space:nowrap}
+.t-ok{color:var(--ok)} .t-warn{color:var(--warning)} .t-crit{color:var(--critical)}
+code{font-family:var(--font-data);font-size:.85em;background:var(--canvas-high);padding:1px 5px;border-radius:var(--radius)}
+footer{border-top:1px solid var(--canvas-line);padding:28px 0 44px;margin-top:10px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+.contact{font-family:var(--font-data);font-size:.75rem;letter-spacing:.06em;color:var(--ink-dim);margin:0}
+.contact a{color:var(--ink-dim)}
+/* Tables become stacked cards on phones — the 390px screenshot is part of "done" (RULES M11). */
+@media(max-width:640px){
+  .table-wrap table,.table-wrap tbody,.table-wrap tr,.table-wrap td{display:block;width:100%}
+  .table-wrap thead{display:none}
+  .table-wrap tr{border-bottom:1px solid var(--canvas-line);padding:10px 0}
+  .table-wrap tr:last-child{border-bottom:0}
+  .table-wrap td{border:0;padding:4px 14px}
+  .table-wrap td[data-label]:not([data-label=""])::before{content:attr(data-label);display:block;font-family:var(--font-data);text-transform:uppercase;letter-spacing:.12em;font-size:.62rem;color:var(--ink-faint);margin-bottom:2px}
+}
+
+/* ── permit check ── */
+.pc-form{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.pc-form input{flex:1 1 280px;min-width:0;font:inherit;font-size:1.1rem;padding:14px 16px;background:var(--canvas-raise);color:var(--ink);border:1px solid var(--canvas-line);border-radius:var(--radius)}
+.pc-form input:focus{outline:2px solid var(--gold);outline-offset:2px}
+.pc-btn{font-family:var(--font-data);text-transform:uppercase;letter-spacing:.1em;font-weight:700;font-size:.8rem;padding:14px 20px;border-radius:var(--radius);border:1px solid var(--gold);background:var(--gold);color:#0b0b09;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.pc-btn.ghost{background:transparent;color:var(--gold)}
+.pc-btn:hover{background:var(--gold-hot);border-color:var(--gold-hot);color:#0b0b09}
+.pc-hint{color:var(--ink-dim);font-size:.9rem;margin-top:10px}
+.pc-status{margin-top:22px;font-size:1.05rem}
+.pc-choose{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.pc-choose button{font:inherit;font-size:.95rem;padding:9px 12px;background:var(--canvas-raise);color:var(--ink);border:1px solid var(--canvas-line);border-radius:var(--radius);cursor:pointer;text-align:left}
+.pc-choose button:hover{border-color:var(--gold)}
+.pc-co{margin-top:30px}
+.pc-co h2{margin-bottom:6px}
+.pc-next{font-family:var(--font-display);text-transform:uppercase;font-weight:850;font-stretch:125%;letter-spacing:-.01em;font-size:clamp(1.3rem,3.4vw,1.9rem);line-height:1.05;margin:18px 0 6px}
+.pc-table{width:100%;border-collapse:collapse;margin-top:16px;font-size:.95rem}
+.pc-table th{font-family:var(--font-data);text-transform:uppercase;letter-spacing:.12em;font-size:.68rem;color:var(--ink-dim);text-align:left;padding:8px 10px;border-bottom:1px solid var(--canvas-line)}
+.pc-table td{padding:12px 10px;border-bottom:1px solid var(--canvas-line);vertical-align:top}
+.pc-table td.mono{font-family:var(--font-data);font-size:.85rem}
+.pc-tag{font-family:var(--font-data);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:var(--radius);white-space:nowrap;border:1px solid currentColor}
+.pc-ok{color:var(--ok)} .pc-warn{color:var(--warning)} .pc-crit{color:var(--critical)}
+.pc-offer{margin-top:30px;padding:24px;background:var(--canvas-raise);border:1px solid var(--gold-dark);border-radius:var(--radius)}
+.pc-offer h3{font-size:1.25rem}
+.pc-offer .pc-acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.pc-fine{color:var(--ink-dim);font-size:.85rem;margin-top:22px}
+@media (max-width:640px){
+  .pc-table thead{display:none}
+  .pc-table tr{display:block;border-bottom:1px solid var(--canvas-line);padding:8px 0}
+  .pc-table td{display:flex;justify-content:space-between;gap:12px;border:0;padding:5px 0}
+  .pc-table td::before{content:attr(data-label);font-family:var(--font-data);text-transform:uppercase;letter-spacing:.12em;font-size:.66rem;color:var(--ink-dim)}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="logo-link" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer" aria-label="Nouman Sadiq - noumansadiq.com (opens in a new tab)">
+    <svg viewBox="14 11 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path class="n-stroke" d="M20 46 V18 L44 46 V18" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+      <circle class="n-dot" cx="47" cy="17" r="4"></circle>
+    </svg>
+    <span class="logo-word">Nouman Sadiq</span>
+  </a>
+  <span class="label">Permit Check</span>
+</div></header>
+<main><div class="wrap">
+  <div class="hero">
+    <span class="label">Miami-Dade · read live from the county's own record</span>
+    <h1>Your permit has a date. The county site doesn't show it.</h1>
+    <p class="lede">Type your company name or licence number. See every open permit and the day it runs out: 180 days after its last passed inspection.</p>
+    <form class="pc-form" id="pcf" autocomplete="off">
+      <label for="pcq" class="label" style="position:absolute;left:-9999px">Company name or licence number</label>
+      <input id="pcq" name="q" placeholder="Company name or licence (CGC1234567)" minlength="4" required>
+      <button class="pc-btn" type="submit">Check my permits</button>
+    </form>
+    <p class="pc-hint">Free. Nothing to sign up for. Exact names work best.</p>
+    <div class="pc-status" id="pcs" aria-live="polite"></div>
+    <div id="pcr"></div>
+  </div>
+</div></main>
+<footer><div class="wrap">
+  <a class="logo-link" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer" aria-label="Nouman Sadiq - noumansadiq.com (opens in a new tab)">
+    <svg viewBox="14 11 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path class="n-stroke" d="M20 46 V18 L44 46 V18" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+      <circle class="n-dot" cx="47" cy="17" r="4"></circle>
+    </svg>
+    <span class="logo-word">Nouman Sadiq</span>
+  </a>
+  <p class="contact"><a href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer">noumansadiq.com</a> · <a href="mailto:info@noumansadiq.com">info@noumansadiq.com</a> · <a href="https://wa.me/19299394060" target="_blank" rel="noopener noreferrer">+1 (929) 939-4060</a></p>
+</div></footer>
+<script>
+/* Label every table cell with its column name, for the stacked phone layout. */
+document.querySelectorAll('.table-wrap table').forEach(function(t){
+  var h=[].map.call(t.querySelectorAll('thead th'),function(th){return th.textContent.trim()});
+  t.querySelectorAll('tbody tr').forEach(function(tr){[].forEach.call(tr.children,function(td,i){td.setAttribute('data-label',h[i]||'')})});
+});
+</script>
+<script>
+(function(){
+var LAYER="https://services.arcgis.com/8Pc9XBTAsYuxx9Ny/arcgis/rest/services/miamidade_permit_data/FeatureServer/0/query";
+var PHONE="+19299394060", PHONE_SHOW="+1 (929) 939-4060";
+var DAY=864e5, M=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], W=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+var $=function(id){return document.getElementById(id)};
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function toDate(v){if(v==null||v==="")return null;if(typeof v==="number")return new Date(v);var m=String(v).match(/^(\d{4})-(\d{2})-(\d{2})/);return m?new Date(Date.UTC(+m[1],+m[2]-1,+m[3],12)):null}
+function day(d){return W[d.getUTCDay()]+", "+M[d.getUTCMonth()]+" "+d.getUTCDate()+", "+d.getUTCFullYear()}
+function today(){var n=new Date();return Date.UTC(n.getFullYear(),n.getMonth(),n.getDate(),12)}
+function cap(s){return String(s||"").toLowerCase().replace(/\s+/g," ").trim().replace(/\b([a-z])/g,function(c){return c.toUpperCase()}).replace(/\b(Nw|Ne|Sw|Se|Llc|Inc|Corp)\b/g,function(x){return x.toUpperCase()})}
+function clock(a){
+  var la=toDate(a.LastApprovedInspDate), is=toDate(a.PermitIssuedDate);
+  if(la)return {to:new Date(la.getTime()+180*DAY),rule:"180 days after last passed inspection ("+day(la)+")"};
+  if(!is)return null;
+  var sfr=/SINGLE FAM/i.test(a.ProposedUseDescription||"");
+  return {to:new Date(is.getTime()+(sfr?365:180)*DAY),rule:(sfr?"1 year":"180 days")+" from issue ("+day(is)+"), no passed inspection yet"};
+}
+function where(q){
+  var s=q.toUpperCase().replace(/'/g,"''").replace(/[%_\[\]]/g," ").replace(/\s+/g," ").trim();
+  var since=new Date(today()-730*DAY).toISOString().slice(0,10);
+  var who=/^C[A-Z]C\d{5,}$/.test(s.replace(/\s/g,""))?"ContractorNumber='"+s.replace(/\s/g,"")+"'":"UPPER(ContractorName) LIKE '%"+s+"%'";
+  return who+" AND PermitType IN ('BLDG','MBLD') AND CoCcDate IS NULL AND PermitIssuedDate >= '"+since+"'";
+}
+function fetchJSON(url){
+  if(window.fetch)return fetch(url).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json()});
+  return new Promise(function(ok,no){var x=new XMLHttpRequest();x.open("GET",url);x.onload=function(){try{ok(JSON.parse(x.responseText))}catch(e){no(e)}};x.onerror=function(){no(new Error("network"))};x.send()});
+}
+function query(q){
+  var p={where:where(q),outFields:"PermitNumber,PermitIssuedDate,LastApprovedInspDate,ProposedUseDescription,ApplicationTypeDescription,PropertyAddress,City,ContractorName,ContractorNumber",resultRecordCount:"2000",orderByFields:"PermitIssuedDate DESC",f:"json"};
+  var qs=Object.keys(p).map(function(k){return k+"="+encodeURIComponent(p[k])}).join("&");
+  return fetchJSON(LAYER+"?"+qs).then(function(d){if(d.error)throw new Error(d.error.message||"query error");return (d.features||[]).map(function(f){return f.attributes})});
+}
+function group(rows){var g={};rows.forEach(function(a){var k=(a.ContractorNumber||"").trim()||"?";(g[k]=g[k]||{lic:k,name:(a.ContractorName||"").trim(),rows:[]}).rows.push(a)});return Object.keys(g).map(function(k){return g[k]})}
+function render(co){
+  var t0=today(), shown=[], hidden=0;
+  co.rows.forEach(function(a){var c=clock(a);if(!c)return;var left=Math.round((c.to.getTime()-t0)/DAY);
+    if(left<-60){hidden++;return}
+    shown.push({a:a,c:c,left:left})});
+  shown.sort(function(x,y){return x.left-y.left});
+  var up=shown.filter(function(s){return s.left>=0}), past=shown.filter(function(s){return s.left<0});
+  var h='<div class="pc-co"><span class="label">'+esc(co.lic)+'</span><h2>'+esc(cap(co.name))+'</h2>';
+  if(!shown.length){h+='<p class="pc-next">No permit runs out in the next 6 months.</p><p>Nothing open by the county\'s record'+(hidden?' ('+hidden+' older permit'+(hidden>1?'s':'')+' with no recent inspection not shown; often finished jobs)':'')+'.</p>';}
+  else{
+    if(past.length)h+='<p class="pc-next pc-crit">'+past.length+' permit'+(past.length>1?'s':'')+' went past '+(past.length>1?'their':'its')+' date in the last 60 days.</p>';
+    if(up.length)h+='<p class="pc-next">Next date: '+esc(day(up[0].c.to))+' · '+up[0].left+' day'+(up[0].left===1?'':'s')+' left.</p><p>'+esc(cap(up[0].a.PropertyAddress))+'.</p>';
+    h+='<table class="pc-table"><thead><tr><th>Address</th><th>Permit</th><th>Runs out</th><th>Status</th></tr></thead><tbody>';
+    shown.forEach(function(s){var a=s.a,tag=s.left<0?'<span class="pc-tag pc-crit">Past date</span>':s.left<=30?'<span class="pc-tag pc-warn">'+s.left+' days</span>':'<span class="pc-tag pc-ok">'+s.left+' days</span>';
+      h+='<tr><td data-label="Address">'+esc(cap(a.PropertyAddress))+(a.City?', '+esc(cap(a.City)):'')+'<br><small style="color:var(--ink-dim)">'+esc(cap(a.ApplicationTypeDescription||""))+'</small></td><td data-label="Permit" class="mono">'+esc(a.PermitNumber||"")+'</td><td data-label="Runs out">'+esc(day(s.c.to))+'<br><small style="color:var(--ink-dim)">'+esc(s.c.rule)+'</small></td><td data-label="Status">'+tag+'</td></tr>'});
+    h+='</tbody></table>';
+    if(hidden)h+='<p class="pc-fine">'+hidden+' older permit'+(hidden>1?'s':'')+' with no inspection in over 8 months not shown. Many are finished jobs.</p>';
+  }
+  var body=encodeURIComponent("PERMIT "+co.lic);
+  h+='<div class="pc-offer"><h3>Never lose a permit to a date you didn\'t know about.</h3><p>I watch every one of your permits. You get a text 30 days before any date, then 14, 7 and 1. $500 to set up, $20 a month. You don\'t do anything.</p>'+
+     '<div class="pc-acts"><a class="pc-btn" href="sms:'+PHONE+'?&body='+body+'">Text PERMIT</a><a class="pc-btn ghost" href="https://wa.me/19299394060?text='+body+'" target="_blank" rel="noopener noreferrer">WhatsApp</a><a class="pc-btn ghost" href="mailto:info@noumansadiq.com?subject='+body+'">Email</a></div>'+
+     '<p class="pc-fine">Bookmark this page: <a href="?lic='+encodeURIComponent(co.lic)+'">your permit board</a>. It reads the county\'s record fresh every time you open it.</p></div>';
+  h+='<p class="pc-fine">By Miami-Dade County\'s open record ("Building Permits Issued"), read the moment you searched. The rule: a permit stays valid 180 days after its last passed inspection (Florida Building Code 105.4.1; Miami-Dade memo, 30 Jun 2026). Before the first passed inspection, a single-family permit runs 1 year from issue, others 180 days. The county record can lag. Always confirm with your building department.</p></div>';
+  $("pcr").innerHTML=h;
+}
+function run(q){
+  q=(q||"").trim(); $("pcr").innerHTML="";
+  if(q.replace(/\s/g,"").length<4){$("pcs").textContent="Type at least 4 letters of the company name, or the full licence number.";return}
+  $("pcs").textContent="Reading the county's record…";
+  query(q).then(function(rows){
+    var gs=group(rows);
+    if(!gs.length){$("pcs").textContent="No open permits found under that name in the last 2 years. Try the exact name on your licence, or the licence number.";return}
+    if(gs.length===1){$("pcs").textContent="";render(gs[0]);try{history.replaceState(null,"","?lic="+encodeURIComponent(gs[0].lic))}catch(e){}return}
+    if(gs.length>8){$("pcs").textContent=gs.length+" companies match. Type more of the name, or the licence number.";return}
+    $("pcs").innerHTML="Which one is yours?<div class=\"pc-choose\">"+gs.map(function(g,i){return '<button type="button" data-i="'+i+'">'+esc(cap(g.name))+' · '+esc(g.lic)+'</button>'}).join("")+"</div>";
+    [].forEach.call(document.querySelectorAll(".pc-choose button"),function(b){b.onclick=function(){var g=gs[+b.getAttribute("data-i")];$("pcs").textContent="";render(g);try{history.replaceState(null,"","?lic="+encodeURIComponent(g.lic))}catch(e){}}});
+  }).catch(function(){ $("pcs").textContent="The county's record didn't answer. Try again in a minute."; });
+}
+$("pcf").addEventListener("submit",function(e){e.preventDefault();run($("pcq").value)});
+var m=location.search.match(/[?&]lic=([^&]+)/);
+if(m){var lic=decodeURIComponent(m[1]).toUpperCase();$("pcq").value=lic;run(lic)}
+})();
+</script>
+</body>
+</html>
