@@ -310,6 +310,27 @@ footer{max-width:1320px;margin:0 auto;padding:30px 16px 60px;color:var(--faint);
 .gloss div{border-top:1px solid var(--line);padding:10px 0}
 .gloss b{display:block;font:700 13px "Space Mono",monospace;letter-spacing:.04em;color:var(--gold)}
 .gloss span{color:var(--dim);font-size:14px}
+.rooms4{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.room4{display:flex;flex-direction:column;gap:6px;text-decoration:none;background:var(--raise);border:1px solid var(--line);border-radius:2px;padding:18px 16px;min-height:170px}
+.room4:hover{border-color:var(--gold)}
+.room4.fd{border-color:var(--gold)}
+.room4 b{font:850 30px/1 Archivo,sans-serif;font-stretch:125%;text-transform:uppercase}
+.room4 span{color:var(--dim);font-size:14px}
+.room4 .rc{margin-top:auto;font:700 11px/1.4 "Space Mono",monospace;color:var(--gold);letter-spacing:.04em}
+.tenbox{display:grid;grid-template-columns:1fr 34px 1fr 34px 1fr;gap:10px;align-items:stretch;margin-top:18px}
+.tenbox>div:not(.plus){background:var(--raise);border:1px solid var(--line);border-radius:2px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.tenbox>div.hl{border-color:var(--gold)}
+.tenbox b{font:850 32px/1 Archivo,sans-serif;font-stretch:125%}
+.tenbox span{color:var(--dim);font-size:14px}
+.tenbox .plus{display:grid;place-items:center;font:850 28px Archivo;color:var(--gold)}
+.subh.rm{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:clamp(17px,2.2vw,22px);margin:34px 0 14px}
+.list.shelf{margin-top:12px;background:none;border:0;gap:10px}
+.list.shelf .li{cursor:pointer;color:inherit;font:inherit}
+.list.shelf .meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px}
+.list.shelf .li.card{padding:16px;border:1px solid var(--line);border-radius:2px;background:var(--raise);overflow:visible;text-align:left}
+.list.shelf .li.card:hover{border-color:var(--gold)}
+.list.shelf .card.dimmed{opacity:.28}
+@media (max-width:760px){.tenbox{grid-template-columns:1fr}.tenbox .plus{height:24px}}
 </style></head><body>
 
 <header class="top">
@@ -326,7 +347,7 @@ footer{max-width:1320px;margin:0 auto;padding:30px 16px 60px;color:var(--faint);
     <button class="tbtn" id="theme" aria-label="Switch light or dark">Theme</button>
   </div>
   <nav class="nav" id="nav">
-    <a href="#top">Start</a><a href="#why">Why</a><a href="#world">Their world</a><a href="#map">The company map</a><a href="#core">10 core parts</a><a href="#base">In every system</a><a href="#extras">Extras</a><a href="#people">Who sees what</a><a href="#outside">Outside the office</a><a href="#safe">Safe and yours</a><a href="#price">What it costs</a><a href="#how">How you get it</a><a href="#faq">Questions</a><a href="#screens">Every screen</a>
+    <a href="#top">Start</a><a href="#why">Why</a><a href="#world">Their world</a><a href="#map">The company map</a><a href="#rooms">The four rooms</a><a href="#r-today">Today</a><a href="#r-jobs">Jobs</a><a href="#r-money">Money</a><a href="#r-people">People</a><a href="#under">Under every room</a><a href="#people">Who sees what</a><a href="#outside">Outside the office</a><a href="#safe">Safe and yours</a><a href="#price">What it costs</a><a href="#how">How you get it</a><a href="#faq">Questions</a><a href="#screens">Every screen</a>
   </nav>
 </header>
 
@@ -442,7 +463,7 @@ footer{max-width:1320px;margin:0 auto;padding:30px 16px 60px;color:var(--faint);
         <div class="co"><span class="lbl">Chasing, a year</span><b id="o_t"></b><small>hours × your rate × 52</small></div>
         <div class="co"><span class="lbl">Profit left in quiet quotes, a year</span><b id="o_q"></b><small>quotes × win-back × job × what you keep × 12</small></div>
         <div class="co hl"><span class="lbl">What the mess costs you, a year</span><b id="o_all"></b></div>
-        <div class="co"><span class="lbl">Full system, first year</span><b>$11,900</b><small>$6,500 once + $450 × 12 (less if you pick fewer parts)</small></div>
+        <div class="co"><span class="lbl">Full system, first year</span><b>$11,900</b><small>$6,500 once + $450 × 12, with ten parts (less with fewer)</small></div>
         <p class="cost-note" id="o_note"></p>
       </div>
     </div>
@@ -502,30 +523,47 @@ footer{max-width:1320px;margin:0 auto;padding:30px 16px 60px;color:var(--faint);
     <p class="flowlegend">Around the whole route: <b>Today</b> shows whatever is waiting on you, <b>Update requests</b> chase answers from the field, and <b>Company money</b> turns all of it into one number.</p>
   </section>
 
-  <section id="core">
-    <div class="sec-h"><div><div class="num">02</div><h2>The 10 core parts</h2><p>Pick only the parts you need. Each is $500 one time + $20 a month. All ten with the base make the full system: $6,500 one time + $450 a month.</p></div></div>
-    <div class="grid" id="g-core"></div>
+  <section id="rooms">
+    <div class="sec-h"><div><div class="num">02</div><h2>The four rooms</h2><p>The whole system is four rooms. <b>Today</b> comes built into every system: it's what needs you, drawn from the other three. You fill <b>Jobs</b>, <b>Money</b> and <b>People</b> with ten parts of your choice. The ten most contractors need come ticked, and you can swap any of them for anything on the shelf.</p></div></div>
+    <div class="rooms4" id="rooms4"></div>
+    <div class="tenbox">
+      <div><span class="lbl">The Foundation · every system</span><b>$1,500</b><span>Today, and everything under every room: team and access, phone, search, security, your data in and out, the clickable version and training.</span></div>
+      <div class="plus" aria-hidden="true">+</div>
+      <div><span class="lbl">Your ten parts</span><b>10 × $500</b><span>The recommended ten come ticked. Swap any one for any part on the shelf, one for one. The price doesn't move.</span></div>
+      <div class="plus" aria-hidden="true">=</div>
+      <div class="hl"><span class="lbl">The full system</span><b>$6,500</b><span>+ $450 a month on Care. Fewer parts cost $500 less each; more cost $500 each.</span></div>
+    </div>
   </section>
-
-  <section id="base">
-    <div class="sec-h"><div><div class="num">03</div><h2>In every system</h2><p>These come with every system, whichever parts you pick. They're the $1,500 base.</p></div></div>
-    <div class="grid" id="g-base"></div>
+  <section id="r-today">
+    <div class="sec-h"><div><div class="num">02 · A</div><h2>Today</h2><p>What needs you, right now. Built from everything in the other three rooms.</p></div><span class="chip" id="cnt-today"></span></div>
+    <h3 class="subh rm">In every system <span class="chip">Foundation</span></h3><div class="grid" id="g-today-f"></div><h3 class="subh rm">From the recommended ten <span class="chip g">Pre-ticked · swappable</span></h3><div class="grid" id="g-today-t"></div><h3 class="subh rm">On the shelf <span class="chip ok">$500 each · can be one of your ten</span></h3><div class="grid" id="g-today-s0"></div><div class="list shelf" id="l-today-s0"></div>
   </section>
-
-  <section id="extras">
-    <div class="sec-h"><div><div class="num">04</div><h2>The extras</h2><p>Already built into the system and switched on when you add them, now or later. Each is $500 one time + $20 a month.</p></div><span class="chip ok">13 ready</span></div>
-    <div class="grid" id="g-extras"></div>
+  <section id="r-jobs">
+    <div class="sec-h"><div><div class="num">02 · B</div><h2>Jobs</h2><p>Work from the first call to the finished job: leads, quotes, the job itself and the field.</p></div><span class="chip" id="cnt-jobs"></span></div>
+    <h3 class="subh rm">In every system <span class="chip">Foundation</span></h3><div class="grid" id="g-jobs-f"></div><h3 class="subh rm">From the recommended ten <span class="chip g">Pre-ticked · swappable</span></h3><div class="grid" id="g-jobs-t"></div><h3 class="subh rm">On the shelf · Winning work <span class="chip ok">$500 each · can be one of your ten</span></h3><div class="grid" id="g-jobs-s0"></div><div class="list shelf" id="l-jobs-s0"></div><h3 class="subh rm">On the shelf · On the job <span class="chip ok">$500 each · can be one of your ten</span></h3><div class="grid" id="g-jobs-s1"></div><div class="list shelf" id="l-jobs-s1"></div><h3 class="subh rm">On the shelf · Weather <span class="chip ok">$500 each · can be one of your ten</span></h3><div class="grid" id="g-jobs-s2"></div><div class="list shelf" id="l-jobs-s2"></div>
+  </section>
+  <section id="r-money">
+    <div class="sec-h"><div><div class="num">02 · C</div><h2>Money</h2><p>Money in, money out, what each job left you and the one number for the company.</p></div><span class="chip" id="cnt-money"></span></div>
+    <h3 class="subh rm">From the recommended ten <span class="chip g">Pre-ticked · swappable</span></h3><div class="grid" id="g-money-t"></div><h3 class="subh rm">On the shelf <span class="chip ok">$500 each · can be one of your ten</span></h3><div class="grid" id="g-money-s0"></div><div class="list shelf" id="l-money-s0"></div>
+  </section>
+  <section id="r-people">
+    <div class="sec-h"><div><div class="num">02 · D</div><h2>People</h2><p>Your clients, your subs and suppliers, and your own team.</p></div><span class="chip" id="cnt-people"></span></div>
+    <h3 class="subh rm">In every system <span class="chip">Foundation</span></h3><div class="grid" id="g-people-f"></div><h3 class="subh rm">From the recommended ten <span class="chip g">Pre-ticked · swappable</span></h3><div class="grid" id="g-people-t"></div><h3 class="subh rm">On the shelf <span class="chip ok">$500 each · can be one of your ten</span></h3><div class="grid" id="g-people-s0"></div><div class="list shelf" id="l-people-s0"></div>
+  </section>
+  <section id="under">
+    <div class="sec-h"><div><div class="num">03</div><h2>Under every room</h2><p>Part of the Foundation, so in every system, whichever parts you pick. Nobody sees these as a room, but every room stands on them.</p></div></div>
+    <div class="grid" id="g-under"></div>
   </section>
 
   <section id="people">
-    <div class="sec-h"><div><div class="num">05</div><h2>Who sees what</h2><p>Every person gets a post. The post ticks a starting set of tabs and powers; you can switch any of them on or off for one person. Anything not ticked isn't shown at all, not even greyed out. Click a column to see that person's Today.</p></div></div>
+    <div class="sec-h"><div><div class="num">04</div><h2>Who sees what</h2><p>Every person gets a post. The post ticks a starting set of tabs and powers; you can switch any of them on or off for one person. Anything not ticked isn't shown at all, not even greyed out. Click a column to see that person's Today.</p></div></div>
     <div class="mx-wrap"><table class="mx" id="mx"></table></div>
-    <p class="sample">The starting ticks for each post. You change them person by person. "Owner only" tabs can't be given to anyone. The owner always has everything. Crew and clients never sign in: they get a private link (section 06).</p>
+    <p class="sample">The starting ticks for each post. You change them person by person. "Owner only" tabs can't be given to anyone. The owner always has everything. Crew and clients never sign in: they get a private link (section 05).</p>
     <div class="roles" id="roles"></div>
   </section>
 
   <section id="outside">
-    <div class="sec-h"><div><div class="num">06</div><h2>Outside the office</h2><p>What people outside the office see, on their phones. No sign-in: each person gets their own private link, which the office can replace or turn off at any time.</p></div></div>
+    <div class="sec-h"><div><div class="num">05</div><h2>Outside the office</h2><p>What people outside the office see, on their phones. No sign-in: each person gets their own private link, which the office can replace or turn off at any time.</p></div></div>
     <div class="phones" id="phones"></div>
   </section>
 
@@ -535,41 +573,41 @@ footer{max-width:1320px;margin:0 auto;padding:30px 16px 60px;color:var(--faint);
   </section>
 
   <section id="price">
-    <div class="sec-h"><div><div class="num">07</div><h2>What it costs</h2><p>No per-person fees and no surprises. You see every price, part by part, and the total before you commit to anything.</p></div></div>
+    <div class="sec-h"><div><div class="num">06</div><h2>What it costs</h2><p>No per-person fees and no surprises. You see every price, part by part, and the total before you commit to anything.</p></div></div>
     <div class="price-grid">
-      <div class="pbox"><span class="lbl">Every system</span><div class="big">$1,500 <small>base</small></div><p>Everything in section 03: Today, team roles, phone view, search, files, alerts, security, your data in and out, the clickable version and training.</p></div>
-      <div class="pbox"><span class="lbl">Each part you pick</span><div class="big">$500 <small>+ $20/mo</small></div><p>Any of the 10 core parts, and any of the extras. Some parts need another first (the menu handles that for you).</p></div>
-      <div class="pbox hl"><span class="lbl">All ten core parts</span><div class="big">$6,500 <small>+ $450/mo</small></div><p>The whole back office, ready in about three weeks.</p></div>
+      <div class="pbox"><span class="lbl">The Foundation · every system</span><div class="big">$1,500 <small>once</small></div><p>Today and everything under every room: team roles, phone view, search, files, alerts, security, your data in and out, the clickable version and training.</p></div>
+      <div class="pbox"><span class="lbl">Each part you pick</span><div class="big">$500 <small>+ $20/mo</small></div><p>Any of the recommended ten, or any part on the shelf. A part that needs another brings it along, and that one counts too.</p></div>
+      <div class="pbox hl"><span class="lbl">Your ten</span><div class="big">$6,500 <small>+ $450/mo</small></div><p>The Foundation and any ten parts: the recommended ten, or swap in what you need. Ready in about three weeks.</p></div>
     </div>
     <div class="calc" id="calc">
-      <span class="lbl">Try it · pick how many core parts</span>
-      <div style="display:flex;align-items:center;gap:14px;margin:12px 0 10px"><input type="range" id="cParts" min="1" max="10" value="10" style="flex:1;accent-color:var(--gold)" aria-label="Number of core parts"><b id="cPartsN" style="font:700 18px 'Space Mono';min-width:2ch">10</b></div>
+      <span class="lbl">Try it · pick how many parts</span>
+      <div style="display:flex;align-items:center;gap:14px;margin:12px 0 10px"><input type="range" id="cParts" min="1" max="15" value="10" style="flex:1;accent-color:var(--gold)" aria-label="Number of parts"><b id="cPartsN" style="font:700 18px 'Space Mono';min-width:2ch">10</b></div>
       <div class="row"><span>One time</span><b id="cSetup"></b></div>
       <div class="row"><span>Paid as four payments of 25%, each before its phase</span><b id="cQuarter"></b></div>
       <div class="row"><span>Monthly, on Care</span><b id="cCare"></b></div>
-      <p style="margin:12px 0 0;color:var(--faint);font-size:13px">Extras are $500 + $20 a month each, on top. The real menu shows each part by name: <a href="https://noumansadiq.com/gc/demo/menu/" target="_blank" rel="noopener" class="gold">build your system</a>.</p>
+      <p style="margin:12px 0 0;color:var(--faint);font-size:13px">Any part counts the same, recommended or from the shelf. Part 1 is always in. The real menu shows each part by name: <a href="https://noumansadiq.com/gc/demo/menu/" target="_blank" rel="noopener" class="gold">build your system</a>.</p>
     </div>
     <h3 style="font-size:20px;margin:40px 0 14px">Monthly plans</h3>
     <div class="price-grid">
-      <div class="pbox"><span class="lbl">Care</span><div class="big">$450 <small>/mo with all ten</small></div><ul><li>Hosting, backups, security and fixes</li><li>Next-business-day replies</li><li>Up to 2 hours of changes a month</li></ul><p>$250 + $20 for each part you have.</p></div>
-      <div class="pbox"><span class="lbl">Grow</span><div class="big">$850 <small>/mo with all ten</small></div><ul><li>Everything in Care</li><li>Same-business-day replies</li><li>Up to 6 hours of changes a month</li><li>A review call every quarter</li></ul></div>
+      <div class="pbox"><span class="lbl">Care</span><div class="big">$450 <small>/mo with ten parts</small></div><ul><li>Hosting, backups, security and fixes</li><li>Next-business-day replies</li><li>Up to 2 hours of changes a month</li></ul><p>$250 + $20 for each part you have.</p></div>
+      <div class="pbox"><span class="lbl">Grow</span><div class="big">$850 <small>/mo with ten parts</small></div><ul><li>Everything in Care</li><li>Same-business-day replies</li><li>Up to 6 hours of changes a month</li><li>A review call every quarter</li></ul></div>
       <div class="pbox"><span class="lbl">Partner</span><div class="big">$1,500 <small>/mo, from</small></div><ul><li>2-hour replies on urgent issues</li><li>Up to 12 hours of changes a month</li><li>A planning call every month</li><li>For larger and multi-location companies</li></ul></div>
     </div>
     <p class="sample">Pay a year ahead and get two months free.</p>
   </section>
 
   <section id="how">
-    <div class="sec-h"><div><div class="num">08</div><h2>How you get it</h2><p>From the first look to your team using it. You pay each stage before it starts, and you see your own system before the build goes on.</p></div></div>
+    <div class="sec-h"><div><div class="num">07</div><h2>How you get it</h2><p>From the first look to your team using it. You pay each stage before it starts, and you see your own system before the build goes on.</p></div></div>
     <ol class="journey" id="journey"></ol>
   </section>
 
   <section id="faq">
-    <div class="sec-h"><div><div class="num">09</div><h2>Questions people ask</h2></div></div>
+    <div class="sec-h"><div><div class="num">08</div><h2>Questions people ask</h2></div></div>
     <div class="faq" id="faqs"></div>
   </section>
 
   <section id="screens">
-    <div class="sec-h"><div><div class="num">10</div><h2>Every screen</h2><p>Real screens from the working system: as the owner on a computer, on a phone, as each other person, and as people outside the office.</p></div><span class="chip" id="gcount"></span></div>
+    <div class="sec-h"><div><div class="num">09</div><h2>Every screen</h2><p>Real screens from the working system: as the owner on a computer, on a phone, as each other person, and as people outside the office.</p></div><span class="chip" id="gcount"></span></div>
     <div class="gal-bar" id="galbar"></div>
     <div class="gal" id="gal"></div>
   </section>
@@ -577,7 +615,7 @@ footer{max-width:1320px;margin:0 auto;padding:30px 16px 60px;color:var(--faint);
   <div class="end">
     <span class="lbl">Next step</span>
     <h2 style="margin-top:10px">See your own company on it.</h2>
-    <p>Type your company's name on the live demo and click around. When you're ready, tick the parts you want and see your total.</p>
+    <p>Type your company's name on the live demo and click around. When you're ready, keep the ten we tick or swap in your own, and see your total.</p>
     <div class="cta-row"><a class="cta" href="https://noumansadiq.com/gc/demo/" target="_blank" rel="noopener">Open the live demo</a><a class="cta ghost" href="https://noumansadiq.com/gc/demo/menu/" target="_blank" rel="noopener">Build your system</a><a class="cta ghost" href="mailto:info@noumansadiq.com?subject=GC%20system">Email Nouman</a></div>
   </div>
 </main>
@@ -788,14 +826,15 @@ const STEPSGET = [
  ["See your company on it","Open noumansadiq.com/gc/demo, type your company's name, and click around a working back office with it on top."],
  ["Tell us how you work","A short form: how many people, how you quote, what you use now, what hurts. Five minutes."],
  ["Nouman looks at it himself","He reads it and comes back with what fits your company and what doesn't."],
- ["Pick your parts","On the menu, tick only the parts you want. The total and the monthly price show as you tick."],
+ ["Pick your ten","The ten most contractors need come ticked, room by room. Swap any for what you need, or take fewer. The total and the monthly price show as you go."],
  ["First 25%: your clickable version","You click through your own system, with your company and your way of working, before the build goes on."],
  ["Built in about three weeks","Three more payments of 25%, each paid before its phase starts. Your old spreadsheets come in during setup."],
  ["Go live, team trained","Your people are shown how to use it. Crew and clients get their links."],
  ["Kept running","A monthly plan covers hosting, backups, security, fixes and small changes."]
 ];
 const FAQ = [
- ["How much does it cost?","You pick parts. A $1,500 base, then $500 for each part you pick, plus a monthly plan. All ten core parts: $6,500 one time and $450 a month. The menu shows the exact total before you commit to anything."],
+ ["How much does it cost?","The Foundation is $1,500, then $500 for each part you pick, plus a monthly plan. Ten parts: $6,500 one time and $450 a month. The menu shows the exact total before you commit to anything."],
+ ["Can I pick different parts?","Yes. The ten most contractors need come ticked, but any of them can be swapped for any part on the shelf, one for one, and the price stays the same. Part 1, every job and every client, is always in."],
  ["Can I start small?","Yes. Most people tick only what hurts. For example, the base plus three parts is $3,000 one time and $310 a month. Add more any time."],
  ["Do I own it?","Once the setup is paid in full, the system is yours. Your data is always yours either way: a full export whenever you ask."],
  ["I've got QuickBooks.","It works alongside QuickBooks and doesn't replace your accountant. Every system includes a QuickBooks-ready file; the two-way sync is an extra."],
@@ -842,11 +881,16 @@ const PHONES = [
 const $ = s => document.querySelector(s);
 const el = (tag, attrs={}, html="") => { const e=document.createElement(tag); for(const [k,v] of Object.entries(attrs)) e.setAttribute(k,v); if(html) e.innerHTML=html; return e; };
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const ALL = {}; [...CORE,...BASE,...EXTRAS].forEach(i=>ALL[i.id]=i);
+const SHELF = [{"id": "morning_call", "t": "Your morning, read to you", "one": "At your time each morning your phone rings and reads you what needs your yes, quotes to chase, call-backs, new requests and who starts where. Press 1 to hear it again, 2 to get it as a text.", "needs": "—", "acct": "a phone line on your account", "mods": [], "steps": [], "shots": []}, {"id": "permit_radar", "t": "New permits near your work", "one": "Every night, new building permits from the county near your past jobs or your ZIP codes — the kinds and sizes you pick. Save one as a lead in a tap. Nobody is contacted.", "needs": "Part 4 (leads and lost quotes)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "phone_answered", "t": "Every call answered, even when you can't pick up", "one": "When nobody picks up, your message line greets the caller in your words (English or Spanish), takes their name, address, the job and the best time to call back, and puts it on their request for you to check. It never quotes a price, never books, and says it is your message line.", "needs": "Leads land as records", "acct": "a phone line on your account", "mods": [], "steps": [], "shots": []}, {"id": "missed_call_rescue", "t": "A missed call books itself a visit", "one": "When nobody can pick up, the caller gets a text from your number in your own words, with a link to pick a time for you to come out. Only when you switch it on; never at night; never twice in a day; STOP always works.", "needs": "Leads land as records", "acct": "a phone line on your account", "mods": [], "steps": [], "shots": []}, {"id": "walk_talk_quote", "t": "Walk & Talk Quote", "one": "Walk the job and say what it needs. Your words turn into draft lines priced from your own price list; you check each one before it goes on the quote.", "needs": "Part 2 (quotes)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "room_scan", "t": "Scan the Room", "one": "Bring in a room scanned on an iPhone, or type its size: floor, walls less doors and windows, baseboard and ceiling, with your waste added — then price it from your list.", "needs": "Part 2 (quotes)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "see_finished", "t": "Show the homeowner the finish before you start", "one": "Take a photo of the room, mark the floor or the cabinets, and lay your own finishes over it with your price range. The homeowner slides from before to after on their phone.", "needs": "Part 2 (quotes)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "contract_sign", "t": "The quote becomes the contract, signed online", "one": "Your checked quote goes to the client as the contract — scope, price and your own terms and notices — and they sign it on their phone. Signed, the job starts from it and the signed copy is kept with the job. The price cannot change once it is sent.", "needs": "Part 2 (quotes)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "reviews", "t": "Ask every client for a review, the same way", "one": "When a job closes, one tap texts your client your own Google, Facebook, BBB and Angi review links. Every client gets the same links. See who was asked and who opened them, month by month.", "needs": "Part 1 (every job and every client)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "whatsapp", "t": "WhatsApp messages land on the right job", "one": "Messages, photos, documents and voice notes sent to your WhatsApp Business number wait in From the field, matched to the client, crew member or sub who sent them and to the job code they typed. A person files each one. Replies are typed by your team and sent from the same screen.", "needs": "—", "acct": "your WhatsApp Business number", "mods": [], "steps": [], "shots": []}, {"id": "email_inbox", "t": "Your inbox sorted into requests, job replies and bills", "one": "New mail in the one folder you choose waits in From the field, each with a suggestion — a new request, a reply on a job, or a bill — that a person confirms. Your mail is never deleted, moved or answered from here.", "needs": "—", "acct": "your own mailbox", "mods": [], "steps": [], "shots": []}, {"id": "change_relay", "t": "Every change order reaches everyone it touches", "one": "When a change order is raised or approved it goes to the PM, the estimator, the office for billing and the subs on the job. Each one taps \"I have seen it\" — subs from a private link — and a board shows who has and who has not. Nobody looks within your hours: the PM is told, then you. It never changes a price.", "needs": "Part 9 (the crew asks)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "daily_log", "t": "A daily log for every job, every day", "one": "Each job gets one log a day: the weather at the site, who was there, the work done, delays and why, visitors and photos. It can be changed only on its own day; after that it is kept as it was, and the owner can add a dated note under it. Print any date range.", "needs": "Part 1 (every job and every client)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "two_languages", "t": "Two languages, one crew", "one": "Every job gets one message thread. You write or speak in English, your crew reads it in Spanish — and the other way round. Voice notes too. You can always see what was really said.", "needs": "Part 1 (every job and every client)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "photo_proof", "t": "Photo Proof", "one": "Every job photo is stamped when it arrives: its fingerprint, when and where it was taken, who sent it, that day's weather. One press shows if any photo was changed after it was added.", "needs": "Part 1 (every job and every client)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "timelapse", "t": "The Time-Lapse", "one": "Turn a job's photos into a short vertical video, in the order they were taken, dated, with your logo at the end. Download it, or share it on your client's page.", "needs": "Part 1 (every job and every client)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "xray_walls", "t": "X-Ray Walls", "one": "Pin the photos taken before the drywall went up onto the floor plan. Years later, tap the wall and see the pipes and wires behind it.", "needs": "Part 1 (every job and every client)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "job_sign", "t": "A yard sign that works the job site", "one": "A printed sign with one QR code: your crew and subs check in and out, the inspector finds the permit, and the neighbour asks for a quote — it lands on your Leads.", "needs": "Part 1 (every job and every client)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "inspections", "t": "Every inspection on the calendar, with its result", "one": "Inspections per permit: footing to final, the date you asked for, the result from the inspector's card with a photo of it, and the re-inspection when one fails. Upcoming inspections on one list; a failed one goes onto the punch list and tells the office.", "needs": "Part 1 (every job and every client)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "rfis", "t": "RFIs and submittals, numbered and chased", "one": "Every question to the architect or engineer numbered per job, answered on their own private link, overdue ones flagged; every submittal with its revisions, marks and files. One printable log per job.", "needs": "Part 1 (every job and every client)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "sub_bids", "t": "Sub bids side by side", "one": "Write the scope once, send each sub his own private link, and see every price side by side — lowest marked, anything left out flagged, late bids marked. One press puts the winning price on the quote or the job.", "needs": "Part 2 (quotes), Part 6 (subs and suppliers)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "purchase_orders", "t": "Material orders, approved before they go", "one": "Write a material order to your supplier from the job, with your own prices. Nothing goes out until someone you trust says yes. When it arrives, tick what came, what is backordered and what came damaged (with a photo) — it lands on the job's costs — and check the supplier's bill against what you ordered and what arrived.", "needs": "Part 6 (subs and suppliers)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "selections", "t": "Selections and allowances, picked by the homeowner", "one": "Set the allowance for tile, fixtures, cabinets and the rest; your homeowner picks from the options you list on their phone and sees the running total. Over or under the allowance becomes a change order for you to approve.", "needs": "Part 1 (every job and every client), Part 9 (the crew asks)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "equipment", "t": "Who has which tool, truck and machine", "one": "Every tool, machine and truck on one list: who has it and which job it is on (signed out and back in by the office, or by the crew from their phone), service due by days, hours or miles, truck registration and insurance dates, and a damage and repair log with photos. Never location tracking.", "needs": "Part 1 (every job and every client)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "safety_log", "t": "Toolbox talks and incidents, kept on file", "one": "Toolbox talks the crew signs from their phone, near misses and incident reports from the field in English or Spanish, follow-ups with an owner and a date, and a yearly summary of counts for your safety advisor.", "needs": "Part 1 (every job and every client)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "job_closeout", "t": "Close out every job: permits, punch list, client sign-off", "one": "Each job's closeout on one page: permits and their clocks, the notice of commencement and when it runs out, the punch list with photos and who fixes what, and the client's signature on the finished list. The final bill and the retainage wait for that signature.", "needs": "Part 1 (every job and every client)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "warranty", "t": "Warranty requests that land on a board", "one": "After handover your homeowner reports a problem from their own link, with photos. It lands on your warranty board; you send a sub or your crew with a visit date, and the homeowner sees where it stands.", "needs": "Part 1 (every job and every client)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "night_map", "t": "Every job on one map", "one": "A dark map for the office TV and your phone: every open job glows — on track, needs a yes, or money owed past 30 days — with today's crews at their jobs.", "needs": "Part 1 (every job and every client)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "telegram", "t": "The crew sends it, the system files it", "one": "Photos and receipts from WhatsApp-style chat, tied to the job.", "needs": "—", "acct": "your Telegram", "mods": [], "steps": [], "shots": []}, {"id": "storm_shift", "t": "Tomorrow's weather, job by job", "one": "The weather service's forecast for every outdoor job your crews are on tomorrow. Rain or wind over your line, or a weather alert: move the crew to an indoor job or another day in one tap.", "needs": "Who is where today", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "hurricane_mode", "t": "Storm coming: every job site secured per your checklist", "one": "One button when a storm is coming: every open job gets your site checklist and a crew lead, a board shows each job as items are ticked and photos come in, and after the storm the damage check goes into each job's file.", "needs": "Part 1 (every job and every client)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "pricing", "t": "Pricing, done properly", "one": "Set labour, materials, subs, general conditions, profit and contingency once — permanently or for one job. Every quote is then worked out the same way, with the sums shown.", "needs": "—", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "money_waterfall", "t": "Where every dollar of a job went", "one": "Pick a job and watch its money fall: the contract at the top, then subs, materials, field spend, crew wages and commission flowing out, and what is left for you at the bottom. Tap any part to see the records behind it.", "needs": "Part 8 (what each job left you)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "price_pulse", "t": "Price check: what your materials cost this month", "one": "Link your items to public material price indexes. When lumber, drywall, concrete or copper moves past your line, every open quote says so — and offers new prices for you to accept or ignore.", "needs": "Part 2 (quotes)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "lien_waivers", "t": "No waiver, no payout", "one": "Before a sub is paid, their signed lien waiver for that amount is on file — on your own Florida or Texas forms. A Notice to Owner log per job with the 45-day date, and a final-payment checklist: every waiver in before the final invoice goes out. You can always go past it with a written reason, and it is logged.", "needs": "Part 6 (subs and suppliers)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "house_tracker", "t": "Your homeowner follows the job like a delivery", "one": "One private link per job: which stage the work is at, the date each one finished, who comes next, what is waiting on them, and the latest photos you chose. English or Spanish. Never prices.", "needs": "Part 1 (every job and every client)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "sub_leaderboard", "t": "Which subs you can count on", "one": "Your subs ranked from your own records: on time, callbacks, cost over the agreed price, and jobs done — each with its count, so one lucky job never tops the board. For you and your office only.", "needs": "Part 6 (subs and suppliers)", "acct": "", "mods": [], "steps": [], "shots": []}, {"id": "sub_papers", "t": "Sub papers, kept on file", "one": "Each sub's insurance certificates, licence and W-9 kept on file with their expiry dates. You and your office are reminded 30 and 14 days before a paper expires and on the day; a sub whose paper is missing or expired cannot go on a job unless you say why. At year end, a 1099 list for your accountant.", "needs": "Part 6 (subs and suppliers)", "acct": "", "mods": [], "steps": [], "shots": []}];
+const XNEEDS = {"e3": "—", "e1": "—", "e2": "—", "e11": "—", "e12": "Part 8 (what each job left you)", "e8": "Part 1 (every job and every client)", "e9": "—", "e10": "—", "e7": "Part 2 (quotes)", "e6": "—", "e5": "Part 5 (who owes you)", "k1": "—", "e4": "—"};
+const ACCT = {"e1": "your own Stripe", "e4": "your bank's own sign-in", "e5": "your QuickBooks", "phone_answered": "a phone line on your account", "missed_call_rescue": "a phone line on your account", "morning_call": "a phone line on your account", "whatsapp": "your WhatsApp Business number", "email_inbox": "your own mailbox", "telegram": "your Telegram", "k1": "your Google Drive"};
+const ROOMS = [{"key": "today", "name": "Today", "line": "What needs you, right now. Built from everything in the other three rooms.", "foundation": ["b1", "b6", "b4", "b3"], "ten": ["c3"], "shelf": ["morning_call"]}, {"key": "jobs", "name": "Jobs", "line": "Work from the first call to the finished job: leads, quotes, the job itself and the field.", "foundation": ["b5"], "ten": ["c1", "c2", "c4", "c9"], "shelf_groups": [["Winning work", ["e6", "e7", "permit_radar", "phone_answered", "missed_call_rescue", "walk_talk_quote", "room_scan", "see_finished", "contract_sign", "reviews", "whatsapp", "email_inbox"]], ["On the job", ["e8", "e9", "e3", "change_relay", "daily_log", "two_languages", "photo_proof", "timelapse", "xray_walls", "job_sign", "inspections", "rfis", "sub_bids", "purchase_orders", "selections", "equipment", "safety_log", "job_closeout", "warranty", "night_map", "k1", "telegram"]], ["Weather", ["storm_shift", "hurricane_mode"]]]}, {"key": "money", "name": "Money", "line": "Money in, money out, what each job left you and the one number for the company.", "foundation": [], "ten": ["c5", "c7", "c8", "c10"], "shelf": ["pricing", "e1", "e2", "e4", "e5", "e11", "e12", "money_waterfall", "price_pulse", "lien_waivers"]}, {"key": "people", "name": "People", "line": "Your clients, your subs and suppliers, and your own team.", "foundation": ["b2"], "ten": ["c6"], "shelf": ["e10", "house_tracker", "sub_leaderboard", "sub_papers"]}];
+const UNDER = ["b7", "b8", "b9", "b10", "b11", "b12"];
+const ALL = {}; [...CORE,...BASE,...EXTRAS,...SHELF].forEach(i=>ALL[i.id]=i);
 
 
 const counts = [
- ["10","core parts to pick from","g"],["13","extras you can add any time","g"],["27","tabs you can give a person"],
+ ["4","rooms: Today, Jobs, Money, People","g"],["10","parts in the full system, your choice","g"],["61","parts to choose them from, all built and tested","g"],["27","tabs you can give a person"],
  ["6","powers (approve, see money…)"],["6","office posts, plus crew and client links"],
  [String(Object.keys(S).length),"real screens in this book"],["~3","weeks from first payment to go-live","g"],["$0","to look: the demo is free"]
 ];
@@ -857,19 +901,35 @@ $("#flow").innerHTML = FLOW.map(f=>`<button class="step" data-open="${f.open}"><
 function thumbStyle(k){ return `background-image:url('${FILE(k)}')`; }
 function card(i, kind){
  const k = i.shots[0];
- const price = kind==="core" ? "$500 + $20/mo" : kind==="extra" ? "$500 + $20/mo" : "In the base";
+ const price = kind==="core" ? "$500 + $20/mo" : kind==="extra" ? "$500 + $20/mo" : "Foundation";
  const chips = [];
- if(kind==="core") chips.push(`<span class="chip g">Part ${i.n}</span>`);
- if(kind==="extra") chips.push(`<span class="chip ok">Ready to switch on</span>`);
+ if(kind==="core") chips.push(`<span class="chip g">Part ${i.n} · one of the ten</span>`);
+ if(kind==="extra") chips.push(`<span class="chip ok">On the shelf</span>`);
+ if(kind==="extra" && ACCT[i.id]) chips.push(`<span class="chip w">Uses ${esc(ACCT[i.id])}</span>`);
  chips.push(`<span class="chip">${i.shots.length} screen${i.shots.length===1?"":"s"}</span>`);
  const b = el("button",{class:"card","data-open":i.id,"data-mods":(i.mods||[]).join(" "),"data-text":(i.t+" "+i.one+" "+(i.steps||[]).join(" ")).toLowerCase()});
  b.innerHTML = (k?`<div class="thumb ${isPhone(k)?"phone":""}" style="${thumbStyle(k)}"></div>`:`<div class="thumb" style="background:var(--high);display:grid;place-items:center"><span class="lbl">Done with you, in person</span></div>`)
   + `<div class="body"><h3>${esc(i.t)}</h3><p>${esc(i.one)}</p><div class="meta">${chips.join("")}<span class="price" style="margin-left:auto">${price}</span></div></div>`;
  return b;
 }
-CORE.forEach(i=>$("#g-core").append(card(i,"core")));
-BASE.forEach(i=>$("#g-base").append(card(i,"base")));
-EXTRAS.forEach(i=>$("#g-extras").append(card(i,"extra")));
+const kindOf = i => CORE.includes(i)?"core":EXTRAS.includes(i)?"extra":SHELF.includes(i)?"shelf":"base";
+function shelfRow(i){ const b=el("button",{class:"li card","data-open":i.id,"data-mods":"","data-text":(i.t+" "+i.one).toLowerCase()});
+ b.innerHTML=`<b>${esc(i.t)}</b><span>${esc(i.one)}</span><span class="meta">${i.needs&&i.needs!=="—"?`<span class="chip">Needs ${esc(i.needs)}</span>`:""}${i.acct?`<span class="chip w">Uses ${esc(i.acct)}</span>`:""}<span class="price" style="margin-left:auto">$500 + $20/mo</span></span>`; return b; }
+const roomCounts = {};
+ROOMS.forEach(r=>{
+ const add=(id,where,kind)=>{ const i=ALL[id]; if(!i) return; if(kind==="row") $(where).append(shelfRow(i)); else $(where).append(card(i,kind)); };
+ r.foundation.forEach(id=>add(id,`#g-${r.key}-f`,"base"));
+ r.ten.forEach(id=>add(id,`#g-${r.key}-t`,"core"));
+ const groups = r.shelf_groups || (r.shelf ? [["On the shelf", r.shelf]] : []);
+ let nShelf=0;
+ groups.forEach(([g,ids],gi)=>ids.forEach(id=>{ nShelf++; const i=ALL[id]; if(!i) return; if(EXTRAS.includes(i)) add(id,`#g-${r.key}-s${gi}`,"extra"); else add(id,`#l-${r.key}-s${gi}`,"row"); }));
+ document.querySelectorAll(`#r-${r.key} .grid, #r-${r.key} .list`).forEach(g=>{ if(!g.children.length) g.remove(); });
+ roomCounts[r.key]={f:r.foundation.length,t:r.ten.length,s:nShelf};
+ $(`#cnt-${r.key}`).textContent = [r.foundation.length?`${r.foundation.length} in every system`:"", r.ten.length?`${r.ten.length} of the ten`:"", nShelf?`${nShelf} on the shelf`:""].filter(Boolean).join(" · ");
+});
+UNDER.forEach(id=>$("#g-under").append(card(ALL[id],"base")));
+$("#rooms4").innerHTML = ROOMS.map(r=>{ const c=roomCounts[r.key]; const tenNames=r.ten.map(id=>ALL[id]).map(i=>`Part ${i.n}`).join(", ");
+ return `<a class="room4 ${r.key==="today"?"fd":""}" href="#r-${r.key}"><span class="lbl">${r.key==="today"?"Comes built · Foundation":"You fill it"}</span><b>${esc(r.name)}</b><span>${esc(r.line)}</span><span class="rc">${r.key==="today"?"In every system":""}${c.t?`${r.key==="today"?" · ":""}From the ten: ${tenNames}`:""}${c.s?` · ${c.s} on the shelf`:""}</span></a>`; }).join("");
 
 /* matrix */
 const RCOLS = ["owner","secretary","supervisor_estimator","estimator","project_manager","salesperson"];
@@ -927,17 +987,20 @@ try{ const t=localStorage.getItem("ov-theme"); if(t) document.documentElement.se
 const drawer=$("#drawer"), panel=$("#panel");
 function openItem(id){
  const i = ALL[id]; if(!i) return;
- const kind = CORE.includes(i)?"core":EXTRAS.includes(i)?"extra":"base";
+ const kind = kindOf(i);
+ const room = ROOMS.find(r=>r.foundation.includes(id)||r.ten.includes(id)||(r.shelf||[]).includes(id)||(r.shelf_groups||[]).some(g=>g[1].includes(id)));
  const facts = [];
- if(kind==="core") facts.push(["Price","$500 + $20 / month"],["Needs",i.needs],["Who uses it",i.who]);
- if(kind==="extra") facts.push(["Price","$500 + $20 / month"],["Status","Already built: switched on when you add it"]);
- if(kind==="base") facts.push(["Price","Included in every system"]);
+ if(room) facts.push(["Room",room.name]);
+ if(kind==="core") facts.push(["Price","$500 + $20 / month · one of the recommended ten"],["Needs",i.needs],["Who uses it",i.who]);
+ if(kind==="extra"||kind==="shelf") facts.push(["Price","$500 + $20 / month · can be one of your ten"],["Needs",kind==="shelf"?i.needs:(XNEEDS[i.id]||"—")],["Status","Built and tested: switched on when you pick it"]);
+ if((kind==="extra"||kind==="shelf") && (i.acct||ACCT[i.id])) facts.push(["Runs on",i.acct||ACCT[i.id]]);
+ if(kind==="base") facts.push(["Price","In every system (the Foundation)"]);
  const reach = Object.entries(ROLES).filter(([r])=>!["crew","client"].includes(r)&&(!i.mods.length||i.mods.some(m=>roleHas(r,m)))).map(([,R])=>R.n);
- facts.push(["Who can reach it by default", reach.length?reach.join(", "):"—"]);
- panel.innerHTML = `<div class="panel-h"><span class="lbl">${kind==="core"?"Core part "+i.n:kind==="extra"?"Extra":"In the base"}</span><button class="x" data-close aria-label="Close">✕</button></div>
+ if(kind!=="shelf") facts.push(["Who can reach it by default", reach.length?reach.join(", "):"—"]);
+ panel.innerHTML = `<div class="panel-h"><span class="lbl">${kind==="core"?"Part "+i.n+" · one of the recommended ten":kind==="base"?"Foundation · in every system":"On the shelf · $500"}</span><button class="x" data-close aria-label="Close">✕</button></div>
  <div class="pb"><h2>${esc(i.t)}</h2><p class="one">${esc(i.one)}</p>
  <div class="facts">${facts.map(f=>`<div><span class="lbl">${f[0]}</span><b>${esc(f[1])}</b></div>`).join("")}</div>
- <h4>How it works</h4><ol class="steps">${i.steps.map(s=>`<li><span>${esc(s)}</span></li>`).join("")}</ol>
+ ${i.steps.length?`<h4>How it works</h4><ol class="steps">${i.steps.map(s=>`<li><span>${esc(s)}</span></li>`).join("")}</ol>`:`<div class="callout i">Built and tested on the shelf. See it working on the live demo, or ask for it in your clickable version.</div>`}
  ${i.note?`<div class="callout i">${esc(i.note)}</div>`:""}
  ${i.shots.length?`<h4>What it looks like</h4><div class="shots">${i.shots.map(k=>`<button class="g" data-shot="${k}" data-set="${i.shots.join(",")}"><div class="im ${isPhone(k)?"ph":""}" style="${thumbStyle(k)}"></div><div class="t">${esc(S[k]?S[k][0]:k)}<small>${esc(S[k]?S[k][1]:"")}</small></div></button>`).join("")}</div>`:""}
  <div class="cta-row"><a class="cta" href="https://noumansadiq.com/gc/demo/" target="_blank" rel="noopener">See your company on it</a><a class="cta ghost" href="https://noumansadiq.com/gc/demo/menu/" target="_blank" rel="noopener">Build your system</a></div></div>`;
