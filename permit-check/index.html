@@ -100,6 +100,12 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;
 .pc-offer h3{font-size:1.25rem}
 .pc-offer .pc-acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
 .pc-fine{color:var(--ink-dim);font-size:.85rem;margin-top:22px}
+.pc-badge{display:inline-block;margin:14px 0 4px;padding:8px 14px;border:1px solid var(--gold);color:var(--gold-hot);font-family:var(--font-display);text-transform:uppercase;font-weight:850;font-stretch:125%;font-size:clamp(1rem,2.8vw,1.35rem)}
+.pc-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:16px}
+.pc-stat{background:var(--canvas-raise);border:1px solid var(--canvas-line);padding:14px;border-radius:var(--radius)}
+.pc-stat b{display:block;font-family:var(--font-display);font-weight:850;font-stretch:125%;font-size:clamp(1.4rem,4vw,2rem);line-height:1;margin-top:6px}
+.pc-copy{background:var(--canvas-raise);border:1px solid var(--gold-dark);padding:14px 16px;border-radius:var(--radius);margin-top:12px}
+canvas#pcbadge{display:none}
 @media (max-width:640px){
   .pc-table thead{display:none}
   .pc-table tr{display:block;border-bottom:1px solid var(--canvas-line);padding:8px 0}
@@ -121,9 +127,9 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;
 </div></header>
 <main><div class="wrap">
   <div class="hero">
-    <span class="label">Miami-Dade · read live from the county's own record</span>
-    <h1>Your permit has a date. The county site doesn't show it.</h1>
-    <p class="lede">Type your company name or licence number. See every open permit and the day it runs out: 180 days after its last passed inspection.</p>
+    <span class="label">Miami-Dade · from the county's public permit records · free</span>
+    <h1>Your permit dates, and your record.</h1>
+    <p class="lede">Type your company name or licence number. See every open permit and the day it runs out by the county's record, put them all in your calendar in one tap, and see your company's record in Miami-Dade.</p>
     <form class="pc-form" id="pcf" autocomplete="off">
       <label for="pcq" class="label" style="position:absolute;left:-9999px">Company name or licence number</label>
       <input id="pcq" name="q" placeholder="Company name or licence (CGC1234567)" minlength="4" required>
@@ -132,6 +138,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;
     <p class="pc-hint">Free. Nothing to sign up for. Exact names work best.</p>
     <div class="pc-status" id="pcs" aria-live="polite"></div>
     <div id="pcr"></div>
+    <div id="pcrec"></div>
+    <canvas id="pcbadge" width="1080" height="1080"></canvas>
   </div>
 </div></main>
 <footer><div class="wrap">
@@ -157,6 +165,7 @@ var LAYER="https://services.arcgis.com/8Pc9XBTAsYuxx9Ny/arcgis/rest/services/mia
 var PHONE="+19299394060", PHONE_SHOW="+1 (929) 939-4060";
 var DAY=864e5, M=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], W=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 var $=function(id){return document.getElementById(id)};
+var DIST={"asof":"2026-11-03","n":3420,"v":[0,500,1500,2000,2500,3500,4300,5000,5800,7000,8100,9500,11000,12810,14725,15850,18000,20000,20529,24500,25300,28200,30000,32135,35000,40000,42000,45000,48219,50000,55000,59329,62400,65800,70500,76500,80494,85000,91000,100000,105000,111000,120000,125800,133700,144688,150000,160500,170000,181750,198000,205000,220000,237264,250000,264525,286570,300000,318000,334128,352000,374000,394000,407627,435000,460000,485000,508500,550000,581250,610000,656270,700000,754000,807100,900000,950000,1034000,1159814,1285000,1408500,1509484,1656000,1792000,2020798,2173000,2394275,2692613,3000000,3269723,3760451,4175380,4932752,5761001,7276000,9138462,13270000,25110000,51400000,126079889,9544198743],"c":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,5,5,5,5,6,6,6,6,7,7,7,8,9,9,10,11,11,13,14,16,18,23,34,1882]};
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function toDate(v){if(v==null||v==="")return null;if(typeof v==="number")return new Date(v);var m=String(v).match(/^(\d{4})-(\d{2})-(\d{2})/);return m?new Date(Date.UTC(+m[1],+m[2]-1,+m[3],12)):null}
 function day(d){return W[d.getUTCDay()]+", "+M[d.getUTCMonth()]+" "+d.getUTCDate()+", "+d.getUTCFullYear()}
@@ -171,7 +180,7 @@ function clock(a){
 }
 function where(q){
   var s=q.toUpperCase().replace(/'/g,"''").replace(/[%_\[\]]/g," ").replace(/\s+/g," ").trim();
-  var since=new Date(today()-730*DAY).toISOString().slice(0,10);
+  var since=new Date(today()-1825*DAY).toISOString().slice(0,10);
   var who=/^C[A-Z]C\d{5,}$/.test(s.replace(/\s/g,""))?"ContractorNumber='"+s.replace(/\s/g,"")+"'":"UPPER(ContractorName) LIKE '%"+s+"%'";
   return who+" AND PermitType IN ('BLDG','MBLD') AND CoCcDate IS NULL AND PermitIssuedDate >= '"+since+"'";
 }
@@ -203,12 +212,76 @@ function render(co){
     h+='</tbody></table>';
     if(hidden)h+='<p class="pc-fine">'+hidden+' older permit'+(hidden>1?'s':'')+' with no inspection in over 8 months not shown. Many are finished jobs.</p>';
   }
+  if(up.length)h+='<div class="pc-acts"><button class="pc-btn" type="button" id="pccal">Add '+(up.length===1?'this date':'all '+up.length+' dates')+' to my calendar</button></div><p class="pc-fine">Your phone reminds you 14 days and 2 days before each date.</p>';
+  if(past.length)h+='<p>A date already passed? Call the building department and ask what it needs to renew.</p>';
   var body=encodeURIComponent("PERMIT "+co.lic);
-  h+='<div class="pc-offer"><h3>Never lose a permit to a date you didn\'t know about.</h3><p>I watch every one of your permits. You get a text 30 days before any date, then 14, 7 and 1. $500 to set up, $20 a month. You don\'t do anything.</p>'+
-     '<div class="pc-acts"><a class="pc-btn" href="sms:'+PHONE+'?&body='+body+'">Text PERMIT</a><a class="pc-btn ghost" href="https://wa.me/19299394060?text='+body+'" target="_blank" rel="noopener noreferrer">WhatsApp</a><a class="pc-btn ghost" href="mailto:info@noumansadiq.com?subject='+body+'">Email</a></div>'+
-     '<p class="pc-fine">Bookmark this page: <a href="?lic='+encodeURIComponent(co.lic)+'">your permit board</a>. It reads the county\'s record fresh every time you open it.</p></div>';
-  h+='<p class="pc-fine">By Miami-Dade County\'s open record ("Building Permits Issued"), read the moment you searched. The rule: a permit stays valid 180 days after its last passed inspection (Florida Building Code 105.4.1; Miami-Dade memo, 30 Jun 2026). Before the first passed inspection, a single-family permit runs 1 year from issue, others 180 days. The county record can lag. Always confirm with your building department.</p></div>';
+  h+='<div class="pc-offer"><h3>Want a heads-up before each date?</h3><p>Free. I watch your permits and send you a note before any date comes up.</p>'+
+     '<div class="pc-acts"><a class="pc-btn" href="sms:'+PHONE+'?&body='+body+'">Text PERMIT</a><a class="pc-btn ghost" href="mailto:info@noumansadiq.com?subject='+body+'">Email</a><a class="pc-btn ghost" href="mailto:info@noumansadiq.com?subject='+encodeURIComponent("Something is wrong on my sheet "+co.lic)+'">Tell me what I got wrong</a></div>'+
+     '<p class="pc-fine">Bookmark this page: <a href="?lic='+encodeURIComponent(co.lic)+'">your permit sheet</a>. It reads the county\'s record fresh every time you open it. From Nouman Sadiq · '+PHONE_SHOW+' · info@noumansadiq.com</p></div>';
+  h+='<p class="pc-fine">By Miami-Dade County\'s public permit records ("Building Permits Issued"), read the moment you searched. The rule: a permit stays valid 180 days after its last passed inspection (Florida Building Code 105.4.1; Miami-Dade memo, 30 Jun 2026). Before the first passed inspection, a single-family permit runs 1 year from issue, others 180 days. The county record can lag. Always confirm with your building department.</p></div>';
   $("pcr").innerHTML=h;
+  calBtn(co,up);
+  record(co);
+}
+
+function ics(co,list){
+  var L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Nouman Sadiq//Permit dates//EN","CALSCALE:GREGORIAN"];
+  var stamp=new Date().toISOString().replace(/[-:]/g,"").slice(0,15)+"Z";
+  list.forEach(function(s){var d=s.c.to,ds=d.getUTCFullYear()+String(d.getUTCMonth()+1).padStart(2,"0")+String(d.getUTCDate()).padStart(2,"0");
+    var e=new Date(d.getTime()+DAY),de=e.getUTCFullYear()+String(e.getUTCMonth()+1).padStart(2,"0")+String(e.getUTCDate()).padStart(2,"0");
+    L.push("BEGIN:VEVENT","UID:"+(s.a.PermitNumber||ds)+"-"+ds+"@noumansadiq.com","DTSTAMP:"+stamp,"DTSTART;VALUE=DATE:"+ds,"DTEND;VALUE=DATE:"+de,
+      "SUMMARY:Permit runs out: "+cap(s.a.PropertyAddress)+" (by county record)",
+      "DESCRIPTION:Permit "+(s.a.PermitNumber||"")+". "+s.c.rule+". Book an inspection before this date. Confirm with your building department. Live dates: https://work.noumansadiq.com/permit-check/?lic="+co.lic,
+      "BEGIN:VALARM","TRIGGER:-P14D","ACTION:DISPLAY","DESCRIPTION:Permit runs out in 14 days","END:VALARM",
+      "BEGIN:VALARM","TRIGGER:-P2D","ACTION:DISPLAY","DESCRIPTION:Permit runs out in 2 days","END:VALARM","END:VEVENT");});
+  L.push("END:VCALENDAR");return L.join("\r\n");
+}
+function calBtn(co,up){
+  if(!up.length)return;var b=$("pccal");if(!b)return;
+  b.onclick=function(){var t=ics(co,up);var a=document.createElement("a");a.href="data:text/calendar;charset=utf-8,"+encodeURIComponent(t);a.download="permit-dates.ics";document.body.appendChild(a);a.click();a.remove();b.textContent="Added. Check your calendar";};
+}
+function topPct(arr,x){var p=0;for(var i=0;i<arr.length;i++){if(arr[i]<=x)p=i;}return Math.max(1,100-p)}
+function monthYear(d){return M[d.getUTCMonth()]+" "+d.getUTCFullYear()}
+function recQuery(lic){
+  var since=new Date(today()-730*DAY).toISOString().slice(0,10);
+  var p={where:"ContractorNumber='"+lic.replace(/'/g,"")+"' AND PermitType IN ('BLDG','MBLD') AND PermitIssuedDate >= '"+since+"' AND (ApplicationTypeDescription LIKE 'NEW%' OR ApplicationTypeDescription LIKE 'ADDITION%' OR ApplicationTypeDescription LIKE 'ALTER - INTERIOR%' OR ApplicationTypeDescription LIKE 'ALTER - EXTERIOR%')",
+         outFields:"PermitIssuedDate,EstimatedValue,ApplicationTypeDescription,City,CoCcDate",resultRecordCount:"2000",f:"json"};
+  return fetchJSON(LAYER+"?"+Object.keys(p).map(function(k){return k+"="+encodeURIComponent(p[k])}).join("&")).then(function(d){if(d.error)throw new Error(d.error.message);return (d.features||[]).map(function(f){return f.attributes})});
+}
+function record(co){
+  var box=$("pcrec");box.innerHTML="";
+  recQuery(co.lic).then(function(rows){
+    if(!rows.length)return;
+    var n=rows.length,val=0,newb=0,fin=0,cities={},first=null;
+    rows.forEach(function(a){val+=(+a.EstimatedValue||0);var app=String(a.ApplicationTypeDescription||"").toUpperCase();if(app.indexOf("NEW")===0)newb++;if(String(a.CoCcDate||"").trim())fin++;var c=cap(a.City||"");if(c)cities[c]=(cities[c]||0)+1;var d=toDate(a.PermitIssuedDate);if(d&&(!first||d<first))first=d;});
+    var cl=Object.keys(cities).sort(function(x,y){return cities[y]-cities[x]});
+    var tv=topPct(DIST.v,val),tc=topPct(DIST.c,n),rank=null;
+    if(Math.min(tv,tc)<=50)rank=tv<=tc?{pct:tv,by:"by work permitted"}:{pct:tc,by:"by number of jobs"};
+    var line="From Miami-Dade public permit records: "+n+" permitted job"+(n===1?"":"s")+" since "+monthYear(first)+(rank?" (top "+rank.pct+"% of Miami-Dade builders "+rank.by+")":"")+".";
+    var h='<div class="pc-co" style="border-top:1px solid var(--canvas-line);padding-top:26px"><span class="label">Your record · from Miami-Dade public permit records · since '+esc(monthYear(first))+'</span><h2 style="margin-top:8px">'+esc(cap(co.name))+'</h2>';
+    if(rank)h+='<div class="pc-badge">Top '+rank.pct+'% of Miami-Dade builders</div><p class="pc-fine" style="margin-top:4px">'+esc(rank.by)+', among the '+DIST.n.toLocaleString()+' GCs who pulled building permits in the last 2 years.</p>';
+    h+='<div class="pc-stats"><div class="pc-stat"><span class="label">Jobs permitted</span><b>'+n+'</b></div>'+(newb?'<div class="pc-stat"><span class="label">New builds</span><b>'+newb+'</b></div>':'')+(fin?'<div class="pc-stat"><span class="label">Finished (CO/CC)</span><b>'+fin+'</b></div>':'')+(cl.length?'<div class="pc-stat"><span class="label">Most work in</span><b style="font-size:clamp(1.1rem,3vw,1.5rem)">'+esc(cl[0])+'</b></div>':'')+'</div>';
+    if(cl.length>1)h+='<p style="margin-top:12px">Areas: '+esc(cl.slice(0,5).map(function(c){return c+" ("+cities[c]+")"}).join(", "))+'</p>';
+    h+='<p style="margin-top:14px">Put this line in your bids, your website or your Google profile:</p><div class="pc-copy">'+esc(line)+'</div>'+
+       '<div class="pc-acts"><button class="pc-btn" type="button" id="pclinecp">Copy the line</button><button class="pc-btn ghost" type="button" id="pcpng">Download badge image</button></div>'+
+       '<p class="pc-fine">Counts new building, addition and alteration permits issued to licence '+esc(co.lic)+' in the last 2 years. Ranks use county data as of '+esc(DIST.asof)+'.</p></div>';
+    box.innerHTML=h;
+    $("pclinecp").onclick=function(){var b=this;try{navigator.clipboard.writeText(line).then(function(){b.textContent="Copied"})}catch(e){}};
+    $("pcpng").onclick=function(){badge(cap(co.name),co.lic,n,rank,first)};
+  }).catch(function(){});
+}
+function badge(name,lic,n,rank,first){
+  var c=$("pcbadge"),x=c.getContext("2d"),W=1080;
+  x.fillStyle="#0b0b09";x.fillRect(0,0,W,W);x.strokeStyle="rgba(242,239,233,.08)";
+  for(var i=0;i<=W;i+=54){x.beginPath();x.moveTo(i,0);x.lineTo(i,W);x.stroke();x.beginPath();x.moveTo(0,i);x.lineTo(W,i);x.stroke();}
+  x.strokeStyle="#c9a84c";x.lineWidth=6;x.strokeRect(40,40,W-80,W-80);
+  x.fillStyle="#8f8c84";x.font="700 30px 'Space Mono', monospace";x.fillText("MIAMI-DADE PUBLIC PERMIT RECORDS",90,140);
+  x.fillStyle="#f2efe9";x.font="900 64px 'Archivo', sans-serif";var words=name.toUpperCase().split(" "),l="",y=240;words.forEach(function(w){var t=l?l+" "+w:w;if(x.measureText(t).width>W-180&&l){x.fillText(l,90,y);y+=70;l=w}else l=t});if(l)x.fillText(l,90,y);
+  y=Math.max(y+170,470);
+  if(rank){x.fillStyle="#f0c36a";x.font="900 96px 'Archivo', sans-serif";x.fillText("TOP "+rank.pct+"%",90,y);x.fillStyle="#f2efe9";x.font="600 36px 'Instrument Sans', sans-serif";x.fillText("of Miami-Dade builders "+rank.by,90,y+56);y+=170;}
+  x.fillStyle="#f2efe9";x.font="900 90px 'Archivo', sans-serif";x.fillText(String(n),90,y);x.fillStyle="#8f8c84";x.font="700 28px 'Space Mono', monospace";x.fillText("PERMITTED JOBS SINCE "+monthYear(first).toUpperCase(),90,y+50);
+  x.font="400 26px 'Space Mono', monospace";x.fillText("Licence "+lic,90,W-130);x.fillText("Source: Miami-Dade County public permit records",90,W-90);
+  var a=document.createElement("a");a.download=name.replace(/[^A-Za-z0-9]+/g,"-")+"-record.png";a.href=c.toDataURL("image/png");document.body.appendChild(a);a.click();a.remove();
 }
 function run(q){
   q=(q||"").trim(); $("pcr").innerHTML="";
