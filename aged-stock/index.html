@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="See what Amazon's aged inventory surcharge will bill you month by month, and the bid per unit that beats keeping old FBA stock. Free.">
+<link rel="canonical" href="https://work.noumansadiq.com/aged-stock/">
+<meta property="og:title" content="Amazon Aged Inventory Cost Calculator 2026"><meta property="og:description" content="See what Amazon's aged inventory surcharge will bill you month by month, and the bid per unit that beats keeping old FBA stock. Free."><meta property="og:image" content="https://noumansadiq.com/assets/favicon-180.png">
+<title>Aged Stock Cost Clock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="https://noumansadiq.com/assets/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="https://noumansadiq.com/assets/favicon-180.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Sans:wght@400..700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Brand: copied from kit/brand/tokens.css + lockup.html (AGENTS.md M13). Never retype. */
+:root{
+  --canvas:#0b0b09; --canvas-raise:#131311; --canvas-high:#1a1a17; --canvas-line:#f2efe91f;
+  --ink:#f2efe9; --ink-dim:#8f8c84; --ink-faint:#7e7a72;
+  --gold:#c9a84c; --gold-hot:#f0c36a; --gold-dark:#a88835;
+  --critical:#c4634f; --warning:#d89a3c; --ok:#6fa36b;
+  --font-display:"Archivo", sans-serif; --font-text:"Instrument Sans", sans-serif; --font-data:"Space Mono", monospace;
+  --radius:2px; --ease-out:cubic-bezier(.16, 1, .3, 1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box;min-width:0}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--font-text);font-size:16px;line-height:1.6;overflow-x:clip}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.16;
+  background-image:linear-gradient(var(--canvas-line) 1px,transparent 1px),linear-gradient(90deg,var(--canvas-line) 1px,transparent 1px);
+  background-size:40px 40px}
+:where(h1,h2,h3,.display){font-family:var(--font-display);text-transform:uppercase;letter-spacing:-.02em;font-weight:850;font-stretch:125%;line-height:.92;margin:0}
+h1{font-size:clamp(2.1rem,6vw,3.6rem)} h2{font-size:clamp(1.35rem,3.6vw,2rem);margin:0 0 18px} h3{font-size:1.05rem;margin:0 0 8px;line-height:1.05}
+p{margin:0 0 14px} a{color:var(--gold)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+a.logo-link{display:inline-flex;align-items:center;gap:11px;border:0;text-decoration:none;color:inherit;border-radius:var(--radius);transition:opacity .18s ease;padding:9px;margin:-9px}
+a.logo-link:hover{opacity:.78}
+a.logo-link svg{pointer-events:none;width:32px;height:32px;display:block}
+.n-stroke{stroke:var(--ink)} .n-dot{fill:var(--gold)}
+a.logo-link:hover .n-stroke{stroke:var(--gold)}
+.logo-word{font-family:var(--font-data);text-transform:uppercase;font-weight:700;font-size:.6875rem;letter-spacing:.14em}
+header.top{border-bottom:1px solid var(--canvas-line);background:var(--canvas)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px}
+.label{font-family:var(--font-data);text-transform:uppercase;letter-spacing:.14em;font-size:.7rem;color:var(--ink-dim)}
+.hero{padding:52px 0 8px}.hero .label{display:block;margin-bottom:16px;color:var(--gold)}
+.lede{font-size:1.1rem;max-width:680px;margin-top:20px;color:var(--ink-dim)}
+.panel{background:var(--canvas-raise);border:1px solid var(--canvas-line);border-radius:var(--radius);padding:22px}
+label{font-family:var(--font-data);text-transform:uppercase;letter-spacing:.12em;font-size:.68rem;color:var(--ink-dim);display:block;margin:0 0 8px}
+input,select,textarea{width:100%;font:16px var(--font-text);min-height:46px;padding:10px 12px;border:1px solid var(--canvas-line);background:var(--canvas);color:var(--ink);border-radius:var(--radius)}
+button.gold,.btn-gold{font:700 .8rem var(--font-data);text-transform:uppercase;letter-spacing:.12em;min-height:46px;padding:0 20px;border:0;border-radius:var(--radius);background:var(--gold);color:var(--canvas);cursor:pointer}
+button.gold:hover{background:var(--gold-hot)}
+button.line{font:700 .8rem var(--font-data);text-transform:uppercase;letter-spacing:.12em;min-height:46px;padding:0 20px;border:1px solid var(--canvas-line);border-radius:var(--radius);background:transparent;color:var(--ink);cursor:pointer}
+button.line:hover{border-color:var(--gold);color:var(--gold)}
+.fine{font-size:.82rem;color:var(--ink-faint)}
+footer.foot{border-top:1px solid var(--canvas-line);margin-top:56px;padding:26px 0 40px}
+footer.foot .contact{font-family:var(--font-data);font-size:.75rem;letter-spacing:.06em;color:var(--ink-dim)}
+@media(prefers-reduced-motion:no-preference){.rise{animation:rise .5s var(--ease-out) both}@keyframes rise{from{opacity:0;transform:translateY(8px)}}}
+
+.tool{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:24px;margin-top:34px}
+@media(max-width:900px){.tool{grid-template-columns:minmax(0,1fr)}}
+form.panel{display:grid;gap:16px;align-content:start}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+label small{text-transform:none;letter-spacing:0;font-family:var(--font-text);color:var(--ink-faint)}
+.result{border-bottom:1px solid var(--canvas-line);padding-bottom:18px}
+.big{font-family:var(--font-display);font-weight:850;font-stretch:125%;font-size:clamp(3rem,9vw,5.2rem);line-height:.85;color:var(--critical);white-space:nowrap;margin-top:10px}
+.say{font-size:1.05rem;margin:14px 0 0;max-width:52ch;color:var(--ink-dim)}
+.say b{color:var(--gold);white-space:nowrap}
+.bars{display:grid;gap:10px;margin-top:22px}
+.bar{display:grid;grid-template-columns:64px minmax(0,1fr) 80px;gap:12px;align-items:center;font-family:var(--font-data);font-size:.78rem}
+.bar .t{height:26px;background:var(--canvas);border:1px solid var(--canvas-line);position:relative;border-radius:var(--radius);overflow:hidden}
+.bar .t i{position:absolute;inset:0 auto 0 0;background:var(--critical)}
+.bar .t i.s{background:var(--gold-dark)}
+.bar .v{text-align:right;white-space:nowrap}
+.key{font-family:var(--font-data);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim);display:flex;gap:18px;flex-wrap:wrap;margin-top:12px}
+.key span::before{content:"";display:inline-block;width:10px;height:10px;margin-right:7px;background:var(--gold-dark);vertical-align:-1px}
+.key span.r::before{background:var(--critical)}
+h2{margin-top:56px}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th{font-family:var(--font-data);text-transform:uppercase;letter-spacing:.12em;font-size:.68rem;color:var(--ink-dim);font-weight:400}
+th,td{padding:14px 10px;border-bottom:1px solid var(--canvas-line);text-align:left;vertical-align:top}
+td.n,th.n{text-align:right;white-space:nowrap;font-family:var(--font-data)}
+tr.best td{background:var(--canvas-raise)}
+tr.best td:first-child{box-shadow:inset 3px 0 0 var(--gold)}
+tr.best td.n{color:var(--gold)}
+td.d{color:var(--ink-dim);font-size:.88rem}
+.cta{display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin-top:24px;border:1px solid var(--gold);border-radius:var(--radius);padding:22px;background:var(--canvas-raise)}
+.cta .display{font-size:1.3rem;flex:0 0 auto}
+.cta p{margin:0;color:var(--ink-dim);font-size:.92rem;flex:1 1 300px}
+@media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:8em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;font-family:var(--font-data);font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-faint)}.stack td.n{text-align:start}tr.best td:first-child{box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo-link" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer" aria-label="Nouman Sadiq - noumansadiq.com (opens in a new tab)">
+  <svg viewBox="14 11 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <path class="n-stroke" d="M20 46 V18 L44 46 V18" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+    <circle class="n-dot" cx="47" cy="17" r="4"></circle>
+  </svg>
+  <span class="logo-word">Nouman Sadiq</span>
+</a>
+<span class="label">Aged Stock Cost Clock</span>
+</div></header>
+<main class="wrap">
+  <section class="hero rise">
+    <span class="label">Amazon FBA · aged inventory</span>
+    <h1>What is your old stock<br>really costing you?</h1>
+    <p class="lede">Enter one SKU from your Inventory Age report. See what Amazon bills you month by month if it sits, and the bid per unit that beats keeping it.</p>
+  </section>
+  <div class="tool">
+    <form class="panel" id="f">
+      <div class="two">
+        <div><label for="units">Units</label><input id="units" type="number" min="1" value="500" inputmode="numeric"></div>
+        <div><label for="cuft">Cu ft / unit</label><input id="cuft" type="number" min="0.001" step="0.001" value="0.12" inputmode="decimal"></div>
+      </div>
+      <div class="two">
+        <div><label for="age">Age today <small>days</small></label><input id="age" type="number" min="0" value="300" inputmode="numeric"></div>
+        <div><label for="months">Look ahead</label><select id="months"><option value="1">1 month</option><option value="2">2 months</option><option value="3" selected>3 months</option><option value="6">6 months</option></select></div>
+      </div>
+      <div><label for="size">Size and shipping weight</label>
+        <select id="size">
+          <option value="1.04">Standard, up to 0.5 lb</option>
+          <option value="1.53" selected>Standard, 0.5 to 1 lb</option>
+          <option value="2.27">Standard, 1 to 2 lb</option>
+          <option value="3.95">Standard, about 3 lb</option>
+          <option value="o">Oversize</option>
+        </select></div>
+      <div class="two">
+        <div><label for="rmv">Removal fee <small>$ / unit</small></label><input id="rmv" type="number" min="0" step="0.01" value="1.53" inputmode="decimal"></div>
+        <div><label for="sells">Sells <small>units / month</small></label><input id="sells" type="number" min="0" value="10" inputmode="numeric"></div>
+      </div>
+    </form>
+    <div class="panel">
+      <div class="result">
+        <span class="label">Amazon will bill you</span>
+        <div class="big" id="big">$0</div>
+        <p class="say" id="say"></p>
+      </div>
+      <div class="bars" id="bars"></div>
+      <div class="key"><span class="r">Aged surcharge</span><span>Monthly storage</span></div>
+    </div>
+  </div>
+  <h2>Your three ways out</h2>
+  <table class="stack">
+    <thead><tr><th>Option</th><th class="n">Cash to you</th><th>What happens</th></tr></thead>
+    <tbody id="opts"></tbody>
+  </table>
+  <div class="cta">
+    <div class="display">3 cash bids in 72 hours</div>
+    <p>Send us your lot sheet. We put it in front of bin stores, Whatnot sellers and wholesale buyers. The buyer pays you directly; you pay us 10% only if you accept a bid. Email your lot sheet to <a href="mailto:info@noumansadiq.com?subject=Aged%20stock%20bids">info@noumansadiq.com</a> or call +1 (463) 348-9031.</p>
+  </div>
+</main>
+<footer class="foot"><div class="wrap">
+<p class="contact"><a href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer">noumansadiq.com</a> · <a href="mailto:info@noumansadiq.com">info@noumansadiq.com</a> · Toofani LLC</p>
+<p class="fine">Rates: Amazon US aged inventory surcharge effective 16 Jan 2026 ($0.50 to $7.90 per cu ft by age, per-unit minimum after 365 days); storage $0.78/cu ft Jan–Sep and $2.40 Oct–Dec standard ($0.56 / $1.40 oversize); removal fees from Amazon’s FBA fee page. Apparel, shoes, bags, jewellery and watches are exempt. Amazon has announced storage changes from 1 Feb 2027; this clock updates when rates are published. Estimates only; your Fee Preview is final.</p>
+</div></footer>
+<script>
+{
+const $=s=>document.querySelector(s);
+const usd=n=>'$'+Math.round(n).toLocaleString('en-US');
+const usd2=n=>'$'+n.toFixed(2);
+const TIERS=[[181,0.5,0],[211,1,0],[241,1.5,0],[271,5.45,0],[301,5.7,0],[331,5.9,0],[366,6.9,0.30],[456,7.9,0.35]];
+const sur=(age,cu,units)=>{let t=null;for(const x of TIERS)if(age>=x[0])t=x;if(!t)return 0;return Math.max(t[1]*cu,t[2]*units)};
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function calc(){
+  const units=Math.max(0,+$('#units').value||0), cu=Math.max(0,+$('#cuft').value||0), age0=Math.max(0,+$('#age').value||0);
+  const months=+$('#months').value, sells=Math.max(0,+$('#sells').value||0), rmv=Math.max(0,+$('#rmv').value||0);
+  const over=$('#size').value==='o';
+  const rows=[]; let left=units, total=0; const d=new Date();
+  for(let m=0;m<months;m++){
+    const dt=new Date(d.getFullYear(),d.getMonth()+m+1,15), mo=dt.getMonth();
+    const base=over?(mo>=9?1.40:0.56):(mo>=9?2.40:0.78);
+    const age=age0+30*(m+1);
+    const st=base*cu*left, sc=sur(age,cu*left,left);
+    rows.push({lab:MON[mo]+' '+String(dt.getFullYear()).slice(2),st,sc,age}); total+=st+sc;
+    left=Math.max(0,left-sells);
+  }
+  const removeCost=units*rmv;
+  const perUnitKeep=units?total/units:0;
+  // a bid beats keeping when bid*0.9 - removal fee per unit >= -(keep cost per unit)  => bid >= (rmv - perUnitKeep)/0.9, floored at 0
+  const breakeven=Math.max(0,(rmv-perUnitKeep)/0.9);
+  $('#big').textContent=usd(total);
+  $('#say').innerHTML=`is what Amazon will bill to keep these ${units.toLocaleString('en-US')} units for ${months} more month${months>1?'s':''}, and you still own the stock. `+
+    (breakeven>0?`Any bid above <b>${usd2(breakeven)}</b> a unit leaves you better off than keeping it.`:`Even a <b>$0.01</b> bid beats keeping it: the storage bill is bigger than the removal fee.`);
+  const mx=Math.max(1,...rows.map(r=>r.st+r.sc));
+  $('#bars').innerHTML=rows.map(r=>`<div class="bar"><span>${r.lab}</span><span class="t"><i class="s" style="width:${(r.st+r.sc)/mx*100}%"></i><i style="width:${r.sc/mx*100}%"></i></span><span class="v">${usd(r.st+r.sc)}</span></div>`).join('');
+  const bidEx=Math.max(breakeven*1.5,0.5);
+  const opts=[
+    ['Keep it and wait',-total,`You pay ${usd(total)} in fees over ${months} month${months>1?'s':''} and still hold ${left.toLocaleString('en-US')} units.`],
+    ['Remove or dispose',-removeCost,`Amazon charges about ${usd2(rmv)} a unit. Removed stock still needs a home; disposed stock is gone.`],
+    [`Sell the lot at ${usd2(bidEx)} a unit (example)`,units*bidEx*0.9-removeCost,`Bid less our 10% fee, less removal to the buyer. Cash in about a week; storage stops.`]
+  ];
+  const best=opts.reduce((a,b,i)=>b[1]>opts[a][1]?i:a,0);
+  $('#opts').innerHTML=opts.map((o,i)=>`<tr class="${i===best?'best':''}"><td data-l="Option">${o[0]}</td><td class="n" data-l="Cash to you">${o[1]<0?'−'+usd(-o[1]):usd(o[1])}</td><td class="d" data-l="What happens">${o[2]}</td></tr>`).join('');
+}
+$('#size').onchange=()=>{const v=$('#size').value;$('#rmv').value=v==='o'?'8.42':v;calc()};
+$('#f').addEventListener('input',calc);
+$('#f').addEventListener('submit',e=>e.preventDefault());
+calc();
+}
+</script>
+</body>
+</html>

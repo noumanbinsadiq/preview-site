@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Paste your Children's Product Certificate or GCC and see, line by line, what the new CPSC eFiling rule (16 CFR 1110) will reject. Free.">
+<link rel="canonical" href="https://work.noumansadiq.com/cpc-check/">
+<meta property="og:title" content="Free CPSC Certificate Checker (CPC / GCC eFiling)"><meta property="og:description" content="Paste your Children's Product Certificate or GCC and see, line by line, what the new CPSC eFiling rule (16 CFR 1110) will reject. Free."><meta property="og:image" content="https://noumansadiq.com/assets/favicon-180.png">
+<title>Certificate Checker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="https://noumansadiq.com/assets/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="https://noumansadiq.com/assets/favicon-180.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Sans:wght@400..700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Brand: copied from kit/brand/tokens.css + lockup.html (AGENTS.md M13). Never retype. */
+:root{
+  --canvas:#0b0b09; --canvas-raise:#131311; --canvas-high:#1a1a17; --canvas-line:#f2efe91f;
+  --ink:#f2efe9; --ink-dim:#8f8c84; --ink-faint:#7e7a72;
+  --gold:#c9a84c; --gold-hot:#f0c36a; --gold-dark:#a88835;
+  --critical:#c4634f; --warning:#d89a3c; --ok:#6fa36b;
+  --font-display:"Archivo", sans-serif; --font-text:"Instrument Sans", sans-serif; --font-data:"Space Mono", monospace;
+  --radius:2px; --ease-out:cubic-bezier(.16, 1, .3, 1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box;min-width:0}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--font-text);font-size:16px;line-height:1.6;overflow-x:clip}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.16;
+  background-image:linear-gradient(var(--canvas-line) 1px,transparent 1px),linear-gradient(90deg,var(--canvas-line) 1px,transparent 1px);
+  background-size:40px 40px}
+:where(h1,h2,h3,.display){font-family:var(--font-display);text-transform:uppercase;letter-spacing:-.02em;font-weight:850;font-stretch:125%;line-height:.92;margin:0}
+h1{font-size:clamp(2.1rem,6vw,3.6rem)} h2{font-size:clamp(1.35rem,3.6vw,2rem);margin:0 0 18px} h3{font-size:1.05rem;margin:0 0 8px;line-height:1.05}
+p{margin:0 0 14px} a{color:var(--gold)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+a.logo-link{display:inline-flex;align-items:center;gap:11px;border:0;text-decoration:none;color:inherit;border-radius:var(--radius);transition:opacity .18s ease;padding:9px;margin:-9px}
+a.logo-link:hover{opacity:.78}
+a.logo-link svg{pointer-events:none;width:32px;height:32px;display:block}
+.n-stroke{stroke:var(--ink)} .n-dot{fill:var(--gold)}
+a.logo-link:hover .n-stroke{stroke:var(--gold)}
+.logo-word{font-family:var(--font-data);text-transform:uppercase;font-weight:700;font-size:.6875rem;letter-spacing:.14em}
+header.top{border-bottom:1px solid var(--canvas-line);background:var(--canvas)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px}
+.label{font-family:var(--font-data);text-transform:uppercase;letter-spacing:.14em;font-size:.7rem;color:var(--ink-dim)}
+.hero{padding:52px 0 8px}.hero .label{display:block;margin-bottom:16px;color:var(--gold)}
+.lede{font-size:1.1rem;max-width:680px;margin-top:20px;color:var(--ink-dim)}
+.panel{background:var(--canvas-raise);border:1px solid var(--canvas-line);border-radius:var(--radius);padding:22px}
+label{font-family:var(--font-data);text-transform:uppercase;letter-spacing:.12em;font-size:.68rem;color:var(--ink-dim);display:block;margin:0 0 8px}
+input,select,textarea{width:100%;font:16px var(--font-text);min-height:46px;padding:10px 12px;border:1px solid var(--canvas-line);background:var(--canvas);color:var(--ink);border-radius:var(--radius)}
+button.gold,.btn-gold{font:700 .8rem var(--font-data);text-transform:uppercase;letter-spacing:.12em;min-height:46px;padding:0 20px;border:0;border-radius:var(--radius);background:var(--gold);color:var(--canvas);cursor:pointer}
+button.gold:hover{background:var(--gold-hot)}
+button.line{font:700 .8rem var(--font-data);text-transform:uppercase;letter-spacing:.12em;min-height:46px;padding:0 20px;border:1px solid var(--canvas-line);border-radius:var(--radius);background:transparent;color:var(--ink);cursor:pointer}
+button.line:hover{border-color:var(--gold);color:var(--gold)}
+.fine{font-size:.82rem;color:var(--ink-faint)}
+footer.foot{border-top:1px solid var(--canvas-line);margin-top:56px;padding:26px 0 40px}
+footer.foot .contact{font-family:var(--font-data);font-size:.75rem;letter-spacing:.06em;color:var(--ink-dim)}
+@media(prefers-reduced-motion:no-preference){.rise{animation:rise .5s var(--ease-out) both}@keyframes rise{from{opacity:0;transform:translateY(8px)}}}
+
+.tool{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px;margin-top:34px}
+@media(max-width:900px){.tool{grid-template-columns:minmax(0,1fr)}}
+textarea{min-height:300px;resize:vertical;font-size:14px;line-height:1.5}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;align-items:center}
+.quiet{background:none;border:0;color:var(--ink-dim);font:inherit;text-decoration:underline;cursor:pointer;padding:8px 4px;min-height:44px}
+.quiet:hover{color:var(--gold)}
+.file{font-size:.9rem;color:var(--ink-dim);margin-top:12px}
+.file input{border:0;padding:0;min-height:0;background:none;font-size:.85rem}
+.note{font-size:.85rem;color:var(--ink-faint);margin:12px 0 0}
+.sheet{min-height:420px}
+.empty{display:grid;place-items:center;min-height:380px;text-align:center;color:var(--ink-faint)}
+.empty .display{font-size:1.4rem;color:var(--ink-dim);margin-bottom:10px}
+.verdict{display:flex;gap:18px;align-items:flex-end;border-bottom:1px solid var(--canvas-line);padding-bottom:18px;margin-bottom:6px}
+.score{font-family:var(--font-display);font-weight:850;font-stretch:125%;font-size:clamp(3rem,8vw,4.6rem);line-height:.85;color:var(--gold)}
+.score small{font-size:.4em;color:var(--ink-dim)}
+.verdict .display{font-size:1.25rem}
+.verdict p{margin:6px 0 0;color:var(--ink-dim);font-size:.9rem}
+.item{display:grid;grid-template-columns:30px minmax(0,1fr);gap:12px;padding:14px 0;border-bottom:1px solid var(--canvas-line)}
+.mark{font-family:var(--font-data);font-weight:700;width:26px;height:26px;display:grid;place-items:center;border-radius:var(--radius);font-size:.8rem}
+.g{color:var(--ok);border:1px solid var(--ok)}.a{color:var(--warning);border:1px solid var(--warning)}.r{color:var(--canvas);background:var(--critical)}
+.item b{display:block;font-weight:600}
+.item p{margin:3px 0 0;font-size:.88rem;color:var(--ink-dim)}
+.offers{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:22px}
+.offer{border:1px solid var(--canvas-line);border-radius:var(--radius);padding:18px;background:var(--canvas)}
+.offer.main{border-color:var(--gold)}
+.price{font-family:var(--font-display);font-weight:850;font-stretch:125%;font-size:2rem;line-height:1;color:var(--ink)}
+.price small{font-family:var(--font-data);font-size:.7rem;color:var(--ink-dim);font-weight:400;letter-spacing:.08em}
+.offer .label{display:block;margin:10px 0 6px;color:var(--gold)}
+.offer p{font-size:.88rem;color:var(--ink-dim);margin:0}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;margin-top:56px;border-top:1px solid var(--canvas-line)}
+.facts div{padding:22px 22px 22px 0;border-right:1px solid var(--canvas-line)}
+.facts div:last-child{border-right:0}
+.facts .num{font-family:var(--font-data);color:var(--gold);font-size:.75rem;letter-spacing:.12em}
+.facts b{display:block;font-family:var(--font-display);text-transform:uppercase;font-weight:800;font-stretch:115%;font-size:1rem;line-height:1.05;margin:8px 0 6px}
+.facts p{font-size:.88rem;color:var(--ink-dim);margin:0}
+@media(max-width:600px){.facts div{border-right:0;border-bottom:1px solid var(--canvas-line);padding-right:0}}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo-link" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer" aria-label="Nouman Sadiq - noumansadiq.com (opens in a new tab)">
+  <svg viewBox="14 11 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <path class="n-stroke" d="M20 46 V18 L44 46 V18" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+    <circle class="n-dot" cx="47" cy="17" r="4"></circle>
+  </svg>
+  <span class="logo-word">Nouman Sadiq</span>
+</a>
+<span class="label">Certificate Checker</span>
+</div></header>
+<main class="wrap">
+  <section class="hero rise">
+    <span class="label">CPSC eFiling · enforced since 8 Jul 2026</span>
+    <h1>Will your certificate<br>clear customs?</h1>
+    <p class="lede">Paste or upload your CPC or GCC. We check every line against 16 CFR 1110.11, the rule your broker now files with Customs. Free. Nothing is stored.</p>
+  </section>
+
+  <div class="tool">
+    <div class="panel">
+      <label for="cert">Your certificate</label>
+      <textarea id="cert" placeholder="Paste the full certificate text here"></textarea>
+      <div class="file"><label for="pdf" style="display:inline;margin-right:8px">or upload a PDF</label><input type="file" id="pdf" accept="application/pdf"></div>
+      <div class="row">
+        <button class="gold" id="go">Check my certificate</button>
+        <button class="quiet" id="sample">Try a sample</button>
+      </div>
+      <p class="note" id="status">Scanned PDFs (photos) can't be read. Paste the text instead.</p>
+    </div>
+    <div class="panel sheet" id="sheet" aria-live="polite">
+      <div class="empty"><div><div class="display">Your report appears here</div><p>Every required line, marked pass, fix or missing.</p></div></div>
+    </div>
+  </div>
+
+  <div class="facts">
+    <div><span class="num">01</span><b>Email on four lines</b><p>Certifier, records keeper, factory and every lab now need an email. Most pre-2025 certificates have none.</p></div>
+    <div><span class="num">02</span><b>One product per certificate</b><p>A single certificate covering a whole range of models no longer passes.</p></div>
+    <div><span class="num">03</span><b>A real product ID</b><p>GTIN, UPC, SKU, model or serial number, plus a description that matches the item.</p></div>
+    <div><span class="num">04</span><b>FTZ goods: 8 Jan 2027</b><p>Goods leaving a Foreign Trade Zone need the same filed data. Mail and de minimis shipments too.</p></div>
+  </div>
+</main>
+<footer class="foot"><div class="wrap">
+<p class="contact"><a href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer">noumansadiq.com</a> · <a href="mailto:info@noumansadiq.com">info@noumansadiq.com</a> · Toofani LLC</p>
+<p class="fine">Based on 16 CFR 1110.11 and 1110.13 (90 FR 1800, 8 Jan 2025). Checks content, not test results. Not legal advice. Confirm your lab at <a href="https://www.cpsc.gov/labsearch" target="_blank" rel="noopener noreferrer">cpsc.gov/labsearch</a>.</p>
+</div></footer>
+<script>
+{
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const SAMPLE=`CHILDREN'S PRODUCT CERTIFICATE
+Product: Plush teddy bear, 12 inch, brown. Models TB-12-BR, TB-12-WH, TB-16-BR
+Applicable rules: ASTM F963-23 (16 CFR 1250); CPSIA Section 101 lead content; 16 CFR 1303 lead in paint; CPSIA Section 108 phthalates (16 CFR 1307)
+Importer: Sunny Cubs LLC, 400 Commerce Dr, Dover, DE 19901, USA. Tel +1 302 555 0142
+Records kept by: Compliance Manager, Sunny Cubs LLC, 400 Commerce Dr, Dover, DE 19901. Tel +1 302 555 0142
+Manufactured: March 2026, Yangzhou Toy Co., Yangzhou, Jiangsu, China
+Tested: 12 February 2026, ABC Testing Labs (Shenzhen) Co., Ltd., Shenzhen, China. Tel +86 755 0000 0000`;
+
+const CHILD=/ASTM\s*F\s*963|1250|Section\s*101|Section\s*108|1307|\b1501\b|\b12[12]\d\b|\b123\d\b|\b124\d\b|children'?s product/i;
+const RULE=/16\s*C\.?F\.?R\.?\s*(part\s*)?\d{3,4}|ASTM\s*F\s*\d{3,4}|CPSIA|Section\s*10[1-8]|FHSA|ANSI\s*Z\d+|UL\s*\d{3,4}/gi;
+const EMAIL=/[\w.+-]+@[\w-]+\.[\w.]+/g;
+const PHONE=/(\+?\d[\d\s().-]{7,}\d)/g;
+const DATE=/(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s*,?\s*(\d{1,2},?\s*)?20\d\d|\b\d{1,2}[\/.-]\d{1,2}[\/.-]20\d\d|\b20\d\d[\/.-]\d{1,2}([\/.-]\d{1,2})?|\b(0?[1-9]|1[0-2])\/20\d\d/gi;
+const ID=/\b(GTIN|UPC|EAN|SKUs?|models?|item\s*(no|number|#)|serial|style\s*(no|#)|part\s*(no|#)|ASIN)\b|\b\d{12,14}\b/i;
+const near=(t,re,win=260)=>{const m=t.search(re);return m<0?'':t.slice(m,m+win)};
+
+function check(t){
+  const L=t.toLowerCase(), out=[];
+  const isCPC=/children'?s product certificate|\bCPC\b/i.test(t), isGCC=/general certificate|\bGCC\b/i.test(t);
+  const childRules=CHILD.test(t);
+  const rules=[...new Set((t.match(RULE)||[]).map(s=>s.replace(/\s+/g,' ').trim()))];
+  const emails=t.match(EMAIL)||[], phones=t.match(PHONE)||[];
+  const ids=(t.match(/\b(models?|skus?|item\s*(no|number|#)?)\b[:#\s]*[^\n;]{0,80}/gi)||[]).map(s=>s.split(/rules?|applicable|importer|tested|manufactur/i)[0]).join(' ');
+  const codes=[...new Set((ids.match(/\b[A-Z]{1,5}-?\d{1,5}(-[\w]+)*\b/g)||[]).filter(c=>!/^F\d/.test(c)))];
+  const manyModels=codes.length>1 || new Set(t.match(/\b\d{12,14}\b/g)||[]).size>1;
+
+  // 1 type
+  if(childRules && isGCC && !isCPC) out.push(['r','Wrong certificate type','The rules you cite are for children\'s products, so this needs a Children\'s Product Certificate based on a CPSC-accepted lab, not a GCC.']);
+  else if(!isCPC && !isGCC) out.push(['a','Certificate type not stated','Say clearly whether this is a Children\'s Product Certificate (CPC) or a General Certificate of Conformity (GCC).']);
+  else out.push(['g',isCPC?'Children\'s Product Certificate':'General Certificate of Conformity','Type is stated.']);
+
+  // 2 product id
+  if(!ID.test(t)) out.push(['r','No unique product ID','Add at least one of: GTIN, UPC, SKU, model, serial or registered number, plus a description that matches the item. §1110.11(a)(1)']);
+  else if(manyModels) out.push(['r','More than one product on one certificate','The new rule says each certificate describes only one product. Split this into one certificate per model or GTIN. §1110.13(a)']);
+  else out.push(['g','Product ID present','A unique identifier and description were found.']);
+
+  // 3 rules
+  if(!rules.length) out.push(['r','No safety rules cited','List each rule separately (for example 16 CFR 1303, ASTM F963). §1110.11(a)(2)']);
+  else out.push(['g',`${rules.length} rule${rules.length>1?'s':''} cited`,rules.slice(0,6).join(' · ')+(rules.length>6?' …':'')]);
+
+  // 4 certifier
+  const cert=near(t,/importer|certif(ier|ying)|manufacturer\/importer|issued by/i,300);
+  if(!cert) out.push(['r','Certifier not identified','Name the US importer (or domestic maker) with street, city, state, country, email and phone. §1110.11(a)(3)']);
+  else if(!EMAIL.test(cert)) {EMAIL.lastIndex=0;out.push(['r','Certifier has no email','The new rule adds email to the certifier\'s details. Old-format certificates miss this most often. §1110.11(a)(3)'])}
+  else out.push(['g','Certifier identified','Name, address and email found.']);
+  EMAIL.lastIndex=0;
+
+  // 5 records
+  const rec=near(t,/record/i,300);
+  if(!rec) out.push(['r','No records contact','Name the person (or always-staffed position) who keeps the test records, with full address, email and phone. §1110.11(a)(4)']);
+  else if(!EMAIL.test(rec)){out.push(['r','Records contact has no email','Add an email for the records keeper. §1110.11(a)(4)'])}
+  else out.push(['g','Records contact present','Found with email.']);
+  EMAIL.lastIndex=0;
+
+  // 6 manufacture
+  const man=near(t,/manufactur|produced|assembled|factory/i,320);
+  const manDate=man && DATE.test(man); DATE.lastIndex=0;
+  const manEmail=man && EMAIL.test(man); EMAIL.lastIndex=0;
+  if(!man||!manDate) out.push(['r','Date of manufacture missing','Give at least the month and year (the first month for a long run). §1110.11(a)(5)']);
+  else if(!manEmail) out.push(['a','Factory details incomplete','The new rule wants the factory\'s name, street address, email and phone, not just the city. §1110.11(a)(5)']);
+  else out.push(['g','Date and place of manufacture','Month/year and factory details found.']);
+
+  // 7 testing
+  const tst=near(t,/test(ed|ing)?\b|laborator|\blab\b/i,320);
+  const tDate=tst && DATE.test(tst); DATE.lastIndex=0;
+  const tEmail=tst && EMAIL.test(tst); EMAIL.lastIndex=0;
+  const exempt=/exempt|exclusion|determination|small batch/i.test(t);
+  if(isCPC && !/laborator|\blab\b|testing/i.test(t) && !exempt) out.push(['r','No CPSC-accepted lab named','A CPC must name the third-party lab that tested it, or the exemption claimed. §1110.11(a)(6)']);
+  else if(!tst||!tDate) out.push(['r','Test date missing','Give the most recent test date and place for each rule. §1110.11(a)(6)']);
+  else if(!tEmail) out.push(['a','Lab details incomplete','Each lab now needs street address, email and phone listed. Check it is CPSC-accepted for these rules at cpsc.gov/labsearch.']);
+  else out.push(['g','Testing date and lab','Found. Still confirm the lab\'s CPSC acceptance covers every rule cited.']);
+
+  // 8 attestation
+  if(!/federal crime|true and accurate|hereby certify/i.test(t)) out.push(['a','No attestation line','Paper and PDF certificates must carry the new attestation sentence (for eFiled data it sits in the filing). §1110.11(a)(7)']);
+  else out.push(['g','Attestation present','Found.']);
+
+  // 9 english
+  if(/[一-鿿]/.test(t) && !/[a-z]{4,}/i.test(t)) out.push(['r','Not in English','Certificates must be in English.']);
+
+  return out;
+}
+
+function render(res){
+  const r=res.filter(x=>x[0]==='r').length, a=res.filter(x=>x[0]==='a').length, g=res.filter(x=>x[0]==='g').length;
+  const v=r?['Likely rejected',`${r} required item${r>1?'s':''} missing`]:a?['Needs fixing',`${a} item${a>1?'s':''} to tidy`]:['Looks complete','Every required line found'];
+  const sym={g:'✓',a:'!',r:'×'};
+  $('#sheet').innerHTML=`
+    <div class="verdict"><div class="score">${g}<small>/${res.length}</small></div><div><div class="display">${esc(v[0])}</div><p>${esc(v[1])}</p></div></div>
+    ${res.map(x=>`<div class="item"><span class="mark ${x[0]}">${sym[x[0]]}</span><div><b>${esc(x[1])}</b><p>${esc(x[2])}</p></div></div>`).join('')}
+    <div class="offers">
+      <div class="offer"><div class="price">$49</div><span class="label">Fix-it kit</span><p>Corrected certificate template, the eFiling data map your broker needs, and a fix for every red line.</p></div>
+      <div class="offer main"><div class="price">$149<small> / PRODUCT</small></div><span class="label">We fix it for you</span><p>Send your test reports. We rebuild the certificate and filing data in 48 hours.</p></div>
+    </div>
+    <p class="note">To order, email <a href="mailto:info@noumansadiq.com?subject=Certificate%20fix">info@noumansadiq.com</a> with your certificate and test report, or call +1 (463) 348-9031. We never write a certificate without a real lab test behind it.</p>`;
+}
+$('#go').onclick=()=>{const t=$('#cert').value.trim(); if(!t){$('#status').textContent='Paste your certificate first.';return} render(check(t)); if(innerWidth<900)$('#sheet').scrollIntoView({behavior:'smooth'}) /* scroll-safe */};
+$('#sample').onclick=()=>{$('#cert').value=SAMPLE; $('#status').textContent='Sample certificate loaded (made up for this demo).'; render(check(SAMPLE))};
+$('#pdf').onchange=async e=>{
+  const f=e.target.files[0]; if(!f) return;
+  try{
+    $('#status').textContent='Reading PDF…';
+    const lib=window.pdfjsLib; if(!lib) throw new Error('no pdf');
+    const doc=await lib.getDocument({data:await f.arrayBuffer()}).promise; let txt='';
+    for(let i=1;i<=Math.min(doc.numPages,10);i++){const p=await doc.getPage(i);const c=await p.getTextContent();txt+=c.items.map(x=>x.str+(x.hasEOL?'\n':' ')).join('')+'\n'}
+    if(txt.trim().length<40){$('#status').textContent='This PDF looks scanned (no text). Paste the text instead.';return}
+    $('#cert').value=txt.trim(); $('#status').textContent=`Read ${doc.numPages} page${doc.numPages>1?'s':''}.`; render(check(txt));
+  }catch(err){$('#status').textContent='Could not read this PDF. Paste the text instead.'}
+};
+}
+</script>
+</body>
+</html>
