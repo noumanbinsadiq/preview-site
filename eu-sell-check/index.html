@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Sell on Amazon, Etsy or eBay into Germany, France or Italy from the UK, US, Pakistan or China? Tick what you have and see, item by item, what blocks your listings. Free.">
+<link rel="canonical" href="https://work.noumansadiq.com/eu-sell-check/">
+<meta property="og:type" content="website"><meta property="og:url" content="https://work.noumansadiq.com/eu-sell-check/"><meta property="og:title" content="EU Sell Check: can I still sell in Germany, France or Italy?"><meta property="og:description" content="Sell on Amazon, Etsy or eBay into Germany, France or Italy from the UK, US, Pakistan or China? Tick what you have and see, item by item, what blocks your listings. Free."><meta property="og:image" content="https://noumansadiq.com/assets/favicon-180.png">
+<title>EU Sell Check: can I still sell in Germany, France or Italy?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="https://noumansadiq.com/assets/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="https://noumansadiq.com/assets/favicon-180.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Sans:wght@400..700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Brand: copied from kit/brand/tokens.css + lockup.html (AGENTS.md M13). Never retype. */
+:root{
+  --canvas:#0b0b09; --canvas-raise:#131311; --canvas-high:#1a1a17; --canvas-line:#f2efe91f;
+  --ink:#f2efe9; --ink-dim:#8f8c84; --ink-faint:#7e7a72;
+  --gold:#c9a84c; --gold-hot:#f0c36a; --gold-dark:#a88835;
+  --critical:#c4634f; --warning:#d89a3c; --ok:#6fa36b;
+  --font-display:"Archivo", sans-serif; --font-text:"Instrument Sans", sans-serif; --font-data:"Space Mono", monospace;
+  --radius:2px; --ease-out:cubic-bezier(.16, 1, .3, 1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box;min-width:0}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--font-text);font-size:16px;line-height:1.6;overflow-x:clip}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.16;
+  background-image:linear-gradient(var(--canvas-line) 1px,transparent 1px),linear-gradient(90deg,var(--canvas-line) 1px,transparent 1px);
+  background-size:40px 40px}
+:where(h1,h2,h3,.display){font-family:var(--font-display);text-transform:uppercase;letter-spacing:-.02em;font-weight:850;font-stretch:125%;line-height:.92;margin:0}
+h1{font-size:clamp(2.1rem,6vw,3.6rem)} h2{font-size:clamp(1.35rem,3.6vw,2rem);margin:0 0 18px} h3{font-size:1.05rem;margin:0 0 8px;line-height:1.05}
+p{margin:0 0 14px} a{color:var(--gold)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+a.logo-link{display:inline-flex;align-items:center;gap:11px;border:0;text-decoration:none;color:inherit;border-radius:var(--radius);transition:opacity .18s ease;padding:9px;margin:-9px}
+a.logo-link:hover{opacity:.78}
+a.logo-link svg{pointer-events:none;width:32px;height:32px;display:block}
+.n-stroke{stroke:var(--ink)} .n-dot{fill:var(--gold)}
+a.logo-link:hover .n-stroke{stroke:var(--gold)}
+.logo-word{font-family:var(--font-data);text-transform:uppercase;font-weight:700;font-size:.6875rem;letter-spacing:.14em}
+header.top{border-bottom:1px solid var(--canvas-line);background:var(--canvas)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px}
+.label{font-family:var(--font-data);text-transform:uppercase;letter-spacing:.14em;font-size:.7rem;color:var(--ink-dim)}
+.hero{padding:52px 0 8px}.hero .label{display:block;margin-bottom:16px;color:var(--gold)}
+.lede{font-size:1.1rem;max-width:680px;margin-top:20px;color:var(--ink-dim)}
+.panel{background:var(--canvas-raise);border:1px solid var(--canvas-line);border-radius:var(--radius);padding:22px}
+label{font-family:var(--font-data);text-transform:uppercase;letter-spacing:.12em;font-size:.68rem;color:var(--ink-dim);display:block;margin:0 0 8px}
+input,select,textarea{width:100%;font:16px var(--font-text);min-height:46px;padding:10px 12px;border:1px solid var(--canvas-line);background:var(--canvas);color:var(--ink);border-radius:var(--radius)}
+button.gold,.btn-gold{font:700 .8rem var(--font-data);text-transform:uppercase;letter-spacing:.12em;min-height:46px;padding:0 20px;border:0;border-radius:var(--radius);background:var(--gold);color:var(--canvas);cursor:pointer}
+button.gold:hover{background:var(--gold-hot)}
+button.line{font:700 .8rem var(--font-data);text-transform:uppercase;letter-spacing:.12em;min-height:46px;padding:0 20px;border:1px solid var(--canvas-line);border-radius:var(--radius);background:transparent;color:var(--ink);cursor:pointer}
+button.line:hover{border-color:var(--gold);color:var(--gold)}
+.fine{font-size:.82rem;color:var(--ink-faint)}
+footer.foot{border-top:1px solid var(--canvas-line);margin-top:56px;padding:26px 0 40px}
+footer.foot .contact{font-family:var(--font-data);font-size:.75rem;letter-spacing:.06em;color:var(--ink-dim)}
+@media(prefers-reduced-motion:no-preference){.rise{animation:rise .5s var(--ease-out) both}@keyframes rise{from{opacity:0;transform:translateY(8px)}}}
+
+.tool{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px;margin-top:34px}
+@media(max-width:900px){.tool{grid-template-columns:minmax(0,1fr)}}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;align-items:center}
+.quiet{background:none;border:0;color:var(--ink-dim);font:inherit;text-decoration:underline;cursor:pointer;padding:8px 4px;min-height:44px}
+.quiet:hover{color:var(--gold)}
+.note{font-size:.85rem;color:var(--ink-faint);margin:12px 0 0}
+.sheet{min-height:420px}
+.empty{display:grid;place-items:center;min-height:380px;text-align:center;color:var(--ink-faint)}
+.empty .display{font-size:1.4rem;color:var(--ink-dim);margin-bottom:10px}
+.verdict{display:flex;gap:18px;align-items:flex-end;border-bottom:1px solid var(--canvas-line);padding-bottom:18px;margin-bottom:6px}
+.score{font-family:var(--font-display);font-weight:850;font-stretch:125%;font-size:clamp(3rem,8vw,4.6rem);line-height:.85;color:var(--gold)}
+.score small{font-size:.4em;color:var(--ink-dim)}
+.verdict .display{font-size:1.25rem}
+.verdict p{margin:6px 0 0;color:var(--ink-dim);font-size:.9rem}
+.item{display:grid;grid-template-columns:30px minmax(0,1fr);gap:12px;padding:14px 0;border-bottom:1px solid var(--canvas-line)}
+.mark{font-family:var(--font-data);font-weight:700;width:26px;height:26px;display:grid;place-items:center;border-radius:var(--radius);font-size:.8rem}
+.g{color:var(--ok);border:1px solid var(--ok)}.a{color:var(--warning);border:1px solid var(--warning)}.r{color:var(--canvas);background:var(--critical)}
+.item b{display:block;font-weight:600}
+.item p{margin:3px 0 0;font-size:.88rem;color:var(--ink-dim)}
+.item .tag{font-family:var(--font-data);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-right:6px}
+.item .fine-line{color:var(--ink);font-size:.85rem}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;margin-top:56px;border-top:1px solid var(--canvas-line)}
+.facts div{padding:22px 22px 22px 0;border-right:1px solid var(--canvas-line)}
+.facts div:last-child{border-right:0}
+.facts .num{font-family:var(--font-data);color:var(--gold);font-size:.75rem;letter-spacing:.12em}
+.facts b{display:block;font-family:var(--font-display);text-transform:uppercase;font-weight:800;font-stretch:115%;font-size:1rem;line-height:1.05;margin:8px 0 6px}
+.facts p{font-size:.88rem;color:var(--ink-dim);margin:0}
+@media(max-width:600px){.facts div{border-right:0;border-bottom:1px solid var(--canvas-line);padding-right:0}}
+fieldset{border:0;margin:0 0 20px;padding:0}
+legend{font-family:var(--font-data);text-transform:uppercase;letter-spacing:.12em;font-size:.68rem;color:var(--ink-dim);padding:0;margin:0 0 8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;border:1px solid var(--canvas-line);border-radius:var(--radius);background:var(--canvas);cursor:pointer;font-size:.92rem;text-transform:none;letter-spacing:0;font-family:var(--font-text);color:var(--ink);margin:0}
+.chip input{position:absolute;opacity:0;width:1px;height:1px;min-height:0;padding:0}
+.chip:has(input:checked){border-color:var(--gold);color:var(--gold);background:#c9a84c14}
+.chip:has(input:focus-visible){outline:2px solid var(--gold);outline-offset:3px}
+.have{display:grid;gap:6px}
+.have .chip{display:flex;width:100%;align-items:flex-start}
+.have .chip::before{content:"";flex:none;width:16px;height:16px;margin-top:4px;border:1px solid var(--ink-dim);border-radius:var(--radius)}
+.have .chip:has(input:checked)::before{background:var(--gold);border-color:var(--gold)}
+.have .chip small{display:block;color:var(--ink-faint);font-size:.78rem}
+.have .grp{font-family:var(--font-data);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:10px 0 2px}
+.cta{margin-top:24px;padding:20px;border:1px solid var(--gold);border-radius:var(--radius);background:var(--canvas)}
+.cta .btn-gold{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;width:100%;max-width:360px}
+.cta p{font-size:.88rem;color:var(--ink-dim);margin:12px 0 0}
+.cta .call{font-family:var(--font-data);color:var(--ink);font-size:.82rem;letter-spacing:.04em}
+footer.foot ol{font-size:.8rem;color:var(--ink-faint);padding-left:18px;margin:0 0 12px}
+footer.foot ol li{margin:0 0 4px;overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo-link" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer" aria-label="Nouman Sadiq - noumansadiq.com (opens in a new tab)">
+  <svg viewBox="14 11 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <path class="n-stroke" d="M20 46 V18 L44 46 V18" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+    <circle class="n-dot" cx="47" cy="17" r="4"></circle>
+  </svg>
+  <span class="logo-word">Nouman Sadiq</span>
+</a>
+<span class="label">EU Sell Check</span>
+</div></header>
+
+<main class="wrap">
+  <section class="hero rise">
+    <span class="label">EU packaging rule · authorised representative since 12 Aug 2026</span>
+    <h1>Can you still sell<br>in Germany, France<br>or Italy?</h1>
+    <p class="lede">For Amazon, Etsy and eBay sellers based outside the EU. Tick where you sell, what you sell and what you already have. You get a red, amber or green line for each requirement and what happens if it is missing. Free. Nothing leaves your browser.</p>
+  </section>
+
+  <div class="tool">
+    <div class="panel">
+      <fieldset>
+        <legend>1 · Where you sell</legend>
+        <div class="chips" id="countries">
+          <label class="chip"><input type="checkbox" value="DE" checked>Germany</label>
+          <label class="chip"><input type="checkbox" value="FR">France</label>
+          <label class="chip"><input type="checkbox" value="IT">Italy</label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>2 · What you sell</legend>
+        <div class="chips" id="cats">
+          <label class="chip"><input type="checkbox" value="pack" checked>Packaged goods</label>
+          <label class="chip"><input type="checkbox" value="eee">Electronics</label>
+          <label class="chip"><input type="checkbox" value="batt">Batteries (or items with them)</label>
+          <label class="chip"><input type="checkbox" value="tex">Clothing, shoes, textiles</label>
+          <label class="chip"><input type="checkbox" value="toy">Toys</label>
+        </div>
+        <p class="note">Anything you ship in a box, bag or mailer counts as packaged goods.</p>
+      </fieldset>
+      <fieldset>
+        <legend>3 · What you already have</legend>
+        <div class="have" id="have"></div>
+      </fieldset>
+      <div class="row">
+        <button class="line" id="go">Check me</button>
+        <button class="quiet" id="none">Clear all I have</button>
+      </div>
+    </div>
+    <div class="panel sheet" id="sheet" aria-live="polite">
+      <div class="empty"><div><div class="display">Your result appears here</div><p>Every requirement, marked ready, fix or missing.</p></div></div>
+    </div>
+  </div>
+
+  <div class="facts">
+    <div><span class="num">01</span><b>One EU rep per country</b><p>From 12 Aug 2026, a seller shipping packaged goods direct to end users in an EU country where it is not established needs an EPR authorised representative there, by written mandate. No small-volume exemption.<sup>1</sup></p></div>
+    <div><span class="num">02</span><b>Marketplaces check first</b><p>Online platforms must get your EPR registration before letting you sell, and German marketplaces may only list you if you are in LUCID and a packaging system.<sup>1,3</sup></p></div>
+    <div><span class="num">03</span><b>GPSR on every listing</b><p>Since 13 Dec 2024 a non-EU maker needs an EU-based responsible person, named with postal and email address on the listing.<sup>5,6</sup></p></div>
+    <div><span class="num">04</span><b>Germany: up to €200,000</b><p>Up to €100,000 for no LUCID registration, up to €200,000 for no packaging system, and a sales ban.<sup>2,3</sup></p></div>
+  </div>
+</main>
+
+<footer class="foot"><div class="wrap">
+<p class="contact"><a href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer">noumansadiq.com</a> · <a href="mailto:info@noumansadiq.com">info@noumansadiq.com</a> · Toofani LLC</p>
+<p class="fine">Checked 26 Nov 2026. A guide, not legal advice. Fines are the maximums set in law; the amount depends on the case. The authorised representative must be a partner established in that EU country; we coordinate it, we are not the AR.</p>
+<ol>
+<li>Article 45(3)-(8), Regulation (EU) 2025/40 (PPWR), as summarised by Expando: <a href="https://www.expan.do/post/authorised-representative-epr-obligation-from-12-august-2026" target="_blank" rel="noopener noreferrer">expan.do</a></li>
+<li>Stiftung Zentrale Stelle Verpackungsregister, FAQ 414 and 710: <a href="https://www.verpackungsregister.org/information-orientierung/hilfe-erklaerung/faq-index/detail/414-was-passiert-wenn-man-sich-nicht-registriert" target="_blank" rel="noopener noreferrer">no registration</a> · <a href="https://www.verpackungsregister.org/information-orientierung/hilfe-erklaerung/faq-index/detail/710-was-passiert-wenn-man-sich-nicht-an-einem-system-beteiligt" target="_blank" rel="noopener noreferrer">no system</a></li>
+<li>Verpackungsregister, marketplace duties from 1 Jul 2022: <a href="https://www.verpackungsregister.org/en/foundation-authority/press-media-section/newsdetail/legal-amendments-effective-1-july-2022" target="_blank" rel="noopener noreferrer">verpackungsregister.org</a></li>
+<li>ADEME, Unique Identification Number and FAQ (France EPR): <a href="https://filieres-rep.ademe.fr/en/identifiant-unique" target="_blank" rel="noopener noreferrer">UIN</a> · <a href="https://filieres-rep.ademe.fr/en/faq" target="_blank" rel="noopener noreferrer">FAQ</a></li>
+<li>GOV.UK factsheet on EU Regulation 2023/988 (GPSR): <a href="https://www.gov.uk/government/publications/general-product-safety-regulations-northern-ireland/eu-regulation-2023988-on-general-product-safety-factsheet" target="_blank" rel="noopener noreferrer">gov.uk</a></li>
+<li>CMS, the new EU General Product Safety Regulation: <a href="https://cms.law/en/gbr/legal-updates/the-new-eu-general-product-safety-regulation-what-you-need-to-know" target="_blank" rel="noopener noreferrer">cms.law</a></li>
+<li>Umweltbundesamt, Elektro- und Elektronikgerätegesetz: <a href="https://www.umweltbundesamt.de/themen/abfall-ressourcen/produktverantwortung-in-der-abfallwirtschaft/elektroaltgeraete/elektro-elektronikgeraetegesetz" target="_blank" rel="noopener noreferrer">umweltbundesamt.de</a></li>
+<li>eBay, EU Batteries Regulation for sellers: <a href="https://www.ebay.com/sellercenter/resources/epr-batteries" target="_blank" rel="noopener noreferrer">ebay.com</a></li>
+</ol>
+</div></footer>
+
+<script>
+{
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const NAME={DE:'Germany',FR:'France',IT:'Italy',EU:'All EU'};
+/* Each requirement: id, country, which product types trigger it, label, hint, consequence if missing, verified fine (or ''), severity if missing, source number. */
+const REQ=[
+ {id:'gpsr_rp',c:'EU',on:'any',t:'EU responsible person (GPSR)',h:'An EU-based operator, with name, postal and email address on the product, packaging or an accompanying document',x:'Without an EU-established responsible person a non-EU product cannot be placed on the EU market. Marketplaces ask for it and can stop the listing.',f:'Authorities can fine and order recalls.',s:'r',src:'5,6'},
+ {id:'gpsr_list',c:'EU',on:'any',t:'GPSR details shown on each listing',h:'Maker name and addresses, EU responsible person, product picture, type and identifiers, warnings',x:'Article 19 requires these on every online offer. A listing without them is not compliant.',f:'',s:'r',src:'6'},
+ {id:'gpsr_label',c:'EU',on:'any',t:'Product ID and safety information on the product',h:'Type, batch or serial number, plus warnings and safety information',x:'The product must be identifiable, and its safety information must travel with it.',f:'',s:'a',src:'5,6'},
+ {id:'de_lucid',c:'DE',on:'pack',t:'LUCID registration',h:'Germany packaging register (Verpackungsregister)',x:'German marketplaces may only offer your goods if you are registered. Unregistered goods are under a sales ban.',f:'Fine up to €100,000, plus profit confiscation.',s:'r',src:'2,3'},
+ {id:'de_sys',c:'DE',on:'pack',t:'Packaging licensed with a German system',h:'Dual system participation (e.g. a licence for your packaging)',x:'Marketplaces must also check system participation before listing you. Sales ban applies.',f:'Fine up to €200,000.',s:'r',src:'2,3'},
+ {id:'de_ar',c:'DE',on:'pack',t:'German EPR authorised representative',h:'Bevollmächtigter established in Germany, written mandate',x:'Required from 12 Aug 2026 for sellers not established in Germany selling direct to end users. Platforms must check registration before you sell.',f:'',s:'r',src:'1'},
+ {id:'de_weee',c:'DE',on:'eee',t:'Electronics: stiftung ear registration via a German representative',h:'Makers without a seat in Germany must appoint a Bevollmächtigter',x:'Since 1 Jul 2023 marketplaces and fulfilment providers must check this before enabling offers.',f:'Fine up to €100,000.',s:'r',src:'7'},
+ {id:'de_batt',c:'DE',on:'batt',t:'Batteries: German registration and representative',h:'Battery ID / producer registration, AR where you have no local presence',x:'Listings may be hidden until battery IDs are added.',f:'',s:'r',src:'8'},
+ {id:'fr_pack',c:'FR',on:'pack',t:'France packaging UIN',h:'Unique Identification Number from ADEME for household packaging',x:'A marketplace becomes liable for your packaging unless it holds proof of your UIN, so it has every reason to block you.',f:'Up to €30,000 fine and up to €20,000 a day until fixed.',s:'r',src:'4'},
+ {id:'fr_triman',c:'FR',on:'pack',t:'Triman logo and sorting info on pack',h:'Requested from your French scheme when you join',x:'Shows French buyers how to sort the product and pack. Missing it is a labelling gap.',f:'',s:'a',src:'4'},
+ {id:'fr_ar',c:'FR',on:'pack',t:'French EPR authorised representative',h:'Mandataire REP established in France, written mandate',x:'Required from 12 Aug 2026 for sellers not established in France selling direct to end users. Platforms must check registration before you sell.',f:'',s:'r',src:'1'},
+ {id:'fr_eee',c:'FR',on:'eee',t:'France UIN for electronics',h:'One UIN per EPR scheme',x:'Each scheme needs its own UIN. Marketplaces need proof of it for every scheme.',f:'Up to €30,000 fine and up to €20,000 a day.',s:'r',src:'4'},
+ {id:'fr_batt',c:'FR',on:'batt',t:'France UIN for batteries',h:'One UIN per EPR scheme',x:'Each scheme needs its own UIN. Marketplaces need proof of it for every scheme.',f:'Up to €30,000 fine and up to €20,000 a day.',s:'r',src:'4,8'},
+ {id:'fr_tex',c:'FR',on:'tex',t:'France UIN for clothing and shoes',h:'Apparel EPR scheme, new products',x:'Each scheme needs its own UIN. Marketplaces need proof of it for every scheme.',f:'Up to €30,000 fine and up to €20,000 a day.',s:'r',src:'4'},
+ {id:'it_ar',c:'IT',on:'pack',t:'Italian EPR authorised representative',h:'Rappresentante autorizzato established in Italy',x:'Required by the EU rule from 12 Aug 2026, but Italy\'s register is not open yet. Line up the partner now so you can register on day one.',f:'',s:'a',src:'1'},
+ {id:'it_batt',c:'IT',on:'batt',t:'Batteries: Italian registration and representative',h:'Battery ID / producer registration, AR where you have no local presence',x:'Listings may be hidden until battery IDs are added.',f:'',s:'r',src:'8'}
+];
+const sel=id=>$$('#'+id+' input:checked').map(i=>i.value);
+function applies(r,cs,ks){
+  if(r.c!=='EU' && !cs.includes(r.c)) return false;
+  if(r.c==='EU' && !cs.length) return false;
+  if(r.on==='any') return ks.length>0;
+  return ks.includes(r.on);
+}
+function drawHave(){
+  const cs=sel('countries'), ks=sel('cats'), was=new Set($$('#have input:checked').map(i=>i.value));
+  const list=REQ.filter(r=>applies(r,cs,ks));
+  if(!list.length){$('#have').innerHTML='<p class="note">Pick at least one country and one product type.</p>';return}
+  let html='',last='';
+  for(const r of list){
+    if(r.c!==last){html+=`<div class="grp">${NAME[r.c]}</div>`;last=r.c}
+    html+=`<label class="chip"><input type="checkbox" value="${r.id}"${was.has(r.id)?' checked':''}><span>${esc(r.t)}<small>${esc(r.h)}</small></span></label>`;
+  }
+  $('#have').innerHTML=html;
+}
+function check(){
+  const cs=sel('countries'), ks=sel('cats'), got=new Set($$('#have input:checked').map(i=>i.value));
+  const list=REQ.filter(r=>applies(r,cs,ks));
+  if(!list.length){$('#sheet').innerHTML='<div class="empty"><div><div class="display">Nothing to check</div><p>Pick at least one country and one product type.</p></div></div>';return}
+  const res=list.map(r=>({...r,st:got.has(r.id)?'g':r.s}));
+  const g=res.filter(x=>x.st==='g').length, rd=res.filter(x=>x.st==='r').length, am=res.filter(x=>x.st==='a').length;
+  const v=rd?['Listings at risk',`${rd} missing item${rd>1?'s':''} can block your listings`]:am?['Nearly there',`${am} item${am>1?'s':''} to tidy`]:['EU-ready','Every requirement ticked. Keep the paperwork current.'];
+  const sym={g:'✓',a:'!',r:'×'};
+  const order={r:0,a:1,g:2};
+  res.sort((a,b)=>order[a.st]-order[b.st]);
+  $('#sheet').innerHTML=`
+    <div class="verdict"><div class="score">${g}<small>/${res.length}</small></div><div><div class="display">${esc(v[0])}</div><p>${esc(v[1])}</p></div></div>
+    ${res.map(x=>`<div class="item"><span class="mark ${x.st}" aria-label="${x.st==='g'?'ready':x.st==='a'?'fix':'missing'}">${sym[x.st]}</span><div><b><span class="tag">${NAME[x.c]}</span>${esc(x.t)}</b>${x.st==='g'?'<p>You have this. Keep proof ready for the marketplace.</p>':`<p>${esc(x.x)} <sup>${x.src}</sup></p>${x.f?`<p class="fine-line">${esc(x.f)}</p>`:''}`}</div></div>`).join('')}
+    <div class="cta">
+      <a class="btn-gold" href="mailto:info@noumansadiq.com?subject=EU-ready%20pack">Get EU-ready ($99 pack)</a>
+      <p>Your gap list, the registrations in the right order, and the listing and label text.</p><p class="call">Or call +1 (463) 348-9031.</p>
+      <p>The authorised representative must be a partner established in that EU country. We coordinate it with them; we are not the AR.</p>
+    </div>`;
+}
+$('#countries').addEventListener('change',()=>{drawHave();check()});
+$('#cats').addEventListener('change',()=>{drawHave();check()});
+$('#have').addEventListener('change',check);
+$('#go').onclick=()=>{check(); if(innerWidth<900)$('#sheet').scrollIntoView({behavior:'smooth'})};
+$('#none').onclick=()=>{$$('#have input').forEach(i=>i.checked=false); check()};
+drawHave();check();
+}
+</script>
+
+</body>
+</html>

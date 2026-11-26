@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Saudi ZATCA Phase 2 Wave 25 or UAE eInvoicing: see your deadline, the fine for missing it and the days left. Free, in English and Urdu.">
+<link rel="canonical" href="https://work.noumansadiq.com/einvoice-gulf/">
+<meta property="og:type" content="website"><meta property="og:url" content="https://work.noumansadiq.com/einvoice-gulf/"><meta property="og:title" content="Free E-Invoice Deadline Checker: Saudi ZATCA and UAE"><meta property="og:description" content="Saudi ZATCA Phase 2 Wave 25 or UAE eInvoicing: see your deadline, the fine for missing it and the days left. Free, in English and Urdu."><meta property="og:image" content="https://noumansadiq.com/assets/favicon-180.png">
+<title>E-Invoice Deadline Checker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="https://noumansadiq.com/assets/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="https://noumansadiq.com/assets/favicon-180.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Sans:wght@400..700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Brand: copied from kit/brand/tokens.css + lockup.html (AGENTS.md M13). Never retype. */
+:root{
+  --canvas:#0b0b09; --canvas-raise:#131311; --canvas-high:#1a1a17; --canvas-line:#f2efe91f;
+  --ink:#f2efe9; --ink-dim:#8f8c84; --ink-faint:#7e7a72;
+  --gold:#c9a84c; --gold-hot:#f0c36a; --gold-dark:#a88835;
+  --critical:#c4634f; --warning:#d89a3c; --ok:#6fa36b;
+  --font-display:"Archivo", sans-serif; --font-text:"Instrument Sans", sans-serif; --font-data:"Space Mono", monospace;
+  --radius:2px; --ease-out:cubic-bezier(.16, 1, .3, 1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box;min-width:0}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--font-text);font-size:16px;line-height:1.6;overflow-x:clip}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.16;
+  background-image:linear-gradient(var(--canvas-line) 1px,transparent 1px),linear-gradient(90deg,var(--canvas-line) 1px,transparent 1px);
+  background-size:40px 40px}
+:where(h1,h2,h3,.display){font-family:var(--font-display);text-transform:uppercase;letter-spacing:-.02em;font-weight:850;font-stretch:125%;line-height:.92;margin:0}
+h1{font-size:clamp(2.1rem,6vw,3.6rem)} h2{font-size:clamp(1.35rem,3.6vw,2rem);margin:0 0 18px} h3{font-size:1.05rem;margin:0 0 8px;line-height:1.05}
+p{margin:0 0 14px} a{color:var(--gold)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+a.logo-link{display:inline-flex;align-items:center;gap:11px;border:0;text-decoration:none;color:inherit;border-radius:var(--radius);transition:opacity .18s ease;padding:9px;margin:-9px}
+a.logo-link:hover{opacity:.78}
+a.logo-link svg{pointer-events:none;width:32px;height:32px;display:block}
+.n-stroke{stroke:var(--ink)} .n-dot{fill:var(--gold)}
+a.logo-link:hover .n-stroke{stroke:var(--gold)}
+.logo-word{font-family:var(--font-data);text-transform:uppercase;font-weight:700;font-size:.6875rem;letter-spacing:.14em}
+header.top{border-bottom:1px solid var(--canvas-line);background:var(--canvas)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px}
+.label{font-family:var(--font-data);text-transform:uppercase;letter-spacing:.14em;font-size:.7rem;color:var(--ink-dim)}
+.hero{padding:52px 0 8px}.hero .label{display:block;margin-bottom:16px;color:var(--gold)}
+.lede{font-size:1.1rem;max-width:680px;margin-top:20px;color:var(--ink-dim)}
+.panel{background:var(--canvas-raise);border:1px solid var(--canvas-line);border-radius:var(--radius);padding:22px}
+label{font-family:var(--font-data);text-transform:uppercase;letter-spacing:.12em;font-size:.68rem;color:var(--ink-dim);display:block;margin:0 0 8px}
+input,select,textarea{width:100%;font:16px var(--font-text);min-height:46px;padding:10px 12px;border:1px solid var(--canvas-line);background:var(--canvas);color:var(--ink);border-radius:var(--radius)}
+button.gold,.btn-gold{font:700 .8rem var(--font-data);text-transform:uppercase;letter-spacing:.12em;min-height:46px;padding:0 20px;border:0;border-radius:var(--radius);background:var(--gold);color:var(--canvas);cursor:pointer}
+button.gold:hover{background:var(--gold-hot)}
+button.line{font:700 .8rem var(--font-data);text-transform:uppercase;letter-spacing:.12em;min-height:46px;padding:0 20px;border:1px solid var(--canvas-line);border-radius:var(--radius);background:transparent;color:var(--ink);cursor:pointer}
+button.line:hover{border-color:var(--gold);color:var(--gold)}
+.fine{font-size:.82rem;color:var(--ink-faint)}
+footer.foot{border-top:1px solid var(--canvas-line);margin-top:56px;padding:26px 0 40px}
+footer.foot .contact{font-family:var(--font-data);font-size:.75rem;letter-spacing:.06em;color:var(--ink-dim)}
+@media(prefers-reduced-motion:no-preference){.rise{animation:rise .5s var(--ease-out) both}@keyframes rise{from{opacity:0;transform:translateY(8px)}}}
+
+.langbar{display:flex;justify-content:flex-end;padding-top:14px}
+.langbar button{min-height:40px;padding:0 16px}
+#lang-btn[data-to="ur"]{font-family:"Noto Nastaliq Urdu",var(--font-data);text-transform:none;letter-spacing:0;font-size:.95rem}
+.tool{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px;margin-top:34px}
+@media(max-width:900px){.tool{grid-template-columns:minmax(0,1fr)}}
+.q{margin-bottom:22px}
+.q:last-child{margin-bottom:0}
+.seg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.seg button{width:100%;padding:8px 12px;line-height:1.25;text-align:center}
+.seg button[aria-pressed="true"]{border-color:var(--gold);color:var(--gold);background:var(--canvas)}
+.hide{display:none!important}
+.sheet{min-height:420px}
+.verdict{display:flex;gap:18px;align-items:flex-end;border-bottom:1px solid var(--canvas-line);padding-bottom:18px;margin-bottom:6px;flex-wrap:wrap}
+.score{font-family:var(--font-display);font-weight:850;font-stretch:125%;font-size:clamp(3rem,10vw,5rem);line-height:.85;color:var(--gold)}
+.score small{display:block;font-family:var(--font-data);font-size:.7rem;font-weight:700;letter-spacing:.14em;color:var(--ink-dim);margin-top:10px;font-stretch:100%}
+.verdict .display{font-size:1.25rem}
+.verdict p{margin:6px 0 0;color:var(--ink-dim);font-size:.92rem}
+.vtext{flex:1 1 220px}
+.row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;border-bottom:1px solid var(--canvas-line)}
+@media(max-width:520px){.row2{grid-template-columns:minmax(0,1fr)}}
+.cell{padding:14px 14px 14px 0}
+.cell b{display:block;font-weight:600;margin-top:4px}
+.cell p{margin:3px 0 0;font-size:.88rem;color:var(--ink-dim)}
+.fine-box b{color:var(--critical)}
+ol.steps{list-style:none;margin:6px 0 0;padding:0;counter-reset:s}
+ol.steps li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:12px;padding:13px 0;border-bottom:1px solid var(--canvas-line);counter-increment:s}
+ol.steps li::before{content:counter(s);font-family:var(--font-data);font-weight:700;width:26px;height:26px;display:grid;place-items:center;border:1px solid var(--gold);color:var(--gold);border-radius:var(--radius);font-size:.8rem}
+ol.steps b{display:block;font-weight:600}
+ol.steps p{margin:3px 0 0;font-size:.88rem;color:var(--ink-dim)}
+.cta{margin-top:22px}
+a.btn-gold{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;text-align:center;line-height:1.3;padding:10px 22px}
+a.btn-gold:hover{background:var(--gold-hot)}
+.cta .note{font-size:.88rem;color:var(--ink-dim);margin:12px 0 0}
+.cta .call{font-family:var(--font-data);font-size:.8rem;color:var(--ink);margin:10px 0 0}
+.cta .call a{white-space:nowrap}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;margin-top:56px;border-top:1px solid var(--canvas-line)}
+.facts div{padding:22px 22px 22px 0;border-right:1px solid var(--canvas-line)}
+.facts div:last-child{border-right:0}
+.facts .num{font-family:var(--font-data);color:var(--gold);font-size:.75rem;letter-spacing:.12em}
+.facts b{display:block;font-family:var(--font-display);text-transform:uppercase;font-weight:800;font-stretch:115%;font-size:1rem;line-height:1.05;margin:8px 0 6px}
+.facts p{font-size:.88rem;color:var(--ink-dim);margin:0}
+@media(max-width:600px){.facts div{border-right:0;border-bottom:1px solid var(--canvas-line);padding-right:0}}
+.src a{overflow-wrap:anywhere}
+/* Urdu */
+.ur{font-family:"Noto Nastaliq Urdu",serif;line-height:2.1}
+.ur :where(h1,h2,h3,.display,label,.label,.num,b,button,.btn-gold,.call,p,li,span,small,a){font-family:"Noto Nastaliq Urdu",serif;text-transform:none;letter-spacing:0;font-stretch:100%}
+.ur h1{font-size:clamp(1.8rem,5vw,2.9rem);line-height:1.9;font-weight:700}
+.ur .display,.ur .facts b{line-height:1.9;font-weight:700}
+.ur label,.ur .label{font-size:.85rem}
+.ur .seg button,.ur .btn-gold{font-size:.95rem;line-height:1.9}
+.ur .score{font-family:var(--font-display);font-stretch:125%}
+.ur .score small{font-family:"Noto Nastaliq Urdu",serif;font-size:.85rem;letter-spacing:0;line-height:1.8}
+.ur .lede{line-height:2.1}
+.ur .cell,.ur .facts div{padding:14px 0 14px 14px}
+.ur .facts div{border-right:0;border-left:1px solid var(--canvas-line);padding:22px 0 22px 22px}
+.ur .facts div:last-child{border-left:0}
+@media(max-width:600px){.ur .facts div{border-left:0;padding-left:0}}
+.ur .ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.ur .ltr a{font-family:var(--font-data);letter-spacing:.04em}
+#content.ur .seg button,#content.ur a.btn-gold,#content.ur .cta .call{font-family:"Noto Nastaliq Urdu",serif;text-transform:none;letter-spacing:0;font-weight:700}
+#content.ur .seg button{font-size:.92rem;line-height:1.9}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo-link" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer" aria-label="Nouman Sadiq - noumansadiq.com (opens in a new tab)">
+  <svg viewBox="14 11 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <path class="n-stroke" d="M20 46 V18 L44 46 V18" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+    <circle class="n-dot" cx="47" cy="17" r="4"></circle>
+  </svg>
+  <span class="logo-word">Nouman Sadiq</span>
+</a>
+<span class="label">E-Invoice Deadline Checker</span>
+</div></header>
+<div class="wrap langbar"><button class="line" id="lang-btn" data-to="ur" lang="ur" aria-label="اردو میں پڑھیں">اردو</button></div>
+<div id="content" lang="en" dir="ltr">
+<main class="wrap">
+  <section class="hero rise">
+    <span class="label" data-i="kicker">Saudi ZATCA · UAE eInvoicing · checked 26 Nov 2026</span>
+    <h1 data-i="h1">How many days<br>before your e-invoice deadline?</h1>
+    <p class="lede" data-i="lede">Pick your country and answer three short questions. You will see your date, the fine for missing it, the days you have left, and four steps to get ready. Free. Nothing is stored.</p>
+  </section>
+
+  <div class="tool">
+    <div class="panel" id="form">
+      <div class="q">
+        <label data-i="q_country">Where is your business?</label>
+        <div class="seg" data-name="country">
+          <button class="line" type="button" data-v="sa" aria-pressed="true" data-i="sa">Saudi Arabia</button>
+          <button class="line" type="button" data-v="ae" aria-pressed="false" data-i="ae">UAE</button>
+        </div>
+      </div>
+      <div class="q only-sa">
+        <label data-i="q_sa_turn">Highest taxable turnover in any one year, 2022 to 2025</label>
+        <div class="seg" data-name="saTurn">
+          <button class="line" type="button" data-v="low" aria-pressed="false" data-i="sa_low">SAR 187,500 or less</button>
+          <button class="line" type="button" data-v="high" aria-pressed="true" data-i="sa_high">Above SAR 187,500</button>
+        </div>
+      </div>
+      <div class="q only-sa">
+        <label data-i="q_sa_earlier">Has ZATCA already sent you an earlier Phase 2 date?</label>
+        <div class="seg" data-name="saEarlier">
+          <button class="line" type="button" data-v="no" aria-pressed="true" data-i="no">No</button>
+          <button class="line" type="button" data-v="yes" aria-pressed="false" data-i="yes">Yes</button>
+        </div>
+      </div>
+      <div class="q only-ae hide">
+        <label data-i="q_ae_rev">Yearly revenue</label>
+        <div class="seg" data-name="aeRev">
+          <button class="line" type="button" data-v="under" aria-pressed="true" data-i="ae_under">Under AED 50 million</button>
+          <button class="line" type="button" data-v="over" aria-pressed="false" data-i="ae_over">AED 50 million or more</button>
+        </div>
+      </div>
+      <div class="q">
+        <label data-i="q_tool">What do you make invoices with today?</label>
+        <div class="seg" data-name="tool">
+          <button class="line" type="button" data-v="pos" aria-pressed="false" data-i="t_pos">POS till</button>
+          <button class="line" type="button" data-v="soft" aria-pressed="true" data-i="t_soft">Accounting software</button>
+          <button class="line" type="button" data-v="excel" aria-pressed="false" data-i="t_excel">Excel or Word</button>
+          <button class="line" type="button" data-v="hand" aria-pressed="false" data-i="t_hand">Handwritten book</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel sheet" id="sheet" aria-live="polite"></div>
+  </div>
+
+  <div class="facts">
+    <div><span class="num">01</span><b data-i="f1h">Saudi: above SAR 187,500</b><p data-i="f1p">Wave 25 of Phase 2 covers taxable turnover above SAR 187,500 in any year from 2022 to 2025. It is the first wave to count 2025.</p></div>
+    <div><span class="num">02</span><b data-i="f2h">Saudi: 1 Feb 2027</b><p data-i="f2p">The date Wave 25 businesses must be ready for Phase 2 e-invoicing, linked to ZATCA's system.</p></div>
+    <div><span class="num">03</span><b data-i="f3h">UAE: under AED 50m</b><p data-i="f3p">Appoint an Accredited Service Provider by 31 Mar 2027 and go live by 1 Jul 2027. Delay costs AED 5,000 a month.</p></div>
+    <div><span class="num">04</span><b data-i="f4h">90 accredited providers</b><p data-i="f4p">The UAE Ministry of Finance list had 90 Accredited Service Providers on 26 Nov 2026. Pick from that list only.</p></div>
+  </div>
+</main>
+<footer class="foot"><div class="wrap">
+<p class="contact"><a href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer">noumansadiq.com</a> · <a href="mailto:info@noumansadiq.com">info@noumansadiq.com</a> · Toofani LLC</p>
+<p class="fine" data-i="src_h">Checked 26 Nov 2026. Sources:</p>
+<p class="fine src">
+<a href="https://www.ey.com/en_gl/technical/tax-alerts/saudi-arabia-announces-25th-wave-of-phase-2-e-invoicing-integration" target="_blank" rel="noopener noreferrer">EY: Saudi Wave 25 (SAR 187,500, 2022&ndash;2025, 1 Feb 2027)</a> ·
+<a href="https://zatca.gov.sa/en/MediaCenter/News/Pages/E-invoicing-Violations-Fines.aspx" target="_blank" rel="noopener noreferrer">ZATCA: e-invoicing violations and fines</a> ·
+<a href="https://www.deloitte.com/middle-east/en/services/tax/perspectives/zatca-announces-violations-penalties-relation-einvoicing-ksa.html" target="_blank" rel="noopener noreferrer">Deloitte: ZATCA fine ranges (up to SAR 50,000)</a> ·
+<a href="https://khaleejtimes.com/business/dh5000-fine-a-month-uae-firms-have-5-days-to-appoint-e-invoicing-provider" target="_blank" rel="noopener noreferrer">Khaleej Times, 25 Oct 2026: UAE dates and AED 5,000 a month</a> ·
+<a href="https://mof.gov.ae/en/about-us/initiatives/einvoicing/einvoicing-accredited-service-providers-asps/" target="_blank" rel="noopener noreferrer">UAE Ministry of Finance: Accredited Service Providers list</a>
+</p>
+<p class="fine" data-i="disc">We help with onboarding and use approved providers. We are not a tax agent, and this page is not tax advice. Your own notice from ZATCA or the UAE authorities always wins.</p>
+</div></footer>
+</div>
+
+<script>
+{
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const T={
+en:{
+ kicker:'Saudi ZATCA · UAE eInvoicing · checked 26 Nov 2026',
+ h1:'How many days<br>before your e-invoice deadline?',
+ lede:'Pick your country and answer three short questions. You will see your date, the fine for missing it, the days you have left, and four steps to get ready. Free. Nothing is stored.',
+ q_country:'Where is your business?', sa:'Saudi Arabia', ae:'UAE',
+ q_sa_turn:'Highest taxable turnover in any one year, 2022 to 2025', sa_low:'SAR 187,500 or less', sa_high:'Above SAR 187,500',
+ q_sa_earlier:'Has ZATCA already sent you an earlier Phase 2 date?', no:'No', yes:'Yes',
+ q_ae_rev:'Yearly revenue', ae_under:'Under AED 50 million', ae_over:'AED 50 million or more',
+ q_tool:'What do you make invoices with today?', t_pos:'POS till', t_soft:'Accounting software', t_excel:'Excel or Word', t_hand:'Handwritten book',
+ f1h:'Saudi: above SAR 187,500', f1p:'Wave 25 of Phase 2 covers taxable turnover above SAR 187,500 in any year from 2022 to 2025. It is the first wave to count 2025.',
+ f2h:'Saudi: 1 Feb 2027', f2p:"The date Wave 25 businesses must be ready for Phase 2 e-invoicing, linked to ZATCA's system.",
+ f3h:'UAE: under AED 50m', f3p:'Appoint an Accredited Service Provider by 31 Mar 2027 and go live by 1 Jul 2027. Delay costs AED 5,000 a month.',
+ f4h:'90 accredited providers', f4p:'The UAE Ministry of Finance list had 90 Accredited Service Providers on 26 Nov 2026. Pick from that list only.',
+ src_h:'Checked 26 Nov 2026. Sources:',
+ disc:'We help with onboarding and use approved providers. We are not a tax agent, and this page is not tax advice. Your own notice from ZATCA or the UAE authorities always wins.',
+ days:'days left', daysTo:d=>`days left until ${d}`, passed:'deadline passed', noDate:'no date set yet',
+ d_sa:'1 Feb 2027', d_ae_asp:'31 Mar 2027', d_ae_live:'1 Jul 2027', d_ae_big_asp:'30 Oct 2026', d_ae_big_live:'1 Jan 2027',
+ v_sa_in:'You are in Wave 25', v_sa_in_p:'Saudi ZATCA Phase 2 (integration). Be ready by 1 Feb 2027.',
+ v_sa_earlier:'Your earlier ZATCA date applies', v_sa_earlier_p:'Wave 25 is for businesses not yet called. Follow the date in your own ZATCA notice. If it has passed, act now.',
+ v_sa_out:'Not in Wave 25', v_sa_out_p:'Wave 25 covers turnover above SAR 187,500 in any year 2022 to 2025. ZATCA has not set a Phase 2 date for you yet. Watch for its notice.',
+ v_ae_small:'You are in UAE phase 2', v_ae_small_p:'Revenue under AED 50 million. Appoint an Accredited Service Provider by 31 Mar 2027. Go live by 1 Jul 2027.',
+ v_ae_big:'You are in the UAE first group', v_ae_big_p:'Revenue AED 50 million or more. The provider deadline was 30 Oct 2026. Go live by 1 Jan 2027.',
+ golive:d=>`${d} days until go-live (1 Jul 2027)`,
+ deadline:'Your deadline', fine:'Fine for missing it',
+ fine_sa:'From SAR 5,000 for not issuing e-invoices',
+ fine_sa_p:'ZATCA publishes: SAR 10,000 for deleting or changing an issued e-invoice; a warning first for a missing QR code or buyer VAT number. Fines rise with each repeat, up to SAR 50,000.',
+ fine_ae:'AED 5,000 a month',
+ fine_ae_p:'For each month, or part of a month, of delay in putting the system in place.',
+ steps_h:'Your 4 steps',
+ sa1:'Read your ZATCA notice', sa1p:'ZATCA tells each Wave 25 business before linking starts. Check the email and the account you use with ZATCA.',
+ sa_old:'Leave paper and spreadsheets', sa_oldp:'Phase 2 needs invoice software that links to ZATCA. A handwritten book or an Excel or Word file cannot do it.',
+ sa_pos:'Ask your POS provider in writing', sa_posp:'Is your till ready for ZATCA Phase 2, and on what date will they link it? Get the answer by email.',
+ sa_soft:'Ask your software provider in writing', sa_softp:'Is it ready for ZATCA Phase 2, and on what date will they link your account? Get the answer by email.',
+ sa3:'Link every invoicing device', sa3p:'Each till or system that issues invoices is onboarded to ZATCA. Send test invoices and check they are accepted.',
+ sa4:'Go live and keep every invoice', sa4p:'Be live before 1 Feb 2027. Never delete or change an issued invoice; fix it with a credit or debit note.',
+ sax1:'Keep issuing proper e-invoices', sax1p:'Phase 2 dates come by notice from ZATCA. Keep your invoices electronic and stored.',
+ sax4:'Prepare early', sax4p:'When your notice comes you will usually have months, not years. Being ready first is cheaper than rushing.',
+ ae1:'Choose an Accredited Service Provider', ae1p:'Pick one from the Ministry of Finance list and sign with them by 31 Mar 2027.',
+ aeb1:'Appoint a provider now', aeb1p:'The 30 Oct 2026 date has passed. Every month, or part of a month, of delay can cost AED 5,000.',
+ ae_old:'Leave paper and spreadsheets', ae_oldp:'You need invoice software that sends through your provider. A handwritten book or an Excel or Word file cannot.',
+ ae_pos:'Ask your POS provider in writing', ae_posp:'Which Accredited Service Provider does your till connect to, and from what date?',
+ ae_soft:'Ask your software provider in writing', ae_softp:'Which Accredited Service Provider does it connect to, and from what date?',
+ ae3:'Clean your customer records', ae3p:'Correct legal names, TRNs and addresses, so your invoices pass the checks.',
+ ae4:'Test, then go live', ae4p:d=>`Send test invoices through your provider, then go live by ${d}.`,
+ cta:'Get set up before the deadline',
+ cta_note:'We help small businesses with onboarding and use approved providers. We are not a tax agent.',
+ call:'or call', lang:'اردو'
+},
+ur:{
+ kicker:'سعودی زکاتکا · یو اے ای ای-انوائسنگ · 26 نومبر 2026 کو جانچا گیا',
+ h1:'آپ کی ای-انوائس کی آخری تاریخ میں کتنے دن باقی ہیں؟',
+ lede:'اپنا ملک چنیں اور تین چھوٹے سوالوں کے جواب دیں۔ آپ کو اپنی تاریخ، اسے چھوڑنے کا جرمانہ، باقی دن، اور تیاری کے چار قدم نظر آئیں گے۔ مفت۔ کچھ بھی محفوظ نہیں کیا جاتا۔',
+ q_country:'آپ کا کاروبار کہاں ہے؟', sa:'سعودی عرب', ae:'متحدہ عرب امارات',
+ q_sa_turn:'2022 سے 2025 تک کسی ایک سال کا سب سے زیادہ قابلِ ٹیکس ٹرن اوور', sa_low:'187,500 ریال یا کم', sa_high:'187,500 ریال سے زیادہ',
+ q_sa_earlier:'کیا زکاتکا آپ کو فیز 2 کی کوئی پہلے والی تاریخ بھیج چکا ہے؟', no:'نہیں', yes:'ہاں',
+ q_ae_rev:'سالانہ آمدنی', ae_under:'5 کروڑ درہم سے کم', ae_over:'5 کروڑ درہم یا زیادہ',
+ q_tool:'آج آپ انوائس کس چیز سے بناتے ہیں؟', t_pos:'پی او ایس مشین', t_soft:'اکاؤنٹنگ سافٹ ویئر', t_excel:'ایکسل یا ورڈ', t_hand:'ہاتھ سے لکھی رسید بک',
+ f1h:'سعودی: 187,500 ریال سے زیادہ', f1p:'فیز 2 کی ویو 25 میں وہ کاروبار شامل ہیں جن کا قابلِ ٹیکس ٹرن اوور 2022 سے 2025 کے کسی سال میں 187,500 ریال سے زیادہ رہا۔ یہ پہلی ویو ہے جس میں 2025 بھی گنا جاتا ہے۔',
+ f2h:'سعودی: یکم فروری 2027', f2p:'وہ تاریخ جب ویو 25 کے کاروباروں کو زکاتکا کے سسٹم سے جڑ کر فیز 2 ای-انوائسنگ کے لیے تیار ہونا ہے۔',
+ f3h:'یو اے ای: 5 کروڑ درہم سے کم', f3p:'31 مارچ 2027 تک ایکریڈیٹڈ سروس پرووائیڈر مقرر کریں اور یکم جولائی 2027 تک سسٹم چالو کریں۔ تاخیر پر ہر مہینے 5,000 درہم جرمانہ۔',
+ f4h:'90 منظور شدہ پرووائیڈر', f4p:'26 نومبر 2026 کو یو اے ای وزارتِ خزانہ کی فہرست میں 90 ایکریڈیٹڈ سروس پرووائیڈر تھے۔ صرف اسی فہرست سے چنیں۔',
+ src_h:'26 نومبر 2026 کو جانچا گیا۔ ذرائع:',
+ disc:'ہم آن بورڈنگ میں مدد کرتے ہیں اور منظور شدہ پرووائیڈر استعمال کرتے ہیں۔ ہم ٹیکس ایجنٹ نہیں ہیں، اور یہ صفحہ ٹیکس مشورہ نہیں ہے۔ زکاتکا یا یو اے ای حکام کا آپ کو بھیجا گیا نوٹس ہمیشہ مقدم ہے۔',
+ days:'دن باقی', daysTo:d=>`${d} تک باقی دن`, passed:'تاریخ گزر چکی', noDate:'ابھی کوئی تاریخ مقرر نہیں',
+ d_sa:'یکم فروری 2027', d_ae_asp:'31 مارچ 2027', d_ae_live:'یکم جولائی 2027', d_ae_big_asp:'30 اکتوبر 2026', d_ae_big_live:'یکم جنوری 2027',
+ v_sa_in:'آپ ویو 25 میں ہیں', v_sa_in_p:'سعودی زکاتکا فیز 2 (انٹیگریشن)۔ یکم فروری 2027 تک تیار رہیں۔',
+ v_sa_earlier:'آپ کی پہلے والی تاریخ لاگو ہے', v_sa_earlier_p:'ویو 25 ان کاروباروں کے لیے ہے جنہیں ابھی تک نہیں بلایا گیا۔ اپنے زکاتکا نوٹس والی تاریخ پر عمل کریں۔ اگر وہ گزر چکی ہے تو فوراً کام شروع کریں۔',
+ v_sa_out:'آپ ویو 25 میں نہیں ہیں', v_sa_out_p:'ویو 25 میں 2022 سے 2025 کے کسی سال میں 187,500 ریال سے زیادہ ٹرن اوور والے کاروبار شامل ہیں۔ زکاتکا نے ابھی آپ کے لیے فیز 2 کی تاریخ مقرر نہیں کی۔ اس کے نوٹس پر نظر رکھیں۔',
+ v_ae_small:'آپ یو اے ای فیز 2 میں ہیں', v_ae_small_p:'آمدنی 5 کروڑ درہم سے کم۔ 31 مارچ 2027 تک ایکریڈیٹڈ سروس پرووائیڈر مقرر کریں۔ یکم جولائی 2027 تک سسٹم چالو کریں۔',
+ v_ae_big:'آپ یو اے ای کے پہلے گروپ میں ہیں', v_ae_big_p:'آمدنی 5 کروڑ درہم یا زیادہ۔ پرووائیڈر مقرر کرنے کی تاریخ 30 اکتوبر 2026 تھی۔ یکم جنوری 2027 تک سسٹم چالو کریں۔',
+ golive:d=>`سسٹم چالو کرنے (یکم جولائی 2027) میں ${d} دن`,
+ deadline:'آپ کی آخری تاریخ', fine:'چھوڑنے کا جرمانہ',
+ fine_sa:'ای-انوائس جاری نہ کرنے پر 5,000 ریال سے شروع',
+ fine_sa_p:'زکاتکا کے شائع کردہ جرمانے: جاری شدہ ای-انوائس مٹانے یا بدلنے پر 10,000 ریال؛ کیو آر کوڈ یا خریدار کا وی اے ٹی نمبر نہ ہونے پر پہلے وارننگ۔ ہر بار دہرانے پر جرمانہ بڑھتا ہے، 50,000 ریال تک۔',
+ fine_ae:'ہر مہینے 5,000 درہم',
+ fine_ae_p:'سسٹم لگانے میں تاخیر کے ہر مہینے، یا مہینے کے کسی حصے، پر۔',
+ steps_h:'آپ کے 4 قدم',
+ sa1:'اپنا زکاتکا نوٹس پڑھیں', sa1p:'زکاتکا ویو 25 کے ہر کاروبار کو لنکنگ شروع ہونے سے پہلے بتاتا ہے۔ اپنی ای میل اور زکاتکا اکاؤنٹ دیکھیں۔',
+ sa_old:'کاغذ اور اسپریڈشیٹ چھوڑیں', sa_oldp:'فیز 2 کے لیے ایسا انوائس سافٹ ویئر چاہیے جو زکاتکا سے جڑے۔ ہاتھ کی رسید بک یا ایکسل/ورڈ فائل یہ نہیں کر سکتی۔',
+ sa_pos:'اپنے پی او ایس فراہم کنندہ سے تحریری طور پر پوچھیں', sa_posp:'کیا آپ کی مشین زکاتکا فیز 2 کے لیے تیار ہے، اور وہ اسے کس تاریخ تک جوڑیں گے؟ جواب ای میل پر لیں۔',
+ sa_soft:'اپنے سافٹ ویئر فراہم کنندہ سے تحریری طور پر پوچھیں', sa_softp:'کیا یہ زکاتکا فیز 2 کے لیے تیار ہے، اور وہ آپ کا اکاؤنٹ کس تاریخ تک جوڑیں گے؟ جواب ای میل پر لیں۔',
+ sa3:'ہر انوائس مشین کو جوڑیں', sa3p:'انوائس جاری کرنے والی ہر مشین یا سسٹم زکاتکا پر آن بورڈ ہو۔ ٹیسٹ انوائس بھیجیں اور دیکھیں کہ قبول ہو رہی ہیں۔',
+ sa4:'سسٹم چالو کریں اور ہر انوائس سنبھالیں', sa4p:'یکم فروری 2027 سے پہلے چالو ہوں۔ جاری شدہ انوائس کبھی نہ مٹائیں نہ بدلیں؛ کریڈٹ یا ڈیبٹ نوٹ سے درست کریں۔',
+ sax1:'درست ای-انوائس جاری کرتے رہیں', sax1p:'فیز 2 کی تاریخیں زکاتکا کے نوٹس سے آتی ہیں۔ اپنی انوائسیں الیکٹرانک اور محفوظ رکھیں۔',
+ sax4:'جلدی تیاری کریں', sax4p:'نوٹس آنے پر عموماً سال نہیں، چند مہینے ملتے ہیں۔ پہلے سے تیار رہنا جلد بازی سے سستا ہے۔',
+ ae1:'ایکریڈیٹڈ سروس پرووائیڈر چنیں', ae1p:'وزارتِ خزانہ کی فہرست سے ایک چنیں اور 31 مارچ 2027 تک ان سے معاہدہ کریں۔',
+ aeb1:'ابھی پرووائیڈر مقرر کریں', aeb1p:'30 اکتوبر 2026 کی تاریخ گزر چکی ہے۔ تاخیر کے ہر مہینے، یا مہینے کے حصے، پر 5,000 درہم جرمانہ ہو سکتا ہے۔',
+ ae_old:'کاغذ اور اسپریڈشیٹ چھوڑیں', ae_oldp:'آپ کو ایسا انوائس سافٹ ویئر چاہیے جو آپ کے پرووائیڈر کے ذریعے بھیجے۔ ہاتھ کی رسید بک یا ایکسل/ورڈ فائل یہ نہیں کر سکتی۔',
+ ae_pos:'اپنے پی او ایس فراہم کنندہ سے تحریری طور پر پوچھیں', ae_posp:'آپ کی مشین کس ایکریڈیٹڈ سروس پرووائیڈر سے جڑتی ہے، اور کس تاریخ سے؟',
+ ae_soft:'اپنے سافٹ ویئر فراہم کنندہ سے تحریری طور پر پوچھیں', ae_softp:'یہ کس ایکریڈیٹڈ سروس پرووائیڈر سے جڑتا ہے، اور کس تاریخ سے؟',
+ ae3:'اپنے گاہکوں کا ریکارڈ درست کریں', ae3p:'درست قانونی نام، ٹی آر این اور پتے، تاکہ آپ کی انوائسیں جانچ میں پاس ہوں۔',
+ ae4:'ٹیسٹ کریں، پھر چالو کریں', ae4p:d=>`اپنے پرووائیڈر کے ذریعے ٹیسٹ انوائس بھیجیں، پھر ${d} تک سسٹم چالو کریں۔`,
+ cta:'آخری تاریخ سے پہلے سیٹ اپ کروائیں',
+ cta_note:'ہم چھوٹے کاروباروں کو آن بورڈنگ میں مدد دیتے ہیں اور منظور شدہ پرووائیڈر استعمال کرتے ہیں۔ ہم ٹیکس ایجنٹ نہیں ہیں۔',
+ call:'یا کال کریں', lang:'English'
+}};
+const S={country:'sa',saTurn:'high',saEarlier:'no',aeRev:'under',tool:'soft'};
+let L='en';
+const t=k=>T[L][k];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const DAY=864e5;
+function daysTo(y,m,d){const n=new Date();const a=Date.UTC(n.getFullYear(),n.getMonth(),n.getDate());return Math.round((Date.UTC(y,m-1,d)-a)/DAY)}
+const ltr=s=>`<span class="ltr">${s}</span>`;
+
+function result(){
+  const tool=S.tool, old=(tool==='excel'||tool==='hand');
+  let days=null,dlabel,v,vp,fineH,fineP,steps,extra='';
+  if(S.country==='sa'){
+    fineH=t('fine_sa');fineP=t('fine_sa_p');
+    const toolStep=old?['sa_old','sa_oldp']:tool==='pos'?['sa_pos','sa_posp']:['sa_soft','sa_softp'];
+    if(S.saTurn==='low'){v=t('v_sa_out');vp=t('v_sa_out_p');dlabel=t('noDate');
+      steps=[['sax1','sax1p'],toolStep,['sa3','sa3p'],['sax4','sax4p']];}
+    else if(S.saEarlier==='yes'){v=t('v_sa_earlier');vp=t('v_sa_earlier_p');dlabel=t('noDate');
+      steps=[['sa1','sa1p'],toolStep,['sa3','sa3p'],['sa4','sa4p']];}
+    else{days=daysTo(2027,2,1);v=t('v_sa_in');vp=t('v_sa_in_p');dlabel=t('daysTo')(t('d_sa'));
+      steps=[['sa1','sa1p'],toolStep,['sa3','sa3p'],['sa4','sa4p']];}
+  }else{
+    fineH=t('fine_ae');fineP=t('fine_ae_p');
+    const toolStep=old?['ae_old','ae_oldp']:tool==='pos'?['ae_pos','ae_posp']:['ae_soft','ae_softp'];
+    if(S.aeRev==='under'){days=daysTo(2027,3,31);v=t('v_ae_small');vp=t('v_ae_small_p');dlabel=t('daysTo')(t('d_ae_asp'));
+      const g=daysTo(2027,7,1);extra=`<p>${esc(t('golive')(Math.max(g,0)))}</p>`;
+      steps=[['ae1','ae1p'],toolStep,['ae3','ae3p'],['ae4',t('ae4p')(t('d_ae_live'))]];}
+    else{days=daysTo(2027,1,1);v=t('v_ae_big');vp=t('v_ae_big_p');dlabel=t('daysTo')(t('d_ae_big_live'));
+      steps=[['aeb1','aeb1p'],toolStep,['ae3','ae3p'],['ae4',t('ae4p')(t('d_ae_big_live'))]];}
+  }
+  let num;
+  if(days===null) num='&mdash;';
+  else if(days<0){num='0';dlabel=t('passed');}
+  else num=String(days);
+  const deadlineTxt=S.country==='sa'?(days===null?t('noDate'):t('d_sa')):(S.aeRev==='under'?t('d_ae_asp')+' · '+t('d_ae_live'):t('d_ae_big_asp')+' · '+t('d_ae_big_live'));
+  $('#sheet').innerHTML=`
+   <div class="verdict"><div class="score" id="days">${num}<small>${esc(dlabel)}</small></div>
+    <div class="vtext"><div class="display">${esc(v)}</div><p>${esc(vp)}</p>${extra}</div></div>
+   <div class="row2">
+    <div class="cell"><span class="label">${esc(t('deadline'))}</span><b>${esc(deadlineTxt)}</b></div>
+    <div class="cell fine-box"><span class="label">${esc(t('fine'))}</span><b>${esc(fineH)}</b><p>${esc(fineP)}</p></div>
+   </div>
+   <div class="cell" style="padding-bottom:0"><span class="label">${esc(t('steps_h'))}</span></div>
+   <ol class="steps">${steps.map(([h,p])=>`<li><div><b>${esc(t(h))}</b><p>${esc(T[L][p]!==undefined?t(p):p)}</p></div></li>`).join('')}</ol>
+   <div class="cta">
+    <a class="btn-gold" href="mailto:info@noumansadiq.com?subject=E-invoicing%20setup">${esc(t('cta'))}</a>
+    <p class="call">${esc(t('call'))} ${ltr('<a href="tel:+14633489031">+1 (463) 348-9031</a>')}</p>
+    <p class="note">${esc(t('cta_note'))}</p>
+   </div>`;
+}
+function paint(){
+  $$('.seg').forEach(g=>{const n=g.dataset.name;g.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===S[n])))});
+  $$('.only-sa').forEach(e=>e.classList.toggle('hide',S.country!=='sa'));
+  $$('.only-ae').forEach(e=>e.classList.toggle('hide',S.country!=='ae'));
+  result();
+}
+$$('.seg').forEach(g=>g.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S[g.dataset.name]=b.dataset.v;paint()}));
+let fontLoaded=false;
+function setLang(l){
+  L=l;const c=$('#content');
+  if(l==='ur'&&!fontLoaded){const k=document.createElement('link');k.rel='stylesheet';k.href='https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400..700&display=swap';document.head.appendChild(k);fontLoaded=true}
+  c.lang=l;c.dir=l==='ur'?'rtl':'ltr';c.classList.toggle('ur',l==='ur');
+  $$('[data-i]').forEach(e=>{const v=T[l][e.dataset.i];if(typeof v==='string')e.innerHTML=v});
+  const b=$('#lang-btn');b.textContent=t('lang');b.dataset.to=l==='ur'?'en':'ur';b.lang=l==='ur'?'en':'ur';
+  b.setAttribute('aria-label',l==='ur'?'Read in English':'اردو میں پڑھیں');
+  document.title=l==='ur'?'ای-انوائس آخری تاریخ چیکر':'E-Invoice Deadline Checker';
+  paint();
+}
+$('#lang-btn').onclick=()=>setLang($('#lang-btn').dataset.to);
+paint();
+}
+</script>
+</body>
+</html>

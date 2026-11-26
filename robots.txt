@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /cpc-check/
 Allow: /aged-stock/
+Allow: /second-source/
+Allow: /einvoice-gulf/
+Allow: /eu-sell-check/
+Allow: /stop-ready/
+Allow: /halal-gate/
 Disallow: /
