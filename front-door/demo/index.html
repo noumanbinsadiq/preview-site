@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Front Door demo: talk to the AI answering line</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0b0b09">
+<link rel="icon" href="https://noumansadiq.com/assets/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,700;125,800&family=Instrument+Sans:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--canvas:#0b0b09;--ink:#f2efe9;--gold:#c9a84c;--mute:#a39e94;--line:#2a2924}
+*{box-sizing:border-box}body{margin:0;background:var(--canvas);color:var(--ink);font:17px/1.6 "Instrument Sans",system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+main{flex:1;max-width:640px;margin:0 auto;padding:48px 22px;text-align:center}
+.tag{font:12px "Space Mono",monospace;letter-spacing:.12em;color:var(--gold);text-transform:uppercase}
+h1{font-family:Archivo;font-stretch:125%;font-weight:800;text-transform:uppercase;font-size:clamp(28px,6vw,44px);line-height:1.05;margin:14px 0 18px}
+p{color:var(--mute)}
+#talk{margin:30px auto 10px;display:inline-flex;align-items:center;gap:12px;background:var(--gold);color:#0b0b09;border:0;border-radius:999px;padding:18px 34px;font:600 18px "Instrument Sans",sans-serif;cursor:pointer;min-width:260px;justify-content:center}
+#talk.live{background:#f2efe9}
+#status{font:13px "Space Mono",monospace;color:var(--mute);min-height:20px}
+.box{border:1px solid var(--line);border-radius:14px;padding:18px 20px;text-align:left;margin-top:28px}
+.box b{color:var(--ink)}
+.dot{width:10px;height:10px;border-radius:50%;background:#0b0b09;display:inline-block}
+#talk.live .dot{background:#c0392b;animation:p 1s infinite}@keyframes p{50%{opacity:.3}}
+footer{font-size:13px;color:var(--mute);text-align:center;padding:24px;border-top:1px solid var(--line)}
+footer a,main a{color:var(--gold)}
+</style></head><body>
+<main>
+<div class="tag">Front Door · live demo</div>
+<h1>Talk to the AI that answers missed calls</h1>
+<p>Press the button and speak, like a customer calling a plumber. It answers as <b style="color:var(--ink)">Bayside Plumbing</b>, a sample business made up for this demo. Nothing you say books a real job.</p>
+<button id="talk" type="button"><span class="dot"></span><span id="label">Start the demo call</span></button>
+<div id="status">Your browser will ask to use your microphone.</div>
+<div class="box">
+<p><b>Try saying:</b> "My water heater is leaking, can someone come tomorrow?" · "Do you do roofs?" · "What's your service call fee?" · "I smell gas."</p>
+<p>The AI tells you it's an AI, and the call is recorded so we can improve it. If you like it, we build one from <b>your</b> website and run it free for 14 days on your missed calls.</p>
+</div>
+<p style="margin-top:26px"><a href="/front-door/">How Front Door works and what it costs</a> · <a href="mailto:info@noumansadiq.com?subject=Front%20Door%20demo">info@noumansadiq.com</a></p>
+</main>
+<footer>Front Door · 1209 Mountain Road Pl NE #6302, Albuquerque, NM 87110 · AI disclosed on every call</footer>
+<script type="module">
+const PUBLIC_KEY="09eb3317-5c82-4462-966d-3adeb02dabd2";
+const ASSISTANT_ID="f4f742b0-5a71-4951-aa30-234f001c9a39";
+const btn=document.getElementById('talk'),label=document.getElementById('label'),status=document.getElementById('status');
+let vapi=null,live=false;
+async function load(){ if(vapi) return vapi; const m=await import('https://esm.sh/@vapi-ai/web@2'); const V=m.default||m.Vapi; vapi=new V(PUBLIC_KEY);
+ vapi.on('call-start',()=>{live=true;btn.classList.add('live');label.textContent='End the call';status.textContent='Connected. Speak now.';});
+ vapi.on('call-end',()=>{live=false;btn.classList.remove('live');label.textContent='Start the demo call';status.textContent='Call ended. Try again any time.';});
+ vapi.on('error',e=>{live=false;btn.classList.remove('live');label.textContent='Start the demo call';status.textContent='Could not connect. Please allow the microphone and try again, or email us.';console.log(e);});
+ return vapi; }
+btn.addEventListener('click',async()=>{ try{ status.textContent='Connecting…'; const v=await load(); if(live){v.stop();} else {await v.start(ASSISTANT_ID);} }catch(e){status.textContent='Could not connect. Please try again, or email info@noumansadiq.com.';console.log(e);} });
+</script>
+</body></html>
