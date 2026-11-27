@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Expiry Sweep: your Amazon deductions have an expiry date</title>
+<meta name="description" content="Amazon 1P shortage and price disputes now expire two years after the invoice date. Get a free Expiry Report from your Vendor Central export. Paid only from money recovered: 20%, or 25% on denied claims.">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Expiry Sweep: your Amazon deductions have an expiry date">
+<meta property="og:description" content="Amazon 1P shortage and price disputes now expire two years after the invoice date. Get a free Expiry Report from your Vendor Central export. Paid only from money recovered: 20%, or 25% on denied claims.">
+<meta name="theme-color" content="#0b0b09">
+<!--
+llms.txt-style summary
+# Expiry Sweep (Toofani LLC)
+> Recovery of invalid Amazon Vendor Central (1P) deductions for suppliers, before the two-year dispute limit expires. Paid only from money returned.
+- Problem: since 2025 Amazon 1P shortage and price disputes have a two-year limit from invoice date (source: SPS Commerce, 15 Sep 2025).
+- Free first step: the Expiry Report. Supplier emails a Vendor Central deductions/remittance CSV or AR deduction report; report in 48 hours shows dollars expiring in the next 90 days and which lines look invalid. No login needed.
+- Fee: 20% of money actually returned (remittance-proven); 25% on claims already denied. No setup fee, no minimum.
+- Retailers: Amazon 1P first; then Walmart APDP, Target, Kroger, Home Depot.
+- Fit: suppliers of about $5M-$75M a year.
+- Contact: info@noumansadiq.com
+-->
+<!-- ANALYTICS PLACEHOLDER: paste the privacy-friendly analytics snippet here when Boss approves one. No tracking scripts are loaded today. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="https://noumansadiq.com/assets/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="https://noumansadiq.com/assets/favicon-180.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Sans:wght@400..700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Brand: copied from kit/brand/tokens.css + lockup.html (AGENTS.md M13). Never retype. */
+:root{
+  --canvas:#0b0b09; --canvas-raise:#131311; --canvas-high:#1a1a17; --canvas-line:#f2efe91f;
+  --ink:#f2efe9; --ink-dim:#8f8c84; --ink-faint:#7e7a72;
+  --gold:#c9a84c; --gold-hot:#f0c36a; --gold-dark:#a88835;
+  --critical:#c4634f; --warning:#d89a3c; --ok:#6fa36b;
+  --font-display:"Archivo", sans-serif; --font-text:"Instrument Sans", sans-serif; --font-data:"Space Mono", monospace;
+  --radius:2px; --ease-out:cubic-bezier(.16, 1, .3, 1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box;min-width:0}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--font-text);font-size:16px;line-height:1.6;overflow-x:clip}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.16;
+  background-image:linear-gradient(var(--canvas-line) 1px,transparent 1px),linear-gradient(90deg,var(--canvas-line) 1px,transparent 1px);
+  background-size:40px 40px}
+:where(h1,h2,h3,.display){font-family:var(--font-display);text-transform:uppercase;letter-spacing:-.02em;font-weight:850;font-stretch:125%;line-height:.92;margin:0}
+h1{font-size:clamp(2.1rem,6vw,3.6rem)} h2{font-size:clamp(1.35rem,3.6vw,2rem);margin:0 0 18px} h3{font-size:1.05rem;margin:0 0 8px;line-height:1.05}
+p{margin:0 0 14px} a{color:var(--gold)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+a.logo-link{display:inline-flex;align-items:center;gap:11px;border:0;text-decoration:none;color:inherit;border-radius:var(--radius);transition:opacity .18s ease;padding:9px;margin:-9px}
+a.logo-link:hover{opacity:.78}
+a.logo-link svg{pointer-events:none;width:32px;height:32px;display:block}
+.n-stroke{stroke:var(--ink)} .n-dot{fill:var(--gold)}
+a.logo-link:hover .n-stroke{stroke:var(--gold)}
+.logo-word{font-family:var(--font-data);text-transform:uppercase;font-weight:700;font-size:.6875rem;letter-spacing:.14em}
+header.top{border-bottom:1px solid var(--canvas-line);background:var(--canvas)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px}
+.label{font-family:var(--font-data);text-transform:uppercase;letter-spacing:.14em;font-size:.7rem;color:var(--ink-dim)}
+.hero{padding:52px 0 8px}.hero .label{display:block;margin-bottom:16px;color:var(--gold)}
+.lede{font-size:1.1rem;max-width:680px;margin-top:20px;color:var(--ink-dim)}
+.panel{background:var(--canvas-raise);border:1px solid var(--canvas-line);border-radius:var(--radius);padding:22px}
+label{font-family:var(--font-data);text-transform:uppercase;letter-spacing:.12em;font-size:.68rem;color:var(--ink-dim);display:block;margin:0 0 8px}
+input,select,textarea{width:100%;font:16px var(--font-text);min-height:46px;padding:10px 12px;border:1px solid var(--canvas-line);background:var(--canvas);color:var(--ink);border-radius:var(--radius)}
+button.gold,.btn-gold{font:700 .8rem var(--font-data);text-transform:uppercase;letter-spacing:.12em;min-height:46px;padding:0 20px;border:0;border-radius:var(--radius);background:var(--gold);color:var(--canvas);cursor:pointer}
+button.gold:hover{background:var(--gold-hot)}
+button.line{font:700 .8rem var(--font-data);text-transform:uppercase;letter-spacing:.12em;min-height:46px;padding:0 20px;border:1px solid var(--canvas-line);border-radius:var(--radius);background:transparent;color:var(--ink);cursor:pointer}
+button.line:hover{border-color:var(--gold);color:var(--gold)}
+.fine{font-size:.82rem;color:var(--ink-faint)}
+footer.foot{border-top:1px solid var(--canvas-line);margin-top:56px;padding:26px 0 40px}
+footer.foot .contact{font-family:var(--font-data);font-size:.75rem;letter-spacing:.06em;color:var(--ink-dim)}
+@media(prefers-reduced-motion:no-preference){.rise{animation:rise .5s var(--ease-out) both}@keyframes rise{from{opacity:0;transform:translateY(8px)}}}
+
+main{padding-bottom:8px}
+section{padding:44px 0 0}
+section>h2{margin-top:0}
+.hero{padding-top:44px}
+.hero h1{max-width:16ch}
+.actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:28px}
+a.btn-gold{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;min-height:52px;padding:0 24px;font-size:.82rem}
+a.btn-gold:hover{background:var(--gold-hot)}
+a.btn-line{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font:700 .78rem var(--font-data);text-transform:uppercase;letter-spacing:.12em;min-height:46px;padding:0 18px;border:1px solid var(--canvas-line);border-radius:var(--radius);color:var(--ink)}
+a.btn-line:hover{border-color:var(--gold);color:var(--gold)}
+.note{font-family:var(--font-data);font-size:.72rem;letter-spacing:.06em;color:var(--ink-dim)}
+.grid{display:grid;gap:14px;grid-template-columns:minmax(0,1fr)}
+@media(min-width:760px){.grid.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.g2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.step .num{font-family:var(--font-data);color:var(--gold);font-size:.8rem;letter-spacing:.14em;display:block;margin-bottom:12px}
+.panel p:last-child{margin-bottom:0}
+.dim{color:var(--ink-dim)}
+.big{font-family:var(--font-display);font-weight:850;font-stretch:125%;font-size:clamp(2.4rem,9vw,3.6rem);line-height:.9;color:var(--gold);display:block;margin:4px 0 10px}
+.price .big{white-space:nowrap}
+ul.ticks{list-style:none;padding:0;margin:0}
+ul.ticks li{padding:8px 0 8px 22px;border-bottom:1px solid var(--canvas-line);position:relative}
+ul.ticks li:last-child{border-bottom:0}
+ul.ticks li::before{content:"";position:absolute;left:2px;top:17px;width:8px;height:8px;background:var(--gold)}
+.sample{border:1px dashed var(--ink-faint)}
+.sample .tag{display:inline-block;font-family:var(--font-data);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--canvas);background:var(--warning);padding:2px 8px;border-radius:var(--radius);margin-bottom:12px}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th{font-family:var(--font-data);text-transform:uppercase;letter-spacing:.1em;font-size:.64rem;color:var(--ink-dim);font-weight:400;text-align:left}
+th,td{padding:10px 6px;border-bottom:1px solid var(--canvas-line);vertical-align:top}
+td.n,th.n{text-align:right;font-family:var(--font-data);white-space:nowrap}
+.mono{font-family:var(--font-data);font-size:.85rem;white-space:pre-wrap;color:var(--ink-dim);margin:0}
+details{border-bottom:1px solid var(--canvas-line)}
+details:first-of-type{border-top:1px solid var(--canvas-line)}
+summary{cursor:pointer;list-style:none;padding:18px 34px 18px 0;position:relative;font-weight:600;font-size:1.02rem}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:4px;top:14px;font-family:var(--font-data);font-size:1.2rem;color:var(--gold)}
+details[open] summary::after{content:"\2013"}
+details .a{padding:0 0 18px;color:var(--ink-dim);max-width:70ch}
+details .a p:last-child{margin-bottom:0}
+form.panel{display:grid;gap:16px;max-width:640px}
+.two{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
+@media(min-width:620px){.two{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+textarea{min-height:96px;resize:vertical}
+form .fine{margin:0}
+#sent{display:none;border-color:var(--ok)}
+#sent.show{display:block}
+.src{margin:0 0 8px}
+.src a{word-break:break-word}
+
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo-link" href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer" aria-label="Nouman Sadiq - noumansadiq.com (opens in a new tab)">
+  <svg viewBox="14 11 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <path class="n-stroke" d="M20 46 V18 L44 46 V18" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+    <circle class="n-dot" cx="47" cy="17" r="4"></circle>
+  </svg>
+  <span class="logo-word">Nouman Sadiq</span>
+</a>
+<span class="label">Expiry Sweep</span>
+</div></header>
+<main class="wrap">
+
+<section class="hero rise">
+  <span class="label">For Amazon Vendor Central (1P) suppliers</span>
+  <h1>Your Amazon deductions have an expiry date</h1>
+  <p class="lede">Since 2025, Amazon gives 1P shortage and price disputes a hard limit of two years from the invoice date.<sup><a href="#sources">1</a></sup> Every month, another month of invoices passes that line and the money is gone for good. We find the invalid ones before they expire, and we are paid only from money that comes back.</p>
+  <div class="actions">
+    <a class="btn-gold" href="#request">Get my free Expiry Report</a>
+    <span class="note">Free · ready within 48 hours of your file</span>
+  </div>
+</section>
+
+<section aria-labelledby="h-why">
+  <h2 id="h-why">What changed</h2>
+  <div class="grid g3">
+    <div class="panel"><h3>Two years, hard-coded</h3><p class="dim">Shortage (PQV) and price (PPV) disputes older than two years from the invoice date are rejected by Vendor Central. Before 2025 the window was longer in some cases.<sup><a href="#sources">1</a></sup></p></div>
+    <div class="panel"><h3>One line at a time</h3><p class="dim">Bulk shortage claims are gone. Each shortage line is now filed on its own, and re-filings link back to the first case.<sup><a href="#sources">2</a></sup></p></div>
+    <div class="panel"><h3>Evidence decides</h3><p class="dim">Disputes are judged on the documents behind them: the BOL, proof of delivery and the invoice. Generic disputes are less and less likely to win.<sup><a href="#sources">3</a></sup></p></div>
+  </div>
+</section>
+
+<section aria-labelledby="h-report">
+  <h2 id="h-report">The free Expiry Report</h2>
+  <div class="grid g2">
+    <div>
+      <p>Email us your Vendor Central deductions or remittance export (a CSV), or your own AR deduction report. No login needed for this step.</p>
+      <p>Within 48 hours you get a short report that shows:</p>
+      <ul class="ticks">
+        <li>the dollars that reach the two-year line in the next 90 days, month by month</li>
+        <li>which of those lines look invalid, and why</li>
+        <li>which ones need a document from you or your 3PL</li>
+      </ul>
+      <p class="dim" style="margin-top:14px">It is yours to keep, whether or not you work with us.</p>
+    </div>
+    <div class="panel sample" aria-label="Sample report layout">
+      <span class="tag">Sample · made-up numbers</span>
+      <table>
+        <thead><tr><th>Invoice month</th><th>Expires</th><th class="n">Open</th><th class="n">Looks invalid</th></tr></thead>
+        <tbody>
+          <tr><td>Dec 2024</td><td>Dec 2026</td><td class="n">$18,420</td><td class="n">$3,110</td></tr>
+          <tr><td>Jan 2025</td><td>Jan 2027</td><td class="n">$22,960</td><td class="n">$4,275</td></tr>
+          <tr><td>Feb 2025</td><td>Feb 2027</td><td class="n">$15,300</td><td class="n">$2,640</td></tr>
+        </tbody>
+      </table>
+      <p class="fine" style="margin-top:12px">Sample figures to show the layout, not a real supplier. Your report shows your own figures from your own file.</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="h-how">
+  <h2 id="h-how">How it works</h2>
+  <div class="grid g3">
+    <div class="panel step"><span class="num">Step 01</span><h3>Send your export</h3><p class="dim">Email the CSV. We read it and send the Expiry Report within 48 hours.</p></div>
+    <div class="panel step"><span class="num">Step 02</span><h3>Sign, then we file</h3><p class="dim">If you want us to work the claims, we sign an agreement and NDA. Your admin creates a named user for us. We file the oldest expiring lines first.</p></div>
+    <div class="panel step"><span class="num">Step 03</span><h3>Pay from what comes back</h3><p class="dim">When a reversal shows in Amazon's own payment record, we invoice our share. Nothing comes back, nothing to pay.</p></div>
+  </div>
+</section>
+
+<section aria-labelledby="h-fee">
+  <h2 id="h-fee">The fee</h2>
+  <div class="grid g2">
+    <div class="panel price"><span class="label">Back-file and ongoing claims</span><span class="big">20%</span><p class="dim">of money actually returned, as shown in the retailer's remittance.</p></div>
+    <div class="panel price"><span class="label">Claims already denied</span><span class="big">25%</span><p class="dim">of money returned on claims you, or another tool, already lost. This is the hardest work.</p></div>
+  </div>
+  <p class="dim" style="margin-top:16px">No setup fee. No monthly minimum. We invoice within 3 days of the money landing, due in 7 days, by Payoneer or wire. We do not promise any amount: nobody can know before the evidence is checked.</p>
+  <div class="actions"><a class="btn-line" href="#request">Send my export</a></div>
+</section>
+
+<section aria-labelledby="h-faq">
+  <h2 id="h-faq">Questions</h2>
+  <details><summary>Is my data safe?</summary><div class="a">
+    <p>For the free report we only need one export file. We do not ask for a login, and we never accept a shared password.</p>
+    <p>If you sign, your own admin creates a named user for us with the rights you choose, and you can remove it at any time. The agreement limits what we may do with your data, and we delete it when the work ends. If you do not go ahead after the report, tell us and we delete your file.</p>
+  </div></details>
+  <details><summary>Which retailers do you cover?</summary><div class="a">
+    <p>Amazon Vendor Central (1P) first: shortages, then price claims, then chargebacks and co-op. After that, Walmart (APDP), Target, Kroger and Home Depot. Each retailer has its own window and evidence rules, and we work to each one.</p>
+    <p>This is for suppliers who sell <em>to</em> the retailer. It is not Seller Central (3P) reimbursement.</p>
+  </div></details>
+  <details><summary>What do you need from me?</summary><div class="a">
+    <p>For the free report: your Vendor Central deductions or remittance export, or your AR deduction report.</p>
+    <p>After you sign: a named user in the retailer portal, your payment advice files (often EDI 820 and 812 from your EDI provider), and proof-of-delivery documents (BOL, POD, carrier tracking) from your 3PL or carrier.</p>
+  </div></details>
+  <details><summary>Who files the disputes?</summary><div class="a">
+    <p>Our trained team files through the named user you create. Where a retailer does not allow that, we prepare each packet and your staff clicks submit. We do not use bots in retailer portals.</p>
+  </div></details>
+  <details><summary>Do you work with every supplier?</summary><div class="a">
+    <p>Today we work with suppliers selling roughly $5M to $75M a year through these retailers. For now we are not taking on suppliers based in Florida, Washington, Illinois, North Carolina or North Dakota.</p>
+  </div></details>
+  <details><summary>Who are you?</summary><div class="a">
+    <p>Expiry Sweep is run by Toofani LLC, a US-registered company. It is led by Nouman Sadiq, who has 6+ years building and running brands on Amazon and Walmart. Write to <a href="mailto:info@noumansadiq.com">info@noumansadiq.com</a>.</p>
+  </div></details>
+</section>
+
+<section id="request" aria-labelledby="h-req">
+  <h2 id="h-req">Get your free Expiry Report</h2>
+  <p class="dim" style="max-width:640px">Fill this in and press the button. Your email app opens with a ready message to info@noumansadiq.com. <strong>Attach your export file to that email</strong>, then send. Nothing is uploaded from this page.</p>
+  <form id="req" class="panel" novalidate
+        data-subject="Expiry Report request"
+        data-intro="Hello, please run a free Expiry Report for us. Our export file is attached."
+        data-outro="(Remember to attach the Vendor Central export or AR deduction report.)">
+    <div class="two">
+      <div><label for="name">Your name</label><input id="name" name="name" data-q="Name" required autocomplete="name"></div>
+      <div><label for="company">Company</label><input id="company" name="company" data-q="Company" required autocomplete="organization"></div>
+    </div>
+    <div class="two">
+      <div><label for="email">Work email</label><input id="email" name="email" type="email" data-q="Email" required autocomplete="email"></div>
+      <div><label for="state">State (headquarters)</label><input id="state" name="state" data-q="State" autocomplete="address-level1"></div>
+    </div>
+    <div><label for="ret">Retailers you sell to</label>
+      <select id="ret" name="ret" data-q="Retailers">
+        <option>Amazon Vendor Central (1P)</option><option>Amazon + Walmart</option><option>Walmart</option><option>Target / Kroger / Home Depot</option><option>Several of these</option>
+      </select></div>
+    <div><label for="msg">Anything we should know <small class="dim" style="text-transform:none;letter-spacing:0">(optional)</small></label><textarea id="msg" name="msg" data-q="Notes"></textarea></div>
+    <div class="actions" style="margin-top:0"><button class="gold" type="submit">Get my free Expiry Report</button></div>
+    <p class="fine">No email app? Write to <a href="mailto:info@noumansadiq.com?subject=Expiry%20Report%20request">info@noumansadiq.com</a> and attach your file.</p>
+  </form>
+  <div id="sent" class="panel" role="status" style="max-width:640px;margin-top:14px"><p style="margin:0">Your email app should now be open. Attach your export and send. We reply within one business day.</p></div>
+</section>
+
+</main>
+<footer class="foot"><div class="wrap">
+<p class="contact"><a href="https://noumansadiq.com" target="_blank" rel="noopener noreferrer">noumansadiq.com</a> · <a href="mailto:info@noumansadiq.com">info@noumansadiq.com</a> · Toofani LLC</p>
+<div id="sources">
+<p class="fine src">1. Amazon two-year dispute limit for 1P shortage (PQV) and price (PPV) claims, hard-coded in Vendor Central, North America: SPS Commerce, "Updated dispute timeline for 1P Amazon suppliers", 15 Sep 2025, <a href="https://www.spscommerce.com/community/articles/updated-dispute-timeline-for-1p-amazon-suppliers" rel="noopener">https://www.spscommerce.com/community/articles/updated-dispute-timeline-for-1p-amazon-suppliers</a></p>
+<p class="fine src">2. End of bulk shortage claims, one line per case: SPS Commerce, Amazon vendor news, 22 Aug 2025, <a href="https://www.spscommerce.com/community/articles/amazon-vendor-news-shortage-claims-damaged-inventory-2025-08-22" rel="noopener">https://www.spscommerce.com/community/articles/amazon-vendor-news-shortage-claims-damaged-inventory-2025-08-22</a></p>
+<p class="fine src">3. Evidence and dispute screening, and the 35-day wait after the invoice due date before shortages can be disputed: SupplyPike help centre, 22 Jan 2026, <a href="https://help.supplypike.com/en/articles/13466359-amazon-disputing-best-practices" rel="noopener">https://help.supplypike.com/en/articles/13466359-amazon-disputing-best-practices</a></p>
+<p class="fine src">Retailer rules change. We check each window against the retailer's own portal before filing. Not legal or financial advice. Expiry Sweep is not affiliated with Amazon, Walmart, Target, Kroger or Home Depot.</p>
+</div>
+</div></footer>
+<script>
+
+(function(){
+  var f=document.getElementById('req'); if(!f) return;
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!f.reportValidity()) return;
+    var lines=[], els=f.querySelectorAll('[data-q]');
+    for(var i=0;i<els.length;i++){var el=els[i]; if(el.value.trim()) lines.push(el.getAttribute('data-q')+': '+el.value.trim());}
+    var body=f.getAttribute('data-intro')+'\n\n'+lines.join('\n')+'\n\n'+f.getAttribute('data-outro');
+    var subj=f.getAttribute('data-subject')+' - '+(f.querySelector('[name=company]').value.trim()||'request');
+    window.location.href='mailto:info@noumansadiq.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+    document.getElementById('sent').classList.add('show');
+  });
+})();
+
+</script>
+</body>
+</html>

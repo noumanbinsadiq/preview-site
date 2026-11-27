@@ -4,6 +4,7 @@ Allow: /aged-stock/
 Allow: /second-source/
 Allow: /einvoice-gulf/
 Allow: /eu-sell-check/
-Allow: /stop-ready/
 Allow: /halal-gate/
+Allow: /expiry-sweep/
+Allow: /front-door/
 Disallow: /
